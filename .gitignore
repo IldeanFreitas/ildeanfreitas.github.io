@@ -1,0 +1,36 @@
+# ---- Segredos e credenciais: NUNCA versionar ----
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+credentials*
+secrets*
+config.local.*
+
+# ---- Artefatos Power BI / Power Platform com dados ----
+*.pbix
+*.pbip
+*.pbit
+*.rdl
+*.msapp
+*.zip
+
+# ---- Planilhas e extrações que podem conter dado corporativo ----
+*.xlsx
+*.xls
+*.csv
+*.bak
+
+# ---- Sistema e editor ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# ---- Node / build (caso um dia haja pipeline) ----
+node_modules/
+dist/
+.cache/
