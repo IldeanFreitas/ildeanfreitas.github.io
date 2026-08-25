@@ -370,6 +370,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .flow li:not(:last-child)::after{content:"→";color:var(--accent);font-weight:700;padding:0 .45rem}
 .flow small{display:block;color:var(--text-dim);font-size:.66rem;font-weight:500}
 
+/* Case acadêmico AWS */
+.case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:#000}
+.case-visual img{display:block;width:100%;height:auto}
+.case-visual figcaption{padding:.85rem 1rem;color:var(--text-dim);font-size:.82rem;background:var(--surface-soft)}
+.case-detail__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem;align-items:start;margin-top:3rem}
+.case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0}
+.case-detail__layer{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
+.case-detail__layer b{display:inline-grid;place-items:center;min-width:4.9rem;padding:.4rem .7rem;border:1px solid var(--border-lime);border-radius:var(--r-pill);color:var(--accent);font-size:.75rem;letter-spacing:.08em}
+.case-detail__layer p{margin:0;color:var(--text-muted);font-size:.9rem}
+@media(max-width:760px){.case-detail__intro{grid-template-columns:1fr}.case-detail__layer{grid-template-columns:1fr;gap:.55rem}.case-detail__layer b{justify-self:start}}
+
 /* =========================================================
    LINHA DO TEMPO
    ========================================================= */
@@ -692,6 +703,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">AWS S3</li><li class="tag">ETL</li><li class="tag">Medalhão</li>
             <li class="tag">Governança</li><li class="tag">Qualidade de dados</li>
           </ul>
+          <a class="btn btn--ghost" href="#plataforma-dados-aws" style="margin-top:1.5rem">Ver arquitetura do case</a>
         </article>
 
         <article class="card reveal">
@@ -732,6 +744,53 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
         Porque é verdade. Prefiro um portfólio menor e confiável a um maior e impreciso — e o mesmo
         critério vale para toda métrica, entrega e certificação citada aqui.
       </p>
+    </div>
+  </section>
+
+  <!-- ============ CASE AWS DETALHADO ============ -->
+  <section class="section section--alt" id="plataforma-dados-aws">
+    <div class="wrap">
+      <p class="eyebrow">Engenharia de Dados · Projeto acadêmico aplicado</p>
+      <h2>Plataforma de Dados Integrada na AWS</h2>
+      <p class="lead">Arquitetura em camadas com AWS S3 e pipeline ETL, desenvolvida como projeto aplicado da pós-graduação em Engenharia e Arquitetura de Dados com Inteligência Artificial.</p>
+
+      <div class="case-detail__intro">
+        <div>
+          <span class="status status--done">Projeto acadêmico concluído</span>
+          <p>
+            A proposta organiza o dado desde a entrada até o consumo analítico, usando a arquitetura
+            Medalhão para separar dados brutos, dados tratados e dados prontos para consumo.
+            O foco do trabalho é escalabilidade, governança, qualidade dos dados e apoio à tomada de decisão.
+          </p>
+          <p class="scope">
+            <b>Declaração de escopo:</b> projeto acadêmico autoral concluído em 2025, sem dados corporativos ou de terceiros. A imagem abaixo é uma representação conceitual do case.
+          </p>
+          <ul class="taglist">
+            <li class="tag">AWS S3</li><li class="tag">ETL</li><li class="tag">Arquitetura Medalhão</li>
+            <li class="tag">Governança</li><li class="tag">Qualidade de dados</li>
+          </ul>
+        </div>
+
+        <figure class="case-visual">
+          <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." loading="lazy" width="1672" height="944">
+          <figcaption>Representação visual ilustrativa da arquitetura documentada.</figcaption>
+        </figure>
+      </div>
+
+      <div class="case-detail__layers" aria-label="Descrição das camadas da arquitetura">
+        <article class="case-detail__layer">
+          <b>BRONZE</b>
+          <p>Recebe os dados na forma mais próxima possível da origem, preservando rastreabilidade e base para reprocessamentos.</p>
+        </article>
+        <article class="case-detail__layer">
+          <b>SILVER</b>
+          <p>Concentra padronização, tratamentos e validações necessários para elevar a qualidade e a consistência dos dados.</p>
+        </article>
+        <article class="case-detail__layer">
+          <b>GOLD</b>
+          <p>Disponibiliza dados organizados para consumo analítico e suporte à tomada de decisão.</p>
+        </article>
+      </div>
     </div>
   </section>
 
