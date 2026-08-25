@@ -374,6 +374,14 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:#000}
 .case-visual img{display:block;width:100%;height:auto}
 .case-visual figcaption{padding:.85rem 1rem;color:var(--text-dim);font-size:.82rem;background:var(--surface-soft)}
+.image-expand{margin-top:1rem}
+.image-dialog{width:min(96vw,1500px);max-height:92vh;margin:auto;padding:0;color:var(--text);background:var(--bg-alt);border:1px solid var(--border-lime);border-radius:var(--r-card);box-shadow:var(--glow)}
+.image-dialog::backdrop{background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
+.image-dialog__header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.image-dialog__header h2{margin:0;font-size:1rem;letter-spacing:-.01em}
+.image-dialog__content{padding:1rem}
+.image-dialog__content img{display:block;width:100%;max-height:76vh;object-fit:contain;background:#000;border-radius:var(--r-sm)}
+.image-dialog__content p{margin:1rem 0 0;color:var(--text-muted);font-size:.85rem}
 .case-detail__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem;align-items:start;margin-top:3rem}
 .case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0}
 .case-detail__layer{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
@@ -775,6 +783,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." loading="lazy" width="1672" height="944">
           <figcaption>Representação visual ilustrativa da arquitetura documentada.</figcaption>
         </figure>
+        <button class="btn btn--ghost image-expand" type="button" data-image-dialog="awsArchitectureDialog" aria-haspopup="dialog">Ampliar imagem</button>
       </div>
 
       <div class="case-detail__layers" aria-label="Descrição das camadas da arquitetura">
@@ -861,12 +870,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <h3>Formação acadêmica</h3>
           <ul class="stack-list">
             <li>
-              <b>Pós-graduação · Engenharia e Arquitetura de Dados com IA</b>
-              <div class="meta"><span>XP Educação</span><span class="when">2024–2025</span></div>
+              <b>Pós-graduação Lato Sensu · Especialização em Engenharia e Arquitetura de Dados com Inteligência Artificial</b>
+              <div class="meta"><span>XP Educação</span><span class="when">nov 2024 – nov 2025</span></div>
             </li>
             <li>
               <b>MBA · Ciência de Dados e Big Data Analytics</b>
-              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">2022–2023</span></div>
+              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">jan 2022 – jan 2023</span></div>
             </li>
             <li>
               <b>Pós-graduação · Governança de TI</b>
@@ -922,6 +931,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   </section>
 
 </main>
+
+<dialog class="image-dialog" id="awsArchitectureDialog" aria-labelledby="awsArchitectureDialogTitle">
+  <div class="image-dialog__header">
+    <h2 id="awsArchitectureDialogTitle">Arquitetura da Plataforma de Dados Integrada na AWS</h2>
+    <button class="icon-btn" type="button" data-close-image-dialog aria-label="Fechar visualização ampliada">×</button>
+  </div>
+  <div class="image-dialog__content">
+    <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." width="1672" height="944">
+    <p>Representação visual ilustrativa de um projeto acadêmico aplicado, sem dados corporativos ou de terceiros.</p>
+  </div>
+</dialog>
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
@@ -1014,6 +1034,18 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
     target.setAttribute('tabindex','-1');
     setTimeout(function () { target.focus({ preventScroll: true }); }, 320);
   });
+
+  /* ---- Ampliação do diagrama do case AWS ---- */
+  var imageDialogButton = document.querySelector('[data-image-dialog]');
+  var imageDialog = document.getElementById('awsArchitectureDialog');
+  var imageDialogClose = document.querySelector('[data-close-image-dialog]');
+  if (imageDialogButton && imageDialog && imageDialogClose && typeof imageDialog.showModal === 'function') {
+    imageDialogButton.addEventListener('click', function () { imageDialog.showModal(); });
+    imageDialogClose.addEventListener('click', function () { imageDialog.close(); });
+    imageDialog.addEventListener('click', function (event) {
+      if (event.target === imageDialog) imageDialog.close();
+    });
+  }
 })();
 </script>
 </body>
