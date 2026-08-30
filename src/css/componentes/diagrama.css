@@ -3,9 +3,27 @@
 .case-card{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.35rem,2.5vw,2rem)}
 .case-card__content{min-width:0}
 .case-card__content .taglist{margin-top:1.5rem}
+/* O diagrama é um painel de instrumento: fica escuro nos DOIS temas, de
+   propósito. O que estava errado não era isso — era o fundo ser literal
+   (rgba(4,12,14,...)) enquanto o texto vinha de token de tema. No tema claro
+   o texto virava quase-preto sobre fundo quase-preto: o título das etapas
+   media 1.02 de contraste, ou seja, invisível, nos oito diagramas.
+
+   A correção redefine os tokens DENTRO do componente. Assim fundo e texto
+   passam a sair sempre do mesmo conjunto, que é a regra que o defeito violava
+   — e os filhos continuam escritos com var(), sem literal espalhado. */
 .architecture-diagram{
+  --text:#ffffff;
+  --text-muted:#c1c1c1;
+  --text-dim:#b0b9b8;
+  --accent:#c4df00;
+  --border:rgba(255,255,255,.09);
+  --border-strong:rgba(255,255,255,.16);
+  --border-lime:rgba(162,183,0,.30);
+  --surface-soft:rgba(255,255,255,.02);
+
   min-width:0;margin:0;padding:1rem;
-  background:linear-gradient(145deg,rgba(8,30,33,.95),var(--surface-soft));
+  background:linear-gradient(145deg,rgba(8,30,33,.95),rgba(4,12,14,.92));
   border:1px solid var(--border-strong);border-radius:var(--r-card);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.025)
 }
