@@ -338,6 +338,62 @@
     "repositorio": "https://github.com/IldeanFreitas/power-platform-delivery-governance"
   },
   {
+    "id": "case-component-library",
+    "status": {
+      "variante": "evolving",
+      "rotulo": "Em evolução"
+    },
+    "titulo": "Biblioteca de Componentes para Power Platform",
+    "descricao": "Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de propriedades e eventos. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.",
+    "escopoRotulo": "Declaração de escopo:",
+    "escopo": "código de referência em PaYaml, com contrato, variantes e critérios de acessibilidade documentados. Não é um .msapp exportado nem uma Solution pronta para importar: usar em produção exige recriar o componente no Studio e validar com pac canvas pack.",
+    "tags": ["Power Apps Canvas", "Canvas Component", "PaYaml", "Acessibilidade", "Design System"],
+    "repositorio": "https://github.com/IldeanFreitas/power-platform-component-library",
+    "diagrama": {
+      "alt": "Contrato do componente de cabeçalho: o app consumidor fornece nome, tema, variante e contagem de notificações; o componente desenha o cabeçalho em três variantes e dois temas; e devolve três eventos, que o app consumidor trata. Navegação, dados e regra de negócio permanecem fora do componente.",
+      "etiqueta": "Contrato de componente",
+      "titulo": "Entradas, eventos e fronteira",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Entrada",
+          "titulo": "Propriedades",
+          "nota": "Nome, tema, variante"
+        },
+        {
+          "tipo": "Componente",
+          "titulo": "cmpAppHeader",
+          "nota": "3 variantes, 2 temas",
+          "destaque": true
+        },
+        {
+          "tipo": "Saída",
+          "titulo": "3 eventos",
+          "nota": "Marca, notificações, perfil"
+        },
+        {
+          "tipo": "Consumidor",
+          "titulo": "App anfitrião",
+          "nota": "Navegação e dados"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Fronteira",
+          "valor": "Sem conector nem fonte de dados"
+        },
+        {
+          "nome": "Acessibilidade",
+          "valor": "Alvo de 44px e ordem de foco"
+        },
+        {
+          "nome": "Reuso",
+          "valor": "Contrato versionado"
+        }
+      ]
+    }
+  },
+  {
     "id": "case-field-operations",
     "status": {
       "variante": "designed",

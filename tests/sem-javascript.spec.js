@@ -1,14 +1,17 @@
 import { test, expect } from '@playwright/test';
+import cases from '../src/data/cases.json' with { type: 'json' };
 
 /**
  * O teste mais importante da suíte.
  *
- * O site esconde 13 blocos com `.reveal{opacity:0}` e só os revela quando o
- * IntersectionObserver adiciona `.is-visible`. Sem JavaScript, esse conteúdo
- * nunca aparece — o visitante vê um portfólio vazio.
+ * Até a etapa 1, `.reveal{opacity:0}` escondia 9 blocos e só os revelava
+ * quando o IntersectionObserver adicionava `.is-visible`. Sem JavaScript, esse
+ * conteúdo nunca aparecia — o visitante via um portfólio vazio, e nada no
+ * servidor indicava problema.
  *
- * Estes testes FALHAM no commit 813fbb5, de propósito: são a prova executável
- * do P0 e o portão que impede sua reintrodução depois da correção da etapa 1.
+ * O defeito está corrigido: o conteúdo nasce visível e a animação é opcional.
+ * Estes testes existem para que ele não volte. Se um deles falhar, a
+ * degradação sem JavaScript quebrou de novo.
  */
 test.use({ javaScriptEnabled: false });
 
@@ -48,9 +51,15 @@ test.describe('sem JavaScript', () => {
     }
   });
 
-  test('os seis cases estão no HTML servido', async ({ page }) => {
+  test('todos os cases estão no HTML servido', async ({ page }) => {
     await page.goto('/');
-    // Sem JS o conteúdo tem de vir do servidor — é isso que o buscador indexa.
-    await expect(page.locator('.case-card')).toHaveCount(6);
+    // A contagem vem do arquivo de dados, não de um número fixo: os cases são
+    // gerados a partir dele, e travar "6" fazia o teste quebrar ao adicionar
+    // um case — sinalizando defeito onde havia só conteúdo novo.
+    //
+    // O que este teste realmente protege é que o conteúdo venha do SERVIDOR.
+    // Renderizar os cases no cliente passaria despercebido em qualquer outro
+    // teste e destruiria o SEO.
+    await expect(page.locator('.case-card')).toHaveCount(cases.length);
   });
 });

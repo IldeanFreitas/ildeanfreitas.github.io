@@ -980,6 +980,33 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           </figure>
         </article>
 
+        <article class="card case-card reveal" id="case-component-library">
+          <div class="case-card__content">
+          <span class="status status--evolving">Em evolução</span>
+          <h3>Biblioteca de Componentes para Power Platform</h3>
+          <p>Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de propriedades e eventos. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.</p>
+          <p class="scope"><b>Declaração de escopo:</b> código de referência em PaYaml, com contrato, variantes e critérios de acessibilidade documentados. Não é um .msapp exportado nem uma Solution pronta para importar: usar em produção exige recriar o componente no Studio e validar com pac canvas pack.</p>
+          <ul class="taglist">
+            <li class="tag">Power Apps Canvas</li>
+            <li class="tag">Canvas Component</li>
+            <li class="tag">PaYaml</li>
+            <li class="tag">Acessibilidade</li>
+            <li class="tag">Design System</li>
+          </ul>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/power-platform-component-library" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Contrato do componente de cabeçalho: o app consumidor fornece nome, tema, variante e contagem de notificações; o componente desenha o cabeçalho em três variantes e dois temas; e devolve três eventos, que o app consumidor trata. Navegação, dados e regra de negócio permanecem fora do componente.">
+            <div class="diagram-header"><p class="diagram-kicker">Contrato de componente</p><b>Entradas, eventos e fronteira</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrada</span><span class="diagram-stage__title">Propriedades</span><span class="diagram-stage__meta">Nome, tema, variante</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Componente</span><span class="diagram-stage__title">cmpAppHeader</span><span class="diagram-stage__meta">3 variantes, 2 temas</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Saída</span><span class="diagram-stage__title">3 eventos</span><span class="diagram-stage__meta">Marca, notificações, perfil</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Consumidor</span><span class="diagram-stage__title">App anfitrião</span><span class="diagram-stage__meta">Navegação e dados</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Fronteira</b>Sem conector nem fonte de dados</span><span><b>Acessibilidade</b>Alvo de 44px e ordem de foco</span><span><b>Reuso</b>Contrato versionado</span></div>
+          </figure>
+        </article>
+
         <article class="card case-card reveal" id="case-field-operations">
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>

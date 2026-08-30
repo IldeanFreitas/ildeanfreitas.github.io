@@ -51,7 +51,7 @@ export default [
     // Build e utilidades. Código novo, sem restrição de compatibilidade.
     files: ['scripts/**/*.mjs', 'tests/**/*.js', '*.config.js'],
     languageOptions: {
-      ecmaVersion: 2023,
+      ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         console: 'readonly',
