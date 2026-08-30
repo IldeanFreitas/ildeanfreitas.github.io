@@ -1,0 +1,12 @@
+/* =========================================================
+   LISTAS DE FORMAÇÃO
+   ========================================================= */
+.stack-list li{padding:1.05rem 0;border-bottom:1px solid var(--border)}
+.stack-list li:last-child{border-bottom:0;padding-bottom:0}
+.stack-list b{display:block;font-weight:600;font-size:.98rem;margin-bottom:.15rem}
+.stack-list .meta{display:flex;flex-wrap:wrap;gap:.3rem .8rem;align-items:baseline}
+.stack-list .meta span{color:var(--text-muted);font-size:.86rem}
+.stack-list .when{
+  margin-left:auto;color:var(--accent);font-size:.75rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;white-space:nowrap
+}

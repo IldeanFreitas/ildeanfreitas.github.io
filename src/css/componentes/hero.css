@@ -1,0 +1,52 @@
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{position:relative;padding:clamp(3.5rem,9vw,6.5rem) 0 0;overflow:hidden}
+.hero__bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hero__bg::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(58% 70% at 6% 24%, color-mix(in srgb,var(--teal) 85%,transparent), transparent 62%),
+    radial-gradient(52% 66% at 96% 12%, rgba(162,183,0,.34), transparent 60%);
+  opacity:.85
+}
+[data-theme="light"] .hero__bg::before{opacity:.30}
+.hero__bg::after{
+  content:"";position:absolute;inset:0;
+  background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(80% 70% at 40% 30%,#000,transparent 78%)
+}
+.hero__grid{display:grid;gap:clamp(2rem,4vw,3.5rem);align-items:start;grid-template-columns:1fr}
+@media (min-width:1000px){.hero__grid{grid-template-columns:1.35fr .95fr}}
+.hero__title{max-width:14ch;margin-bottom:.35em}
+.hero__title em{font-style:normal;color:var(--accent)}
+.hero__desc{max-width:52ch;color:var(--text-muted);font-size:clamp(1rem,.95rem + .35vw,1.15rem)}
+
+/* Cartão lateral do hero */
+.panel{
+  background:var(--surface-card);border:1px solid var(--border);
+  border-radius:var(--r-card);padding:1.75rem
+}
+.panel h2{font-size:1.15rem;letter-spacing:-.01em;margin-bottom:1rem}
+.panel ul li{
+  position:relative;padding-left:1.4rem;margin-bottom:.8rem;
+  color:var(--text-muted);font-size:.94rem;line-height:1.5
+}
+.panel ul li:last-child{margin-bottom:0}
+.panel ul li::before{
+  content:"";position:absolute;left:0;top:.55em;
+  width:.42rem;height:.42rem;border-radius:50%;background:var(--accent-solid)
+}
+.panel strong{color:var(--text);font-weight:600}
+
+/* Faixa de números */
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1.75rem 1rem;padding:clamp(2.25rem,5vw,3.25rem) 0;
+  margin-top:clamp(3rem,6vw,4.5rem);
+  border-top:1px solid var(--border);text-align:center
+}
+.stats dd{margin:0;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em;color:var(--accent)}
+.stats dt{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:.25rem}

@@ -1,17 +1,55 @@
 /**
  * ESLint 9 (flat config).
  *
- * Hoje cobre apenas `scripts/` — o JavaScript do site ainda vive inline em
- * index.html e um linter não o alcança ali. A etapa 2 extrai esse código para
- * `src/js/`, e a partir daí a regra `no-unused-expressions` e a checagem de
- * `no-undef` passam a valer para o comportamento do site também.
+ * Dois conjuntos de regras, porque são dois códigos com restrições diferentes:
+ * o do site vai direto ao navegador sem transpilação, e o de build roda no
+ * Node.
  */
+const globaisNavegador = {
+  document: 'readonly',
+  window: 'readonly',
+  localStorage: 'readonly',
+  console: 'readonly',
+  Array: 'readonly',
+  Date: 'readonly',
+  String: 'readonly',
+  IntersectionObserver: 'readonly'
+};
+
 export default [
   {
-    ignores: ['node_modules/**', 'index.html', '404.html']
+    ignores: ['node_modules/**', 'index.html', '404.html', 'test-results/**']
   },
+
   {
-    files: ['scripts/**/*.mjs', 'src/js/**/*.js'],
+    // Código do site.
+    files: ['src/js/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2019,
+      sourceType: 'script',
+      globals: globaisNavegador
+    },
+    rules: {
+      'no-undef': 'error',
+      // `caughtErrors: none` permite `catch (e) {}` com corpo vazio, usado nos
+      // dois pontos onde localStorage pode lançar em modo privado. O comentário
+      // dentro do bloco explica cada um.
+      'no-unused-vars': ['error', { caughtErrors: 'none' }],
+      eqeqeq: ['error', 'always'],
+      'no-implicit-globals': 'error',
+
+      // `var` e IIFE são escolha do autor, não defeito: o script vai ao
+      // navegador sem passo de transpilação. Impor const/let aqui seria
+      // reescrever estilo sob o rótulo de correção — decisão separada, se um
+      // dia for tomada.
+      'no-var': 'off',
+      'prefer-const': 'off'
+    }
+  },
+
+  {
+    // Build e utilidades. Código novo, sem restrição de compatibilidade.
+    files: ['scripts/**/*.mjs', 'tests/**/*.js', '*.config.js'],
     languageOptions: {
       ecmaVersion: 2023,
       sourceType: 'module',
@@ -20,17 +58,12 @@ export default [
         process: 'readonly',
         URL: 'readonly',
         document: 'readonly',
-        window: 'readonly',
-        localStorage: 'readonly',
-        matchMedia: 'readonly',
-        IntersectionObserver: 'readonly',
-        setTimeout: 'readonly'
+        getComputedStyle: 'readonly'
       }
     },
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', caughtErrors: 'none' }],
       'no-undef': 'error',
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
       eqeqeq: ['error', 'always'],
       'prefer-const': 'error',
       'no-var': 'error'

@@ -1,0 +1,39 @@
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--border)
+}
+.site-header__inner{display:flex;align-items:center;gap:1rem;min-height:4.4rem}
+.brand{
+  display:inline-flex;align-items:center;gap:.6rem;margin-right:auto;
+  font-weight:800;letter-spacing:-.01em;font-size:1.05rem;color:var(--text);text-decoration:none
+}
+.brand svg{flex:none}
+.nav__list{display:flex;gap:.1rem;flex-wrap:wrap}
+.nav__link{
+  display:block;padding:.5rem .8rem;border-radius:var(--r-pill);
+  color:var(--text-muted);text-decoration:none;font-size:.9rem;font-weight:600;
+  transition:color .15s ease,background .15s ease
+}
+.nav__link:hover{color:var(--text);background:var(--surface-soft)}
+.nav__link[aria-current="true"]{color:var(--accent);background:var(--lime-soft)}
+
+.icon-btn{
+  display:grid;place-items:center;width:2.35rem;height:2.35rem;flex:none;
+  background:transparent;border:1px solid var(--border);border-radius:var(--r-pill);
+  color:var(--text-muted);cursor:pointer;transition:border-color .15s ease,color .15s ease
+}
+.icon-btn:hover{border-color:var(--border-lime);color:var(--accent)}
+.nav-toggle{display:none}
+
+@media (max-width:940px){
+  .nav-toggle{display:grid}
+  .nav{position:absolute;inset-inline:0;top:100%;background:var(--bg-alt);
+       border-bottom:1px solid var(--border);padding:.75rem 0;display:none}
+  .nav[data-open="true"]{display:block}
+  .nav__list{flex-direction:column;width:min(100% - 2.5rem,var(--maxw));margin-inline:auto}
+  .nav__link{padding:.7rem .9rem;font-size:1rem}
+}

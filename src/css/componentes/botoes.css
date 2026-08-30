@@ -1,0 +1,15 @@
+/* =========================================================
+   BOTÕES — pílulas
+   ========================================================= */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.5rem;border-radius:var(--r-pill);
+  font-weight:600;font-size:.95rem;text-decoration:none;cursor:pointer;
+  border:1px solid transparent;transition:transform .16s ease,box-shadow .16s ease,background .16s ease
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--primary{background:var(--accent-solid);color:var(--lime-ink);box-shadow:var(--glow)}
+.btn--primary:hover{background:var(--lime-bright);color:var(--lime-ink)}
+.btn--ghost{background:var(--lime-soft);border-color:var(--border-lime);color:var(--text)}
+.btn--ghost:hover{border-color:var(--accent-solid);color:var(--text)}
+.actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:2.25rem}

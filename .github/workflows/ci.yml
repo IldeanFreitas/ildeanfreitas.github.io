@@ -28,6 +28,12 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      # index.html é gerado a partir de src/. Se alguém editar o gerado sem
+      # tocar na fonte, o próximo build desfaz a mudança em silêncio — este
+      # passo transforma isso num erro visível.
+      - name: index.html atualizado em relação a src/
+        run: npm run build:check
+
       - name: Lint de CSS
         run: npm run lint:css
 
