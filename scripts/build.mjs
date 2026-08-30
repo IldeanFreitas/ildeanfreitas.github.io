@@ -23,9 +23,38 @@ const ler = (caminho) => readFile(join(RAIZ, caminho), 'utf8');
 
 const ordem = JSON.parse(await ler('src/css/ordem.json'));
 
-const css = (
-  await Promise.all(ordem.map(async (arquivo) => (await ler(join('src/css', arquivo))).trimEnd()))
-).join('\n\n');
+/**
+ * Camadas da cascata.
+ *
+ * A ordem declarada aqui decide quem vence, independentemente de
+ * especificidade: `utilitarios` ganha de `componentes`, que ganha de `base`.
+ *
+ * Não é enfeite arquitetural — resolve um conflito concreto. Ao trocar os
+ * atributos `style` por classes, os utilitários passaram a perder para regras
+ * de componente como `.card p:last-of-type` (0,2,1), e o texto voltava
+ * silenciosamente ao tamanho do cartão. As saídas seriam duplicar seletores
+ * até vencer, o que vira corrida armamentista, ou `!important`, que ninguém
+ * consegue desfazer depois. A camada resolve na origem.
+ *
+ * `fonte` fica fora de camada: @font-face e :root não participam de conflito
+ * de cascata, e mantê-los sem camada evita surpresa se um dia forem
+ * sobrescritos por CSS de terceiro.
+ */
+const CAMADAS = { 'base/fonte.css': null, 'base/tokens.css': null };
+const camadaDe = (arquivo) =>
+  arquivo in CAMADAS ? CAMADAS[arquivo] : arquivo.startsWith('base/') ? 'base' : 'componentes';
+
+const partes = await Promise.all(
+  ordem.map(async (arquivo) => {
+    const conteudo = (await ler(join('src/css', arquivo))).trimEnd();
+    // utilitarios.css mora em base/ mas pertence à camada de cima.
+    const camada = arquivo === 'base/utilitarios.css' ? 'utilitarios' : camadaDe(arquivo);
+    if (!camada) return conteudo;
+    return `@layer ${camada}{\n${conteudo}\n}`;
+  })
+);
+
+const css = ['@layer base,componentes,utilitarios;', ...partes].join('\n\n');
 
 const [template, jsInicializacao, jsPrincipal] = await Promise.all([
   ler('src/index.template.html'),

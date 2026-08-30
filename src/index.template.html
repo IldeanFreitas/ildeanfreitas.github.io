@@ -157,7 +157,7 @@
       <p class="eyebrow">Sobre</p>
       <h2>Entendo o processo antes de propor a solução</h2>
 
-      <div class="grid grid--2" style="margin-top:2.5rem">
+      <div class="grid grid--2 mt-10">
         <div>
           <p class="lead">
             Comecei em implantação de ERP e sustentação de ambientes de TI no interior do Pará.
@@ -183,11 +183,11 @@
             impacto sem evidência — e quando um projeto é apenas arquitetura documentada, ele diz
             isso com todas as letras.
           </p>
-          <ul style="display:flex;flex-direction:column;gap:.85rem;font-size:.9rem">
-            <li><span class="status status--done" style="margin:0">Entregue</span> <span class="muted">implementado e comprovável</span></li>
-            <li><span class="status status--evolving" style="margin:0">Em evolução</span> <span class="muted">em construção ativa</span></li>
-            <li><span class="status status--designed" style="margin:0">Arquitetura documentada</span> <span class="muted">projetado, não executado</span></li>
-            <li><span class="status status--soon" style="margin:0">Em preparação</span> <span class="muted">conteúdo sendo produzido</span></li>
+          <ul class="lista-empilhada">
+            <li><span class="status status--done sem-margem">Entregue</span> <span class="muted">implementado e comprovável</span></li>
+            <li><span class="status status--evolving sem-margem">Em evolução</span> <span class="muted">em construção ativa</span></li>
+            <li><span class="status status--designed sem-margem">Arquitetura documentada</span> <span class="muted">projetado, não executado</span></li>
+            <li><span class="status status--soon sem-margem">Em preparação</span> <span class="muted">conteúdo sendo produzido</span></li>
           </ul>
         </div>
       </div>
@@ -204,7 +204,7 @@
         pensados como uma única cadeia de valor.
       </p>
 
-      <div class="grid grid--3" style="margin-top:3rem">
+      <div class="grid grid--3 mt-12">
 
         <article class="card reveal">
           <div class="card__icon" aria-hidden="true">
@@ -329,7 +329,7 @@
             <li class="tag">Power Apps Canvas</li><li class="tag">Dataverse</li><li class="tag">Power Automate</li>
             <li class="tag">RPA</li><li class="tag">Observabilidade</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fiscal-process-orchestrator-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/fiscal-process-orchestrator-case" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Arquitetura de orquestração fiscal: importação validada cria uma fila no Dataverse; o orquestrador cloud distribui o trabalho ao worker RPA e registra o retorno no monitoramento.">
             <div class="diagram-header"><p class="diagram-kicker">Operação assíncrona</p><b>Fila e workers</b></div>
@@ -362,7 +362,7 @@
             <li class="tag">Python</li><li class="tag">PySpark</li><li class="tag">Delta Lake</li>
             <li class="tag">Databricks</li><li class="tag">Data Quality</li><li class="tag">GitHub Actions</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fast-track-engenharia-v3" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/fast-track-engenharia-v3" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Pipeline Lakehouse com API pública, camadas Bronze, Silver e Gold e consumo analítico, apoiado por qualidade de dados e automação de testes.">
             <div class="diagram-header"><p class="diagram-kicker">Lakehouse público</p><b>Bronze · Silver · Gold</b></div>
@@ -393,7 +393,7 @@
             <li class="tag">Power Apps Canvas</li><li class="tag">Power Automate</li><li class="tag">Integração ERP</li>
             <li class="tag">Modelagem de Dados</li><li class="tag">Testes</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/financial-request-workflow-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/financial-request-workflow-case" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Jornada da solicitação financeira: rascunho, validação, envio, processamento assíncrono e liquidação, com rateio, evidências e rastreabilidade.">
             <div class="diagram-header"><p class="diagram-kicker">Jornada financeira</p><b>Solicitação rastreável</b></div>
@@ -426,7 +426,7 @@
             <li class="tag">ALM</li><li class="tag">Quality Gates</li><li class="tag">Rastreabilidade</li>
             <li class="tag">Acessibilidade</li><li class="tag">Gestão de Riscos</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/power-platform-delivery-governance" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/power-platform-delivery-governance" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Fluxo de governança de delivery: descoberta, build, qualidade, decisão de Go ou No-Go e release, com escopo, riscos e evidências rastreáveis.">
             <div class="diagram-header"><p class="diagram-kicker">Delivery governado</p><b>Gates de qualidade</b></div>
@@ -595,7 +595,7 @@
       <p class="eyebrow">Formação e certificações</p>
       <h2>Base acadêmica e credenciais</h2>
 
-      <div class="grid grid--2" style="margin-top:3rem">
+      <div class="grid grid--2 mt-12">
 
         <div class="card">
           <h3>Formação acadêmica e profissional</h3>
@@ -637,7 +637,7 @@
               <div class="meta"><span>Data Science Academy · credencial <code>67352a79cd1ad941e10835fc</code></span><span class="when">Ago 2026</span></div>
             </li>
           </ul>
-          <p class="dim" style="font-size:.86rem;margin:1.25rem 0 0">
+          <p class="dim texto-miudo sem-margem mt-5">
             Idiomas: português (nativo) e inglês (básico).
           </p>
         </div>
@@ -659,7 +659,7 @@
         <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Falar pelo LinkedIn</a>
         <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">Ver o GitHub</a>
       </div>
-      <p class="dim" style="margin-top:2.25rem;font-size:.86rem">
+      <p class="dim texto-miudo mt-9">
         Marabá, Pará · Brasil · disponível para atuação remota
       </p>
     </div>
@@ -680,7 +680,7 @@
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
-    <p style="margin:0">© <span id="ano">2026</span> Ildean Freitas · Conteúdo próprio, sem dados corporativos.</p>
+    <p class="sem-margem">© <span id="ano">2026</span> Ildean Freitas · Conteúdo próprio, sem dados corporativos.</p>
     <ul class="footer-links">
       <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn</a></li>
       <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub</a></li>

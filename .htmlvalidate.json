@@ -5,7 +5,7 @@
     "require-sri": "off",
     "long-title": "off",
 
-    "no-inline-style": "warn",
+    "no-inline-style": "error",
 
     "no-trailing-whitespace": "off",
     "attribute-boolean-style": "off"

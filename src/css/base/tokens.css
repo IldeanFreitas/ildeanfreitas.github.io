@@ -39,6 +39,20 @@
   --info:#7fd8e8;      --info-bg:rgba(127,216,232,.10);
   --idle:#b9c2c2;      --idle-bg:rgba(255,255,255,.05);
 
+  /* espaçamento — grade de 4px
+     Os valores vêm do que o site já usava em atributos style espalhados. Ao
+     conferir, todos caíam na grade (20, 24, 36, 40, 48px) menos um: um gap de
+     0.85rem = 13.6px, ajustado para 0.75rem. O defeito não eram os valores,
+     era não terem nome nem reuso — sete decisões isoladas que ninguém
+     conseguia revisar em conjunto. */
+  --space-3:.75rem;    /* 12px */
+  --space-4:1rem;      /* 16px */
+  --space-5:1.25rem;   /* 20px */
+  --space-6:1.5rem;    /* 24px */
+  --space-9:2.25rem;   /* 36px */
+  --space-10:2.5rem;   /* 40px */
+  --space-12:3rem;     /* 48px */
+
   /* forma */
   --r-pill:9999px;
   --r-card:20px;
