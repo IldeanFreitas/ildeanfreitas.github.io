@@ -1,43 +1,216 @@
 <!DOCTYPE html>
+<!--
+  ARQUIVO GERADO — não edite.
+  Fonte: src/404.template.html. Monte com `npm run build`.
+-->
 <html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Página não encontrada — Ildean Freitas</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Cpath d='M16 44V20h5v24zM28 44V20h8c6 0 10 4 10 12s-4 12-10 12zm5-5h3c3.5 0 5-2.6 5-7s-1.5-7-5-7h-3z' fill='%232dd4bf'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4df00'/%3E%3Cg fill='%230b1200'%3E%3Crect x='8' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='9' height='3.2' rx='1'/%3E%3Crect x='15' y='14.6' width='7' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+
 <style>
-:root{--bg:#0b1220;--surface:#131d31;--border:#243450;--text:#e8eef8;--muted:#a9b8d0;--accent:#2dd4bf;--accent-ink:#04211d}
-@media (prefers-color-scheme:light){
-  :root{--bg:#f6f8fc;--surface:#fff;--border:#d8e0ec;--text:#0e1a2e;--muted:#4b5c76;--accent:#0d7a6f;--accent-ink:#fff}
+/* =========================================================
+   FONTE — Mona Sans (SIL OFL 1.1), hospedada no próprio
+   repositório. Zero requisição a terceiros.
+   ========================================================= */
+@font-face{
+  font-family:"Mona Sans";font-style:normal;font-weight:400;font-display:swap;
+  src:url("assets/fonts/mona-sans-latin-400-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-*{box-sizing:border-box}
+@font-face{
+  font-family:"Mona Sans";font-style:normal;font-weight:600;font-display:swap;
+  src:url("assets/fonts/mona-sans-latin-600-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:"Mona Sans";font-style:normal;font-weight:700;font-display:swap;
+  src:url("assets/fonts/mona-sans-latin-700-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face{
+  font-family:"Mona Sans";font-style:normal;font-weight:800;font-display:swap;
+  src:url("assets/fonts/mona-sans-latin-800-normal.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* =========================================================
+   PONTOS DE QUEBRA
+
+   Media query nao aceita custom property, entao a escala vive aqui como
+   documentacao e cada arquivo repete o numero. Sao quatro, e cada um tem uma
+   razao:
+
+     430px   diagramas passam a uma coluna
+     760px   grades internas de case e detalhe empilham
+     940px   navegacao vira menu compacto
+     980px   hero e cartao de case passam a duas colunas
+
+   O hero usava 1000px e o cartao de case 980px. Vinte pixels de desacordo
+   criavam uma faixa em que um ja era duas colunas e o outro nao. Alinhados
+   em 980px.
+
+   Ponto novo deve reusar um destes. Se precisar de outro, acrescente aqui
+   com a justificativa -- senao volta a virar cinco numeros sem sistema.
+   ========================================================= */
+
+/* =========================================================
+   TOKENS — identidade visual YottaFlow
+   preto + lime + teal, tipografia Mona Sans, cantos 20px,
+   pílulas 9999px e brilho lime nos elementos de destaque
+   ========================================================= */
+:root{
+  /* paleta base */
+  --black:#000000;
+  --gray-900:#0b0f10;
+  --gray-800:#1a1a1a;
+  --gray-600:#6b7476;
+  --gray-400:#c1c1c1;
+  --white:#ffffff;
+  --teal:#003438;
+  --lime:#a2b700;
+  --lime-bright:#c4df00;
+  --lime-ink:#0b1200;
+
+  /* papéis */
+  --bg:var(--black);
+  --bg-alt:var(--gray-900);
+  --text:var(--white);
+  --text-muted:var(--gray-400);
+  --text-dim:#8e9998;
+  --accent:var(--lime-bright);
+  --accent-solid:var(--lime);
+  --border:rgba(255,255,255,.07);
+  --border-strong:rgba(255,255,255,.14);
+  --border-lime:rgba(162,183,0,.25);
+  --surface-card:linear-gradient(180deg,rgba(0,52,56,.30),rgba(0,0,0,.12));
+  --surface-soft:rgba(255,255,255,.02);
+  --lime-soft:rgba(162,183,0,.08);
+  --glow:0 0 40px rgba(162,183,0,.25);
+  --grid-line:rgba(255,255,255,.028);
+
+  /* estados */
+  --ok:#9ae86b;        --ok-bg:rgba(122,222,80,.10);
+  --warn:#ffcf5c;      --warn-bg:rgba(255,207,92,.10);
+  --info:#7fd8e8;      --info-bg:rgba(127,216,232,.10);
+  --idle:#b9c2c2;      --idle-bg:rgba(255,255,255,.05);
+
+  /* espaçamento — grade de 4px
+     Os valores vêm do que o site já usava em atributos style espalhados. Ao
+     conferir, todos caíam na grade (20, 24, 36, 40, 48px) menos um: um gap de
+     0.85rem = 13.6px, ajustado para 0.75rem. O defeito não eram os valores,
+     era não terem nome nem reuso — sete decisões isoladas que ninguém
+     conseguia revisar em conjunto. */
+  --space-3:.75rem;    /* 12px */
+  --space-4:1rem;      /* 16px */
+  --space-5:1.25rem;   /* 20px */
+  --space-6:1.5rem;    /* 24px */
+  --space-9:2.25rem;   /* 36px */
+  --space-10:2.5rem;   /* 40px */
+  --space-12:3rem;     /* 48px */
+
+  /* forma */
+  --r-pill:9999px;
+  --r-card:20px;
+  --r-sm:14px;
+  --maxw:1200px;
+
+  /* tipografia */
+  --font:"Mona Sans","Mona Sans Fallback","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --size-hero:clamp(2.4rem,6vw,5.5rem);
+  --size-h2:clamp(1.8rem,4vw,3.2rem);
+  --size-h3:clamp(1.15rem,2.4vw,1.6rem);
+  --size-sm:clamp(.82rem,.79rem + .12vw,.9rem);
+}
+
+[data-theme="light"]{
+  --bg:#f4f6f3;
+  --bg-alt:#ffffff;
+  --text:#0b0f10;
+  --text-muted:#41504e;
+  --text-dim:#5b6a68;
+  --accent:#4a5600;
+  --accent-solid:#7f9100;
+  --border:rgba(11,15,16,.10);
+  --border-strong:rgba(11,15,16,.18);
+  --border-lime:rgba(122,140,0,.35);
+  --surface-card:linear-gradient(180deg,rgba(0,52,56,.05),rgba(255,255,255,.6));
+  --surface-soft:rgba(11,15,16,.02);
+  --lime-soft:rgba(162,183,0,.14);
+  --glow:0 10px 30px rgba(11,15,16,.10);
+  --grid-line:rgba(11,15,16,.035);
+
+  --ok:#256c14;        --ok-bg:rgba(37,108,20,.10);
+  --warn:#7a5300;      --warn-bg:rgba(122,83,0,.10);
+  --info:#0d5f70;      --info-bg:rgba(13,95,112,.10);
+  --idle:#41504e;      --idle-bg:rgba(11,15,16,.06);
+}
+
+/* Layout próprio da 404. Os tokens e a fonte acima vêm dos mesmos arquivos
+   que o index.html usa — é o que impede a página de erro de virar outra
+   marca, como já tinha virado: azul-marinho, teal e fonte de sistema. */
+*,*::before,*::after{box-sizing:border-box}
 body{
   margin:0;min-height:100vh;display:grid;place-items:center;padding:2rem;
   background:var(--bg);color:var(--text);text-align:center;
-  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.65
+  font-family:var(--font);line-height:1.65
 }
-main{max-width:34rem}
-.code{font-size:clamp(4rem,18vw,8rem);font-weight:800;letter-spacing:-.05em;color:var(--accent);line-height:1;margin:0}
-h1{font-size:clamp(1.4rem,4vw,2rem);margin:.4em 0 .3em;letter-spacing:-.02em}
-p{color:var(--muted);margin:0 0 2rem}
+main{max-width:36rem}
+.codigo{
+  font-size:clamp(4rem,18vw,8rem);font-weight:800;letter-spacing:-.05em;
+  color:var(--accent);line-height:1;margin:0
+}
+h1{font-size:clamp(1.4rem,4vw,2rem);margin:.3em 0 .35em;letter-spacing:-.02em}
+p{color:var(--text-muted);margin:0 0 2rem}
 .links{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center}
 a{
-  display:inline-block;padding:.75rem 1.3rem;border-radius:8px;text-decoration:none;
-  font-weight:700;font-size:.92rem;border:1px solid var(--border);color:var(--text)
+  display:inline-block;padding:.72rem 1.3rem;border-radius:var(--r-pill);
+  text-decoration:none;font-weight:700;font-size:.9rem;
+  border:1px solid var(--border-strong);color:var(--text);
+  transition:border-color .3s cubic-bezier(.4,0,.2,1),background .3s cubic-bezier(.4,0,.2,1)
 }
-a.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
+/* --accent-solid, nao --accent: o primeiro e acento de SUPERFICIE, o segundo
+   e acento de TEXTO. No tema claro --accent vira oliva escuro (#4a5600),
+   feito para ler sobre fundo claro; usa-lo como fundo punha texto quase
+   preto sobre oliva escuro. Mesmo token que .btn--primary usa no site. */
+a.primaria{background:var(--accent-solid);color:var(--lime-ink);border-color:transparent}
 a:hover{border-color:var(--accent)}
-a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){a{transition:none}}
 </style>
+
+<script>
+/* Mesmo critério de tema do index.html, e a mesma chave de armazenamento:
+   quem escolheu o tema claro no site não deve receber a página de erro
+   escura. Sem alternador aqui — a 404 é uma parada de passagem. */
+(function () {
+  try {
+    var salvo = localStorage.getItem('tema');
+    if (salvo === 'dark' || salvo === 'light') {
+      document.documentElement.setAttribute('data-theme', salvo);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  } catch (e) {
+    /* Modo privado bloqueia localStorage; o tema padrão continua valendo. */
+  }
+})();
+</script>
 </head>
+
 <body>
 <main>
-  <p class="code">404</p>
+  <p class="codigo">404</p>
   <h1>Esta página não existe</h1>
   <p>O endereço pode ter mudado ou o link estar incorreto. Os cases e a trajetória continuam na página inicial.</p>
   <div class="links">
-    <a class="primary" href="/">Ir para o início</a>
+    <a class="primaria" href="/">Ir para o início</a>
     <a href="/#cases">Ver os cases</a>
     <a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub</a>
   </div>

@@ -19,7 +19,7 @@
   mask-image:radial-gradient(80% 70% at 40% 30%,#000,transparent 78%)
 }
 .hero__grid{display:grid;gap:clamp(2rem,4vw,3.5rem);align-items:start;grid-template-columns:1fr}
-@media (min-width:1000px){.hero__grid{grid-template-columns:1.35fr .95fr}}
+@media (min-width:980px){.hero__grid{grid-template-columns:1.35fr .95fr}}
 .hero__title{max-width:14ch;margin-bottom:.35em}
 .hero__title em{font-style:normal;color:var(--accent)}
 .hero__desc{max-width:52ch;color:var(--text-muted);font-size:clamp(1rem,.95rem + .35vw,1.15rem)}

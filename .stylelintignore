@@ -4,3 +4,4 @@ test-results/
 # O template só tem o marcador <!--{{ CSS }}--> dentro do <style>. O CSS de
 # verdade mora em src/css/ e é verificado lá.
 src/index.template.html
+src/404.template.html

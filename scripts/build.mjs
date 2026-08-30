@@ -56,43 +56,76 @@ const partes = await Promise.all(
 
 const css = ['@layer base,componentes,utilitarios;', ...partes].join('\n\n');
 
-const [template, jsInicializacao, jsPrincipal] = await Promise.all([
+const [template, template404, jsInicializacao, jsPrincipal] = await Promise.all([
   ler('src/index.template.html'),
+  ler('src/404.template.html'),
   ler('src/js/inicializacao.js'),
   ler('src/js/principal.js')
 ]);
 
-const MARCADORES = {
-  '<!--{{ CSS }}-->': css,
-  '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
-  '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
-};
+/**
+ * A 404 é servida sozinha, então precisa carregar o próprio CSS. Mas recebe a
+ * fonte e os tokens dos MESMOS arquivos que o index usa — sem isso ela
+ * derivou para outra marca (azul-marinho, teal, fonte de sistema) sem ninguém
+ * notar, porque nada liga uma página à outra.
+ */
+const css404 = [
+  (await ler('src/css/base/fonte.css')).trimEnd(),
+  (await ler('src/css/base/tokens.css')).trimEnd()
+].join('\n\n');
 
-let saida = template;
-for (const [marcador, conteudo] of Object.entries(MARCADORES)) {
-  if (!saida.includes(marcador)) {
-    console.error(`Marcador ausente no template: ${marcador}`);
+const PAGINAS = [
+  {
+    arquivo: 'index.html',
+    template,
+    marcadores: {
+      '<!--{{ CSS }}-->': css,
+      '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
+      '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
+    }
+  },
+  {
+    arquivo: '404.html',
+    template: template404,
+    marcadores: { '<!--{{ CSS_404 }}-->': css404 }
+  }
+];
+
+let desatualizado = false;
+
+for (const pagina of PAGINAS) {
+  let saida = pagina.template;
+
+  for (const [marcador, conteudo] of Object.entries(pagina.marcadores)) {
+    if (!saida.includes(marcador)) {
+      console.error(`Marcador ausente em ${pagina.arquivo}: ${marcador}`);
+      process.exit(1);
+    }
+    // Função em vez de string: $& e $1 num CSS seriam interpretados como
+    // referência de captura e corromperiam a saída silenciosamente.
+    saida = saida.replace(marcador, () => conteudo);
+  }
+
+  const restante = saida.match(/<!--\{\{[^}]*\}\}-->/);
+  if (restante) {
+    console.error(`Marcador não resolvido em ${pagina.arquivo}: ${restante[0]}`);
     process.exit(1);
   }
-  // Função em vez de string: $& e $1 num CSS seriam interpretados como
-  // referência de captura e corromperiam a saída silenciosamente.
-  saida = saida.replace(marcador, () => conteudo);
-}
 
-const restante = saida.match(/<!--\{\{[^}]*\}\}-->/);
-if (restante) {
-  console.error(`Marcador não resolvido na saída: ${restante[0]}`);
-  process.exit(1);
+  if (conferir) {
+    const atual = await ler(pagina.arquivo).catch(() => null);
+    if (atual !== saida) {
+      console.error(`${pagina.arquivo} está desatualizado em relação a src/. Rode: npm run build`);
+      desatualizado = true;
+    }
+  } else {
+    await writeFile(join(RAIZ, pagina.arquivo), saida, 'utf8');
+  }
 }
 
 if (conferir) {
-  const atual = await ler('index.html');
-  if (atual !== saida) {
-    console.error('index.html está desatualizado em relação a src/. Rode: npm run build');
-    process.exit(1);
-  }
-  console.warn('index.html está atualizado.');
+  if (desatualizado) process.exit(1);
+  console.warn('index.html e 404.html estão atualizados.');
 } else {
-  await writeFile(join(RAIZ, 'index.html'), saida, 'utf8');
-  console.warn(`index.html montado — ${ordem.length} arquivos de CSS, 2 de JavaScript.`);
+  console.warn(`Montados: index.html (${ordem.length} arquivos de CSS) e 404.html.`);
 }

@@ -8,24 +8,64 @@ Portfólio profissional de Ildean Freitas — engenharia de dados, Power Platfor
 
 ## Como este repositório funciona
 
-Site estático em HTML, CSS e JavaScript puros. **Sem build, sem framework e sem dependência externa** — todo o CSS e o JS estão embutidos no `index.html` e a fonte Mona Sans é servida pelo próprio repositório. Zero requisição a terceiros, carregamento rápido e nenhuma questão de privacidade com fontes ou bibliotecas remotas.
+Site estático em HTML, CSS e JavaScript puros. **Zero dependência de runtime** — nenhuma requisição a terceiros, nenhuma biblioteca, nenhum framework. A fonte Mona Sans é servida pelo próprio repositório.
+
+O que existe de ferramental serve para desenvolver e verificar; nada disso chega ao navegador.
+
+> **`index.html` e `404.html` são gerados.** Editá-los funciona até o próximo `npm run build`, que sobrescreve tudo. A fonte fica em `src/`.
 
 ```
 .
-├── index.html      # página única com todas as seções
-├── 404.html        # página de erro com navegação de volta
-├── robots.txt      # liberação para indexação + apontamento do sitemap
-├── sitemap.xml     # ATUALIZAR a cada nova página
-├── .nojekyll       # desliga o processamento Jekyll do GitHub Pages
-├── .gitignore      # bloqueia segredos, .pbix, planilhas e extrações
-├── README.md
-└── assets
-    ├── fonts/      # Mona Sans (SIL OFL 1.1), hospedada localmente
-    └── img/
-        ├── og-image.png              # 1200x630 — compartilhamento em redes
-        ├── github-social-preview.png # 1280x640 — Settings > Social preview
-        └── profile-banner.png        # 1280x400 — README de perfil
+├── src/                    FONTE — é aqui que se edita
+│   ├── index.template.html estrutura da página, com marcadores
+│   ├── 404.template.html   página de erro
+│   ├── css/
+│   │   ├── ordem.json      ordem de concatenação (a cascata depende dela)
+│   │   ├── base/           fonte, tokens, elementos, utilitários
+│   │   └── componentes/    cabeçalho, hero, cartões, diagrama, rodapé…
+│   └── js/
+│       ├── inicializacao.js roda no <head>, antes da primeira pintura
+│       └── principal.js     roda no fim do <body>
+├── scripts/
+│   ├── build.mjs           monta index.html e 404.html
+│   ├── sitemap.mjs         lastmod a partir do último commit
+│   ├── serve.mjs           servidor local para auditoria
+│   └── extrair.mjs         registro da separação original
+├── tests/                  Playwright: comportamento, a11y, sem-JS, visual
+├── docs/
+│   ├── ARQUITETURA.md      as decisões e o porquê delas
+│   └── QUALIDADE.md        como verificar uma mudança
+├── index.html              GERADO — não editar
+├── 404.html                GERADO — não editar
+├── sitemap.xml             GERADO — não editar
+└── assets/
+    ├── fonts/              Mona Sans (SIL OFL 1.1)
+    └── img/                imagens de compartilhamento
 ```
+
+## Trabalhar no site
+
+```bash
+npm install                 # uma vez
+npx playwright install chromium
+
+npm run build               # monta index.html, 404.html e sitemap.xml
+npm run serve               # http://localhost:4173
+npm run check               # build + lint + formato + testes
+npm run test:visual         # regressão visual (só local)
+```
+
+O fluxo de uma mudança em CSS ou marcação:
+
+```bash
+npm run baseline            # fotografa o estado atual
+# ... edita src/ ...
+npm run build
+npm run check
+npm run test:visual         # compara com a fotografia
+```
+
+Detalhes em [docs/ARQUITETURA.md](docs/ARQUITETURA.md) e [docs/QUALIDADE.md](docs/QUALIDADE.md).
 
 ## Publicar
 
@@ -41,11 +81,11 @@ Site estático em HTML, CSS e JavaScript puros. **Sem build, sem framework e sem
 ## Testar localmente antes de publicar
 
 ```bash
-python -m http.server 8000
-# abrir http://localhost:8000
+npm run build && npm run serve
+# abrir http://localhost:4173
 ```
 
-Nunca faça merge no `main` sem abrir o site localmente primeiro. O `main` é público em tempo real.
+Nunca faça merge no `main` sem rodar `npm run check` e abrir o site localmente. O `main` é público em tempo real.
 
 ## Antes de cada publicação
 
@@ -56,7 +96,7 @@ Nunca faça merge no `main` sem abrir o site localmente primeiro. O `main` é p�
 - [ ] Contraste ≥ 4,5:1, navegação por teclado funcionando, uma única `h1` por página
 - [ ] Links testados, incluindo os externos
 - [ ] Testado em celular, tablet e desktop
-- [ ] `sitemap.xml` atualizado se houver página nova
+- [ ] `npm run check` verde (o `sitemap.xml` é gerado pelo build)
 
 ## Limites do GitHub Pages
 
@@ -85,7 +125,7 @@ Nunca faça merge no `main` sem abrir o site localmente primeiro. O `main` é p�
 | Brilho | `0 0 40px rgba(162,183,0,.25)` |
 | Tipografia | Mona Sans 400/600/700/800 |
 
-Todos os tokens estão em `:root` no `index.html`. Alterar ali propaga para o site inteiro.
+Os tokens vivem em `src/css/base/tokens.css`. Alterar ali propaga para o site inteiro, inclusive para a página 404 — que recebe o mesmo arquivo pelo build, justamente para não derivar para outra marca.
 
 ## Licença
 

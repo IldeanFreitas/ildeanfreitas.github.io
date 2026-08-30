@@ -49,6 +49,9 @@
 }
 </script>
 
+<!-- Preload dos dois pesos de maior volume na página. Os 600 e 800 aparecem
+     em poucos elementos e podem ser descobertos pelo CSS sem custo visível. -->
+<link rel="preload" href="assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
 <style>
@@ -78,6 +81,26 @@
   src:url("assets/fonts/mona-sans-latin-800-normal.woff2") format("woff2");
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
+
+/* =========================================================
+   PONTOS DE QUEBRA
+
+   Media query nao aceita custom property, entao a escala vive aqui como
+   documentacao e cada arquivo repete o numero. Sao quatro, e cada um tem uma
+   razao:
+
+     430px   diagramas passam a uma coluna
+     760px   grades internas de case e detalhe empilham
+     940px   navegacao vira menu compacto
+     980px   hero e cartao de case passam a duas colunas
+
+   O hero usava 1000px e o cartao de case 980px. Vinte pixels de desacordo
+   criavam uma faixa em que um ja era duas colunas e o outro nao. Alinhados
+   em 980px.
+
+   Ponto novo deve reusar um destes. Se precisar de outro, acrescente aqui
+   com a justificativa -- senao volta a virar cinco numeros sem sistema.
+   ========================================================= */
 
 /* =========================================================
    TOKENS — identidade visual YottaFlow
@@ -303,7 +326,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   mask-image:radial-gradient(80% 70% at 40% 30%,#000,transparent 78%)
 }
 .hero__grid{display:grid;gap:clamp(2rem,4vw,3.5rem);align-items:start;grid-template-columns:1fr}
-@media (min-width:1000px){.hero__grid{grid-template-columns:1.35fr .95fr}}
+@media (min-width:980px){.hero__grid{grid-template-columns:1.35fr .95fr}}
 .hero__title{max-width:14ch;margin-bottom:.35em}
 .hero__title em{font-style:normal;color:var(--accent)}
 .hero__desc{max-width:52ch;color:var(--text-muted);font-size:clamp(1rem,.95rem + .35vw,1.15rem)}

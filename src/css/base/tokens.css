@@ -1,4 +1,24 @@
 /* =========================================================
+   PONTOS DE QUEBRA
+
+   Media query nao aceita custom property, entao a escala vive aqui como
+   documentacao e cada arquivo repete o numero. Sao quatro, e cada um tem uma
+   razao:
+
+     430px   diagramas passam a uma coluna
+     760px   grades internas de case e detalhe empilham
+     940px   navegacao vira menu compacto
+     980px   hero e cartao de case passam a duas colunas
+
+   O hero usava 1000px e o cartao de case 980px. Vinte pixels de desacordo
+   criavam uma faixa em que um ja era duas colunas e o outro nao. Alinhados
+   em 980px.
+
+   Ponto novo deve reusar um destes. Se precisar de outro, acrescente aqui
+   com a justificativa -- senao volta a virar cinco numeros sem sistema.
+   ========================================================= */
+
+/* =========================================================
    TOKENS — identidade visual YottaFlow
    preto + lime + teal, tipografia Mona Sans, cantos 20px,
    pílulas 9999px e brilho lime nos elementos de destaque
