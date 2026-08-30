@@ -460,7 +460,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 /* auto-fit em vez de 3 colunas fixas: a faixa de governança tem entre tres
    e cinco itens dependendo do case, e o numero fixo deixava o quarto item
    sozinho numa segunda linha. */
-.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
 .diagram-foundation span{color:var(--text-muted);font-size:.66rem;line-height:1.3}
 .diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase}
 .diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
@@ -830,20 +830,21 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 
         <article class="card case-card reveal" id="case-dataops">
           <div class="case-card__content">
-          <span class="status status--designed">Arquitetura documentada</span>
+          <span class="status status--evolving">Em evolução</span>
           <h3>Laboratório DataOps: pipeline analítico ponta a ponta</h3>
-          <p>Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade para chaves e reconciliação, princípio de menor privilégio e segredos fora do versionamento.</p>
-          <p class="scope"><b>Declaração de escopo:</b> arquitetura e plano técnico documentados para estudo de Engenharia de Dados. As conexões, cargas, transformações e métricas descritas não foram executadas neste projeto de portfólio.</p>
+          <p>Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.</p>
+          <p class="scope"><b>Evidências e limites:</b> as etapas de 1 a 9 estão concluídas e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.</p>
           <ul class="taglist">
             <li class="tag">PostgreSQL</li>
             <li class="tag">Docker</li>
             <li class="tag">Airbyte</li>
             <li class="tag">Snowflake</li>
             <li class="tag">dbt</li>
+            <li class="tag">Airflow</li>
             <li class="tag">Power BI</li>
           </ul>
           </div>
-          <figure class="architecture-diagram" role="img" aria-label="Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com governança, qualidade e menor privilégio.">
+          <figure class="architecture-diagram" role="img" aria-label="Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com orquestração pelo Airflow, governança, qualidade e menor privilégio.">
             <div class="diagram-header"><p class="diagram-kicker">Arquitetura de dados</p><b>Camadas</b></div>
             <div class="diagram-data-layout">
               <section class="diagram-zone">
@@ -862,7 +863,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
                 <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Power BI</span><span class="diagram-stage__meta">Indicadores e análise</span></div>
               </section>
             </div>
-            <div class="diagram-foundation"><span><b>Governança</b>Linhas e contratos</span><span><b>Segurança</b>Menor privilégio</span><span><b>Qualidade</b>Testes e reconciliação</span></div>
+            <div class="diagram-foundation"><span><b>Orquestração</b>Airflow, com reconciliação</span><span><b>Governança</b>Linhas e contratos</span><span><b>Segurança</b>Menor privilégio</span><span><b>Qualidade</b>Testes e reconciliação</span></div>
           </figure>
         </article>
 
@@ -976,6 +977,33 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
               <div class="diagram-stage"><span class="diagram-stage__type">Gate 05</span><span class="diagram-stage__title">Release</span><span class="diagram-stage__meta">Evidência registrada</span></div>
             </div>
             <div class="diagram-foundation"><span><b>ALM</b>Ambientes e versões</span><span><b>Riscos</b>Registro e tratamento</span><span><b>Acessibilidade</b>Critério de qualidade</span></div>
+          </figure>
+        </article>
+
+        <article class="card case-card reveal" id="case-component-library">
+          <div class="case-card__content">
+          <span class="status status--evolving">Em evolução</span>
+          <h3>Biblioteca de Componentes para Power Platform</h3>
+          <p>Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de propriedades e eventos. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.</p>
+          <p class="scope"><b>Declaração de escopo:</b> código de referência em PaYaml, com contrato, variantes e critérios de acessibilidade documentados. Não é um .msapp exportado nem uma Solution pronta para importar: usar em produção exige recriar o componente no Studio e validar com pac canvas pack.</p>
+          <ul class="taglist">
+            <li class="tag">Power Apps Canvas</li>
+            <li class="tag">Canvas Component</li>
+            <li class="tag">PaYaml</li>
+            <li class="tag">Acessibilidade</li>
+            <li class="tag">Design System</li>
+          </ul>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/power-platform-component-library" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Contrato do componente de cabeçalho: o app consumidor fornece nome, tema, variante e contagem de notificações; o componente desenha o cabeçalho em três variantes e dois temas; e devolve três eventos, que o app consumidor trata. Navegação, dados e regra de negócio permanecem fora do componente.">
+            <div class="diagram-header"><p class="diagram-kicker">Contrato de componente</p><b>Entradas, eventos e fronteira</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrada</span><span class="diagram-stage__title">Propriedades</span><span class="diagram-stage__meta">Nome, tema, variante</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Componente</span><span class="diagram-stage__title">cmpAppHeader</span><span class="diagram-stage__meta">3 variantes, 2 temas</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Saída</span><span class="diagram-stage__title">3 eventos</span><span class="diagram-stage__meta">Marca, notificações, perfil</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Consumidor</span><span class="diagram-stage__title">App anfitrião</span><span class="diagram-stage__meta">Navegação e dados</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Fronteira</b>Sem conector nem fonte de dados</span><span><b>Acessibilidade</b>Alvo de 44px e ordem de foco</span><span><b>Reuso</b>Contrato versionado</span></div>
           </figure>
         </article>
 
