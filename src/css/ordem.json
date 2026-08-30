@@ -1,0 +1,15 @@
+[
+  "base/fonte.css",
+  "base/tokens.css",
+  "base/elementos.css",
+  "componentes/cabecalho.css",
+  "componentes/botoes.css",
+  "componentes/hero.css",
+  "componentes/cartoes.css",
+  "componentes/fluxo.css",
+  "componentes/diagrama.css",
+  "componentes/linha-do-tempo.css",
+  "componentes/formacao.css",
+  "componentes/rodape.css",
+  "base/utilitarios.css"
+]

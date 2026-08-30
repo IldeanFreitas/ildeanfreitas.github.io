@@ -1,0 +1,47 @@
+/* =========================================================
+   BASE
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:6rem;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font);font-size:1rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden
+}
+h1,h2,h3,h4{margin:0 0 .5em;font-weight:700;line-height:1.05;letter-spacing:-.03em}
+h1{font-size:var(--size-hero)}
+h2{font-size:var(--size-h2)}
+h3{font-size:var(--size-h3);line-height:1.2}
+p{margin:0 0 1em}
+a{color:var(--accent);text-underline-offset:.22em}
+ul{margin:0;padding:0;list-style:none}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;color:var(--text-muted)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.wrap{width:min(100% - 2.5rem,var(--maxw));margin-inline:auto}
+.section{padding:clamp(4rem,9vw,7.5rem) 0;position:relative;border-top:1px solid var(--border)}
+.section--alt{background:var(--bg-alt)}
+.lead{font-size:clamp(1rem,.95rem + .35vw,1.2rem);color:var(--text-muted);max-width:60ch}
+.muted{color:var(--text-muted)}
+.dim{color:var(--text-dim)}
+
+/* Etiqueta de seção — pílula lime, marca da identidade */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.75rem;font-weight:700;letter-spacing:.02em;
+  color:var(--accent);background:var(--lime-soft);
+  border:1px solid var(--border-lime);border-radius:var(--r-pill);
+  padding:.35rem .9rem;margin:0 0 1.25rem
+}
+
+/* Skip link no padrão do site de referência: fita lime no topo */
+.skip{
+  position:absolute;left:1.5rem;top:-100px;z-index:999;
+  background:var(--accent-solid);color:var(--lime-ink);font-weight:700;font-size:.875rem;
+  padding:.5rem 1rem;border-radius:0 0 6px 6px;text-decoration:none;transition:top .18s ease
+}
+.skip:focus{top:0}

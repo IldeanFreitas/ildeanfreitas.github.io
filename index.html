@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+<!--
+  ARQUIVO GERADO — não edite.
+
+  Montado por `npm run build` a partir de src/. Editar aqui funciona até o
+  próximo build, que sobrescreve tudo sem avisar.
+
+  Onde mexer:
+    estilos        src/css/          (ordem em src/css/ordem.json)
+    comportamento  src/js/
+    estrutura      src/index.template.html
+-->
 <html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
@@ -38,9 +49,14 @@
 }
 </script>
 
+<!-- Preload dos dois pesos de maior volume na página. Os 600 e 800 aparecem
+     em poucos elementos e podem ser descobertos pelo CSS sem custo visível. -->
+<link rel="preload" href="assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
 <style>
+@layer base,componentes,utilitarios;
+
 /* =========================================================
    FONTE — Mona Sans (SIL OFL 1.1), hospedada no próprio
    repositório. Zero requisição a terceiros.
@@ -65,6 +81,26 @@
   src:url("assets/fonts/mona-sans-latin-800-normal.woff2") format("woff2");
   unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
+
+/* =========================================================
+   PONTOS DE QUEBRA
+
+   Media query nao aceita custom property, entao a escala vive aqui como
+   documentacao e cada arquivo repete o numero. Sao quatro, e cada um tem uma
+   razao:
+
+     430px   diagramas passam a uma coluna
+     760px   grades internas de case e detalhe empilham
+     940px   navegacao vira menu compacto
+     980px   hero e cartao de case passam a duas colunas
+
+   O hero usava 1000px e o cartao de case 980px. Vinte pixels de desacordo
+   criavam uma faixa em que um ja era duas colunas e o outro nao. Alinhados
+   em 980px.
+
+   Ponto novo deve reusar um destes. Se precisar de outro, acrescente aqui
+   com a justificativa -- senao volta a virar cinco numeros sem sistema.
+   ========================================================= */
 
 /* =========================================================
    TOKENS — identidade visual YottaFlow
@@ -107,6 +143,20 @@
   --info:#7fd8e8;      --info-bg:rgba(127,216,232,.10);
   --idle:#b9c2c2;      --idle-bg:rgba(255,255,255,.05);
 
+  /* espaçamento — grade de 4px
+     Os valores vêm do que o site já usava em atributos style espalhados. Ao
+     conferir, todos caíam na grade (20, 24, 36, 40, 48px) menos um: um gap de
+     0.85rem = 13.6px, ajustado para 0.75rem. O defeito não eram os valores,
+     era não terem nome nem reuso — sete decisões isoladas que ninguém
+     conseguia revisar em conjunto. */
+  --space-3:.75rem;    /* 12px */
+  --space-4:1rem;      /* 16px */
+  --space-5:1.25rem;   /* 20px */
+  --space-6:1.5rem;    /* 24px */
+  --space-9:2.25rem;   /* 36px */
+  --space-10:2.5rem;   /* 40px */
+  --space-12:3rem;     /* 48px */
+
   /* forma */
   --r-pill:9999px;
   --r-card:20px;
@@ -144,6 +194,7 @@
   --idle:#41504e;      --idle-bg:rgba(11,15,16,.06);
 }
 
+@layer base{
 /* =========================================================
    BASE
    ========================================================= */
@@ -191,7 +242,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   padding:.5rem 1rem;border-radius:0 0 6px 6px;text-decoration:none;transition:top .18s ease
 }
 .skip:focus{top:0}
+}
 
+@layer componentes{
 /* =========================================================
    CABEÇALHO
    ========================================================= */
@@ -231,7 +284,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   .nav__list{flex-direction:column;width:min(100% - 2.5rem,var(--maxw));margin-inline:auto}
   .nav__link{padding:.7rem .9rem;font-size:1rem}
 }
+}
 
+@layer componentes{
 /* =========================================================
    BOTÕES — pílulas
    ========================================================= */
@@ -247,7 +302,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .btn--ghost{background:var(--lime-soft);border-color:var(--border-lime);color:var(--text)}
 .btn--ghost:hover{border-color:var(--accent-solid);color:var(--text)}
 .actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:2.25rem}
+}
 
+@layer componentes{
 /* =========================================================
    HERO
    ========================================================= */
@@ -269,7 +326,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   mask-image:radial-gradient(80% 70% at 40% 30%,#000,transparent 78%)
 }
 .hero__grid{display:grid;gap:clamp(2rem,4vw,3.5rem);align-items:start;grid-template-columns:1fr}
-@media (min-width:1000px){.hero__grid{grid-template-columns:1.35fr .95fr}}
+@media (min-width:980px){.hero__grid{grid-template-columns:1.35fr .95fr}}
 .hero__title{max-width:14ch;margin-bottom:.35em}
 .hero__title em{font-style:normal;color:var(--accent)}
 .hero__desc{max-width:52ch;color:var(--text-muted);font-size:clamp(1rem,.95rem + .35vw,1.15rem)}
@@ -300,7 +357,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 }
 .stats dd{margin:0;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em;color:var(--accent)}
 .stats dt{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:.25rem}
+}
 
+@layer componentes{
 /* =========================================================
    CARTÕES
    ========================================================= */
@@ -355,7 +414,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   font-size:.95rem;margin-top:2.5rem
 }
 .note b{color:var(--text)}
+}
 
+@layer componentes{
 /* Fluxo de arquitetura */
 .flow{
   display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .1rem;
@@ -369,7 +430,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 }
 .flow li:not(:last-child)::after{content:"→";color:var(--accent);font-weight:700;padding:0 .45rem}
 .flow small{display:block;color:var(--text-dim);font-size:.66rem;font-weight:500}
+}
 
+@layer componentes{
 /* Diagramas de arquitetura dos cases */
 .case-grid{display:grid;gap:1.5rem;margin-top:3rem}
 .case-card{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.35rem,2.5vw,2rem)}
@@ -394,15 +457,25 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
 .diagram-stage__meta{color:var(--text-dim);font-size:.67rem;line-height:1.35}
 .diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
-.diagram-foundation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+/* auto-fit em vez de 3 colunas fixas: a faixa de governança tem entre tres
+   e cinco itens dependendo do case, e o numero fixo deixava o quarto item
+   sozinho numa segunda linha. */
+.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
 .diagram-foundation span{color:var(--text-muted);font-size:.66rem;line-height:1.3}
 .diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase}
 .diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
 .diagram-zone{min-width:0;padding:.7rem;border:1px solid var(--border);border-radius:var(--r-sm);background:rgba(4,12,14,.48)}
 .diagram-zone__title{margin:0 0 .6rem;color:var(--text-dim);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.diagram-zone--pipeline{display:grid;gap:.45rem}
+/* O titulo fica na altura natural e as camadas dividem o espaco restante.
+   Sem grid-auto-rows, a linha do titulo esticava junto e abria um vao entre
+   ele e a primeira camada quando outra zona era mais alta. */
+.diagram-zone--pipeline{display:grid;gap:.45rem;grid-template-rows:auto;grid-auto-rows:1fr}
 .diagram-layer{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.5rem;padding:.55rem .6rem;border:1px solid var(--border);border-radius:8px;background:rgba(4,12,14,.62)}
 .diagram-layer--accent{border-color:var(--border-lime);background:linear-gradient(90deg,rgba(198,223,0,.12),rgba(4,12,14,.62))}
+/* O div que envolve o rótulo e a descrição precisa empilhar: <b> e <span>
+   são inline por padrão, e sem isto saía "Snowflake RAWDados recebidos"
+   numa linha só. Defeito que já estava em producao nos seis diagramas. */
+.diagram-layer>div{display:grid;gap:.1rem;min-width:0}
 .diagram-layer b{color:var(--text);font-size:.72rem;line-height:1.15}
 .diagram-layer span{color:var(--text-dim);font-size:.62rem;line-height:1.25}
 .diagram-layer__mark{display:grid;place-items:center;width:2.05rem;height:2.05rem;border:1px solid var(--border-lime);border-radius:7px;color:var(--accent);font-size:.62rem;font-weight:800;letter-spacing:.04em}
@@ -417,26 +490,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   .diagram-layer{grid-template-columns:1fr;text-align:center}.diagram-layer__mark{justify-self:center}
 }
 @media(max-width:430px){.diagram-foundation{grid-template-columns:1fr}.diagram-zone--pipeline{grid-template-columns:1fr}}
+}
 
-/* Case acadêmico AWS */
-.case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:#000}
-.case-visual img{display:block;width:100%;height:auto}
-.case-visual figcaption{padding:.85rem 1rem;color:var(--text-dim);font-size:.82rem;background:var(--surface-soft)}
-.image-expand{margin-top:1rem}
-.image-dialog{width:min(96vw,1500px);max-height:92vh;margin:auto;padding:0;color:var(--text);background:var(--bg-alt);border:1px solid var(--border-lime);border-radius:var(--r-card);box-shadow:var(--glow)}
-.image-dialog::backdrop{background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
-.image-dialog__header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
-.image-dialog__header h2{margin:0;font-size:1rem;letter-spacing:-.01em}
-.image-dialog__content{padding:1rem}
-.image-dialog__content img{display:block;width:100%;max-height:76vh;object-fit:contain;background:#000;border-radius:var(--r-sm)}
-.image-dialog__content p{margin:1rem 0 0;color:var(--text-muted);font-size:.85rem}
-.case-detail__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem;align-items:start;margin-top:3rem}
-.case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0}
-.case-detail__layer{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
-.case-detail__layer b{display:inline-grid;place-items:center;min-width:4.9rem;padding:.4rem .7rem;border:1px solid var(--border-lime);border-radius:var(--r-pill);color:var(--accent);font-size:.75rem;letter-spacing:.08em}
-.case-detail__layer p{margin:0;color:var(--text-muted);font-size:.9rem}
-@media(max-width:760px){.case-detail__intro{grid-template-columns:1fr}.case-detail__layer{grid-template-columns:1fr;gap:.55rem}.case-detail__layer b{justify-self:start}}
-
+@layer componentes{
 /* =========================================================
    LINHA DO TEMPO
    ========================================================= */
@@ -455,7 +511,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 }
 .timeline h3{font-size:1.05rem;margin-bottom:.35rem}
 .timeline p{color:var(--text-muted);font-size:.92rem;margin:0}
+}
 
+@layer componentes{
 /* =========================================================
    LISTAS DE FORMAÇÃO
    ========================================================= */
@@ -468,7 +526,9 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   margin-left:auto;color:var(--accent);font-size:.75rem;font-weight:700;
   letter-spacing:.06em;text-transform:uppercase;white-space:nowrap
 }
+}
 
+@layer componentes{
 /* =========================================================
    CONTATO E RODAPÉ
    ========================================================= */
@@ -485,16 +545,77 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .site-footer a{color:var(--text-muted);text-decoration:none}
 .site-footer a:hover{color:var(--accent)}
 .footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}
+}
 
-/* Revelação suave */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
-.reveal.is-visible{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+@layer utilitarios{
+/* Revelação suave.
+   O conteúdo NASCE VISÍVEL. A animação de entrada só é habilitada quando o
+   JavaScript adiciona .js-anima na raiz e confirma que consegue revelar de
+   volta. Sem JavaScript, ou com ele falhando, nada anima e tudo se lê — que
+   é a degradação correta. A regra anterior escondia 13 blocos por padrão e
+   dependia do observer para trazê-los de volta. */
+.js-anima .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.js-anima .reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js-anima .reveal{opacity:1;transform:none}}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
+/* Espaçamento e tipografia. Substituem os 15 atributos style que existiam no
+   HTML. Poucas e nomeadas de propósito: uma classe por valor realmente usado,
+   não uma matriz completa de utilitários que ninguém precisa.
+
+   O build envolve este arquivo em `@layer utilitarios`, que vem depois de
+   `componentes`. Por isso seletores de uma classe só bastam: a camada decide
+   quem vence, não a especificidade. Sem ela, `.card p:last-of-type` (0,2,1)
+   ganharia de `.texto-miudo` (0,1,0) e o tamanho do texto voltaria ao do
+   cartão sem ninguém perceber. Ver scripts/build.mjs. */
+.sem-margem{margin:0}
+.mt-5{margin-top:var(--space-5)}
+.mt-6{margin-top:var(--space-6)}
+.mt-9{margin-top:var(--space-9)}
+.mt-10{margin-top:var(--space-10)}
+.mt-12{margin-top:var(--space-12)}
+.texto-miudo{font-size:.86rem}
+
+/* Lista empilhada sem marcador — usada no cartão de status dos cases. */
+.lista-empilhada{display:flex;flex-direction:column;gap:var(--space-3);font-size:.9rem}
+
 @media print{.site-header,.actions,.skip,.site-footer,.hero__bg{display:none}body{background:#fff;color:#000}}
+}
 </style>
+<script>
+/* Roda antes da primeira pintura. Faz duas coisas que precisam acontecer
+   cedo demais para esperar o script do fim do documento. */
+(function () {
+  var raiz = document.documentElement;
+
+  /* 1. Tema. Restaura a escolha salva; sem ela, segue a preferência do
+        sistema. Aqui, e não depois da carga, para não haver piscada de tema
+        errado em quem escolheu o claro. */
+  try {
+    var salvo = localStorage.getItem('tema');
+    if (salvo === 'dark' || salvo === 'light') {
+      raiz.setAttribute('data-theme', salvo);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      raiz.setAttribute('data-theme', 'light');
+    }
+  } catch (e) {
+    /* Modo privado bloqueia localStorage. O tema padrão do HTML continua
+       valendo — perder a preferência é aceitável, quebrar a página não. */
+  }
+
+  /* 2. Animação de entrada. Habilitada aqui para o conteúdo não piscar de
+        visível para oculto; e armada com uma trava: se o script principal não
+        confirmar a inicialização em 1,2s — porque falhou, foi bloqueado ou
+        nunca chegou — a classe sai e todo o conteúdo reaparece. A animação é
+        enfeite; o texto não pode depender dela. */
+  raiz.classList.add('js-anima');
+  window.setTimeout(function () {
+    if (!raiz.hasAttribute('data-revelacao-pronta')) raiz.classList.remove('js-anima');
+  }, 1200);
+})();
+</script>
+<noscript><style>.js-anima .reveal{opacity:1;transform:none}</style></noscript>
 </head>
 
 <body>
@@ -594,7 +715,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
       <p class="eyebrow">Sobre</p>
       <h2>Entendo o processo antes de propor a solução</h2>
 
-      <div class="grid grid--2" style="margin-top:2.5rem">
+      <div class="grid grid--2 mt-10">
         <div>
           <p class="lead">
             Comecei em implantação de ERP e sustentação de ambientes de TI no interior do Pará.
@@ -620,11 +741,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             impacto sem evidência — e quando um projeto é apenas arquitetura documentada, ele diz
             isso com todas as letras.
           </p>
-          <ul style="display:flex;flex-direction:column;gap:.85rem;font-size:.9rem">
-            <li><span class="status status--done" style="margin:0">Entregue</span> <span class="muted">implementado e comprovável</span></li>
-            <li><span class="status status--evolving" style="margin:0">Em evolução</span> <span class="muted">em construção ativa</span></li>
-            <li><span class="status status--designed" style="margin:0">Arquitetura documentada</span> <span class="muted">projetado, não executado</span></li>
-            <li><span class="status status--soon" style="margin:0">Em preparação</span> <span class="muted">conteúdo sendo produzido</span></li>
+          <ul class="lista-empilhada">
+            <li><span class="status status--done sem-margem">Entregue</span> <span class="muted">implementado e comprovável</span></li>
+            <li><span class="status status--evolving sem-margem">Em evolução</span> <span class="muted">em construção ativa</span></li>
+            <li><span class="status status--designed sem-margem">Arquitetura documentada</span> <span class="muted">projetado, não executado</span></li>
+            <li><span class="status status--soon sem-margem">Em preparação</span> <span class="muted">conteúdo sendo produzido</span></li>
           </ul>
         </div>
       </div>
@@ -641,7 +762,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
         pensados como uma única cadeia de valor.
       </p>
 
-      <div class="grid grid--3" style="margin-top:3rem">
+      <div class="grid grid--3 mt-12">
 
         <article class="card reveal">
           <div class="card__icon" aria-hidden="true">
@@ -711,20 +832,15 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Laboratório DataOps: pipeline analítico ponta a ponta</h3>
-          <p>
-            Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a
-            fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade
-            para chaves e reconciliação, princípio de menor privilégio e segredos fora do
-            versionamento.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> arquitetura e plano técnico documentados para estudo de
-            Engenharia de Dados. As conexões, cargas, transformações e métricas descritas não foram
-            executadas neste projeto de portfólio.
-          </p>
+          <p>Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade para chaves e reconciliação, princípio de menor privilégio e segredos fora do versionamento.</p>
+          <p class="scope"><b>Declaração de escopo:</b> arquitetura e plano técnico documentados para estudo de Engenharia de Dados. As conexões, cargas, transformações e métricas descritas não foram executadas neste projeto de portfólio.</p>
           <ul class="taglist">
-            <li class="tag">PostgreSQL</li><li class="tag">Docker</li><li class="tag">Airbyte</li>
-            <li class="tag">Snowflake</li><li class="tag">dbt</li><li class="tag">Power BI</li>
+            <li class="tag">PostgreSQL</li>
+            <li class="tag">Docker</li>
+            <li class="tag">Airbyte</li>
+            <li class="tag">Snowflake</li>
+            <li class="tag">dbt</li>
+            <li class="tag">Power BI</li>
           </ul>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com governança, qualidade e menor privilégio.">
@@ -754,19 +870,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Orquestração de Processamento Fiscal</h3>
-          <p>
-            Case público de arquitetura para processar documentos fiscais por fila rastreável,
-            com idempotência, reserva de worker, retentativas controladas e acompanhamento operacional.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio.
-            Não inclui aplicativo, automações, robôs, portais, ambientes ou alegação de execução em produção.
-          </p>
+          <p>Case público de arquitetura para processar documentos fiscais por fila rastreável, com idempotência, reserva de worker, retentativas controladas e acompanhamento operacional.</p>
+          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, robôs, portais, ambientes ou alegação de execução em produção.</p>
           <ul class="taglist">
-            <li class="tag">Power Apps Canvas</li><li class="tag">Dataverse</li><li class="tag">Power Automate</li>
-            <li class="tag">RPA</li><li class="tag">Observabilidade</li>
+            <li class="tag">Power Apps Canvas</li>
+            <li class="tag">Dataverse</li>
+            <li class="tag">Power Automate</li>
+            <li class="tag">RPA</li>
+            <li class="tag">Observabilidade</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fiscal-process-orchestrator-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/fiscal-process-orchestrator-case" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Arquitetura de orquestração fiscal: importação validada cria uma fila no Dataverse; o orquestrador cloud distribui o trabalho ao worker RPA e registra o retorno no monitoramento.">
             <div class="diagram-header"><p class="diagram-kicker">Operação assíncrona</p><b>Fila e workers</b></div>
@@ -785,21 +898,17 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--done">Projeto acadêmico concluído</span>
           <h3>Câmara dos Deputados — Pipeline Lakehouse</h3>
-          <p>
-            Pipeline ponta a ponta com dados abertos da Câmara dos Deputados. Integra 17 endpoints
-            da API pública, organiza dados nas camadas Bronze, Silver e Gold e produz análises de
-            presença, despesas, votações, frentes parlamentares e tramitação de proposições.
-          </p>
-          <p class="scope">
-            <b>Evidências:</b> pipeline local executado com amostras públicas, 48 testes
-            automatizados e validação contínua no GitHub. O repositório inclui documentação,
-            diagramas e apresentações técnicas.
-          </p>
+          <p>Pipeline ponta a ponta com dados abertos da Câmara dos Deputados. Integra 17 endpoints da API pública, organiza dados nas camadas Bronze, Silver e Gold e produz análises de presença, despesas, votações, frentes parlamentares e tramitação de proposições.</p>
+          <p class="scope"><b>Evidências:</b> pipeline local executado com amostras públicas, 48 testes automatizados e validação contínua no GitHub. O repositório inclui documentação, diagramas e apresentações técnicas.</p>
           <ul class="taglist">
-            <li class="tag">Python</li><li class="tag">PySpark</li><li class="tag">Delta Lake</li>
-            <li class="tag">Databricks</li><li class="tag">Data Quality</li><li class="tag">GitHub Actions</li>
+            <li class="tag">Python</li>
+            <li class="tag">PySpark</li>
+            <li class="tag">Delta Lake</li>
+            <li class="tag">Databricks</li>
+            <li class="tag">Data Quality</li>
+            <li class="tag">GitHub Actions</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fast-track-engenharia-v3" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/fast-track-engenharia-v3" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Pipeline Lakehouse com API pública, camadas Bronze, Silver e Gold e consumo analítico, apoiado por qualidade de dados e automação de testes.">
             <div class="diagram-header"><p class="diagram-kicker">Lakehouse público</p><b>Bronze · Silver · Gold</b></div>
@@ -818,19 +927,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Solicitações Financeiras</h3>
-          <p>
-            Case público de arquitetura para solicitações financeiras individuais ou em lote,
-            com rateio, evidências, acompanhamento de status e integração assíncrona com ERP.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio.
-            Não inclui aplicativo, automações, ambiente, integrações ou alegação de uso em produção.
-          </p>
+          <p>Case público de arquitetura para solicitações financeiras individuais ou em lote, com rateio, evidências, acompanhamento de status e integração assíncrona com ERP.</p>
+          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, ambiente, integrações ou alegação de uso em produção.</p>
           <ul class="taglist">
-            <li class="tag">Power Apps Canvas</li><li class="tag">Power Automate</li><li class="tag">Integração ERP</li>
-            <li class="tag">Modelagem de Dados</li><li class="tag">Testes</li>
+            <li class="tag">Power Apps Canvas</li>
+            <li class="tag">Power Automate</li>
+            <li class="tag">Integração ERP</li>
+            <li class="tag">Modelagem de Dados</li>
+            <li class="tag">Testes</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/financial-request-workflow-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/financial-request-workflow-case" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Jornada da solicitação financeira: rascunho, validação, envio, processamento assíncrono e liquidação, com rateio, evidências e rastreabilidade.">
             <div class="diagram-header"><p class="diagram-kicker">Jornada financeira</p><b>Solicitação rastreável</b></div>
@@ -849,21 +955,16 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Governança de Delivery para Power Platform</h3>
-          <p>
-            Kit público de playbooks e templates para conduzir entregas de Power Platform com
-            escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão
-            explícita de liberação.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> material de referência recriado para portfólio. Não
-            contém aplicações, soluções, fluxos, ambientes ou dados de cliente e não afirma uma
-            implantação específica em produção.
-          </p>
+          <p>Kit público de playbooks e templates para conduzir entregas de Power Platform com escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão explícita de liberação.</p>
+          <p class="scope"><b>Declaração de escopo:</b> material de referência recriado para portfólio. Não contém aplicações, soluções, fluxos, ambientes ou dados de cliente e não afirma uma implantação específica em produção.</p>
           <ul class="taglist">
-            <li class="tag">ALM</li><li class="tag">Quality Gates</li><li class="tag">Rastreabilidade</li>
-            <li class="tag">Acessibilidade</li><li class="tag">Gestão de Riscos</li>
+            <li class="tag">ALM</li>
+            <li class="tag">Quality Gates</li>
+            <li class="tag">Rastreabilidade</li>
+            <li class="tag">Acessibilidade</li>
+            <li class="tag">Gestão de Riscos</li>
           </ul>
-          <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/power-platform-delivery-governance" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/power-platform-delivery-governance" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Fluxo de governança de delivery: descoberta, build, qualidade, decisão de Go ou No-Go e release, com escopo, riscos e evidências rastreáveis.">
             <div class="diagram-header"><p class="diagram-kicker">Delivery governado</p><b>Gates de qualidade</b></div>
@@ -878,21 +979,20 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           </figure>
         </article>
 
-        <article id="case-field-operations" class="card case-card reveal">
+        <article class="card case-card reveal" id="case-field-operations">
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Operações de Campo</h3>
-          <p>
-            Case público de arquitetura para registrar atividades de campo em um fluxo responsivo.
-            A modelagem cobre dados gerais, localização, equipe, serviços, anexos e um documento de encerramento.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo original, fluxos, ambientes ou uma alegação de implantação em produção.
-          </p>
+          <p>Case público de arquitetura para registrar atividades de campo em um fluxo responsivo. A modelagem cobre dados gerais, localização, equipe, serviços, anexos e um documento de encerramento.</p>
+          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo original, fluxos, ambientes ou uma alegação de implantação em produção.</p>
           <ul class="taglist">
-            <li class="tag">Power Apps Canvas</li><li class="tag">Power Automate</li><li class="tag">Modelagem de Dados</li><li class="tag">Acessibilidade</li><li class="tag">Testes</li>
+            <li class="tag">Power Apps Canvas</li>
+            <li class="tag">Power Automate</li>
+            <li class="tag">Modelagem de Dados</li>
+            <li class="tag">Acessibilidade</li>
+            <li class="tag">Testes</li>
           </ul>
-          <a class="button button--secondary" href="https://github.com/IldeanFreitas/field-operations-workflow-case" target="_blank" rel="noreferrer">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          <a class="btn btn--ghost mt-6" href="https://github.com/IldeanFreitas/field-operations-workflow-case" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
           </div>
           <figure class="architecture-diagram" role="img" aria-label="Fluxo de operações de campo: rascunho, etapas de execução, evidências, envio e documento final, com dados, equipe e serviços registrados.">
             <div class="diagram-header"><p class="diagram-kicker">Execução em campo</p><b>Fluxo responsivo</b></div>
@@ -941,27 +1041,54 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           </ul>
         </div>
 
-        <figure class="case-visual">
-          <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." loading="lazy" width="1672" height="944">
-          <figcaption>Representação visual ilustrativa da arquitetura documentada.</figcaption>
+        <figure class="architecture-diagram" role="img" aria-label="Arquitetura da plataforma de dados na AWS: sistemas operacionais, arquivos, APIs e dispositivos alimentam as camadas Bronze, Silver e Gold no AWS S3 por pipelines ETL, consumidas em dashboards, análises, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
+          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em AWS S3</b></div>
+          <div class="diagram-data-layout">
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Fontes</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Sistemas operacionais</span><span class="diagram-stage__meta">Bases transacionais</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Arquivos</span><span class="diagram-stage__meta">Logs e CSV</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">APIs e serviços</span><span class="diagram-stage__meta">Integrações</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Dispositivos</span><span class="diagram-stage__meta">Telemetria e IoT</span></div>
+            </section>
+            <section class="diagram-zone diagram-zone--pipeline">
+              <p class="diagram-zone__title">Pipeline de dados</p>
+              <div class="diagram-layer"><span class="diagram-layer__mark">BRZ</span><div><b>Bronze · AWS S3</b><span>Dado bruto, rastreável</span></div></div>
+              <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__mark">SLV</span><div><b>Silver · ETL</b><span>Padronização e validação</span></div></div>
+              <div class="diagram-layer"><span class="diagram-layer__mark">GLD</span><div><b>Gold · AWS S3</b><span>Pronto para consumo</span></div></div>
+            </section>
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Consumo</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Dashboards</span><span class="diagram-stage__meta">Indicadores</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Análises avançadas</span><span class="diagram-stage__meta">Exploração</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Modelos</span><span class="diagram-stage__title">Machine learning</span><span class="diagram-stage__meta">Casos previstos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrega</span><span class="diagram-stage__title">Data marts</span><span class="diagram-stage__meta">Aplicações</span></div>
+            </section>
+          </div>
+          <div class="diagram-foundation"><span><b>Catálogo</b>Metadados e linhagem</span><span><b>Acesso</b>Políticas e permissões</span><span><b>Qualidade</b>Regras e validações</span><span><b>Operação</b>Monitoramento e auditoria</span></div>
         </figure>
-        <button class="btn btn--ghost image-expand" type="button" data-image-dialog="awsArchitectureDialog" aria-haspopup="dialog">Ampliar imagem</button>
       </div>
 
-      <div class="case-detail__layers" aria-label="Descrição das camadas da arquitetura">
-        <article class="case-detail__layer">
+      <!-- Título oculto no lugar de aria-label. O rótulo anterior estava num
+           <div> sem role e era descartado por leitor de tela; movido para <ul>
+           continuaria recusado, porque o papel "list" não aceita nome de
+           autor. Um título real resolve melhor: entra na navegação por
+           títulos e dispensa ARIA. -->
+      <h3 class="sr-only">Camadas da arquitetura</h3>
+      <ul class="case-detail__layers">
+        <li class="case-detail__layer">
           <b>BRONZE</b>
           <p>Recebe os dados na forma mais próxima possível da origem, preservando rastreabilidade e base para reprocessamentos.</p>
-        </article>
-        <article class="case-detail__layer">
+        </li>
+        <li class="case-detail__layer">
           <b>SILVER</b>
           <p>Concentra padronização, tratamentos e validações necessários para elevar a qualidade e a consistência dos dados.</p>
-        </article>
-        <article class="case-detail__layer">
+        </li>
+        <li class="case-detail__layer">
           <b>GOLD</b>
           <p>Disponibiliza dados organizados para consumo analítico e suporte à tomada de decisão.</p>
-        </article>
-      </div>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -1026,7 +1153,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
       <p class="eyebrow">Formação e certificações</p>
       <h2>Base acadêmica e credenciais</h2>
 
-      <div class="grid grid--2" style="margin-top:3rem">
+      <div class="grid grid--2 mt-12">
 
         <div class="card">
           <h3>Formação acadêmica e profissional</h3>
@@ -1068,7 +1195,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
               <div class="meta"><span>Data Science Academy · credencial <code>67352a79cd1ad941e10835fc</code></span><span class="when">Ago 2026</span></div>
             </li>
           </ul>
-          <p class="dim" style="font-size:.86rem;margin:1.25rem 0 0">
+          <p class="dim texto-miudo sem-margem mt-5">
             Idiomas: português (nativo) e inglês (básico).
           </p>
         </div>
@@ -1090,7 +1217,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
         <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Falar pelo LinkedIn</a>
         <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">Ver o GitHub</a>
       </div>
-      <p class="dim" style="margin-top:2.25rem;font-size:.86rem">
+      <p class="dim texto-miudo mt-9">
         Marabá, Pará · Brasil · disponível para atuação remota
       </p>
     </div>
@@ -1098,20 +1225,10 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 
 </main>
 
-<dialog class="image-dialog" id="awsArchitectureDialog" aria-labelledby="awsArchitectureDialogTitle">
-  <div class="image-dialog__header">
-    <h2 id="awsArchitectureDialogTitle">Arquitetura da Plataforma de Dados Integrada na AWS</h2>
-    <button class="icon-btn" type="button" data-close-image-dialog aria-label="Fechar visualização ampliada">×</button>
-  </div>
-  <div class="image-dialog__content">
-    <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." width="1672" height="944">
-    <p>Representação visual ilustrativa de um projeto acadêmico aplicado, sem dados corporativos ou de terceiros.</p>
-  </div>
-</dialog>
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
-    <p style="margin:0">© <span id="ano">2026</span> Ildean Freitas · Conteúdo próprio, sem dados corporativos.</p>
+    <p class="sem-margem">© <span id="ano">2026</span> Ildean Freitas · Conteúdo próprio, sem dados corporativos.</p>
     <ul class="footer-links">
       <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn</a></li>
       <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub</a></li>
@@ -1124,94 +1241,176 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 (function () {
   'use strict';
 
-  document.getElementById('ano').textContent = new Date().getFullYear();
+  var raiz = document.documentElement;
 
-  /* ---- Tema ---- */
-  var root = document.documentElement;
-  var themeBtn = document.getElementById('themeToggle');
-  var themeIcon = document.getElementById('themeIcon');
-  var SUN = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
-  var MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
-
-  function setTheme(mode) {
-    root.setAttribute('data-theme', mode);
-    themeBtn.setAttribute('aria-pressed', String(mode === 'dark'));
-    themeIcon.innerHTML = mode === 'dark' ? MOON : SUN;
-  }
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) setTheme('light');
-  themeBtn.addEventListener('click', function () {
-    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-  });
-
-  /* ---- Menu mobile ---- */
-  var nav = document.getElementById('nav');
-  var navBtn = document.getElementById('navToggle');
-  var navLabel = document.getElementById('navToggleLabel');
-  function closeNav(){ nav.setAttribute('data-open','false'); navBtn.setAttribute('aria-expanded','false'); navLabel.textContent='Abrir menu'; }
-  navBtn.addEventListener('click', function () {
-    var open = nav.getAttribute('data-open') === 'true';
-    nav.setAttribute('data-open', String(!open));
-    navBtn.setAttribute('aria-expanded', String(!open));
-    navLabel.textContent = open ? 'Abrir menu' : 'Fechar menu';
-  });
-  nav.addEventListener('click', function (e) { if (e.target.closest('.nav__link')) closeNav(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && nav.getAttribute('data-open') === 'true') { closeNav(); navBtn.focus(); }
-  });
-
-  /* ---- Seção ativa ---- */
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
-  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        links.forEach(function (a) {
-          if (a.getAttribute('href') === '#' + entry.target.id) a.setAttribute('aria-current','true');
-          else a.removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(function (s) { spy.observe(s); });
+  /* Cada funcionalidade roda isolada. Antes, tudo vivia num escopo só e a
+     primeira instrução acessava #ano sem guarda: renomear o elemento do
+     rodapé lançava TypeError e matava tema, menu, navegação, revelação e
+     modal de uma vez. Agora a falha de uma não alcança as outras, e o console
+     diz qual quebrou em vez de silenciar a página inteira. */
+  function iniciar(nome, fn) {
+    try {
+      fn();
+    } catch (erro) {
+      console.error('[site] falha em "' + nome + '":', erro);
+    }
   }
 
-  /* ---- Revelação ---- */
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var items = document.querySelectorAll('.reveal');
-  if (reduced || !('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('is-visible'); });
-  } else {
-    var io = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.12 });
-    items.forEach(function (el) { io.observe(el); });
-  }
-
-  /* ---- Foco no destino da âncora ---- */
-  document.addEventListener('click', function (e) {
-    var link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-    var target = document.querySelector(link.getAttribute('href'));
-    if (!target) return;
-    target.setAttribute('tabindex','-1');
-    setTimeout(function () { target.focus({ preventScroll: true }); }, 320);
+  iniciar('ano do rodapé', function () {
+    var ano = document.getElementById('ano');
+    if (!ano) return;
+    ano.textContent = new Date().getFullYear();
   });
 
-  /* ---- Ampliação do diagrama do case AWS ---- */
-  var imageDialogButton = document.querySelector('[data-image-dialog]');
-  var imageDialog = document.getElementById('awsArchitectureDialog');
-  var imageDialogClose = document.querySelector('[data-close-image-dialog]');
-  if (imageDialogButton && imageDialog && imageDialogClose && typeof imageDialog.showModal === 'function') {
-    imageDialogButton.addEventListener('click', function () { imageDialog.showModal(); });
-    imageDialogClose.addEventListener('click', function () { imageDialog.close(); });
-    imageDialog.addEventListener('click', function (event) {
-      if (event.target === imageDialog) imageDialog.close();
+  iniciar('tema', function () {
+    var botao = document.getElementById('themeToggle');
+    var icone = document.getElementById('themeIcon');
+    if (!botao || !icone) return;
+
+    var SOL =
+      '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+    var LUA = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+
+    function aplicar(modo, salvar) {
+      raiz.setAttribute('data-theme', modo);
+      botao.setAttribute('aria-pressed', String(modo === 'dark'));
+      icone.innerHTML = modo === 'dark' ? LUA : SOL;
+      if (!salvar) return;
+      try {
+        localStorage.setItem('tema', modo);
+      } catch (e) {
+        /* Modo privado. A troca vale para esta sessão e não persiste. */
+      }
+    }
+
+    /* O tema já foi decidido pelo script do <head>, antes da primeira pintura.
+       Aqui apenas sincronizamos o botão e o ícone com o que está valendo. */
+    aplicar(raiz.getAttribute('data-theme') === 'light' ? 'light' : 'dark', false);
+
+    botao.addEventListener('click', function () {
+      aplicar(raiz.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
     });
-  }
+  });
+
+  iniciar('menu compacto', function () {
+    var nav = document.getElementById('nav');
+    var botao = document.getElementById('navToggle');
+    var rotulo = document.getElementById('navToggleLabel');
+    if (!nav || !botao || !rotulo) return;
+
+    function fechar() {
+      nav.setAttribute('data-open', 'false');
+      botao.setAttribute('aria-expanded', 'false');
+      rotulo.textContent = 'Abrir menu';
+    }
+
+    botao.addEventListener('click', function () {
+      var aberto = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', String(!aberto));
+      botao.setAttribute('aria-expanded', String(!aberto));
+      rotulo.textContent = aberto ? 'Abrir menu' : 'Fechar menu';
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('.nav__link')) fechar();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.getAttribute('data-open') === 'true') {
+        fechar();
+        botao.focus();
+      }
+    });
+  });
+
+  iniciar('seção ativa', function () {
+    if (!('IntersectionObserver' in window)) return;
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
+    var secoes = links
+      .map(function (a) {
+        return document.querySelector(a.getAttribute('href'));
+      })
+      .filter(Boolean);
+    if (!secoes.length) return;
+
+    var observador = new IntersectionObserver(
+      function (entradas) {
+        entradas.forEach(function (entrada) {
+          if (!entrada.isIntersecting) return;
+          links.forEach(function (a) {
+            /* "location" é o valor previsto para posição dentro da mesma página;
+             "true" fazia o leitor de tela anunciar "atual" sem qualificar. */
+            if (a.getAttribute('href') === '#' + entrada.target.id)
+              a.setAttribute('aria-current', 'location');
+            else a.removeAttribute('aria-current');
+          });
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+
+    secoes.forEach(function (s) {
+      observador.observe(s);
+    });
+  });
+
+  iniciar('revelação', function () {
+    var itens = document.querySelectorAll('.reveal');
+    var reduzido =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduzido || !('IntersectionObserver' in window)) {
+      itens.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    } else {
+      var observador = new IntersectionObserver(
+        function (entradas, obs) {
+          entradas.forEach(function (entrada) {
+            if (!entrada.isIntersecting) return;
+            entrada.target.classList.add('is-visible');
+            obs.unobserve(entrada.target);
+          });
+        },
+        { threshold: 0.12 }
+      );
+      itens.forEach(function (el) {
+        observador.observe(el);
+      });
+    }
+
+    /* Desarma a trava do <head>: a revelação está de pé e vai conseguir
+       mostrar o conteúdo. Sem esta linha, a classe cai em 1,2s e tudo
+       aparece sem animação — que é a falha correta. */
+    raiz.setAttribute('data-revelacao-pronta', '');
+  });
+
+  iniciar('foco na âncora', function () {
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var alvo = document.querySelector(link.getAttribute('href'));
+      if (!alvo) return;
+      alvo.setAttribute('tabindex', '-1');
+
+      function focar() {
+        alvo.focus({ preventScroll: true });
+      }
+
+      /* scrollend dispara quando a rolagem suave termina de fato. O timeout
+         é o plano B para navegadores sem o evento — antes ele era a única
+         estratégia, com 320ms chutados contra uma duração que o CSS não
+         expõe. */
+      if ('onscrollend' in window) {
+        document.addEventListener('scrollend', focar, { once: true });
+        window.setTimeout(function () {
+          document.removeEventListener('scrollend', focar);
+        }, 1000);
+      } else {
+        window.setTimeout(focar, 320);
+      }
+    });
+  });
 })();
 </script>
 </body>

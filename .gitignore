@@ -34,3 +34,20 @@ desktop.ini
 node_modules/
 dist/
 .cache/
+
+# ---- Ferramentas de qualidade (etapa 0 da refatoração) ----
+npm-debug.log*
+*.log
+
+# Saída do Playwright. As capturas de referência em
+# tests/*-snapshots/ SÃO versionadas: sem elas a etapa 2 não teria
+# contra o que comparar.
+test-results/
+playwright-report/
+blob-report/
+
+# Capturas de referencia visual: 21 MB por conjunto, e o Git guardaria cada
+# versao para sempre. Sao artefato local e transitorio -- gere com
+# `npm run baseline` antes de comecar uma etapa, compare com
+# `npm run test:visual` ao termina-la. Ver docs/QUALIDADE.md.
+tests/*-snapshots/

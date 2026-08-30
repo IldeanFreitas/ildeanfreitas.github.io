@@ -1,0 +1,54 @@
+/* =========================================================
+   CARTÕES
+   ========================================================= */
+.grid{display:grid;gap:1.25rem}
+.grid--3{grid-template-columns:repeat(auto-fit,minmax(285px,1fr))}
+.grid--2{grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr))}
+
+.card{
+  background:var(--surface-card);border:1px solid var(--border);
+  border-radius:var(--r-card);padding:1.85rem;
+  display:flex;flex-direction:column;
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease
+}
+.card:hover{border-color:var(--border-lime);transform:translateY(-3px);box-shadow:var(--glow)}
+.card__icon{
+  width:2.9rem;height:2.9rem;display:grid;place-items:center;margin-bottom:1.1rem;
+  border-radius:var(--r-sm);background:var(--lime-soft);
+  border:1px solid var(--border-lime);color:var(--accent)
+}
+.card p{color:var(--text-muted);font-size:.94rem}
+.card p:last-of-type{margin-bottom:1.25rem}
+
+.taglist{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto}
+.tag{
+  font-size:.75rem;font-weight:600;color:var(--text-muted);
+  background:var(--surface-soft);border:1px solid var(--border);
+  padding:.28rem .7rem;border-radius:var(--r-pill)
+}
+
+/* Selos de status */
+.status{
+  display:inline-flex;align-items:center;gap:.45rem;align-self:flex-start;
+  font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  padding:.32rem .8rem;border-radius:var(--r-pill);margin-bottom:1rem;
+  border:1px solid currentColor
+}
+.status::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:currentColor;flex:none}
+.status--done{color:var(--ok);background:var(--ok-bg)}
+.status--evolving{color:var(--warn);background:var(--warn-bg)}
+.status--designed{color:var(--info);background:var(--info-bg)}
+.status--soon{color:var(--idle);background:var(--idle-bg)}
+
+.scope{
+  font-size:.86rem;color:var(--text-muted);
+  border-left:2px solid var(--border-lime);padding-left:.9rem;margin:0 0 1.25rem
+}
+.scope b{color:var(--text);font-weight:600}
+
+.note{
+  background:var(--surface-card);border:1px solid var(--border-lime);
+  border-radius:var(--r-card);padding:1.5rem 1.75rem;color:var(--text-muted);
+  font-size:.95rem;margin-top:2.5rem
+}
+.note b{color:var(--text)}

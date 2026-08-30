@@ -1,0 +1,20 @@
+node_modules/
+package-lock.json
+assets/fonts/
+assets/img/
+tests/*-snapshots/
+test-results/
+
+# Gerado pelo build.
+index.html
+
+# Estilo compacto deliberado (uma regra por linha). O Prettier expandiria
+# tudo, trocando a escolha do autor por um diff de arquivo inteiro. Quem
+# valida estes arquivos é o stylelint.
+src/css/
+src/index.template.html
+src/404.template.html
+
+# Herdados, reescritos em etapas posteriores do plano.
+404.html
+README.md

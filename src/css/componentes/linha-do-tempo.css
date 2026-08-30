@@ -1,0 +1,18 @@
+/* =========================================================
+   LINHA DO TEMPO
+   ========================================================= */
+.timeline{position:relative;padding-left:2.1rem;margin-top:3rem}
+.timeline::before{content:"";position:absolute;left:.42rem;top:.7rem;bottom:.7rem;width:1px;background:var(--border-strong)}
+.timeline > li{position:relative;padding-bottom:2.5rem}
+.timeline > li:last-child{padding-bottom:0}
+.timeline > li::before{
+  content:"";position:absolute;left:-1.83rem;top:.6rem;width:.8rem;height:.8rem;
+  border-radius:50%;background:var(--bg);border:1px solid var(--border-strong)
+}
+.timeline > li[data-current]::before{background:var(--accent-solid);border-color:var(--accent-solid);box-shadow:var(--glow)}
+.timeline time{
+  display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.35rem
+}
+.timeline h3{font-size:1.05rem;margin-bottom:.35rem}
+.timeline p{color:var(--text-muted);font-size:.92rem;margin:0}

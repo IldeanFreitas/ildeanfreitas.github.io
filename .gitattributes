@@ -1,0 +1,8 @@
+# Fim de linha normalizado. Os arquivos do repositório tinham CRLF e LF
+# misturados no mesmo arquivo, o que fazia o build gerar um index.html
+# diferente do versionado sem nenhuma mudança de conteúdo.
+* text=auto eol=lf
+
+# Binários: nunca normalizar.
+*.png binary
+*.woff2 binary

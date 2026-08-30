@@ -1,0 +1,13 @@
+/* Fluxo de arquitetura */
+.flow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .1rem;
+  background:var(--surface-soft);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:1rem;margin:0 0 1.35rem
+}
+.flow li{display:inline-flex;align-items:center;font-size:.78rem;font-weight:600;white-space:nowrap}
+.flow li > span:first-child{
+  padding:.4rem .7rem;line-height:1.25;background:var(--bg);
+  border:1px solid var(--border-strong);border-radius:10px
+}
+.flow li:not(:last-child)::after{content:"→";color:var(--accent);font-weight:700;padding:0 .45rem}
+.flow small{display:block;color:var(--text-dim);font-size:.66rem;font-weight:500}

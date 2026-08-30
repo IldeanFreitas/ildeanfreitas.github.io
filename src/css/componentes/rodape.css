@@ -1,0 +1,16 @@
+/* =========================================================
+   CONTATO E RODAPÉ
+   ========================================================= */
+.contact{text-align:center;position:relative;overflow:hidden}
+.contact::before{
+  content:"";position:absolute;inset:auto 0 -55% 0;height:100%;z-index:-1;
+  background:radial-gradient(45% 60% at 50% 100%,rgba(162,183,0,.20),transparent 70%)
+}
+.contact .lead{margin-inline:auto}
+.contact .actions{justify-content:center}
+
+.site-footer{border-top:1px solid var(--border);padding:2.75rem 0;background:var(--bg-alt)}
+.site-footer__inner{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;font-size:.86rem;color:var(--text-dim)}
+.site-footer a{color:var(--text-muted);text-decoration:none}
+.site-footer a:hover{color:var(--accent)}
+.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}

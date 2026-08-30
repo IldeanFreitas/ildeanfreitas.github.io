@@ -1,0 +1,33 @@
+/* Revelação suave.
+   O conteúdo NASCE VISÍVEL. A animação de entrada só é habilitada quando o
+   JavaScript adiciona .js-anima na raiz e confirma que consegue revelar de
+   volta. Sem JavaScript, ou com ele falhando, nada anima e tudo se lê — que
+   é a degradação correta. A regra anterior escondia 13 blocos por padrão e
+   dependia do observer para trazê-los de volta. */
+.js-anima .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.js-anima .reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js-anima .reveal{opacity:1;transform:none}}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Espaçamento e tipografia. Substituem os 15 atributos style que existiam no
+   HTML. Poucas e nomeadas de propósito: uma classe por valor realmente usado,
+   não uma matriz completa de utilitários que ninguém precisa.
+
+   O build envolve este arquivo em `@layer utilitarios`, que vem depois de
+   `componentes`. Por isso seletores de uma classe só bastam: a camada decide
+   quem vence, não a especificidade. Sem ela, `.card p:last-of-type` (0,2,1)
+   ganharia de `.texto-miudo` (0,1,0) e o tamanho do texto voltaria ao do
+   cartão sem ninguém perceber. Ver scripts/build.mjs. */
+.sem-margem{margin:0}
+.mt-5{margin-top:var(--space-5)}
+.mt-6{margin-top:var(--space-6)}
+.mt-9{margin-top:var(--space-9)}
+.mt-10{margin-top:var(--space-10)}
+.mt-12{margin-top:var(--space-12)}
+.texto-miudo{font-size:.86rem}
+
+/* Lista empilhada sem marcador — usada no cartão de status dos cases. */
+.lista-empilhada{display:flex;flex-direction:column;gap:var(--space-3);font-size:.9rem}
+
+@media print{.site-header,.actions,.skip,.site-footer,.hero__bg{display:none}body{background:#fff;color:#000}}
