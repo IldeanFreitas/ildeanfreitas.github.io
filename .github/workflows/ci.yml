@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint e validação
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint de CSS
+        run: npm run lint:css
+
+      - name: Lint de JavaScript
+        run: npm run lint:js
+
+      - name: Validar HTML
+        run: npm run lint:html
+
+      - name: Conferir formatação
+        run: npm run format:check
+
+  # Comportamento, acessibilidade e o teste sem JavaScript.
+  #
+  # A regressão visual fica FORA do CI de propósito: as capturas de referência
+  # são renderizadas pelo sistema operacional, e as versionadas têm sufixo
+  # -win32. Rodá-las no Linux compararia contra outro rasterizador de fonte e
+  # falharia sempre. É um portão local, executado com `npm run test:visual`
+  # antes de fechar cada etapa.
+  behaviour:
+    name: Comportamento e acessibilidade
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Instalar navegador
+        run: npx playwright install chromium --with-deps
+
+      - name: Testes
+        run: npm test
+
+  no-secrets:
+    name: Varredura de segredos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

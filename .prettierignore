@@ -1,0 +1,13 @@
+node_modules/
+package-lock.json
+assets/fonts/
+assets/img/
+tests/*-snapshots/
+
+# Artefatos gerados ou herdados: index.html e 404.html passam a ser gerados na
+# etapa 2, e o README é reescrito na etapa 5. Formatá-los agora produziria um
+# diff de arquivo inteiro (normalização de fim de linha) que esconderia o
+# conteúdo real de cada etapa.
+index.html
+404.html
+README.md
