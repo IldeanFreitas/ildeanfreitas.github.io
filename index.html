@@ -854,7 +854,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <span class="status status--evolving">Em evolução</span>
           <h3>Laboratório DataOps: pipeline analítico ponta a ponta</h3>
           <p>Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.</p>
-          <p class="scope"><b>Evidências e limites:</b> as etapas de 1 a 9 estão concluídas e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.</p>
+          <p class="scope"><b>Evidências e limites:</b> as etapas de 1 a 9 estão concluídas: 22 modelos dbt sobre uma fato de 16.044 linhas, com o dbt build fechando 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.</p>
           <ul class="taglist">
             <li class="tag">PostgreSQL</li>
             <li class="tag">Docker</li>
@@ -978,7 +978,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <span class="status status--evolving">Em evolução</span>
           <h3>Governança de Delivery para Power Platform</h3>
           <p>Kit público de playbooks e templates para conduzir entregas de Power Platform com escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão explícita de liberação.</p>
-          <p class="scope"><b>Declaração de escopo:</b> material de referência recriado para portfólio. Não contém aplicações, soluções, fluxos, ambientes ou dados de cliente e não afirma uma implantação específica em produção.</p>
+          <p class="scope"><b>Declaração de escopo:</b> 3 playbooks e 3 templates cobrindo descoberta, garantia de construção e liberação, com portão de aceite declarado em cada fase. É material de referência para adaptação, não uma Solution exportada nem processo de cliente algum.</p>
           <ul class="taglist">
             <li class="tag">ALM</li>
             <li class="tag">Quality Gates</li>
@@ -1005,7 +1005,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Biblioteca de Componentes para Power Platform</h3>
-          <p>Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de propriedades e eventos. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.</p>
+          <p>Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de 7 propriedades de entrada e 3 eventos de saída, em 3 variantes e 2 temas. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.</p>
           <p class="scope"><b>Declaração de escopo:</b> código de referência em PaYaml, com contrato, variantes e critérios de acessibilidade documentados. Não é um .msapp exportado nem uma Solution pronta para importar: usar em produção exige recriar o componente no Studio e validar com pac canvas pack.</p>
           <ul class="taglist">
             <li class="tag">Power Apps Canvas</li>
