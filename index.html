@@ -434,15 +434,25 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
 .diagram-stage__meta{color:var(--text-dim);font-size:.67rem;line-height:1.35}
 .diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
-.diagram-foundation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+/* auto-fit em vez de 3 colunas fixas: a faixa de governança tem entre tres
+   e cinco itens dependendo do case, e o numero fixo deixava o quarto item
+   sozinho numa segunda linha. */
+.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
 .diagram-foundation span{color:var(--text-muted);font-size:.66rem;line-height:1.3}
 .diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase}
 .diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
 .diagram-zone{min-width:0;padding:.7rem;border:1px solid var(--border);border-radius:var(--r-sm);background:rgba(4,12,14,.48)}
 .diagram-zone__title{margin:0 0 .6rem;color:var(--text-dim);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.diagram-zone--pipeline{display:grid;gap:.45rem}
+/* O titulo fica na altura natural e as camadas dividem o espaco restante.
+   Sem grid-auto-rows, a linha do titulo esticava junto e abria um vao entre
+   ele e a primeira camada quando outra zona era mais alta. */
+.diagram-zone--pipeline{display:grid;gap:.45rem;grid-template-rows:auto;grid-auto-rows:1fr}
 .diagram-layer{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.5rem;padding:.55rem .6rem;border:1px solid var(--border);border-radius:8px;background:rgba(4,12,14,.62)}
 .diagram-layer--accent{border-color:var(--border-lime);background:linear-gradient(90deg,rgba(198,223,0,.12),rgba(4,12,14,.62))}
+/* O div que envolve o rótulo e a descrição precisa empilhar: <b> e <span>
+   são inline por padrão, e sem isto saía "Snowflake RAWDados recebidos"
+   numa linha só. Defeito que já estava em producao nos seis diagramas. */
+.diagram-layer>div{display:grid;gap:.1rem;min-width:0}
 .diagram-layer b{color:var(--text);font-size:.72rem;line-height:1.15}
 .diagram-layer span{color:var(--text-dim);font-size:.62rem;line-height:1.25}
 .diagram-layer__mark{display:grid;place-items:center;width:2.05rem;height:2.05rem;border:1px solid var(--border-lime);border-radius:7px;color:var(--accent);font-size:.62rem;font-weight:800;letter-spacing:.04em}
@@ -457,33 +467,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   .diagram-layer{grid-template-columns:1fr;text-align:center}.diagram-layer__mark{justify-self:center}
 }
 @media(max-width:430px){.diagram-foundation{grid-template-columns:1fr}.diagram-zone--pipeline{grid-template-columns:1fr}}
-}
-
-@layer componentes{
-/* Case acadêmico AWS */
-/* O #000 aqui era literal, não token: a imagem do case tem fundo preto e o
-   quadro foi feito para casar com ela. Mas o figcaption usa var(--text-dim),
-   que no tema claro vira #5b6a68 — texto claro sobre preto fixo, contraste
-   3.7:1, abaixo do mínimo de 4.5:1.
-   A imagem continua sobre preto (é o fundo dela); a legenda passa a usar a
-   superfície do tema, que acompanha claro e escuro. */
-.case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:var(--bg-alt)}
-.case-visual img{display:block;width:100%;height:auto;background:#000}
-.case-visual figcaption{padding:.85rem 1rem;color:var(--text-muted);font-size:.82rem;background:var(--surface-soft)}
-.image-expand{margin-top:1rem}
-.image-dialog{width:min(96vw,1500px);max-height:92vh;margin:auto;padding:0;color:var(--text);background:var(--bg-alt);border:1px solid var(--border-lime);border-radius:var(--r-card);box-shadow:var(--glow)}
-.image-dialog::backdrop{background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
-.image-dialog__header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
-.image-dialog__header h2{margin:0;font-size:1rem;letter-spacing:-.01em}
-.image-dialog__content{padding:1rem}
-.image-dialog__content img{display:block;width:100%;max-height:76vh;object-fit:contain;background:#000;border-radius:var(--r-sm)}
-.image-dialog__content p{margin:1rem 0 0;color:var(--text-muted);font-size:.85rem}
-.case-detail__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem;align-items:start;margin-top:3rem}
-.case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0;padding:0;list-style:none}
-.case-detail__layer{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
-.case-detail__layer b{display:inline-grid;place-items:center;min-width:4.9rem;padding:.4rem .7rem;border:1px solid var(--border-lime);border-radius:var(--r-pill);color:var(--accent);font-size:.75rem;letter-spacing:.08em}
-.case-detail__layer p{margin:0;color:var(--text-muted);font-size:.9rem}
-@media(max-width:760px){.case-detail__intro{grid-template-columns:1fr}.case-detail__layer{grid-template-columns:1fr;gap:.55rem}.case-detail__layer b{justify-self:start}}
 }
 
 @layer componentes{
@@ -1056,11 +1039,32 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           </ul>
         </div>
 
-        <figure class="case-visual">
-          <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." loading="lazy" width="1672" height="944">
-          <figcaption>Representação visual ilustrativa da arquitetura documentada.</figcaption>
+        <figure class="architecture-diagram" role="img" aria-label="Arquitetura da plataforma de dados na AWS: sistemas operacionais, arquivos, APIs e dispositivos alimentam as camadas Bronze, Silver e Gold no AWS S3 por pipelines ETL, consumidas em dashboards, análises, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
+          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em AWS S3</b></div>
+          <div class="diagram-data-layout">
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Fontes</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Sistemas operacionais</span><span class="diagram-stage__meta">Bases transacionais</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Arquivos</span><span class="diagram-stage__meta">Logs e CSV</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">APIs e serviços</span><span class="diagram-stage__meta">Integrações</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Dispositivos</span><span class="diagram-stage__meta">Telemetria e IoT</span></div>
+            </section>
+            <section class="diagram-zone diagram-zone--pipeline">
+              <p class="diagram-zone__title">Pipeline de dados</p>
+              <div class="diagram-layer"><span class="diagram-layer__mark">BRZ</span><div><b>Bronze · AWS S3</b><span>Dado bruto, rastreável</span></div></div>
+              <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__mark">SLV</span><div><b>Silver · ETL</b><span>Padronização e validação</span></div></div>
+              <div class="diagram-layer"><span class="diagram-layer__mark">GLD</span><div><b>Gold · AWS S3</b><span>Pronto para consumo</span></div></div>
+            </section>
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Consumo</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Dashboards</span><span class="diagram-stage__meta">Indicadores</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Análises avançadas</span><span class="diagram-stage__meta">Exploração</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Modelos</span><span class="diagram-stage__title">Machine learning</span><span class="diagram-stage__meta">Casos previstos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrega</span><span class="diagram-stage__title">Data marts</span><span class="diagram-stage__meta">Aplicações</span></div>
+            </section>
+          </div>
+          <div class="diagram-foundation"><span><b>Catálogo</b>Metadados e linhagem</span><span><b>Acesso</b>Políticas e permissões</span><span><b>Qualidade</b>Regras e validações</span><span><b>Operação</b>Monitoramento e auditoria</span></div>
         </figure>
-        <button class="btn btn--ghost image-expand" type="button" data-image-dialog="awsArchitectureDialog" aria-haspopup="dialog">Ampliar imagem</button>
       </div>
 
       <!-- Título oculto no lugar de aria-label. O rótulo anterior estava num
@@ -1219,16 +1223,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 
 </main>
 
-<dialog class="image-dialog" id="awsArchitectureDialog" aria-labelledby="awsArchitectureDialogTitle">
-  <div class="image-dialog__header">
-    <h2 id="awsArchitectureDialogTitle">Arquitetura da Plataforma de Dados Integrada na AWS</h2>
-    <button class="icon-btn" type="button" data-close-image-dialog aria-label="Fechar visualização ampliada">×</button>
-  </div>
-  <div class="image-dialog__content">
-    <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." width="1672" height="944">
-    <p>Representação visual ilustrativa de um projeto acadêmico aplicado, sem dados corporativos ou de terceiros.</p>
-  </div>
-</dialog>
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">
@@ -1413,23 +1407,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
       } else {
         window.setTimeout(focar, 320);
       }
-    });
-  });
-
-  iniciar('modal do diagrama', function () {
-    var abrir = document.querySelector('[data-image-dialog]');
-    var modal = document.getElementById('awsArchitectureDialog');
-    var fechar = document.querySelector('[data-close-image-dialog]');
-    if (!abrir || !modal || !fechar || typeof modal.showModal !== 'function') return;
-
-    abrir.addEventListener('click', function () {
-      modal.showModal();
-    });
-    fechar.addEventListener('click', function () {
-      modal.close();
-    });
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) modal.close();
     });
   });
 })();

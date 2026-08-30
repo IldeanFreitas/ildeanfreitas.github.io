@@ -504,11 +504,32 @@
           </ul>
         </div>
 
-        <figure class="case-visual">
-          <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." loading="lazy" width="1672" height="944">
-          <figcaption>Representação visual ilustrativa da arquitetura documentada.</figcaption>
+        <figure class="architecture-diagram" role="img" aria-label="Arquitetura da plataforma de dados na AWS: sistemas operacionais, arquivos, APIs e dispositivos alimentam as camadas Bronze, Silver e Gold no AWS S3 por pipelines ETL, consumidas em dashboards, análises, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
+          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em AWS S3</b></div>
+          <div class="diagram-data-layout">
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Fontes</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Sistemas operacionais</span><span class="diagram-stage__meta">Bases transacionais</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Arquivos</span><span class="diagram-stage__meta">Logs e CSV</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">APIs e serviços</span><span class="diagram-stage__meta">Integrações</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">Dispositivos</span><span class="diagram-stage__meta">Telemetria e IoT</span></div>
+            </section>
+            <section class="diagram-zone diagram-zone--pipeline">
+              <p class="diagram-zone__title">Pipeline de dados</p>
+              <div class="diagram-layer"><span class="diagram-layer__mark">BRZ</span><div><b>Bronze · AWS S3</b><span>Dado bruto, rastreável</span></div></div>
+              <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__mark">SLV</span><div><b>Silver · ETL</b><span>Padronização e validação</span></div></div>
+              <div class="diagram-layer"><span class="diagram-layer__mark">GLD</span><div><b>Gold · AWS S3</b><span>Pronto para consumo</span></div></div>
+            </section>
+            <section class="diagram-zone">
+              <p class="diagram-zone__title">Consumo</p>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Dashboards</span><span class="diagram-stage__meta">Indicadores</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Análises avançadas</span><span class="diagram-stage__meta">Exploração</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Modelos</span><span class="diagram-stage__title">Machine learning</span><span class="diagram-stage__meta">Casos previstos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrega</span><span class="diagram-stage__title">Data marts</span><span class="diagram-stage__meta">Aplicações</span></div>
+            </section>
+          </div>
+          <div class="diagram-foundation"><span><b>Catálogo</b>Metadados e linhagem</span><span><b>Acesso</b>Políticas e permissões</span><span><b>Qualidade</b>Regras e validações</span><span><b>Operação</b>Monitoramento e auditoria</span></div>
         </figure>
-        <button class="btn btn--ghost image-expand" type="button" data-image-dialog="awsArchitectureDialog" aria-haspopup="dialog">Ampliar imagem</button>
       </div>
 
       <!-- Título oculto no lugar de aria-label. O rótulo anterior estava num
@@ -667,16 +688,6 @@
 
 </main>
 
-<dialog class="image-dialog" id="awsArchitectureDialog" aria-labelledby="awsArchitectureDialogTitle">
-  <div class="image-dialog__header">
-    <h2 id="awsArchitectureDialogTitle">Arquitetura da Plataforma de Dados Integrada na AWS</h2>
-    <button class="icon-btn" type="button" data-close-image-dialog aria-label="Fechar visualização ampliada">×</button>
-  </div>
-  <div class="image-dialog__content">
-    <img src="assets/img/plataforma-dados-aws-case.png" alt="Representação visual da plataforma de dados: fontes passam por pipeline ETL e camadas Bronze, Silver e Gold no AWS S3 para consumo analítico, com governança e qualidade de dados." width="1672" height="944">
-    <p>Representação visual ilustrativa de um projeto acadêmico aplicado, sem dados corporativos ou de terceiros.</p>
-  </div>
-</dialog>
 
 <footer class="site-footer">
   <div class="wrap site-footer__inner">

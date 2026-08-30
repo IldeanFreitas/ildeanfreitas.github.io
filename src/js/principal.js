@@ -171,21 +171,4 @@
       }
     });
   });
-
-  iniciar('modal do diagrama', function () {
-    var abrir = document.querySelector('[data-image-dialog]');
-    var modal = document.getElementById('awsArchitectureDialog');
-    var fechar = document.querySelector('[data-close-image-dialog]');
-    if (!abrir || !modal || !fechar || typeof modal.showModal !== 'function') return;
-
-    abrir.addEventListener('click', function () {
-      modal.showModal();
-    });
-    fechar.addEventListener('click', function () {
-      modal.close();
-    });
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) modal.close();
-    });
-  });
 })();

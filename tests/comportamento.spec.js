@@ -69,15 +69,32 @@ test('a navegação marca a seção ativa', async ({ page }, testInfo) => {
   await expect(page.locator('.nav__link[aria-current]')).toHaveCount(1);
 });
 
-test('o modal do diagrama AWS abre e fecha', async ({ page }) => {
-  const dialogo = page.locator('#awsArchitectureDialog');
-  await expect(dialogo).toBeHidden();
+test('o diagrama da AWS é conteúdo legível, não imagem', async ({ page }) => {
+  // Substitui o antigo teste do modal de ampliação. Aquele modal existia só
+  // para dar zoom num PNG de 1,3 MB com texto dentro; com o diagrama montado
+  // nos mesmos componentes dos outros seis cases, ele deixou de ter função.
+  // O que precisa ser garantido agora é o que a troca entregou: texto de
+  // verdade, que se seleciona, se busca e acompanha o tema.
+  const diagrama = page.locator('#plataforma-dados-aws .architecture-diagram');
+  await expect(diagrama).toBeVisible();
+  await expect(diagrama).toContainText('Bronze');
+  await expect(diagrama).toContainText('Silver');
+  await expect(diagrama).toContainText('Gold');
+  await expect(diagrama).toHaveAttribute('role', 'img');
+  await expect(diagrama).toHaveAttribute('aria-label', /.{60,}/);
+});
 
-  await page.locator('[data-image-dialog]').click();
-  await expect(dialogo).toBeVisible();
+test('nenhuma imagem pesada no caminho crítico', async ({ page }) => {
+  const pesos = [];
+  page.on('response', async (r) => {
+    if (!/image\//.test(r.headers()['content-type'] || '')) return;
+    const corpo = await r.body().catch(() => null);
+    if (corpo) pesos.push({ url: r.url(), kb: Math.round(corpo.length / 1024) });
+  });
+  await page.goto('/', { waitUntil: 'networkidle' });
 
-  await page.locator('[data-close-image-dialog]').click();
-  await expect(dialogo).toBeHidden();
+  const pesadas = pesos.filter((p) => p.kb > 300);
+  expect(pesadas, pesadas.map((p) => `${p.url} — ${p.kb} KB`).join('\n')).toEqual([]);
 });
 
 test('o skip link leva ao conteúdo', async ({ page }) => {

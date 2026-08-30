@@ -22,15 +22,25 @@
 .diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
 .diagram-stage__meta{color:var(--text-dim);font-size:.67rem;line-height:1.35}
 .diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
-.diagram-foundation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+/* auto-fit em vez de 3 colunas fixas: a faixa de governança tem entre tres
+   e cinco itens dependendo do case, e o numero fixo deixava o quarto item
+   sozinho numa segunda linha. */
+.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
 .diagram-foundation span{color:var(--text-muted);font-size:.66rem;line-height:1.3}
 .diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase}
 .diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
 .diagram-zone{min-width:0;padding:.7rem;border:1px solid var(--border);border-radius:var(--r-sm);background:rgba(4,12,14,.48)}
 .diagram-zone__title{margin:0 0 .6rem;color:var(--text-dim);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.diagram-zone--pipeline{display:grid;gap:.45rem}
+/* O titulo fica na altura natural e as camadas dividem o espaco restante.
+   Sem grid-auto-rows, a linha do titulo esticava junto e abria um vao entre
+   ele e a primeira camada quando outra zona era mais alta. */
+.diagram-zone--pipeline{display:grid;gap:.45rem;grid-template-rows:auto;grid-auto-rows:1fr}
 .diagram-layer{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.5rem;padding:.55rem .6rem;border:1px solid var(--border);border-radius:8px;background:rgba(4,12,14,.62)}
 .diagram-layer--accent{border-color:var(--border-lime);background:linear-gradient(90deg,rgba(198,223,0,.12),rgba(4,12,14,.62))}
+/* O div que envolve o rótulo e a descrição precisa empilhar: <b> e <span>
+   são inline por padrão, e sem isto saía "Snowflake RAWDados recebidos"
+   numa linha só. Defeito que já estava em producao nos seis diagramas. */
+.diagram-layer>div{display:grid;gap:.1rem;min-width:0}
 .diagram-layer b{color:var(--text);font-size:.72rem;line-height:1.15}
 .diagram-layer span{color:var(--text-dim);font-size:.62rem;line-height:1.25}
 .diagram-layer__mark{display:grid;place-items:center;width:2.05rem;height:2.05rem;border:1px solid var(--border-lime);border-radius:7px;color:var(--accent);font-size:.62rem;font-weight:800;letter-spacing:.04em}
