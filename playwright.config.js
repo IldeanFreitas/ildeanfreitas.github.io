@@ -40,9 +40,18 @@ export default defineConfig({
 
   expect: {
     toHaveScreenshot: {
-      // Antialiasing de fonte varia entre máquinas; um piso pequeno evita
-      // falso positivo sem esconder mudança real de layout.
-      maxDiffPixelRatio: 0.01
+      // Duas tolerâncias com papéis distintos.
+      //
+      // `threshold` é a diferença de cor aceita POR PIXEL — é ela que absorve
+      // antialiasing de fonte, e é o valor padrão do Playwright.
+      //
+      // `maxDiffPixelRatio` é a fração da imagem que pode mudar. Aqui precisa
+      // ser severa: as capturas de página inteira têm milhares de pixels de
+      // altura, e 1% delas é área suficiente para esconder a mudança de cor
+      // de um bloco inteiro — foi o que aconteceu na etapa 1, quando a
+      // correção de contraste do figcaption passou sem ser detectada.
+      threshold: 0.2,
+      maxDiffPixelRatio: 0.0005
     }
   }
 });

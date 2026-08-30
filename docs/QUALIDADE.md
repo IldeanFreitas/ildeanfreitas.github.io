@@ -71,7 +71,7 @@ viewports** — não instabilidade de teste. São a prova executável do diagnó
 
 | Teste que falha                                 | Defeito                                 | Etapa que corrige |
 | ----------------------------------------------- | --------------------------------------- | ----------------- |
-| `o conteúdo revelável está visível`             | `.reveal{opacity:0}` sem `<noscript>`   | 1                 |
+| `o conteúdo revelável está visível`             | `.reveal{opacity:0}` escondia 9 blocos  | 1                 |
 | `remover um elemento opcional…`                 | IIFE sem isolamento de falhas           | 1                 |
 | `a escolha de tema sobrevive ao recarregamento` | Sem persistência em `localStorage`      | 5                 |
 | `index sem violações — tema light`              | `.case-visual{background:#000}` literal | 1                 |
@@ -80,6 +80,41 @@ O teste pulado é o do menu compacto em desktop, onde ele não existe.
 
 Um teste desta tabela voltar a falhar depois da sua etapa significa regressão,
 não expectativa desatualizada.
+
+## Etapa 1 — resultado
+
+```
+53 passed · 0 failed · 1 skipped
+```
+
+Os quatro defeitos foram corrigidos. A persistência de tema e o
+`aria-current="location"` foram trazidos da etapa 5 porque estavam dentro do
+bloco de JavaScript que a etapa 1 já reescrevia por inteiro — adiá-los
+significaria editar o mesmo código duas vezes.
+
+Degradação verificada nos três cenários, com 9 blocos `.reveal`:
+
+| Cenário                        | Blocos ocultos      | `js-anima`               |
+| ------------------------------ | ------------------- | ------------------------ |
+| JavaScript funcionando         | 9 (animam ao rolar) | sim                      |
+| JavaScript desativado          | 0                   | não                      |
+| Script principal lança exceção | 0                   | não, removida pela trava |
+
+O terceiro cenário é o que a trava de 1,2s no `<head>` existe para cobrir: o
+script quebra antes de confirmar `data-revelacao-pronta`, a classe cai sozinha
+e o conteúdo aparece.
+
+### O portão visual foi apertado nesta etapa
+
+`maxDiffPixelRatio` estava em `0.01`. Numa captura de página inteira, que tem
+milhares de pixels de altura, 1% é área suficiente para esconder a mudança de
+cor de um bloco inteiro — e escondeu: a correção de contraste do `figcaption`
+passou despercebida na primeira execução.
+
+Agora são duas tolerâncias com papéis separados: `threshold: 0.2` absorve
+antialiasing por pixel, e `maxDiffPixelRatio: 0.0005` limita a área. Com o
+ajuste, a mesma correção apareceu como 21.264 pixels no tema claro e **zero no
+escuro** — que é exatamente onde ela deveria aparecer.
 
 ## Regras de lint deliberadamente afrouxadas
 

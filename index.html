@@ -419,9 +419,15 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 @media(max-width:430px){.diagram-foundation{grid-template-columns:1fr}.diagram-zone--pipeline{grid-template-columns:1fr}}
 
 /* Case acadêmico AWS */
-.case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:#000}
-.case-visual img{display:block;width:100%;height:auto}
-.case-visual figcaption{padding:.85rem 1rem;color:var(--text-dim);font-size:.82rem;background:var(--surface-soft)}
+/* O #000 aqui era literal, não token: a imagem do case tem fundo preto e o
+   quadro foi feito para casar com ela. Mas o figcaption usa var(--text-dim),
+   que no tema claro vira #5b6a68 — texto claro sobre preto fixo, contraste
+   3.7:1, abaixo do mínimo de 4.5:1.
+   A imagem continua sobre preto (é o fundo dela); a legenda passa a usar a
+   superfície do tema, que acompanha claro e escuro. */
+.case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:var(--bg-alt)}
+.case-visual img{display:block;width:100%;height:auto;background:#000}
+.case-visual figcaption{padding:.85rem 1rem;color:var(--text-muted);font-size:.82rem;background:var(--surface-soft)}
 .image-expand{margin-top:1rem}
 .image-dialog{width:min(96vw,1500px);max-height:92vh;margin:auto;padding:0;color:var(--text);background:var(--bg-alt);border:1px solid var(--border-lime);border-radius:var(--r-card);box-shadow:var(--glow)}
 .image-dialog::backdrop{background:rgba(0,0,0,.82);backdrop-filter:blur(4px)}
@@ -431,7 +437,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .image-dialog__content img{display:block;width:100%;max-height:76vh;object-fit:contain;background:#000;border-radius:var(--r-sm)}
 .image-dialog__content p{margin:1rem 0 0;color:var(--text-muted);font-size:.85rem}
 .case-detail__intro{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem;align-items:start;margin-top:3rem}
-.case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0}
+.case-detail__layers{display:grid;gap:.75rem;margin:1.25rem 0 0;padding:0;list-style:none}
 .case-detail__layer{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;padding:1rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
 .case-detail__layer b{display:inline-grid;place-items:center;min-width:4.9rem;padding:.4rem .7rem;border:1px solid var(--border-lime);border-radius:var(--r-pill);color:var(--accent);font-size:.75rem;letter-spacing:.08em}
 .case-detail__layer p{margin:0;color:var(--text-muted);font-size:.9rem}
@@ -486,15 +492,53 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .site-footer a:hover{color:var(--accent)}
 .footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}
 
-/* Revelação suave */
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
-.reveal.is-visible{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+/* Revelação suave.
+   O conteúdo NASCE VISÍVEL. A animação de entrada só é habilitada quando o
+   JavaScript adiciona .js-anima na raiz e confirma que consegue revelar de
+   volta. Sem JavaScript, ou com ele falhando, nada anima e tudo se lê — que
+   é a degradação correta. A regra anterior escondia 13 blocos por padrão e
+   dependia do observer para trazê-los de volta. */
+.js-anima .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+.js-anima .reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js-anima .reveal{opacity:1;transform:none}}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 @media print{.site-header,.actions,.skip,.site-footer,.hero__bg{display:none}body{background:#fff;color:#000}}
 </style>
+<script>
+/* Roda antes da primeira pintura. Faz duas coisas que precisam acontecer
+   cedo demais para esperar o script do fim do documento. */
+(function () {
+  var raiz = document.documentElement;
+
+  /* 1. Tema. Restaura a escolha salva; sem ela, segue a preferência do
+        sistema. Aqui, e não depois da carga, para não haver piscada de tema
+        errado em quem escolheu o claro. */
+  try {
+    var salvo = localStorage.getItem('tema');
+    if (salvo === 'dark' || salvo === 'light') {
+      raiz.setAttribute('data-theme', salvo);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      raiz.setAttribute('data-theme', 'light');
+    }
+  } catch (e) {
+    /* Modo privado bloqueia localStorage. O tema padrão do HTML continua
+       valendo — perder a preferência é aceitável, quebrar a página não. */
+  }
+
+  /* 2. Animação de entrada. Habilitada aqui para o conteúdo não piscar de
+        visível para oculto; e armada com uma trava: se o script principal não
+        confirmar a inicialização em 1,2s — porque falhou, foi bloqueado ou
+        nunca chegou — a classe sai e todo o conteúdo reaparece. A animação é
+        enfeite; o texto não pode depender dela. */
+  raiz.classList.add('js-anima');
+  window.setTimeout(function () {
+    if (!raiz.hasAttribute('data-revelacao-pronta')) raiz.classList.remove('js-anima');
+  }, 1200);
+})();
+</script>
+<noscript><style>.js-anima .reveal{opacity:1;transform:none}</style></noscript>
 </head>
 
 <body>
@@ -948,20 +992,26 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
         <button class="btn btn--ghost image-expand" type="button" data-image-dialog="awsArchitectureDialog" aria-haspopup="dialog">Ampliar imagem</button>
       </div>
 
-      <div class="case-detail__layers" aria-label="Descrição das camadas da arquitetura">
-        <article class="case-detail__layer">
+      <!-- Título oculto no lugar de aria-label. O rótulo anterior estava num
+           <div> sem role e era descartado por leitor de tela; movido para <ul>
+           continuaria recusado, porque o papel "list" não aceita nome de
+           autor. Um título real resolve melhor: entra na navegação por
+           títulos e dispensa ARIA. -->
+      <h3 class="sr-only">Camadas da arquitetura</h3>
+      <ul class="case-detail__layers">
+        <li class="case-detail__layer">
           <b>BRONZE</b>
           <p>Recebe os dados na forma mais próxima possível da origem, preservando rastreabilidade e base para reprocessamentos.</p>
-        </article>
-        <article class="case-detail__layer">
+        </li>
+        <li class="case-detail__layer">
           <b>SILVER</b>
           <p>Concentra padronização, tratamentos e validações necessários para elevar a qualidade e a consistência dos dados.</p>
-        </article>
-        <article class="case-detail__layer">
+        </li>
+        <li class="case-detail__layer">
           <b>GOLD</b>
           <p>Disponibiliza dados organizados para consumo analítico e suporte à tomada de decisão.</p>
-        </article>
-      </div>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -1124,94 +1174,170 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 (function () {
   'use strict';
 
-  document.getElementById('ano').textContent = new Date().getFullYear();
+  var raiz = document.documentElement;
 
-  /* ---- Tema ---- */
-  var root = document.documentElement;
-  var themeBtn = document.getElementById('themeToggle');
-  var themeIcon = document.getElementById('themeIcon');
-  var SUN = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
-  var MOON = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
-
-  function setTheme(mode) {
-    root.setAttribute('data-theme', mode);
-    themeBtn.setAttribute('aria-pressed', String(mode === 'dark'));
-    themeIcon.innerHTML = mode === 'dark' ? MOON : SUN;
+  /* Cada funcionalidade roda isolada. Antes, tudo vivia num escopo só e a
+     primeira instrução acessava #ano sem guarda: renomear o elemento do
+     rodapé lançava TypeError e matava tema, menu, navegação, revelação e
+     modal de uma vez. Agora a falha de uma não alcança as outras, e o console
+     diz qual quebrou em vez de silenciar a página inteira. */
+  function iniciar(nome, fn) {
+    try {
+      fn();
+    } catch (erro) {
+      console.error('[site] falha em "' + nome + '":', erro);
+    }
   }
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) setTheme('light');
-  themeBtn.addEventListener('click', function () {
-    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+
+  iniciar('ano do rodapé', function () {
+    var ano = document.getElementById('ano');
+    if (!ano) return;
+    ano.textContent = new Date().getFullYear();
   });
 
-  /* ---- Menu mobile ---- */
-  var nav = document.getElementById('nav');
-  var navBtn = document.getElementById('navToggle');
-  var navLabel = document.getElementById('navToggleLabel');
-  function closeNav(){ nav.setAttribute('data-open','false'); navBtn.setAttribute('aria-expanded','false'); navLabel.textContent='Abrir menu'; }
-  navBtn.addEventListener('click', function () {
-    var open = nav.getAttribute('data-open') === 'true';
-    nav.setAttribute('data-open', String(!open));
-    navBtn.setAttribute('aria-expanded', String(!open));
-    navLabel.textContent = open ? 'Abrir menu' : 'Fechar menu';
-  });
-  nav.addEventListener('click', function (e) { if (e.target.closest('.nav__link')) closeNav(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && nav.getAttribute('data-open') === 'true') { closeNav(); navBtn.focus(); }
+  iniciar('tema', function () {
+    var botao = document.getElementById('themeToggle');
+    var icone = document.getElementById('themeIcon');
+    if (!botao || !icone) return;
+
+    var SOL = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+    var LUA = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+
+    function aplicar(modo, salvar) {
+      raiz.setAttribute('data-theme', modo);
+      botao.setAttribute('aria-pressed', String(modo === 'dark'));
+      icone.innerHTML = modo === 'dark' ? LUA : SOL;
+      if (!salvar) return;
+      try {
+        localStorage.setItem('tema', modo);
+      } catch (e) {
+        /* Modo privado. A troca vale para esta sessão e não persiste. */
+      }
+    }
+
+    /* O tema já foi decidido pelo script do <head>, antes da primeira pintura.
+       Aqui apenas sincronizamos o botão e o ícone com o que está valendo. */
+    aplicar(raiz.getAttribute('data-theme') === 'light' ? 'light' : 'dark', false);
+
+    botao.addEventListener('click', function () {
+      aplicar(raiz.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+    });
   });
 
-  /* ---- Seção ativa ---- */
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
-  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
+  iniciar('menu compacto', function () {
+    var nav = document.getElementById('nav');
+    var botao = document.getElementById('navToggle');
+    var rotulo = document.getElementById('navToggleLabel');
+    if (!nav || !botao || !rotulo) return;
+
+    function fechar() {
+      nav.setAttribute('data-open', 'false');
+      botao.setAttribute('aria-expanded', 'false');
+      rotulo.textContent = 'Abrir menu';
+    }
+
+    botao.addEventListener('click', function () {
+      var aberto = nav.getAttribute('data-open') === 'true';
+      nav.setAttribute('data-open', String(!aberto));
+      botao.setAttribute('aria-expanded', String(!aberto));
+      rotulo.textContent = aberto ? 'Abrir menu' : 'Fechar menu';
+    });
+
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('.nav__link')) fechar();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && nav.getAttribute('data-open') === 'true') {
+        fechar();
+        botao.focus();
+      }
+    });
+  });
+
+  iniciar('seção ativa', function () {
+    if (!('IntersectionObserver' in window)) return;
+    var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
+    var secoes = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+    if (!secoes.length) return;
+
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (entrada) {
+        if (!entrada.isIntersecting) return;
         links.forEach(function (a) {
-          if (a.getAttribute('href') === '#' + entry.target.id) a.setAttribute('aria-current','true');
+          /* "location" é o valor previsto para posição dentro da mesma página;
+             "true" fazia o leitor de tela anunciar "atual" sem qualificar. */
+          if (a.getAttribute('href') === '#' + entrada.target.id) a.setAttribute('aria-current', 'location');
           else a.removeAttribute('aria-current');
         });
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(function (s) { spy.observe(s); });
-  }
 
-  /* ---- Revelação ---- */
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var items = document.querySelectorAll('.reveal');
-  if (reduced || !('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('is-visible'); });
-  } else {
-    var io = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.12 });
-    items.forEach(function (el) { io.observe(el); });
-  }
-
-  /* ---- Foco no destino da âncora ---- */
-  document.addEventListener('click', function (e) {
-    var link = e.target.closest('a[href^="#"]');
-    if (!link) return;
-    var target = document.querySelector(link.getAttribute('href'));
-    if (!target) return;
-    target.setAttribute('tabindex','-1');
-    setTimeout(function () { target.focus({ preventScroll: true }); }, 320);
+    secoes.forEach(function (s) { observador.observe(s); });
   });
 
-  /* ---- Ampliação do diagrama do case AWS ---- */
-  var imageDialogButton = document.querySelector('[data-image-dialog]');
-  var imageDialog = document.getElementById('awsArchitectureDialog');
-  var imageDialogClose = document.querySelector('[data-close-image-dialog]');
-  if (imageDialogButton && imageDialog && imageDialogClose && typeof imageDialog.showModal === 'function') {
-    imageDialogButton.addEventListener('click', function () { imageDialog.showModal(); });
-    imageDialogClose.addEventListener('click', function () { imageDialog.close(); });
-    imageDialog.addEventListener('click', function (event) {
-      if (event.target === imageDialog) imageDialog.close();
+  iniciar('revelação', function () {
+    var itens = document.querySelectorAll('.reveal');
+    var reduzido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduzido || !('IntersectionObserver' in window)) {
+      itens.forEach(function (el) { el.classList.add('is-visible'); });
+    } else {
+      var observador = new IntersectionObserver(function (entradas, obs) {
+        entradas.forEach(function (entrada) {
+          if (!entrada.isIntersecting) return;
+          entrada.target.classList.add('is-visible');
+          obs.unobserve(entrada.target);
+        });
+      }, { threshold: 0.12 });
+      itens.forEach(function (el) { observador.observe(el); });
+    }
+
+    /* Desarma a trava do <head>: a revelação está de pé e vai conseguir
+       mostrar o conteúdo. Sem esta linha, a classe cai em 1,2s e tudo
+       aparece sem animação — que é a falha correta. */
+    raiz.setAttribute('data-revelacao-pronta', '');
+  });
+
+  iniciar('foco na âncora', function () {
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('a[href^="#"]');
+      if (!link) return;
+      var alvo = document.querySelector(link.getAttribute('href'));
+      if (!alvo) return;
+      alvo.setAttribute('tabindex', '-1');
+
+      function focar() { alvo.focus({ preventScroll: true }); }
+
+      /* scrollend dispara quando a rolagem suave termina de fato. O timeout
+         é o plano B para navegadores sem o evento — antes ele era a única
+         estratégia, com 320ms chutados contra uma duração que o CSS não
+         expõe. */
+      if ('onscrollend' in window) {
+        document.addEventListener('scrollend', focar, { once: true });
+        window.setTimeout(function () {
+          document.removeEventListener('scrollend', focar);
+        }, 1000);
+      } else {
+        window.setTimeout(focar, 320);
+      }
     });
-  }
+  });
+
+  iniciar('modal do diagrama', function () {
+    var abrir = document.querySelector('[data-image-dialog]');
+    var modal = document.getElementById('awsArchitectureDialog');
+    var fechar = document.querySelector('[data-close-image-dialog]');
+    if (!abrir || !modal || !fechar || typeof modal.showModal !== 'function') return;
+
+    abrir.addEventListener('click', function () { modal.showModal(); });
+    fechar.addEventListener('click', function () { modal.close(); });
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) modal.close();
+    });
+  });
 })();
 </script>
 </body>
