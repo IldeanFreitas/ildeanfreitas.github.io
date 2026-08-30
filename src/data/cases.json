@@ -1,0 +1,403 @@
+[
+  {
+    "id": "case-dataops",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Arquitetura documentada"
+    },
+    "titulo": "Laboratório DataOps: pipeline analítico ponta a ponta",
+    "descricao": "Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade para chaves e reconciliação, princípio de menor privilégio e segredos fora do versionamento.",
+    "escopo": "arquitetura e plano técnico documentados para estudo de Engenharia de Dados. As conexões, cargas, transformações e métricas descritas não foram executadas neste projeto de portfólio.",
+    "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Power BI"],
+    "diagrama": {
+      "alt": "Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com governança, qualidade e menor privilégio.",
+      "etiqueta": "Arquitetura de dados",
+      "titulo": "Camadas",
+      "forma": "camadas",
+      "zonas": [
+        {
+          "titulo": "Fontes",
+          "etapas": [
+            {
+              "tipo": "Origem",
+              "titulo": "PostgreSQL",
+              "nota": "Docker local",
+              "destaque": true
+            },
+            {
+              "tipo": "Ingestão",
+              "titulo": "Airbyte",
+              "nota": "Sincronização"
+            }
+          ]
+        },
+        {
+          "titulo": "Pipeline de dados",
+          "pipeline": true,
+          "camadas": [
+            {
+              "sigla": "RAW",
+              "titulo": "Snowflake RAW",
+              "nota": "Dados recebidos"
+            },
+            {
+              "sigla": "STG",
+              "titulo": "STAGING · dbt",
+              "nota": "Padronização e testes",
+              "destaque": true
+            },
+            {
+              "sigla": "DW",
+              "titulo": "Data Warehouse · dbt",
+              "nota": "Modelo analítico"
+            }
+          ]
+        },
+        {
+          "titulo": "Consumo",
+          "etapas": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Power BI",
+              "nota": "Indicadores e análise",
+              "destaque": true
+            }
+          ]
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Governança",
+          "valor": "Linhas e contratos"
+        },
+        {
+          "nome": "Segurança",
+          "valor": "Menor privilégio"
+        },
+        {
+          "nome": "Qualidade",
+          "valor": "Testes e reconciliação"
+        }
+      ]
+    },
+    "escopoRotulo": "Declaração de escopo:"
+  },
+  {
+    "id": "case-fiscal-orchestration",
+    "status": {
+      "variante": "evolving",
+      "rotulo": "Em evolução"
+    },
+    "titulo": "Orquestração de Processamento Fiscal",
+    "descricao": "Case público de arquitetura para processar documentos fiscais por fila rastreável, com idempotência, reserva de worker, retentativas controladas e acompanhamento operacional.",
+    "escopo": "arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, robôs, portais, ambientes ou alegação de execução em produção.",
+    "tags": ["Power Apps Canvas", "Dataverse", "Power Automate", "RPA", "Observabilidade"],
+    "diagrama": {
+      "alt": "Arquitetura de orquestração fiscal: importação validada cria uma fila no Dataverse; o orquestrador cloud distribui o trabalho ao worker RPA e registra o retorno no monitoramento.",
+      "etiqueta": "Operação assíncrona",
+      "titulo": "Fila e workers",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Entrada",
+          "titulo": "Importação",
+          "nota": "Lote validado"
+        },
+        {
+          "tipo": "Estado",
+          "titulo": "Fila",
+          "nota": "Dataverse",
+          "destaque": true
+        },
+        {
+          "tipo": "Controle",
+          "titulo": "Orquestrador",
+          "nota": "Cloud flow"
+        },
+        {
+          "tipo": "Execução",
+          "titulo": "Worker RPA",
+          "nota": "Portal regulatório"
+        },
+        {
+          "tipo": "Retorno",
+          "titulo": "Monitoramento",
+          "nota": "Status e evidência"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Idempotência",
+          "valor": "Chave por job"
+        },
+        {
+          "nome": "Resiliência",
+          "valor": "Lock e retentativas"
+        },
+        {
+          "nome": "Rastreabilidade",
+          "valor": "Correlação e logs"
+        }
+      ]
+    },
+    "escopoRotulo": "Declaração de escopo:",
+    "repositorio": "https://github.com/IldeanFreitas/fiscal-process-orchestrator-case"
+  },
+  {
+    "id": "case-camara-lakehouse",
+    "status": {
+      "variante": "done",
+      "rotulo": "Projeto acadêmico concluído"
+    },
+    "titulo": "Câmara dos Deputados — Pipeline Lakehouse",
+    "descricao": "Pipeline ponta a ponta com dados abertos da Câmara dos Deputados. Integra 17 endpoints da API pública, organiza dados nas camadas Bronze, Silver e Gold e produz análises de presença, despesas, votações, frentes parlamentares e tramitação de proposições.",
+    "escopo": "pipeline local executado com amostras públicas, 48 testes automatizados e validação contínua no GitHub. O repositório inclui documentação, diagramas e apresentações técnicas.",
+    "tags": ["Python", "PySpark", "Delta Lake", "Databricks", "Data Quality", "GitHub Actions"],
+    "diagrama": {
+      "alt": "Pipeline Lakehouse com API pública, camadas Bronze, Silver e Gold e consumo analítico, apoiado por qualidade de dados e automação de testes.",
+      "etiqueta": "Lakehouse público",
+      "titulo": "Bronze · Silver · Gold",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Fonte",
+          "titulo": "API pública",
+          "nota": "17 endpoints"
+        },
+        {
+          "tipo": "Camada 01",
+          "titulo": "Bronze",
+          "nota": "Ingestão bruta",
+          "destaque": true
+        },
+        {
+          "tipo": "Camada 02",
+          "titulo": "Silver",
+          "nota": "Dados tratados"
+        },
+        {
+          "tipo": "Camada 03",
+          "titulo": "Gold",
+          "nota": "Dados analíticos",
+          "destaque": true
+        },
+        {
+          "tipo": "Consumo",
+          "titulo": "Análises",
+          "nota": "Temas públicos"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Processamento",
+          "valor": "Python e PySpark"
+        },
+        {
+          "nome": "Confiabilidade",
+          "valor": "48 testes automatizados"
+        },
+        {
+          "nome": "Entrega",
+          "valor": "GitHub Actions"
+        }
+      ]
+    },
+    "escopoRotulo": "Evidências:",
+    "repositorio": "https://github.com/IldeanFreitas/fast-track-engenharia-v3"
+  },
+  {
+    "id": "case-financial-request",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Arquitetura documentada"
+    },
+    "titulo": "Workflow de Solicitações Financeiras",
+    "descricao": "Case público de arquitetura para solicitações financeiras individuais ou em lote, com rateio, evidências, acompanhamento de status e integração assíncrona com ERP.",
+    "escopo": "arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, ambiente, integrações ou alegação de uso em produção.",
+    "tags": [
+      "Power Apps Canvas",
+      "Power Automate",
+      "Integração ERP",
+      "Modelagem de Dados",
+      "Testes"
+    ],
+    "diagrama": {
+      "alt": "Jornada da solicitação financeira: rascunho, validação, envio, processamento assíncrono e liquidação, com rateio, evidências e rastreabilidade.",
+      "etiqueta": "Jornada financeira",
+      "titulo": "Solicitação rastreável",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Estado 01",
+          "titulo": "Rascunho",
+          "nota": "Dados iniciais"
+        },
+        {
+          "tipo": "Estado 02",
+          "titulo": "Validação",
+          "nota": "Rateio e anexos",
+          "destaque": true
+        },
+        {
+          "tipo": "Estado 03",
+          "titulo": "Envio",
+          "nota": "Chave idempotente"
+        },
+        {
+          "tipo": "Estado 04",
+          "titulo": "Processamento",
+          "nota": "Integração assíncrona"
+        },
+        {
+          "tipo": "Estado 05",
+          "titulo": "Liquidação",
+          "nota": "Status consultável"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Dados",
+          "valor": "Cabeçalho e rateio"
+        },
+        {
+          "nome": "Evidências",
+          "valor": "Metadados protegidos"
+        },
+        {
+          "nome": "Controle",
+          "valor": "Histórico de status"
+        }
+      ]
+    },
+    "escopoRotulo": "Declaração de escopo:",
+    "repositorio": "https://github.com/IldeanFreitas/financial-request-workflow-case"
+  },
+  {
+    "id": "case-delivery-governance",
+    "status": {
+      "variante": "evolving",
+      "rotulo": "Em evolução"
+    },
+    "titulo": "Governança de Delivery para Power Platform",
+    "descricao": "Kit público de playbooks e templates para conduzir entregas de Power Platform com escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão explícita de liberação.",
+    "escopo": "material de referência recriado para portfólio. Não contém aplicações, soluções, fluxos, ambientes ou dados de cliente e não afirma uma implantação específica em produção.",
+    "tags": ["ALM", "Quality Gates", "Rastreabilidade", "Acessibilidade", "Gestão de Riscos"],
+    "diagrama": {
+      "alt": "Fluxo de governança de delivery: descoberta, build, qualidade, decisão de Go ou No-Go e release, com escopo, riscos e evidências rastreáveis.",
+      "etiqueta": "Delivery governado",
+      "titulo": "Gates de qualidade",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Gate 01",
+          "titulo": "Descoberta",
+          "nota": "Escopo e riscos"
+        },
+        {
+          "tipo": "Gate 02",
+          "titulo": "Build",
+          "nota": "Artefatos versionados"
+        },
+        {
+          "tipo": "Gate 03",
+          "titulo": "Qualidade",
+          "nota": "Testes e revisão",
+          "destaque": true
+        },
+        {
+          "tipo": "Gate 04",
+          "titulo": "Go / No-Go",
+          "nota": "Decisão explícita"
+        },
+        {
+          "tipo": "Gate 05",
+          "titulo": "Release",
+          "nota": "Evidência registrada"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "ALM",
+          "valor": "Ambientes e versões"
+        },
+        {
+          "nome": "Riscos",
+          "valor": "Registro e tratamento"
+        },
+        {
+          "nome": "Acessibilidade",
+          "valor": "Critério de qualidade"
+        }
+      ]
+    },
+    "escopoRotulo": "Declaração de escopo:",
+    "repositorio": "https://github.com/IldeanFreitas/power-platform-delivery-governance"
+  },
+  {
+    "id": "case-field-operations",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Arquitetura documentada"
+    },
+    "titulo": "Workflow de Operações de Campo",
+    "descricao": "Case público de arquitetura para registrar atividades de campo em um fluxo responsivo. A modelagem cobre dados gerais, localização, equipe, serviços, anexos e um documento de encerramento.",
+    "escopo": "arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo original, fluxos, ambientes ou uma alegação de implantação em produção.",
+    "tags": [
+      "Power Apps Canvas",
+      "Power Automate",
+      "Modelagem de Dados",
+      "Acessibilidade",
+      "Testes"
+    ],
+    "diagrama": {
+      "alt": "Fluxo de operações de campo: rascunho, etapas de execução, evidências, envio e documento final, com dados, equipe e serviços registrados.",
+      "etiqueta": "Execução em campo",
+      "titulo": "Fluxo responsivo",
+      "forma": "fluxo",
+      "etapas": [
+        {
+          "tipo": "Etapa 01",
+          "titulo": "Rascunho",
+          "nota": "Dados gerais"
+        },
+        {
+          "tipo": "Etapa 02",
+          "titulo": "Planejamento",
+          "nota": "Local e equipe"
+        },
+        {
+          "tipo": "Etapa 03",
+          "titulo": "Serviços",
+          "nota": "Atividades em campo",
+          "destaque": true
+        },
+        {
+          "tipo": "Etapa 04",
+          "titulo": "Evidências",
+          "nota": "Anexos e metadados"
+        },
+        {
+          "tipo": "Etapa 05",
+          "titulo": "Documento",
+          "nota": "Encerramento"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Experiência",
+          "valor": "Desktop e mobile"
+        },
+        {
+          "nome": "Acessibilidade",
+          "valor": "Fluxo inclusivo"
+        },
+        {
+          "nome": "Qualidade",
+          "valor": "Cenários de teste"
+        }
+      ]
+    },
+    "escopoRotulo": "Declaração de escopo:",
+    "repositorio": "https://github.com/IldeanFreitas/field-operations-workflow-case"
+  }
+]

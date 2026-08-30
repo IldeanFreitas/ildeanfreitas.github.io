@@ -84,6 +84,26 @@ test('o diagrama da AWS é conteúdo legível, não imagem', async ({ page }) =>
   await expect(diagrama).toHaveAttribute('aria-label', /.{60,}/);
 });
 
+test('os cases são gerados de uma forma só', async ({ page }) => {
+  // Antes de virarem dados, os seis cases eram blocos quase iguais mantidos à
+  // mão, e um deles tinha divergido: usava class="button button--secondary",
+  // que não existe no CSS, e o link do repositório renderizava como texto
+  // simples enquanto os outros eram pílulas. Este teste trava a invariante que
+  // a geração passou a garantir.
+  const links = page.locator('.case-card a[href^="https://github.com"]');
+  const total = await links.count();
+  expect(total).toBeGreaterThan(0);
+
+  for (let i = 0; i < total; i++) {
+    const link = links.nth(i);
+    await expect(link).toHaveClass(/\bbtn\b/);
+    await expect(link).toHaveAttribute('rel', 'noopener');
+    // Um link sem estilo cai para display:inline; o botão é inline-flex.
+    const display = await link.evaluate((el) => getComputedStyle(el).display);
+    expect(display, `link ${i} sem estilo de botão`).toBe('inline-flex');
+  }
+});
+
 test('nenhuma imagem pesada no caminho crítico', async ({ page }) => {
   const pesos = [];
   page.on('response', async (r) => {

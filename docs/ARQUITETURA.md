@@ -82,6 +82,37 @@ Cobre os três cenários:
 | JavaScript desativado  | tudo visível, sem animação      |
 | Script lança exceção   | a trava dispara, tudo reaparece |
 
+## Os cases vêm de dados
+
+Os seis cases moram em `src/data/cases.json` e o HTML sai de
+`scripts/cases.mjs` **em tempo de build**. Montá-los no navegador resolveria a
+duplicação e destruiria o SEO: o conteúdo precisa estar no HTML que o servidor
+entrega, que é o que o buscador lê e o que aparece sem JavaScript.
+
+O que a conversão evita não é hipotético. Enquanto os seis eram blocos quase
+iguais mantidos à mão, um deles tinha divergido: usava
+`class="button button--secondary"`, que **não existe no CSS**. O link do
+repositório renderizava como texto simples — `display:inline`, sem borda, sem
+padding — enquanto os outros quatro eram pílulas. Ninguém percebeu porque o
+HTML era válido e nada quebrava.
+
+O diagrama tem duas formas, ambas no esquema:
+
+| Forma     | Usada por | Estrutura                               |
+| --------- | --------- | --------------------------------------- |
+| `fluxo`   | 5 cases   | uma sequência de etapas                 |
+| `camadas` | DataOps   | zonas, uma delas com camadas empilhadas |
+
+Case novo é um objeto no JSON. Mudança na anatomia do cartão é uma edição em
+`cases.mjs`, não seis.
+
+### O rótulo do escopo é dado, não constante
+
+Cinco cases abrem o parágrafo com **Declaração de escopo:** e o da Câmara com
+**Evidências:**. A primeira versão do renderizador fixava o texto e apagava o
+do case divergente — o que foi pego comparando o DOM antes e depois, nó a nó,
+e não teria aparecido em nenhum teste de comportamento.
+
 ## Ordem do CSS
 
 `src/css/ordem.json` define a sequência de concatenação, e ela importa: o CSS

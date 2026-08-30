@@ -13,6 +13,7 @@
  *   node scripts/build.mjs --check   verifica se o index.html está atualizado
  */
 import { readFile, writeFile } from 'node:fs/promises';
+import { renderizarCases } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
@@ -56,6 +57,8 @@ const partes = await Promise.all(
 
 const css = ['@layer base,componentes,utilitarios;', ...partes].join('\n\n');
 
+const cases = JSON.parse(await ler('src/data/cases.json'));
+
 const [template, template404, jsInicializacao, jsPrincipal] = await Promise.all([
   ler('src/index.template.html'),
   ler('src/404.template.html'),
@@ -80,6 +83,7 @@ const PAGINAS = [
     template,
     marcadores: {
       '<!--{{ CSS }}-->': css,
+      '<!--{{ CASES }}-->': renderizarCases(cases),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }
@@ -127,5 +131,7 @@ if (conferir) {
   if (desatualizado) process.exit(1);
   console.warn('index.html e 404.html estão atualizados.');
 } else {
-  console.warn(`Montados: index.html (${ordem.length} arquivos de CSS) e 404.html.`);
+  console.warn(
+    `Montados: index.html (${ordem.length} arquivos de CSS, ${cases.length} cases) e 404.html.`
+  );
 }
