@@ -2,15 +2,15 @@
   {
     "id": "case-dataops",
     "status": {
-      "variante": "designed",
-      "rotulo": "Arquitetura documentada"
+      "variante": "evolving",
+      "rotulo": "Em evolução"
     },
     "titulo": "Laboratório DataOps: pipeline analítico ponta a ponta",
-    "descricao": "Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade para chaves e reconciliação, princípio de menor privilégio e segredos fora do versionamento.",
-    "escopo": "arquitetura e plano técnico documentados para estudo de Engenharia de Dados. As conexões, cargas, transformações e métricas descritas não foram executadas neste projeto de portfólio.",
-    "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Power BI"],
+    "descricao": "Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.",
+    "escopo": "as etapas de 1 a 9 estão concluídas e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.",
+    "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
     "diagrama": {
-      "alt": "Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com governança, qualidade e menor privilégio.",
+      "alt": "Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com orquestração pelo Airflow, governança, qualidade e menor privilégio.",
       "etiqueta": "Arquitetura de dados",
       "titulo": "Camadas",
       "forma": "camadas",
@@ -67,6 +67,10 @@
       ],
       "governanca": [
         {
+          "nome": "Orquestração",
+          "valor": "Airflow, com reconciliação"
+        },
+        {
           "nome": "Governança",
           "valor": "Linhas e contratos"
         },
@@ -80,7 +84,7 @@
         }
       ]
     },
-    "escopoRotulo": "Declaração de escopo:"
+    "escopoRotulo": "Evidências e limites:"
   },
   {
     "id": "case-fiscal-orchestration",
