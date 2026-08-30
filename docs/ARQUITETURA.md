@@ -36,20 +36,28 @@ seria regressão vestida de modernização.
 ```text
 src/                        fonte — é aqui que se edita
 ├─ index.template.html      estrutura, com marcadores <!--{{ ... }}-->
+├─ 404.template.html        página de erro
 ├─ css/
-│  ├─ ordem.json            ordem de concatenação (a cascata depende dela)
+│  ├─ ordem.json            ordem de concatenação e camada de cada arquivo
 │  ├─ base/                 fonte, tokens, elementos, utilitários
 │  └─ componentes/          cabeçalho, hero, cartões, diagrama, rodapé…
+├─ data/
+│  └─ cases.json            os seis cases
 └─ js/
    ├─ inicializacao.js      roda no <head>, antes da primeira pintura
    └─ principal.js          roda no fim do <body>
 
 scripts/
-├─ build.mjs                monta o index.html
-├─ extrair.mjs              a separação original (etapa 2), como registro
-└─ serve.mjs                servidor local para auditoria
+├─ build.mjs                monta index.html e 404.html
+├─ cases.mjs                renderiza os cases a partir do JSON
+├─ sitemap.mjs              lastmod a partir do último commit
+├─ serve.mjs                servidor local para auditoria
+├─ extrair.mjs              a separação de CSS/JS (etapa 2), como registro
+└─ extrair-cases.mjs        a extração dos cases (etapa 3b), como registro
 
 index.html                  GERADO — não editar
+404.html                    GERADO — não editar
+sitemap.xml                 GERADO — não editar
 ```
 
 ## Os dois scripts do site
@@ -113,15 +121,27 @@ Cinco cases abrem o parágrafo com **Declaração de escopo:** e o da Câmara co
 do case divergente — o que foi pego comparando o DOM antes e depois, nó a nó,
 e não teria aparecido em nenhum teste de comportamento.
 
-## Ordem do CSS
+## Cascata: camadas e ordem
 
-`src/css/ordem.json` define a sequência de concatenação, e ela importa: o CSS
-não tem camadas nem escopo, então a cascata depende da ordem dos arquivos.
-`base/` vem antes de `componentes/`; dentro de cada um, a ordem é a do arquivo.
+O build declara `@layer base, componentes, utilitarios` e envolve cada arquivo
+na sua camada. A camada decide quem vence, **independentemente de
+especificidade**.
 
-Arquivo novo precisa ser declarado ali. O build não varre diretório de
-propósito — descoberta automática por nome tornaria a cascata dependente de
-ordenação alfabética, que é uma forma silenciosa de quebrar estilo.
+Isso resolveu um problema concreto. Ao trocar os atributos `style` por classes,
+os utilitários passaram a perder para regras de componente — `.card
+p:last-of-type` vale 0,2,1 e `.texto-miudo` vale 0,1,0 — e o texto voltava ao
+tamanho do cartão sem nada quebrar visivelmente. As alternativas seriam
+duplicar seletores até vencer, que vira corrida armamentista, ou `!important`,
+que ninguém desfaz depois.
+
+`fonte.css` e `tokens.css` ficam fora de camada: `@font-face` e `:root` não
+participam de conflito de cascata.
+
+Dentro de cada camada a ordem ainda importa, e quem a define é
+`src/css/ordem.json`. Arquivo novo precisa ser declarado ali. O build não varre
+diretório de propósito — descoberta automática por nome tornaria a cascata
+dependente de ordenação alfabética, que é uma forma silenciosa de quebrar
+estilo.
 
 ## Fim de linha
 
