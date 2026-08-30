@@ -777,10 +777,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   <section class="section section--alt" id="servicos">
     <div class="wrap">
       <p class="eyebrow">Especialidades</p>
-      <h2>Três frentes, uma entrega completa</h2>
+      <h2>Três frentes que costumam ser projetos separados</h2>
       <p class="lead">
-        Aplicações corporativas, dados confiáveis e IA aplicada funcionam melhor quando são
-        pensados como uma única cadeia de valor.
+        Na maioria das empresas por onde passei, quem constrói o aplicativo que coleta o dado não
+        é quem monta o pipeline que o analisa. Trabalho dos dois lados — e é daí que vem quase
+        tudo o que aprendi sobre onde o dado se perde no caminho.
       </p>
 
       <div class="grid grid--3 mt-12">
@@ -854,7 +855,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <span class="status status--evolving">Em evolução</span>
           <h3>Laboratório DataOps: pipeline analítico ponta a ponta</h3>
           <p>Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.</p>
-          <p class="scope"><b>Evidências e limites:</b> as etapas de 1 a 9 estão concluídas: 22 modelos dbt sobre uma fato de 16.044 linhas, com o dbt build fechando 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.</p>
+          <p class="scope"><b>Evidências e limites:</b> as etapas de 1 a 9 estão concluídas. São 22 modelos dbt sobre uma fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.</p>
           <ul class="taglist">
             <li class="tag">PostgreSQL</li>
             <li class="tag">Docker</li>
@@ -892,8 +893,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Orquestração de Processamento Fiscal</h3>
-          <p>Case público de arquitetura para processar documentos fiscais por fila rastreável, com idempotência, reserva de worker, retentativas controladas e acompanhamento operacional.</p>
-          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, robôs, portais, ambientes ou alegação de execução em produção.</p>
+          <p>Documentos fiscais processados por uma fila rastreável. Cada trabalho tem chave de idempotência, é reservado por um worker antes de rodar e volta para a fila se o bloqueio expirar — reenviar o mesmo lote não duplica nada.</p>
+          <p class="scope"><b>Declaração de escopo:</b> nada aqui saiu de um sistema real — o modelo e os dados foram escritos para o portfólio. Não há aplicativo, robô, portal nem ambiente, e nenhuma linha disto afirma execução em produção.</p>
           <ul class="taglist">
             <li class="tag">Power Apps Canvas</li>
             <li class="tag">Dataverse</li>
@@ -949,8 +950,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Solicitações Financeiras</h3>
-          <p>Case público de arquitetura para solicitações financeiras individuais ou em lote, com rateio, evidências, acompanhamento de status e integração assíncrona com ERP.</p>
-          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo, automações, ambiente, integrações ou alegação de uso em produção.</p>
+          <p>Solicitações financeiras, uma a uma ou em lote, com rateio entre centros de custo e anexos como evidência. O processamento no ERP é assíncrono: a interface registra e acompanha, sem depender de o ERP responder na hora.</p>
+          <p class="scope"><b>Declaração de escopo:</b> o contrato e o exemplo são sintéticos, feitos para publicação. Ficam de fora o aplicativo, as automações, o ambiente e a integração com o ERP — nenhum deles é alegado.</p>
           <ul class="taglist">
             <li class="tag">Power Apps Canvas</li>
             <li class="tag">Power Automate</li>
@@ -1032,8 +1033,8 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
           <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Operações de Campo</h3>
-          <p>Case público de arquitetura para registrar atividades de campo em um fluxo responsivo. A modelagem cobre dados gerais, localização, equipe, serviços, anexos e um documento de encerramento.</p>
-          <p class="scope"><b>Declaração de escopo:</b> arquitetura e dados sintéticos recriados para portfólio. Não inclui aplicativo original, fluxos, ambientes ou uma alegação de implantação em produção.</p>
+          <p>Registro de atividade de campo num fluxo que funciona no celular e no desktop. A modelagem cobre dados gerais, localização, equipe, serviços e anexos, e termina num documento que fecha o relatório — depois disso, o conteúdo não muda mais.</p>
+          <p class="scope"><b>Declaração de escopo:</b> modelo e amostras recriados do zero para publicar. Não entram o aplicativo original, os fluxos nem o ambiente, e não há afirmação de implantação em produção.</p>
           <ul class="taglist">
             <li class="tag">Power Apps Canvas</li>
             <li class="tag">Power Automate</li>
