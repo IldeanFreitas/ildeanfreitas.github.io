@@ -370,6 +370,54 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .flow li:not(:last-child)::after{content:"→";color:var(--accent);font-weight:700;padding:0 .45rem}
 .flow small{display:block;color:var(--text-dim);font-size:.66rem;font-weight:500}
 
+/* Diagramas de arquitetura dos cases */
+.case-grid{display:grid;gap:1.5rem;margin-top:3rem}
+.case-card{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.35rem,2.5vw,2rem)}
+.case-card__content{min-width:0}
+.case-card__content .taglist{margin-top:1.5rem}
+.architecture-diagram{
+  min-width:0;margin:0;padding:1rem;
+  background:linear-gradient(145deg,rgba(8,30,33,.95),var(--surface-soft));
+  border:1px solid var(--border-strong);border-radius:var(--r-card);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025)
+}
+.diagram-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 0 .8rem;border-bottom:1px solid var(--border)}
+.diagram-kicker{margin:0;color:var(--text-dim);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.diagram-header b{color:var(--accent);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.diagram-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem;padding:1rem 0}
+.diagram-stage{
+  position:relative;display:grid;align-content:start;gap:.28rem;min-height:5.35rem;padding:.72rem;
+  background:rgba(4,12,14,.7);border:1px solid var(--border);border-radius:var(--r-sm)
+}
+.diagram-stage--accent{border-color:var(--border-lime);background:linear-gradient(135deg,rgba(198,223,0,.13),rgba(4,12,14,.72))}
+.diagram-stage__type{color:var(--accent);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
+.diagram-stage__meta{color:var(--text-dim);font-size:.67rem;line-height:1.35}
+.diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
+.diagram-foundation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+.diagram-foundation span{color:var(--text-muted);font-size:.66rem;line-height:1.3}
+.diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.57rem;letter-spacing:.08em;text-transform:uppercase}
+.diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
+.diagram-zone{min-width:0;padding:.7rem;border:1px solid var(--border);border-radius:var(--r-sm);background:rgba(4,12,14,.48)}
+.diagram-zone__title{margin:0 0 .6rem;color:var(--text-dim);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.diagram-zone--pipeline{display:grid;gap:.45rem}
+.diagram-layer{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.5rem;padding:.55rem .6rem;border:1px solid var(--border);border-radius:8px;background:rgba(4,12,14,.62)}
+.diagram-layer--accent{border-color:var(--border-lime);background:linear-gradient(90deg,rgba(198,223,0,.12),rgba(4,12,14,.62))}
+.diagram-layer b{color:var(--text);font-size:.72rem;line-height:1.15}
+.diagram-layer span{color:var(--text-dim);font-size:.62rem;line-height:1.25}
+.diagram-layer__mark{display:grid;place-items:center;width:2.05rem;height:2.05rem;border:1px solid var(--border-lime);border-radius:7px;color:var(--accent);font-size:.62rem;font-weight:800;letter-spacing:.04em}
+.diagram-zone .diagram-stage{min-height:0;padding:.62rem}
+.diagram-zone .diagram-stage + .diagram-stage{margin-top:.45rem}
+@media(min-width:980px){.case-card{grid-template-columns:minmax(0,.84fr) minmax(430px,1.16fr);align-items:center}}
+@media(max-width:760px){
+  .diagram-flow{grid-template-columns:1fr;gap:.45rem}
+  .diagram-flow .diagram-stage:not(:last-child)::after{content:"↓";right:auto;top:auto;bottom:-.45rem;left:50%;translate:-50% 50%}
+  .diagram-data-layout{grid-template-columns:1fr;gap:.5rem}
+  .diagram-zone--pipeline{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .diagram-layer{grid-template-columns:1fr;text-align:center}.diagram-layer__mark{justify-self:center}
+}
+@media(max-width:430px){.diagram-foundation{grid-template-columns:1fr}.diagram-zone--pipeline{grid-template-columns:1fr}}
+
 /* Case acadêmico AWS */
 .case-visual{margin:0;padding:0;overflow:hidden;border:1px solid var(--border-lime);border-radius:var(--r-card);background:#000}
 .case-visual img{display:block;width:100%;height:auto}
@@ -657,19 +705,12 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
         construído por partes — o que já está aqui é real e verificável.
       </p>
 
-      <div class="grid grid--2" style="margin-top:3rem">
+      <div class="case-grid">
 
-        <article class="card reveal" id="case-dataops">
+        <article class="card case-card reveal" id="case-dataops">
+          <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Laboratório DataOps: pipeline analítico ponta a ponta</h3>
-          <ul class="flow" aria-label="Arquitetura: PostgreSQL em Docker, Airbyte, Snowflake RAW, STAGING com dbt, Data Warehouse com dbt e Power BI">
-            <li><span>PostgreSQL <small>Docker</small></span></li>
-            <li><span>Airbyte</span></li>
-            <li><span>Snowflake RAW</span></li>
-            <li><span>STAGING <small>dbt</small></span></li>
-            <li><span>DW <small>dbt</small></span></li>
-            <li><span>Power BI</span></li>
-          </ul>
           <p>
             Estudo de arquitetura para disponibilizar dados transacionais à análise sem afetar a
             fonte operacional. Cobre separação das camadas RAW, STAGING e DW, padrões de qualidade
@@ -685,18 +726,34 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">PostgreSQL</li><li class="tag">Docker</li><li class="tag">Airbyte</li>
             <li class="tag">Snowflake</li><li class="tag">dbt</li><li class="tag">Power BI</li>
           </ul>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com governança, qualidade e menor privilégio.">
+            <div class="diagram-header"><p class="diagram-kicker">Arquitetura de dados</p><b>Camadas</b></div>
+            <div class="diagram-data-layout">
+              <section class="diagram-zone">
+                <p class="diagram-zone__title">Fontes</p>
+                <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Origem</span><span class="diagram-stage__title">PostgreSQL</span><span class="diagram-stage__meta">Docker local</span></div>
+                <div class="diagram-stage"><span class="diagram-stage__type">Ingestão</span><span class="diagram-stage__title">Airbyte</span><span class="diagram-stage__meta">Sincronização</span></div>
+              </section>
+              <section class="diagram-zone diagram-zone--pipeline">
+                <p class="diagram-zone__title">Pipeline de dados</p>
+                <div class="diagram-layer"><span class="diagram-layer__mark">RAW</span><div><b>Snowflake RAW</b><span>Dados recebidos</span></div></div>
+                <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__mark">STG</span><div><b>STAGING · dbt</b><span>Padronização e testes</span></div></div>
+                <div class="diagram-layer"><span class="diagram-layer__mark">DW</span><div><b>Data Warehouse · dbt</b><span>Modelo analítico</span></div></div>
+              </section>
+              <section class="diagram-zone">
+                <p class="diagram-zone__title">Consumo</p>
+                <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Analytics</span><span class="diagram-stage__title">Power BI</span><span class="diagram-stage__meta">Indicadores e análise</span></div>
+              </section>
+            </div>
+            <div class="diagram-foundation"><span><b>Governança</b>Linhas e contratos</span><span><b>Segurança</b>Menor privilégio</span><span><b>Qualidade</b>Testes e reconciliação</span></div>
+          </figure>
         </article>
 
-        <article class="card reveal" id="case-fiscal-orchestration">
+        <article class="card case-card reveal" id="case-fiscal-orchestration">
+          <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Orquestração de Processamento Fiscal</h3>
-          <ul class="flow" aria-label="Fluxo: importação validada, fila de trabalhos, orquestrador cloud, worker RPA e monitoramento">
-            <li><span>Importação</span></li>
-            <li><span>Fila</span></li>
-            <li><span>Orquestrador</span></li>
-            <li><span>Worker RPA</span></li>
-            <li><span>Monitoramento</span></li>
-          </ul>
           <p>
             Case público de arquitetura para processar documentos fiscais por fila rastreável,
             com idempotência, reserva de worker, retentativas controladas e acompanhamento operacional.
@@ -710,18 +767,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">RPA</li><li class="tag">Observabilidade</li>
           </ul>
           <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fiscal-process-orchestrator-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Arquitetura de orquestração fiscal: importação validada cria uma fila no Dataverse; o orquestrador cloud distribui o trabalho ao worker RPA e registra o retorno no monitoramento.">
+            <div class="diagram-header"><p class="diagram-kicker">Operação assíncrona</p><b>Fila e workers</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Entrada</span><span class="diagram-stage__title">Importação</span><span class="diagram-stage__meta">Lote validado</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Estado</span><span class="diagram-stage__title">Fila</span><span class="diagram-stage__meta">Dataverse</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Controle</span><span class="diagram-stage__title">Orquestrador</span><span class="diagram-stage__meta">Cloud flow</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Execução</span><span class="diagram-stage__title">Worker RPA</span><span class="diagram-stage__meta">Portal regulatório</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Retorno</span><span class="diagram-stage__title">Monitoramento</span><span class="diagram-stage__meta">Status e evidência</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Idempotência</b>Chave por job</span><span><b>Resiliência</b>Lock e retentativas</span><span><b>Rastreabilidade</b>Correlação e logs</span></div>
+          </figure>
         </article>
 
-        <article class="card reveal" id="case-camara-lakehouse">
+        <article class="card case-card reveal" id="case-camara-lakehouse">
+          <div class="case-card__content">
           <span class="status status--done">Projeto acadêmico concluído</span>
           <h3>Câmara dos Deputados — Pipeline Lakehouse</h3>
-          <ul class="flow" aria-label="Arquitetura: API de Dados Abertos da Câmara dos Deputados, camada Bronze, camada Silver, camada Gold e análises">
-            <li><span>API Câmara</span></li>
-            <li><span>Bronze</span></li>
-            <li><span>Silver</span></li>
-            <li><span>Gold</span></li>
-            <li><span>Análises</span></li>
-          </ul>
           <p>
             Pipeline ponta a ponta com dados abertos da Câmara dos Deputados. Integra 17 endpoints
             da API pública, organiza dados nas camadas Bronze, Silver e Gold e produz análises de
@@ -737,18 +800,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">Databricks</li><li class="tag">Data Quality</li><li class="tag">GitHub Actions</li>
           </ul>
           <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/fast-track-engenharia-v3" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Pipeline Lakehouse com API pública, camadas Bronze, Silver e Gold e consumo analítico, apoiado por qualidade de dados e automação de testes.">
+            <div class="diagram-header"><p class="diagram-kicker">Lakehouse público</p><b>Bronze · Silver · Gold</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Fonte</span><span class="diagram-stage__title">API pública</span><span class="diagram-stage__meta">17 endpoints</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Camada 01</span><span class="diagram-stage__title">Bronze</span><span class="diagram-stage__meta">Ingestão bruta</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Camada 02</span><span class="diagram-stage__title">Silver</span><span class="diagram-stage__meta">Dados tratados</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Camada 03</span><span class="diagram-stage__title">Gold</span><span class="diagram-stage__meta">Dados analíticos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Consumo</span><span class="diagram-stage__title">Análises</span><span class="diagram-stage__meta">Temas públicos</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Processamento</b>Python e PySpark</span><span><b>Confiabilidade</b>48 testes automatizados</span><span><b>Entrega</b>GitHub Actions</span></div>
+          </figure>
         </article>
 
-        <article class="card reveal" id="case-financial-request">
+        <article class="card case-card reveal" id="case-financial-request">
+          <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Solicitações Financeiras</h3>
-          <ul class="flow" aria-label="Fluxo: rascunho, validação, envio, processamento e liquidação">
-            <li><span>Rascunho</span></li>
-            <li><span>Validação</span></li>
-            <li><span>Envio</span></li>
-            <li><span>Processamento</span></li>
-            <li><span>Liquidação</span></li>
-          </ul>
           <p>
             Case público de arquitetura para solicitações financeiras individuais ou em lote,
             com rateio, evidências, acompanhamento de status e integração assíncrona com ERP.
@@ -762,18 +831,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">Modelagem de Dados</li><li class="tag">Testes</li>
           </ul>
           <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/financial-request-workflow-case" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Jornada da solicitação financeira: rascunho, validação, envio, processamento assíncrono e liquidação, com rateio, evidências e rastreabilidade.">
+            <div class="diagram-header"><p class="diagram-kicker">Jornada financeira</p><b>Solicitação rastreável</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Estado 01</span><span class="diagram-stage__title">Rascunho</span><span class="diagram-stage__meta">Dados iniciais</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Estado 02</span><span class="diagram-stage__title">Validação</span><span class="diagram-stage__meta">Rateio e anexos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Estado 03</span><span class="diagram-stage__title">Envio</span><span class="diagram-stage__meta">Chave idempotente</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Estado 04</span><span class="diagram-stage__title">Processamento</span><span class="diagram-stage__meta">Integração assíncrona</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Estado 05</span><span class="diagram-stage__title">Liquidação</span><span class="diagram-stage__meta">Status consultável</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Dados</b>Cabeçalho e rateio</span><span><b>Evidências</b>Metadados protegidos</span><span><b>Controle</b>Histórico de status</span></div>
+          </figure>
         </article>
 
-        <article class="card reveal" id="case-delivery-governance">
+        <article class="card case-card reveal" id="case-delivery-governance">
+          <div class="case-card__content">
           <span class="status status--evolving">Em evolução</span>
           <h3>Governança de Delivery para Power Platform</h3>
-          <ul class="flow" aria-label="Fluxo de governança: descoberta, garantia de build, qualidade, decisão de Go ou No-Go e release">
-            <li><span>Descoberta</span></li>
-            <li><span>Build</span></li>
-            <li><span>Qualidade</span></li>
-            <li><span>Go/No-Go</span></li>
-            <li><span>Release</span></li>
-          </ul>
           <p>
             Kit público de playbooks e templates para conduzir entregas de Power Platform com
             escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão
@@ -789,14 +864,24 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">Acessibilidade</li><li class="tag">Gestão de Riscos</li>
           </ul>
           <a class="btn btn--ghost" href="https://github.com/IldeanFreitas/power-platform-delivery-governance" target="_blank" rel="noopener" style="margin-top:1.5rem">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Fluxo de governança de delivery: descoberta, build, qualidade, decisão de Go ou No-Go e release, com escopo, riscos e evidências rastreáveis.">
+            <div class="diagram-header"><p class="diagram-kicker">Delivery governado</p><b>Gates de qualidade</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Gate 01</span><span class="diagram-stage__title">Descoberta</span><span class="diagram-stage__meta">Escopo e riscos</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Gate 02</span><span class="diagram-stage__title">Build</span><span class="diagram-stage__meta">Artefatos versionados</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Gate 03</span><span class="diagram-stage__title">Qualidade</span><span class="diagram-stage__meta">Testes e revisão</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Gate 04</span><span class="diagram-stage__title">Go / No-Go</span><span class="diagram-stage__meta">Decisão explícita</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Gate 05</span><span class="diagram-stage__title">Release</span><span class="diagram-stage__meta">Evidência registrada</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>ALM</b>Ambientes e versões</span><span><b>Riscos</b>Registro e tratamento</span><span><b>Acessibilidade</b>Critério de qualidade</span></div>
+          </figure>
         </article>
 
-        <article id="case-field-operations" class="card reveal">
+        <article id="case-field-operations" class="card case-card reveal">
+          <div class="case-card__content">
           <span class="status status--designed">Arquitetura documentada</span>
           <h3>Workflow de Operações de Campo</h3>
-          <ul class="flow" aria-label="Fluxo: rascunho, etapas, evidências, envio e documento">
-            <li>Rascunho</li><li>Etapas</li><li>Evidências</li><li>Envio</li><li>Documento</li>
-          </ul>
           <p>
             Case público de arquitetura para registrar atividades de campo em um fluxo responsivo.
             A modelagem cobre dados gerais, localização, equipe, serviços, anexos e um documento de encerramento.
@@ -808,6 +893,18 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
             <li class="tag">Power Apps Canvas</li><li class="tag">Power Automate</li><li class="tag">Modelagem de Dados</li><li class="tag">Acessibilidade</li><li class="tag">Testes</li>
           </ul>
           <a class="button button--secondary" href="https://github.com/IldeanFreitas/field-operations-workflow-case" target="_blank" rel="noreferrer">Ver repositório e evidências <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="architecture-diagram" role="img" aria-label="Fluxo de operações de campo: rascunho, etapas de execução, evidências, envio e documento final, com dados, equipe e serviços registrados.">
+            <div class="diagram-header"><p class="diagram-kicker">Execução em campo</p><b>Fluxo responsivo</b></div>
+            <div class="diagram-flow">
+              <div class="diagram-stage"><span class="diagram-stage__type">Etapa 01</span><span class="diagram-stage__title">Rascunho</span><span class="diagram-stage__meta">Dados gerais</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Etapa 02</span><span class="diagram-stage__title">Planejamento</span><span class="diagram-stage__meta">Local e equipe</span></div>
+              <div class="diagram-stage diagram-stage--accent"><span class="diagram-stage__type">Etapa 03</span><span class="diagram-stage__title">Serviços</span><span class="diagram-stage__meta">Atividades em campo</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Etapa 04</span><span class="diagram-stage__title">Evidências</span><span class="diagram-stage__meta">Anexos e metadados</span></div>
+              <div class="diagram-stage"><span class="diagram-stage__type">Etapa 05</span><span class="diagram-stage__title">Documento</span><span class="diagram-stage__meta">Encerramento</span></div>
+            </div>
+            <div class="diagram-foundation"><span><b>Experiência</b>Desktop e mobile</span><span><b>Acessibilidade</b>Fluxo inclusivo</span><span><b>Qualidade</b>Cenários de teste</span></div>
+          </figure>
         </article>
 
       </div>
