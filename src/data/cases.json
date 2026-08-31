@@ -12,7 +12,7 @@
     "diagrama": {
       "alt": "Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com orquestração pelo Airflow, governança, qualidade e menor privilégio.",
       "etiqueta": "Arquitetura de dados",
-      "titulo": "Camadas",
+      "titulo": "Ambiente de desenvolvimento",
       "forma": "camadas",
       "zonas": [
         {
@@ -22,12 +22,14 @@
               "tipo": "Origem",
               "titulo": "PostgreSQL",
               "nota": "Docker local",
+              "icone": "database",
               "destaque": true
             },
             {
               "tipo": "Ingestão",
               "titulo": "Airbyte",
-              "nota": "Sincronização"
+              "nota": "Sincronização",
+              "icone": "sync"
             }
           ]
         },
@@ -38,18 +40,27 @@
             {
               "sigla": "RAW",
               "titulo": "Snowflake RAW",
-              "nota": "Dados recebidos"
+              "nota": "Dados recebidos",
+              "icone": "snowflake"
             },
             {
               "sigla": "STG",
               "titulo": "STAGING · dbt",
               "nota": "Padronização e testes",
+              "icone": "transform",
               "destaque": true
+            },
+            {
+              "sigla": "INT",
+              "titulo": "INT · dbt",
+              "nota": "Regras e joins reutilizáveis",
+              "icone": "transform"
             },
             {
               "sigla": "DW",
               "titulo": "Data Warehouse · dbt",
-              "nota": "Modelo analítico"
+              "nota": "Modelo analítico",
+              "icone": "warehouse"
             }
           ]
         },
@@ -60,6 +71,7 @@
               "tipo": "Analytics",
               "titulo": "Power BI",
               "nota": "Indicadores e análise",
+              "icone": "chart",
               "destaque": true
             }
           ]
@@ -68,21 +80,30 @@
       "governanca": [
         {
           "nome": "Orquestração",
-          "valor": "Airflow, com reconciliação"
+          "valor": "Sync, dbt build e alertas",
+          "icone": "airflow"
         },
         {
           "nome": "Governança",
-          "valor": "Linhas e contratos"
+          "valor": "Linhagem e contratos",
+          "icone": "catalog"
         },
         {
           "nome": "Segurança",
-          "valor": "Menor privilégio"
+          "valor": "Acesso mínimo e segredos",
+          "icone": "lock"
         },
         {
           "nome": "Qualidade",
-          "valor": "Testes e reconciliação"
+          "valor": "Frescor, testes e reconciliação",
+          "icone": "quality"
         }
-      ]
+      ],
+      "orquestracao": {
+        "nome": "Airflow",
+        "valor": "Sincronização, reconciliação, dbt build e alertas",
+        "icone": "airflow"
+      }
     },
     "escopoRotulo": "Evidências e limites:"
   },
@@ -105,42 +126,50 @@
         {
           "tipo": "Entrada",
           "titulo": "Importação",
-          "nota": "Lote validado"
+          "nota": "Lote validado",
+          "icone": "upload"
         },
         {
           "tipo": "Estado",
           "titulo": "Fila",
           "nota": "Dataverse",
+          "icone": "queue",
           "destaque": true
         },
         {
           "tipo": "Controle",
           "titulo": "Orquestrador",
-          "nota": "Cloud flow"
+          "nota": "Cloud flow",
+          "icone": "workflow"
         },
         {
           "tipo": "Execução",
           "titulo": "Worker RPA",
-          "nota": "Portal regulatório"
+          "nota": "Portal regulatório",
+          "icone": "bot"
         },
         {
           "tipo": "Retorno",
           "titulo": "Monitoramento",
-          "nota": "Status e evidência"
+          "nota": "Status e evidência",
+          "icone": "monitor"
         }
       ],
       "governanca": [
         {
           "nome": "Idempotência",
-          "valor": "Chave por job"
+          "valor": "Chave por job",
+          "icone": "sync"
         },
         {
           "nome": "Resiliência",
-          "valor": "Lock e retentativas"
+          "valor": "Lock e retentativas",
+          "icone": "retry"
         },
         {
           "nome": "Rastreabilidade",
-          "valor": "Correlação e logs"
+          "valor": "Correlação e logs",
+          "icone": "trace"
         }
       ]
     },
@@ -166,43 +195,51 @@
         {
           "tipo": "Fonte",
           "titulo": "API pública",
-          "nota": "17 endpoints"
+          "nota": "17 endpoints",
+          "icone": "api"
         },
         {
           "tipo": "Camada 01",
           "titulo": "Bronze",
           "nota": "Ingestão bruta",
+          "icone": "layers",
           "destaque": true
         },
         {
           "tipo": "Camada 02",
           "titulo": "Silver",
-          "nota": "Dados tratados"
+          "nota": "Dados tratados",
+          "icone": "transform"
         },
         {
           "tipo": "Camada 03",
           "titulo": "Gold",
           "nota": "Dados analíticos",
+          "icone": "warehouse",
           "destaque": true
         },
         {
           "tipo": "Consumo",
           "titulo": "Análises",
-          "nota": "Temas públicos"
+          "nota": "Temas públicos",
+          "icone": "chart"
         }
       ],
       "governanca": [
         {
           "nome": "Processamento",
-          "valor": "Python e PySpark"
+          "valor": "Python e PySpark",
+          "icone": "transform"
         },
         {
           "nome": "Confiabilidade",
-          "valor": "48 testes automatizados"
+          "valor": "48 testes automatizados",
+          "icone": "quality"
         },
         {
           "nome": "Entrega",
-          "valor": "GitHub Actions"
+          "valor": "GitHub Actions",
+          "icone": "ci"
         }
       ]
     },
@@ -234,42 +271,50 @@
         {
           "tipo": "Estado 01",
           "titulo": "Rascunho",
-          "nota": "Dados iniciais"
+          "nota": "Dados iniciais",
+          "icone": "document"
         },
         {
           "tipo": "Estado 02",
           "titulo": "Validação",
           "nota": "Rateio e anexos",
+          "icone": "check",
           "destaque": true
         },
         {
           "tipo": "Estado 03",
           "titulo": "Envio",
-          "nota": "Chave idempotente"
+          "nota": "Chave idempotente",
+          "icone": "send"
         },
         {
           "tipo": "Estado 04",
           "titulo": "Processamento",
-          "nota": "Integração assíncrona"
+          "nota": "Integração assíncrona",
+          "icone": "sync"
         },
         {
           "tipo": "Estado 05",
           "titulo": "Liquidação",
-          "nota": "Status consultável"
+          "nota": "Status consultável",
+          "icone": "receipt"
         }
       ],
       "governanca": [
         {
           "nome": "Dados",
-          "valor": "Cabeçalho e rateio"
+          "valor": "Cabeçalho e rateio",
+          "icone": "database"
         },
         {
           "nome": "Evidências",
-          "valor": "Metadados protegidos"
+          "valor": "Metadados protegidos",
+          "icone": "attachment"
         },
         {
           "nome": "Controle",
-          "valor": "Histórico de status"
+          "valor": "Histórico de status",
+          "icone": "trace"
         }
       ]
     },
@@ -295,42 +340,50 @@
         {
           "tipo": "Gate 01",
           "titulo": "Descoberta",
-          "nota": "Escopo e riscos"
+          "nota": "Escopo e riscos",
+          "icone": "search"
         },
         {
           "tipo": "Gate 02",
           "titulo": "Build",
-          "nota": "Artefatos versionados"
+          "nota": "Artefatos versionados",
+          "icone": "code"
         },
         {
           "tipo": "Gate 03",
           "titulo": "Qualidade",
           "nota": "Testes e revisão",
+          "icone": "quality",
           "destaque": true
         },
         {
           "tipo": "Gate 04",
           "titulo": "Go / No-Go",
-          "nota": "Decisão explícita"
+          "nota": "Decisão explícita",
+          "icone": "decision"
         },
         {
           "tipo": "Gate 05",
           "titulo": "Release",
-          "nota": "Evidência registrada"
+          "nota": "Evidência registrada",
+          "icone": "release"
         }
       ],
       "governanca": [
         {
           "nome": "ALM",
-          "valor": "Ambientes e versões"
+          "valor": "Ambientes e versões",
+          "icone": "layers"
         },
         {
           "nome": "Riscos",
-          "valor": "Registro e tratamento"
+          "valor": "Registro e tratamento",
+          "icone": "shield"
         },
         {
           "nome": "Acessibilidade",
-          "valor": "Critério de qualidade"
+          "valor": "Critério de qualidade",
+          "icone": "check"
         }
       ]
     },
@@ -358,37 +411,44 @@
         {
           "tipo": "Entrada",
           "titulo": "Propriedades",
-          "nota": "Nome, tema, variante"
+          "nota": "Nome, tema, variante",
+          "icone": "sliders"
         },
         {
           "tipo": "Componente",
           "titulo": "cmpAppHeader",
           "nota": "3 variantes, 2 temas",
+          "icone": "component",
           "destaque": true
         },
         {
           "tipo": "Saída",
           "titulo": "3 eventos",
-          "nota": "Marca, notificações, perfil"
+          "nota": "Marca, notificações, perfil",
+          "icone": "output"
         },
         {
           "tipo": "Consumidor",
           "titulo": "App anfitrião",
-          "nota": "Navegação e dados"
+          "nota": "Navegação e dados",
+          "icone": "app"
         }
       ],
       "governanca": [
         {
           "nome": "Fronteira",
-          "valor": "Sem conector nem fonte de dados"
+          "valor": "Sem conector nem fonte de dados",
+          "icone": "shield"
         },
         {
           "nome": "Acessibilidade",
-          "valor": "Alvo de 44px e ordem de foco"
+          "valor": "Alvo de 44px e ordem de foco",
+          "icone": "check"
         },
         {
           "nome": "Reuso",
-          "valor": "Contrato versionado"
+          "valor": "Contrato versionado",
+          "icone": "catalog"
         }
       ]
     }
@@ -418,42 +478,50 @@
         {
           "tipo": "Etapa 01",
           "titulo": "Rascunho",
-          "nota": "Dados gerais"
+          "nota": "Dados gerais",
+          "icone": "document"
         },
         {
           "tipo": "Etapa 02",
           "titulo": "Planejamento",
-          "nota": "Local e equipe"
+          "nota": "Local e equipe",
+          "icone": "map"
         },
         {
           "tipo": "Etapa 03",
           "titulo": "Serviços",
           "nota": "Atividades em campo",
+          "icone": "wrench",
           "destaque": true
         },
         {
           "tipo": "Etapa 04",
           "titulo": "Evidências",
-          "nota": "Anexos e metadados"
+          "nota": "Anexos e metadados",
+          "icone": "attachment"
         },
         {
           "tipo": "Etapa 05",
           "titulo": "Documento",
-          "nota": "Encerramento"
+          "nota": "Encerramento",
+          "icone": "receipt"
         }
       ],
       "governanca": [
         {
           "nome": "Experiência",
-          "valor": "Desktop e mobile"
+          "valor": "Desktop e mobile",
+          "icone": "app"
         },
         {
           "nome": "Acessibilidade",
-          "valor": "Fluxo inclusivo"
+          "valor": "Fluxo inclusivo",
+          "icone": "check"
         },
         {
           "nome": "Qualidade",
-          "valor": "Cenários de teste"
+          "valor": "Cenários de teste",
+          "icone": "quality"
         }
       ]
     },
