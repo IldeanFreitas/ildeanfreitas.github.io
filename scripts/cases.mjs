@@ -97,7 +97,7 @@ const icone = (nome = 'component') => icones[nome] || icones.component;
 
 const etapa = (e) =>
   `<div class="diagram-stage${e.destaque ? ' diagram-stage--accent' : ''}">` +
-  `<div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true">${icone(e.icone)}</span><span class="diagram-stage__type">${texto(e.tipo)}</span></div>` +
+  `<div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true">${icone(e.icone)}</span><span class="diagram-stage__type">${texto(e.tipo)}</span>${e.selo ? `<span class="diagram-stage__badge">${texto(e.selo)}</span>` : ''}</div>` +
   `<span class="diagram-stage__title">${texto(e.titulo)}</span>` +
   `<span class="diagram-stage__meta">${texto(e.nota)}</span></div>`;
 
@@ -116,9 +116,10 @@ const zona = (z) =>
   `\n              </section>`;
 
 function diagrama(d) {
+  const pipeline = d.forma === 'pipeline';
   const corpo =
-    d.forma === 'fluxo'
-      ? `            <div class="diagram-flow">\n` +
+    d.forma === 'fluxo' || pipeline
+      ? `            <div class="diagram-flow${pipeline ? ' diagram-flow--pipeline' : ''}">\n` +
         d.etapas.map((e) => `              ${etapa(e)}`).join('\n') +
         `\n            </div>`
       : `            <div class="diagram-data-layout">\n` +
@@ -133,15 +134,24 @@ function diagrama(d) {
     .join('');
 
   const orquestracao = d.orquestracao
-    ? `\n            <div class="diagram-orchestration"><span class="diagram-orchestration__icon" aria-hidden="true">${icone(d.orquestracao.icone || 'airflow')}</span><span><b>${texto(d.orquestracao.nome)}</b>${texto(d.orquestracao.valor)}</span></div>`
+    ? `\n            <div class="diagram-orchestration${pipeline ? ' diagram-orchestration--pipeline' : ''}"><span class="diagram-orchestration__icon" aria-hidden="true">${icone(d.orquestracao.icone || 'airflow')}</span><span><b>${texto(d.orquestracao.nome)}</b>${texto(d.orquestracao.valor)}</span></div>`
+    : '';
+
+  const legenda = d.legenda
+    ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>${texto(d.legenda.fluxo)}</span><span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>${texto(d.legenda.controle)}</span></div>`
+    : '';
+
+  const tituloBase = d.tituloBase
+    ? `<p class="diagram-foundation__title">${texto(d.tituloBase)}</p>`
     : '';
 
   return (
     `          <figure class="architecture-diagram" role="img" aria-label="${attr(d.alt)}">\n` +
     `            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>\n` +
+    legenda +
     corpo +
     orquestracao +
-    `\n            <div class="diagram-foundation">${base}</div>\n` +
+    `\n            <div class="diagram-foundation">${tituloBase}${base}</div>\n` +
     `          </figure>`
   );
 }
@@ -154,8 +164,9 @@ function diagrama(d) {
  * enquanto os outros cinco eram pílulas.
  */
 export function renderizarCase(c) {
+  const classes = `card case-card reveal${c.destaqueVisual ? ' case-card--feature' : ''}`;
   const partes = [
-    `        <article class="card case-card reveal" id="${attr(c.id)}">`,
+    `        <article class="${classes}" id="${attr(c.id)}">`,
     `          <div class="case-card__content">`,
     `          <span class="status status--${attr(c.status.variante)}">${texto(c.status.rotulo)}</span>`,
     `          <h3>${texto(c.titulo)}</h3>`,

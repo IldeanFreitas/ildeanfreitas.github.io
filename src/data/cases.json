@@ -9,101 +9,93 @@
     "descricao": "Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.",
     "escopo": "as etapas de 1 a 9 estão concluídas. São 22 modelos dbt sobre uma fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.",
     "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
+    "destaqueVisual": true,
     "diagrama": {
-      "alt": "Arquitetura do laboratório DataOps: PostgreSQL e Airbyte alimentam as camadas Snowflake RAW, STAGING e Data Warehouse, consumidas no Power BI, com orquestração pelo Airflow, governança, qualidade e menor privilégio.",
+      "alt": "Arquitetura do laboratório DataOps de ponta a ponta: PostgreSQL, Airbyte, Snowflake RAW, STAGING, INT, Data Warehouse e Power BI, com Airflow como plano de orquestração e capacidades transversais de governança, segurança e qualidade.",
       "etiqueta": "Arquitetura de dados",
-      "titulo": "Ambiente de desenvolvimento",
-      "forma": "camadas",
-      "zonas": [
+      "titulo": "Visão de ponta a ponta",
+      "forma": "pipeline",
+      "legenda": {
+        "fluxo": "Fluxo de dados",
+        "controle": "Orquestração (Airflow)"
+      },
+      "etapas": [
         {
-          "titulo": "Fontes",
-          "etapas": [
-            {
-              "tipo": "Origem",
-              "titulo": "PostgreSQL",
-              "nota": "Docker local",
-              "icone": "database",
-              "destaque": true
-            },
-            {
-              "tipo": "Ingestão",
-              "titulo": "Airbyte",
-              "nota": "Sincronização",
-              "icone": "sync"
-            }
-          ]
+          "tipo": "1. Fontes",
+          "titulo": "PostgreSQL",
+          "nota": "Docker local",
+          "icone": "database",
+          "destaque": true
         },
         {
-          "titulo": "Pipeline de dados",
-          "pipeline": true,
-          "camadas": [
-            {
-              "sigla": "RAW",
-              "titulo": "Snowflake RAW",
-              "nota": "Dados recebidos",
-              "icone": "snowflake"
-            },
-            {
-              "sigla": "STG",
-              "titulo": "STAGING · dbt",
-              "nota": "Padronização e testes",
-              "icone": "transform",
-              "destaque": true
-            },
-            {
-              "sigla": "INT",
-              "titulo": "INT · dbt",
-              "nota": "Regras e joins reutilizáveis",
-              "icone": "transform"
-            },
-            {
-              "sigla": "DW",
-              "titulo": "Data Warehouse · dbt",
-              "nota": "Modelo analítico",
-              "icone": "warehouse"
-            }
-          ]
+          "tipo": "2. Ingestão",
+          "titulo": "Airbyte",
+          "nota": "Extração e sincronização",
+          "icone": "sync"
         },
         {
-          "titulo": "Consumo",
-          "etapas": [
-            {
-              "tipo": "Analytics",
-              "titulo": "Power BI",
-              "nota": "Indicadores e análise",
-              "icone": "chart",
-              "destaque": true
-            }
-          ]
+          "tipo": "3. RAW",
+          "titulo": "Snowflake",
+          "nota": "Dados recebidos",
+          "selo": "RAW",
+          "icone": "snowflake"
+        },
+        {
+          "tipo": "4. STAGING",
+          "titulo": "dbt",
+          "nota": "Padronização e testes",
+          "selo": "STAGING",
+          "icone": "transform"
+        },
+        {
+          "tipo": "5. INT",
+          "titulo": "dbt",
+          "nota": "Modelagem intermediária",
+          "selo": "INT",
+          "icone": "transform"
+        },
+        {
+          "tipo": "6. Data Warehouse",
+          "titulo": "dbt",
+          "nota": "Modelo analítico consolidado",
+          "selo": "DWH",
+          "icone": "warehouse"
+        },
+        {
+          "tipo": "7. Consumo",
+          "titulo": "Power BI",
+          "nota": "Indicadores e análises",
+          "icone": "chart"
         }
       ],
       "governanca": [
         {
           "nome": "Orquestração",
-          "valor": "Sync, dbt build e alertas",
+          "valor": "Agendamentos, monitoramento, alertas e retentativas",
           "icone": "airflow"
         },
         {
           "nome": "Governança",
-          "valor": "Linhagem e contratos",
+          "valor": "Catálogo, linhagem e contratos de dados",
           "icone": "catalog"
         },
         {
           "nome": "Segurança",
-          "valor": "Acesso mínimo e segredos",
+          "valor": "IAM, segredos gerenciados e criptografia",
           "icone": "lock"
         },
         {
           "nome": "Qualidade",
-          "valor": "Frescor, testes e reconciliação",
+          "valor": "Frescor, testes, regras e reconciliação",
           "icone": "quality"
         }
       ],
       "orquestracao": {
         "nome": "Airflow",
-        "valor": "Sincronização, reconciliação, dbt build e alertas",
+        "valor": "Orquestração e automação",
         "icone": "airflow"
-      }
+      },
+      "tituloBase": "Capacidades transversais"
     },
     "escopoRotulo": "Evidências e limites:"
   },
