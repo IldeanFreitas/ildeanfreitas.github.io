@@ -65,7 +65,11 @@ for (const tema of ['dark', 'light']) {
 
     await expect(page).toHaveScreenshot(`pagina-${tema}.png`, {
       fullPage: true,
-      animations: 'disabled'
+      animations: 'disabled',
+      // Os diagramas agora ocupam a largura integral da página. A captura
+      // completa percorre um documento intencionalmente mais alto; este prazo
+      // preserva a comparação pixel a pixel sem falso timeout.
+      timeout: 15_000
     });
   });
 }
