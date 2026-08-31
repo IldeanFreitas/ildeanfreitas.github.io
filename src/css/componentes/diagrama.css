@@ -3,6 +3,7 @@
 .case-card{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.35rem,2.5vw,2rem)}
 .case-card__content{min-width:0}
 .case-card__content .taglist{margin-top:1.5rem}
+.case-card--feature .case-card__content{max-width:65ch}
 /* O diagrama é um painel de instrumento: fica escuro nos DOIS temas, de
    propósito. O que estava errado não era isso — era o fundo ser literal
    (rgba(4,12,14,...)) enquanto o texto vinha de token de tema. No tema claro
@@ -30,7 +31,13 @@
 .diagram-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 0 .8rem;border-bottom:1px solid var(--border)}
 .diagram-kicker{margin:0;color:var(--text-dim);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
 .diagram-header b{color:var(--accent);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.diagram-legend{display:flex;justify-content:flex-end;gap:1.25rem;padding-top:.75rem;color:var(--text-muted);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.diagram-legend span{display:flex;align-items:center;gap:.4rem}
+.diagram-legend__line{display:block;width:2.35rem;border-top:2px solid var(--accent)}
+.diagram-legend__line::after{content:"→";display:block;float:right;margin-top:-.65rem;color:var(--accent);font-size:.9rem}
+.diagram-legend__line--dashed{border-top-style:dashed}
 .diagram-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem;padding:1rem 0}
+.diagram-flow--pipeline{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;padding:1rem 0 .75rem}
 .diagram-stage{
   position:relative;display:grid;align-content:start;gap:.35rem;min-height:6.1rem;padding:.75rem;
   background:rgba(4,12,14,.7);border:1px solid var(--border);border-radius:var(--r-sm)
@@ -41,6 +48,7 @@
 .diagram-stage__icon{width:1.35rem;height:1.35rem;padding:.18rem;border:1px solid var(--border-lime);border-radius:6px;background:rgba(198,223,0,.05)}
 .diagram-stage__icon svg,.diagram-layer__icon svg,.diagram-foundation__icon svg,.diagram-orchestration__icon svg{display:block;width:100%;height:100%}
 .diagram-stage__type{color:var(--accent);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.diagram-stage__badge{margin-left:auto;padding:.18rem .32rem;border:1px solid var(--border-lime);border-radius:6px;color:var(--accent);font-size:.55rem;font-weight:800;letter-spacing:.06em}
 .diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
 .diagram-stage__meta{color:var(--text-dim);font-size:.67rem;line-height:1.35}
 .diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
@@ -48,6 +56,7 @@
    e cinco itens dependendo do case, e o numero fixo deixava o quarto item
    sozinho numa segunda linha. */
 .diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.55rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
+.diagram-foundation__title{grid-column:1/-1;margin:0;color:var(--accent);font-size:.62rem;font-weight:700;letter-spacing:.08em;text-align:center;text-transform:uppercase}
 .diagram-foundation__item{display:grid;grid-template-columns:1.4rem minmax(0,1fr);align-items:start;gap:.4rem;min-width:0}
 .diagram-foundation__icon{width:1.2rem;height:1.2rem;margin-top:.05rem}
 .diagram-foundation__item>span:last-child{color:var(--text-muted);font-size:.66rem;line-height:1.3}
@@ -76,11 +85,19 @@
 .diagram-orchestration__icon{width:1.45rem;height:1.45rem}
 .diagram-orchestration span:last-child{color:var(--text-muted);font-size:.66rem;line-height:1.35}
 .diagram-orchestration b{margin-right:.35rem;color:var(--accent);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase}
-@media(min-width:980px){.case-card{grid-template-columns:minmax(0,.84fr) minmax(430px,1.16fr);align-items:center}}
+.diagram-orchestration--pipeline{max-width:28rem;margin:0 auto .75rem;border-style:dashed}
+@media(min-width:980px){.case-card{grid-template-columns:minmax(0,.84fr) minmax(430px,1.16fr);align-items:center}.case-card--feature{grid-template-columns:1fr;align-items:stretch}}
+@media(min-width:1100px){
+  .diagram-flow--pipeline{grid-template-columns:repeat(7,minmax(0,1fr));gap:.7rem;padding:1.5rem 0 .9rem}
+  .diagram-flow--pipeline .diagram-stage{min-height:9.5rem;padding:.8rem}
+  .diagram-flow--pipeline .diagram-stage__title{font-size:.95rem}
+  .diagram-flow--pipeline .diagram-stage:not(:last-child)::after{right:-.38rem}
+}
 @media(max-width:760px){
   .diagram-flow{grid-template-columns:1fr;gap:.45rem}
   .diagram-flow .diagram-stage:not(:last-child)::after{content:"↓";right:auto;top:auto;bottom:-.45rem;left:50%;translate:-50% 50%}
   .diagram-data-layout{grid-template-columns:1fr;gap:.5rem}
+  .diagram-flow--pipeline{grid-template-columns:1fr}
   .diagram-zone--pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}
   .diagram-layer{grid-template-columns:1fr;text-align:center}.diagram-layer__icon,.diagram-layer__mark{justify-self:center}
   .diagram-data-layout .diagram-zone:not(:last-child)::after{content:"↓";right:auto;top:auto;bottom:-.45rem;left:50%;translate:-50% 50%}
