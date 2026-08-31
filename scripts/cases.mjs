@@ -138,12 +138,12 @@ function diagrama(d) {
     : '';
 
   const legenda = d.legenda
-    ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>${texto(d.legenda.fluxo)}</span><span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>${texto(d.legenda.controle)}</span></div>`
-    : '';
+    ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>${texto(d.legenda.fluxo)}</span><span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>${texto(d.legenda.controle)}</span></div>\n`
+    : d.forma === 'fluxo'
+      ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>Fluxo do processo</span></div>\n`
+      : '';
 
-  const tituloBase = d.tituloBase
-    ? `<p class="diagram-foundation__title">${texto(d.tituloBase)}</p>`
-    : '';
+  const tituloBase = `<p class="diagram-foundation__title">${texto(d.tituloBase || 'Capacidades transversais')}</p>`;
 
   return (
     `          <figure class="architecture-diagram" role="img" aria-label="${attr(d.alt)}">\n` +
@@ -164,7 +164,7 @@ function diagrama(d) {
  * enquanto os outros cinco eram pílulas.
  */
 export function renderizarCase(c) {
-  const classes = `card case-card reveal${c.destaqueVisual ? ' case-card--feature' : ''}`;
+  const classes = 'card case-card case-card--feature reveal';
   const partes = [
     `        <article class="${classes}" id="${attr(c.id)}">`,
     `          <div class="case-card__content">`,
