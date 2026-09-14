@@ -95,6 +95,60 @@ const icones = {
 
 const icone = (nome = 'component') => icones[nome] || icones.component;
 
+/** Ícones Fluent locais para conceitos. Marcas de produto ficam no catálogo local. */
+const iconesNeutros = {
+  database: 'database',
+  sync: 'arrow-sync',
+  snowflake: 'database-arrow-right',
+  transform: 'arrow-sync',
+  warehouse: 'database-multiple',
+  chart: 'chart-multiple',
+  airflow: 'arrow-sync',
+  catalog: 'database-search',
+  lock: 'lock-closed',
+  quality: 'database-checkmark'
+};
+const iconeNeutro = (nome) =>
+  `<span class="dataflow-icon dataflow-icon--${iconesNeutros[nome] || 'database'}" aria-hidden="true"></span>`;
+
+/* Arquivos originais dos fornecedores, obtidos das fontes registradas no
+ * manifesto. A marca é decorativa porque o nome do produto permanece no
+ * mesmo cartão, de modo que leitores de tela não recebem texto duplicado. */
+const marcasDataflow = {
+  postgresql: 'assets/icons/vendor/postgresql/PostgreSQL_logo.3colors.svg',
+  airbyte: 'assets/icons/vendor/airbyte/Airbyte_icon_color.svg',
+  snowflake: 'assets/icons/vendor/snowflake/bug-sno-blue.png',
+  dbt: 'assets/icons/vendor/dbt/dbt-bit-standalone.png',
+  airflow: 'assets/icons/vendor/airflow/airflow-icon.svg',
+  'power-bi': 'assets/icons/vendor/power-bi/power_bi_48_color.svg'
+};
+const iconeProduto = (marca) =>
+  `<img class="dataflow-product-icon" src="${marcasDataflow[marca]}" alt="" aria-hidden="true">`;
+const iconeDataflow = (marca, neutro) =>
+  marcasDataflow[marca] ? iconeProduto(marca) : iconeNeutro(neutro);
+
+const marcasAssincronas = {
+  dataverse: 'assets/icons/vendor/dataverse/Dataverse_scalable.svg',
+  'power-apps': 'assets/icons/vendor/power-apps/PowerApps_scalable.svg',
+  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+};
+const iconeAssincrono = (etapa) =>
+  etapa.produto && marcasAssincronas[etapa.produto]
+    ? `<img class="async-product-icon" src="${marcasAssincronas[etapa.produto]}" alt="" aria-hidden="true">`
+    : icone(etapa.icone);
+
+/* Marcas oficiais empregadas somente nos nós que nomeiam o produto exato.
+ * Redis permanece como conceito neutro neste case: não há um ativo oficial
+ * baixado e validado no catálogo local para uso público. */
+const marcasRpa = {
+  nodejs: 'assets/icons/vendor/nodejs/nodejsHex.svg',
+  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+};
+const iconeRpa = (nome, produto) =>
+  produto && marcasRpa[produto]
+    ? `<img class="rpa-product-icon" src="${marcasRpa[produto]}" alt="" aria-hidden="true">`
+    : icone(nome);
+
 const etapa = (e) =>
   `<div class="diagram-stage${e.destaque ? ' diagram-stage--accent' : ''}">` +
   `<div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true">${icone(e.icone)}</span><span class="diagram-stage__type">${texto(e.tipo)}</span>${e.selo ? `<span class="diagram-stage__badge">${texto(e.selo)}</span>` : ''}</div>` +
@@ -116,6 +170,12 @@ const zona = (z) =>
   `\n              </section>`;
 
 function diagrama(d) {
+  if (d.forma === 'dataflow') return dataflow(d);
+  if (d.forma === 'async') return fluxoAssincrono(d);
+  if (d.forma === 'lakehouse') return lakehouse(d);
+  if (d.forma === 'financial') return jornadaFinanceira(d);
+  if (d.forma === 'rpa-detailed') return anatomiaRpa(d);
+
   const pipeline = d.forma === 'pipeline';
   const corpo =
     d.forma === 'fluxo' || pipeline
@@ -157,6 +217,273 @@ function diagrama(d) {
 }
 
 /**
+ * Visão lógica de fluxo de dados do case DataOps. O caminho que os dados
+ * percorrem fica em uma única linha; orquestração e controles não se passam
+ * por etapas de transformação.
+ */
+const noDataflow = (etapa, grupo, conectado = false) =>
+  `<article class="dataflow-node dataflow-node--${attr(grupo)}${etapa.destaque ? ' dataflow-node--emphasis' : ''}${conectado ? ' dataflow-node--connected' : ''}">
+                <div class="dataflow-node__head"><span class="dataflow-node__icon">${iconeDataflow(etapa.marca, etapa.icone)}</span><span class="dataflow-node__kind">${texto(etapa.tipo || grupo)}</span></div>
+                <b>${texto(etapa.titulo)}</b><span>${texto(etapa.nota)}</span>${etapa.sigla ? `<i>${texto(etapa.sigla)}</i>` : ''}
+              </article>`;
+
+const nomeCamadaDbt = (titulo) => texto(titulo.replace(/\s*·\s*dbt$/i, ''));
+const painelDbt = (camadas) =>
+  `<article class="dataflow-dbt dataflow-node dataflow-node--transformacao dataflow-node--emphasis dataflow-node--connected">
+                <div class="dataflow-dbt__head"><span class="dataflow-node__icon">${iconeProduto('dbt')}</span><div><span class="dataflow-node__kind">Transformação</span><b>dbt · camadas analíticas</b></div></div>
+                <ol class="dataflow-dbt__stages">${camadas
+                  .map(
+                    (camada) =>
+                      `<li><span>${texto(camada.sigla)}</span><b>${nomeCamadaDbt(camada.titulo)}</b><small>${texto(camada.nota)}</small></li>`
+                  )
+                  .join('')}</ol>
+              </article>`;
+
+function dataflow(d) {
+  const fontes = d.zonas[0].etapas.map((etapa) => ({
+    ...etapa,
+    grupo: 'fonte',
+    marca: etapa.titulo === 'PostgreSQL' ? 'postgresql' : 'airbyte'
+  }));
+  const transformacoes = d.zonas[1].camadas.map((etapa) => ({
+    ...etapa,
+    tipo: etapa.titulo.includes('RAW') ? 'Persistência' : 'Transformação',
+    grupo: 'transformacao',
+    marca: etapa.titulo.includes('Snowflake') ? 'snowflake' : 'dbt'
+  }));
+  const consumo = d.zonas[2].etapas.map((etapa) => ({
+    ...etapa,
+    grupo: 'consumo',
+    marca: 'power-bi'
+  }));
+  const [postgresql, airbyte] = fontes;
+  const [snowflake, ...camadasDbt] = transformacoes;
+  const [powerBi] = consumo;
+
+  const controles = d.governanca
+    .map(
+      (item) =>
+        `<li><span>${iconeNeutro(item.icone)}</span><div><b>${texto(item.nome)}</b><small>${texto(item.valor)}</small></div></li>`
+    )
+    .join('');
+
+  return `          <figure class="architecture-diagram architecture-diagram--dataflow" aria-label="${attr(d.alt)}">
+            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
+            <div class="dataflow-intro"><span>Visão lógica · caminho de dados</span><span>Origem → consumo</span></div>
+            <section class="dataflow-track" aria-label="Caminho de dados">
+              ${noDataflow(postgresql, postgresql.grupo, true)}
+              ${noDataflow(airbyte, airbyte.grupo, true)}
+              ${noDataflow(snowflake, snowflake.grupo, true)}
+              ${painelDbt(camadasDbt)}
+              ${noDataflow(powerBi, powerBi.grupo)}
+            </section>
+            <div class="dataflow-control-plane"><span class="dataflow-control-plane__icon">${iconeProduto('airflow')}</span><div><b>Plano de controle · ${texto(d.orquestracao.nome)}</b><span>${texto(d.orquestracao.valor)}</span></div><small>Orquestra o fluxo, não transforma dados</small></div>
+            <section class="dataflow-foundation" aria-label="${attr(d.tituloBase)}"><p>${texto(d.tituloBase)}</p><ul>${controles}</ul></section>
+          </figure>`;
+}
+
+/* A fila é o estado do processo assíncrono; o Cloud Flow é o plano de
+ * controle que reserva e reencaminha jobs. Eles não devem parecer cinco
+ * passos lineares com a mesma importância visual. */
+const noAssincrono = (etapa, classe, conectado = false) =>
+  `<article class="async-job-node async-job-node--${classe}${etapa.destaque ? ' async-job-node--emphasis' : ''}${conectado ? ' async-job-node--connected' : ''}">
+                <div class="async-job-node__head"><span class="async-job-node__icon" aria-hidden="true">${iconeAssincrono(etapa)}</span><span class="async-job-node__kind">${texto(etapa.tipo)}</span></div>
+                <b>${texto(etapa.titulo)}</b><span>${texto(etapa.nota)}</span>
+              </article>`;
+
+function fluxoAssincrono(d) {
+  const [entrada, fila, orquestrador, worker, monitoramento] = d.etapas;
+  const [idempotencia, resiliencia, rastreabilidade] = d.governanca;
+  const protecao = (item, ancora) =>
+    `<li class="async-guardrail async-guardrail--${ancora}"><span aria-hidden="true">${icone(item.icone)}</span><div><b>${texto(item.nome)}</b><small>${texto(item.valor)}</small></div></li>`;
+
+  return `          <figure class="architecture-diagram architecture-diagram--async" aria-label="${attr(d.alt)}">
+            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
+            <div class="async-intro"><span>Caminho do job</span><span>Entrada → retorno</span></div>
+            <div class="async-layout">
+              ${noAssincrono(entrada, 'entrada', true)}
+              ${noAssincrono(fila, 'fila', true)}
+              <div class="async-control-plane"><span class="async-control-plane__icon" aria-hidden="true">${iconeAssincrono(orquestrador)}</span><div><span>Plano de controle</span><b>${texto(orquestrador.titulo)}</b><small>${texto(orquestrador.nota)} · reserva o job, aplica lock e agenda retentativas</small></div></div>
+              ${noAssincrono(worker, 'worker', true)}
+              ${noAssincrono(monitoramento, 'monitoramento')}
+              <section class="async-guardrails" aria-label="Proteções por etapa"><p>Proteções por etapa</p><ul>${protecao(idempotencia, 'fila')}${protecao(resiliencia, 'controle')}${protecao(rastreabilidade, 'monitoramento')}</ul></section>
+            </div>
+          </figure>`;
+}
+
+/* O diagrama do Lakehouse responde a uma pergunta diferente da visão DataOps:
+ * como o dado percorre a arquitetura realmente implementada. Por isso o
+ * coletor, a landing e os dois modos de execução ficam explícitos, sem fazer
+ * parecer que a API é chamada diretamente pelo cluster Databricks. */
+const noLakehouse = (etapa, conectado = false) =>
+  `<article class="lakehouse-node${etapa.destaque ? ' lakehouse-node--emphasis' : ''}${conectado ? ' lakehouse-node--connected' : ''}">
+                <div class="lakehouse-node__head"><span class="lakehouse-node__icon" aria-hidden="true">${iconeLakehouse(etapa)}</span><span class="lakehouse-node__kind">${texto(etapa.tipo)}</span></div>
+                <b>${texto(etapa.titulo)}</b><span>${texto(etapa.nota)}</span>
+              </article>`;
+
+const marcasLakehouse = {
+  databricks: 'assets/icons/vendor/databricks/databricks-symbol-color.svg',
+  python: 'assets/icons/vendor/python/python-logo-only.svg',
+  'power-bi': 'assets/icons/vendor/power-bi/power_bi_48_color.svg'
+};
+const iconeLakehouse = (etapa) =>
+  etapa.produto && marcasLakehouse[etapa.produto]
+    ? `<img class="lakehouse-product-icon" src="${marcasLakehouse[etapa.produto]}" alt="">`
+    : icone(etapa.icone);
+
+const marcasAmbienteLakehouse = {
+  databricks: 'assets/icons/vendor/databricks/databricks-symbol-color.svg'
+};
+const iconeAmbienteLakehouse = (ambiente) =>
+  ambiente.produto && marcasAmbienteLakehouse[ambiente.produto]
+    ? `<img class="lakehouse-environment__product-icon" src="${marcasAmbienteLakehouse[ambiente.produto]}" alt="">`
+    : '';
+
+const painelMedallion = (camadas) =>
+  `<article class="lakehouse-medallion lakehouse-medallion--connected">
+                <div class="lakehouse-medallion__head"><span class="lakehouse-node__icon" aria-hidden="true"><img class="lakehouse-medallion__product-icon" src="${marcasLakehouse.databricks}" alt=""></span><span><small>Medalhão Lakehouse</small><b>Camadas Delta</b></span></div>
+                <ol>${camadas
+                  .map(
+                    (camada) =>
+                      `<li class="${camada.destaque ? 'lakehouse-medallion__layer--accent' : ''}"><span aria-hidden="true">${icone(camada.icone)}</span><div><small>${texto(camada.tipo)}</small><b>${texto(camada.titulo)}</b><em>${texto(camada.nota)}</em></div></li>`
+                  )
+                  .join('')}</ol>
+              </article>`;
+
+function lakehouse(d) {
+  const [fonte, coleta, landing, bronze, silver, gold, produtos] = d.etapas;
+  const ambientes = d.ambientes
+    .map(
+      (ambiente) =>
+        `<li>${iconeAmbienteLakehouse(ambiente)}<div><b>${texto(ambiente.nome)}</b><span>${texto(ambiente.valor)}</span></div></li>`
+    )
+    .join('');
+  const controles = d.governanca
+    .map(
+      (item) =>
+        `<li><span aria-hidden="true">${icone(item.icone)}</span><div><b>${texto(item.nome)}</b><small>${texto(item.valor)}</small></div></li>`
+    )
+    .join('');
+
+  return `          <figure class="architecture-diagram architecture-diagram--lakehouse" aria-label="${attr(d.alt)}">
+            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
+            <div class="lakehouse-intro"><span>Visão lógica · caminho de dados</span><span>Batch · origem → produtos</span></div>
+            <section class="lakehouse-track" aria-label="Caminho de dados do Lakehouse">
+              ${noLakehouse(fonte, true)}
+              ${noLakehouse(coleta, true)}
+              ${noLakehouse(landing, true)}
+              ${painelMedallion([bronze, silver, gold])}
+              ${noLakehouse(produtos)}
+            </section>
+            <section class="lakehouse-environments" aria-label="Ambientes de execução"><p>Ambientes de execução</p><ul>${ambientes}</ul></section>
+            <section class="lakehouse-controls" aria-label="Controles transversais do Lakehouse"><p>${texto(d.tituloBase || 'Controles transversais')}</p><ul>${controles}</ul></section>
+          </figure>`;
+}
+
+/* A jornada financeira é uma arquitetura operacional, e não uma sequência de
+ * estados da tela. Ela deixa explícitos os limites entre a experiência do
+ * solicitante, a persistência, a orquestração e o ERP, sem publicar dados ou
+ * objetos do ambiente de origem. */
+const marcasFinanceiras = {
+  'power-apps': 'assets/icons/vendor/power-apps/PowerApps_scalable.svg',
+  sharepoint: 'assets/icons/vendor/sharepoint/sharepoint_48x1.svg',
+  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+};
+const iconeFinanceiro = (etapa) =>
+  etapa.produto === 'sap'
+    ? '<span class="financial-sap-icon" aria-hidden="true"></span>'
+    : etapa.produto && marcasFinanceiras[etapa.produto]
+      ? `<img class="financial-product-icon" src="${marcasFinanceiras[etapa.produto]}" alt="" aria-hidden="true">`
+      : icone(etapa.icone);
+const noFinanceiro = (etapa, conectado = false) =>
+  `<article class="financial-node${etapa.destaque ? ' financial-node--emphasis' : ''}${conectado ? ' financial-node--connected' : ''}">
+                <div class="financial-node__head"><span class="financial-node__icon" aria-hidden="true">${iconeFinanceiro(etapa)}</span><span class="financial-node__kind">${texto(etapa.tipo)}</span></div>
+                <b>${texto(etapa.titulo)}</b><span>${texto(etapa.nota)}</span>
+              </article>`;
+
+function jornadaFinanceira(d) {
+  const [solicitacao, persistencia, orquestracao, erp, status] = d.etapas;
+  const controles = d.governanca
+    .map(
+      (item) =>
+        `<li><span aria-hidden="true">${icone(item.icone)}</span><div><b>${texto(item.nome)}</b><small>${texto(item.valor)}</small></div></li>`
+    )
+    .join('');
+
+  return `          <figure class="architecture-diagram architecture-diagram--financial" aria-label="${attr(d.alt)}">
+            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
+            <div class="financial-intro"><span>Visão lógica · solicitação ao acompanhamento</span><span>Assíncrono · interface → ERP</span></div>
+            <section class="financial-track" aria-label="Caminho operacional da solicitação financeira">
+              ${noFinanceiro(solicitacao, true)}
+              ${noFinanceiro(persistencia, true)}
+              ${noFinanceiro(orquestracao, true)}
+              ${noFinanceiro(erp, true)}
+              ${noFinanceiro(status)}
+            </section>
+            <section class="financial-controls" aria-label="Controles transversais da jornada financeira"><p>${texto(d.tituloBase || 'Controles transversais')}</p><ul>${controles}</ul></section>
+          </figure>`;
+}
+
+/* O RPA alterna HTTP e navegador porque há três limites técnicos verificados.
+ * A versão pública deixa portal, domínios, seletores, contas e segredos fora
+ * do desenho, mas mantém o caminho de uma conta e a razão de cada fronteira. */
+const painelRpa = (zona) =>
+  `<article class="rpa-detailed-zone rpa-detailed-zone--${attr(zona.classe)}">
+                <header><span aria-hidden="true">${iconeRpa(zona.icone, zona.produto)}</span><div><small>${texto(zona.subtitulo)}</small><b>${texto(zona.titulo)}</b></div></header>
+                <ul>${zona.itens
+                  .map(
+                    (item) =>
+                      `<li><span aria-hidden="true">${icone(item.icone)}</span><div><b>${texto(item.titulo)}</b><small>${texto(item.nota)}</small></div></li>`
+                  )
+                  .join('')}</ul>
+              </article>`;
+
+const chamadaRpa = (chamada) =>
+  `<li class="rpa-call${chamada.destaque ? ' rpa-call--accent' : ''}"><span>${texto(chamada.numero)}</span><div><b>${texto(chamada.rotulo)}</b><small>${texto(chamada.nota)}</small></div></li>`;
+
+function anatomiaRpa(d) {
+  const chamadasHttp = d.chamadas
+    .filter((chamada) => chamada.meio === 'http')
+    .map(chamadaRpa)
+    .join('');
+  const chamadasNavegador = d.chamadas
+    .filter((chamada) => chamada.meio === 'navegador')
+    .map(chamadaRpa)
+    .join('');
+  const restricoes = d.restricoes
+    .map(
+      (item) =>
+        `<li><span aria-hidden="true">${icone(item.icone)}</span><div><b>${texto(item.titulo)}</b><small>${texto(item.nota)}</small></div></li>`
+    )
+    .join('');
+  const janelas = d.janelas
+    .map((item) => `<li><b>${texto(item.titulo)}</b><span>${texto(item.valor)}</span></li>`)
+    .join('');
+
+  return `          <figure class="architecture-diagram architecture-diagram--rpa-detailed" aria-label="${attr(d.alt)}">
+            <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
+            <div class="rpa-detailed-intro"><span>API quando existe · navegador quando é obrigatório</span><span>${texto(d.subtitulo)}</span></div>
+            <section class="rpa-detailed-zones" aria-label="Três zonas da automação">
+              ${painelRpa(d.zonas.servico)}
+              <article class="rpa-detailed-robot">
+                <header><span aria-hidden="true">${iconeRpa(d.robo.icone, d.robo.produto)}</span><div><small>Robô</small><b>${texto(d.robo.titulo)}</b></div></header>
+                <ol>${d.robo.subfluxos.map((subfluxo) => `<li>${texto(subfluxo)}</li>`).join('')}</ol>
+                <p>${texto(d.robo.rodape)}</p>
+              </article>
+              ${painelRpa(d.zonas.portal)}
+            </section>
+            <section class="rpa-detailed-calls" aria-label="Ciclo de uma conta">
+              <div><p><i aria-hidden="true"></i>Chamadas HTTP</p><ol>${chamadasHttp}</ol></div>
+              <div><p><i aria-hidden="true"></i>Interações no navegador</p><ol>${chamadasNavegador}</ol></div>
+            </section>
+            <div class="rpa-detailed-legend"><span><i aria-hidden="true"></i>HTTP</span><span><i aria-hidden="true"></i>Navegador</span><span>O passo 6 só ocorre após o login</span></div>
+            <section class="rpa-detailed-restrictions" aria-label="Por que não é só um POST de token"><p>Por que não é só um <code>POST /token</code></p><ul>${restricoes}</ul></section>
+            <section class="rpa-detailed-clocks" aria-label="Janelas que governam o desenho"><p>Janelas que governam o desenho</p><ul>${janelas}</ul></section>
+            <figcaption>${texto(d.legenda)}</figcaption>
+          </figure>`;
+}
+
+/**
  * Um case. A ordem e as classes do envoltório existem em UM lugar só — era
  * esse o ponto da conversão. Antes, seis blocos quase iguais divergiam sem
  * ninguém notar: um deles usava class="button button--secondary", que não
@@ -164,7 +491,7 @@ function diagrama(d) {
  * enquanto os outros cinco eram pílulas.
  */
 export function renderizarCase(c) {
-  const classes = 'card case-card case-card--feature reveal';
+  const classes = `card case-card case-card--feature case-card--${attr(c.id.replace(/^case-/, ''))} reveal`;
   const partes = [
     `        <article class="${classes}" id="${attr(c.id)}">`,
     `          <div class="case-card__content">`,

@@ -51,6 +51,7 @@ npx playwright install chromium
 
 npm run build               # monta index.html, 404.html e sitemap.xml
 npm run serve               # http://localhost:4173
+npm run dev                 # prévia local com atualização em tempo real
 npm run check               # build + lint + formato + testes
 npm run test:visual         # regressão visual (só local)
 ```
@@ -81,9 +82,14 @@ Detalhes em [docs/ARQUITETURA.md](docs/ARQUITETURA.md) e [docs/QUALIDADE.md](doc
 ## Testar localmente antes de publicar
 
 ```bash
-npm run build && npm run serve
-# abrir http://localhost:4173
+npm run dev
+# abrir http://localhost:4173; ao salvar em src/, a página recompila e recarrega
 ```
+
+O modo de prévia não publica conteúdo nem altera conexões Power Platform. Ele
+mantém o último build válido visível se uma edição falhar, e aponta o erro no
+terminal. Use-o para explorar os cases, componentes e fluxos documentados;
+antes de promover uma alteração, execute `npm run check`.
 
 Nunca faça merge no `main` sem rodar `npm run check` e abrir o site localmente. O `main` é público em tempo real.
 

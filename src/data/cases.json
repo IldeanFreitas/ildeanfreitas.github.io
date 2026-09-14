@@ -2,70 +2,80 @@
   {
     "id": "case-dataops",
     "status": {
-      "variante": "evolving",
-      "rotulo": "Em evolução"
+      "variante": "done",
+      "rotulo": "Entregue"
     },
     "titulo": "Laboratório DataOps: pipeline analítico ponta a ponta",
-    "descricao": "Pipeline analítico executado de ponta a ponta: PostgreSQL em Docker, ingestão pelo Airbyte e camadas RAW, STAGING e DW no Snowflake, com o Airflow orquestrando frescor da fonte, sincronização, reconciliação com a origem e o build do dbt. Menor privilégio por camada, dado pessoal fora do mart e segredos fora do versionamento.",
-    "escopo": "as etapas de 1 a 9 estão concluídas. São 22 modelos dbt sobre uma fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados, sem avisos, nos dois targets. A etapa de Power BI está em andamento. O repositório é privado, então os números acima não são publicamente verificáveis — posso demonstrá-los em uma conversa.",
+    "descricao": "Laboratório de conclusão da formação em Engenharia de Dados: pipeline analítico executado de ponta a ponta sobre uma base transacional em PostgreSQL, containerizada em Docker. O Airbyte replica as tabelas para a camada RAW do Snowflake, o dbt padroniza e monta o modelo dimensional em STAGING, INT e DW, e o Airflow coordena o ciclo — frescor da fonte, sincronização, dbt build e reconciliação contra a origem — antes do consumo em Power BI.",
+    "escopo": "laboratório concluído e entregue. São 22 modelos dbt sobre uma tabela fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados e nenhum aviso nos dois ambientes de execução, local e em container. Dado pessoal fica fora do modelo analítico e cada camada roda com o menor privilégio necessário. O repositório é privado, então esses números não são publicamente verificáveis — demonstro em uma conversa.",
     "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
     "destaqueVisual": true,
     "diagrama": {
-      "alt": "Arquitetura do laboratório DataOps de ponta a ponta: PostgreSQL, Airbyte, Snowflake RAW, STAGING, INT, Data Warehouse e Power BI, com Airflow como plano de orquestração e capacidades transversais de governança, segurança e qualidade.",
+      "alt": "Visão lógica do laboratório DataOps: PostgreSQL alimenta o Airbyte; os dados percorrem Snowflake RAW, STAGING, INT e Data Warehouse antes do consumo no Power BI. Airflow opera como plano de controle, enquanto governança, segurança e qualidade são capacidades transversais.",
       "etiqueta": "Arquitetura de dados",
-      "titulo": "Visão de ponta a ponta",
-      "forma": "pipeline",
-      "legenda": {
-        "fluxo": "Fluxo de dados",
-        "controle": "Orquestração (Airflow)"
-      },
-      "etapas": [
+      "titulo": "Ambiente de desenvolvimento",
+      "forma": "dataflow",
+      "zonas": [
         {
-          "tipo": "1. Fontes",
-          "titulo": "PostgreSQL",
-          "nota": "Docker local",
-          "icone": "database",
-          "destaque": true
+          "titulo": "Fontes",
+          "etapas": [
+            {
+              "tipo": "Origem",
+              "titulo": "PostgreSQL",
+              "nota": "Docker local",
+              "icone": "database",
+              "destaque": true
+            },
+            {
+              "tipo": "Ingestão",
+              "titulo": "Airbyte",
+              "nota": "Sincronização",
+              "icone": "sync"
+            }
+          ]
         },
         {
-          "tipo": "2. Ingestão",
-          "titulo": "Airbyte",
-          "nota": "Extração e sincronização",
-          "icone": "sync"
+          "titulo": "Pipeline de dados",
+          "pipeline": true,
+          "camadas": [
+            {
+              "titulo": "Snowflake RAW",
+              "nota": "Dados recebidos",
+              "sigla": "RAW",
+              "icone": "snowflake"
+            },
+            {
+              "titulo": "STAGING · dbt",
+              "nota": "Padronização e testes",
+              "sigla": "STG",
+              "icone": "transform",
+              "destaque": true
+            },
+            {
+              "titulo": "INT · dbt",
+              "nota": "Regras e joins reutilizáveis",
+              "sigla": "INT",
+              "icone": "transform"
+            },
+            {
+              "titulo": "Data Warehouse · dbt",
+              "nota": "Modelo analítico",
+              "sigla": "DW",
+              "icone": "warehouse"
+            }
+          ]
         },
         {
-          "tipo": "3. RAW",
-          "titulo": "Snowflake",
-          "nota": "Dados recebidos",
-          "selo": "RAW",
-          "icone": "snowflake"
-        },
-        {
-          "tipo": "4. STAGING",
-          "titulo": "dbt",
-          "nota": "Padronização e testes",
-          "selo": "STAGING",
-          "icone": "transform"
-        },
-        {
-          "tipo": "5. INT",
-          "titulo": "dbt",
-          "nota": "Modelagem intermediária",
-          "selo": "INT",
-          "icone": "transform"
-        },
-        {
-          "tipo": "6. Data Warehouse",
-          "titulo": "dbt",
-          "nota": "Modelo analítico consolidado",
-          "selo": "DWH",
-          "icone": "warehouse"
-        },
-        {
-          "tipo": "7. Consumo",
-          "titulo": "Power BI",
-          "nota": "Indicadores e análises",
-          "icone": "chart"
+          "titulo": "Consumo",
+          "etapas": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Power BI",
+              "nota": "Indicadores e análise",
+              "icone": "chart",
+              "destaque": true
+            }
+          ]
         }
       ],
       "governanca": [
@@ -92,7 +102,7 @@
       ],
       "orquestracao": {
         "nome": "Airflow",
-        "valor": "Orquestração e automação",
+        "valor": "Sincronização, reconciliação, dbt build e alertas",
         "icone": "airflow"
       },
       "tituloBase": "Capacidades transversais"
@@ -102,37 +112,46 @@
   {
     "id": "case-fiscal-orchestration",
     "status": {
-      "variante": "evolving",
-      "rotulo": "Em evolução"
+      "variante": "done",
+      "rotulo": "Entregue"
     },
     "titulo": "Orquestração de Processamento Fiscal",
-    "descricao": "Documentos fiscais processados por uma fila rastreável. Cada trabalho tem chave de idempotência, é reservado por um worker antes de rodar e volta para a fila se o bloqueio expirar — reenviar o mesmo lote não duplica nada.",
-    "escopo": "nada aqui saiu de um sistema real — o modelo e os dados foram escritos para o portfólio. Não há aplicativo, robô, portal nem ambiente, e nenhuma linha disto afirma execução em produção.",
-    "tags": ["Power Apps Canvas", "Dataverse", "Power Automate", "RPA", "Observabilidade"],
+    "descricao": "Aplicação em Power Apps Canvas que recebe lotes de notas fiscais por importação de planilha. Um fluxo em Power Automate valida o arquivo e grava cada linha como trabalho no Dataverse; robôs em Power Automate Desktop consomem a fila, registram a nota nos portais e devolvem o desfecho, que o operador acompanha na própria tela. Cada trabalho tem chave de idempotência e é reservado antes de rodar — reenviar um lote não duplica processamento.",
+    "escopo": "o projeto foi entregue com importação pelo aplicativo, fila no Dataverse, execução pelos robôs e consulta de status em operação. O repositório público é uma reconstrução: contrato da fila, diagrama, dados de exemplo e cenários de teste foram reescritos do zero, sem ambiente, portal, credencial ou documento real.",
+    "tags": [
+      "Power Apps Canvas",
+      "Dataverse",
+      "Power Automate",
+      "Power Automate Desktop",
+      "Observabilidade"
+    ],
     "diagrama": {
-      "alt": "Arquitetura de orquestração fiscal: importação validada cria uma fila no Dataverse; o orquestrador cloud distribui o trabalho ao worker RPA e registra o retorno no monitoramento.",
+      "alt": "Arquitetura de orquestração fiscal: o Power Apps importa um arquivo Excel e cria uma fila de jobs no Dataverse; o orquestrador Power Automate reserva o trabalho, aplica lock e retentativas antes da execução no worker RPA; o monitoramento registra status e evidências.",
       "etiqueta": "Operação assíncrona",
       "titulo": "Fila e workers",
-      "forma": "fluxo",
+      "forma": "async",
       "etapas": [
         {
           "tipo": "Entrada",
-          "titulo": "Importação",
-          "nota": "Lote validado",
-          "icone": "upload"
+          "titulo": "Power Apps",
+          "nota": "Importa arquivo Excel",
+          "icone": "upload",
+          "produto": "power-apps"
         },
         {
           "tipo": "Estado",
-          "titulo": "Fila",
+          "titulo": "Fila de jobs",
           "nota": "Dataverse",
           "icone": "queue",
+          "produto": "dataverse",
           "destaque": true
         },
         {
           "tipo": "Controle",
           "titulo": "Orquestrador",
-          "nota": "Cloud flow",
-          "icone": "workflow"
+          "nota": "Power Automate · cloud flow",
+          "icone": "workflow",
+          "produto": "power-automate"
         },
         {
           "tipo": "Execução",
@@ -175,349 +194,293 @@
       "rotulo": "Projeto acadêmico concluído"
     },
     "titulo": "Câmara dos Deputados — Pipeline Lakehouse",
-    "descricao": "Pipeline ponta a ponta com dados abertos da Câmara dos Deputados. Integra 17 endpoints da API pública, organiza dados nas camadas Bronze, Silver e Gold e produz análises de presença, despesas, votações, frentes parlamentares e tramitação de proposições.",
-    "escopo": "pipeline local executado com amostras públicas, 48 testes automatizados e validação contínua no GitHub. O repositório inclui documentação, diagramas e apresentações técnicas.",
-    "tags": ["Python", "PySpark", "Delta Lake", "Databricks", "Data Quality", "GitHub Actions"],
+    "descricao": "Lakehouse implementado no Databricks para dados abertos da Câmara dos Deputados. Um coletor Python consulta 17 endpoints configurados em YAML, preserva a origem auditável e promove os dados por Bronze, Silver e Gold para consumo analítico no Power BI.",
+    "escopo": "o Lakehouse opera no Databricks com Unity Catalog Volume, PySpark e Delta; o ambiente local apoia desenvolvimento e testes. São 48 testes automatizados e validação contínua no GitHub.",
+    "tags": [
+      "Python",
+      "PySpark",
+      "Delta Lake",
+      "Databricks",
+      "Power BI",
+      "Data Quality",
+      "GitHub Actions"
+    ],
     "diagrama": {
-      "alt": "Pipeline Lakehouse com API pública, camadas Bronze, Silver e Gold e consumo analítico, apoiado por qualidade de dados e automação de testes.",
+      "alt": "Visão lógica do Lakehouse Databricks da Câmara dos Deputados: a API pública alimenta um coletor Python que grava uma landing auditável no Unity Catalog Volume; os dados percorrem as camadas Delta Bronze, Silver e Gold e os produtos analíticos são consumidos no Power BI. O fluxo é apoiado por linhagem, estratégias incrementais, qualidade e testes.",
       "etiqueta": "Lakehouse público",
-      "titulo": "Bronze · Silver · Gold",
-      "forma": "fluxo",
+      "titulo": "Databricks Lakehouse · Power BI",
+      "forma": "lakehouse",
       "etapas": [
         {
-          "tipo": "Fonte",
-          "titulo": "API pública",
+          "tipo": "Fonte pública",
+          "titulo": "API Câmara",
           "nota": "17 endpoints",
           "icone": "api"
         },
         {
+          "tipo": "Coleta",
+          "titulo": "Worker Python",
+          "nota": "paginação e retentativas",
+          "icone": "sync",
+          "produto": "python"
+        },
+        {
+          "tipo": "Landing auditável",
+          "titulo": "Unity Catalog Volume",
+          "nota": "URL, hash e run_id",
+          "icone": "document",
+          "destaque": true
+        },
+        {
           "tipo": "Camada 01",
           "titulo": "Bronze",
-          "nota": "Ingestão bruta",
-          "icone": "layers",
-          "destaque": true
+          "nota": "raw por entidade · Delta",
+          "icone": "layers"
         },
         {
           "tipo": "Camada 02",
           "titulo": "Silver",
-          "nota": "Dados tratados",
+          "nota": "tipagem e deduplicação",
           "icone": "transform"
         },
         {
           "tipo": "Camada 03",
           "titulo": "Gold",
-          "nota": "Dados analíticos",
+          "nota": "7 dimensões · 4 fatos",
           "icone": "warehouse",
           "destaque": true
         },
         {
-          "tipo": "Consumo",
-          "titulo": "Análises",
-          "nota": "Temas públicos",
-          "icone": "chart"
+          "tipo": "Produtos analíticos",
+          "titulo": "Power BI",
+          "nota": "dashboards e análise",
+          "icone": "chart",
+          "produto": "power-bi"
+        }
+      ],
+      "ambientes": [
+        {
+          "nome": "Desenvolvimento local",
+          "valor": "Python · JSONL · Parquet · testes e experimentação"
+        },
+        {
+          "nome": "Lakehouse Databricks",
+          "valor": "PySpark · Unity Catalog Volume · Delta",
+          "produto": "databricks"
         }
       ],
       "governanca": [
         {
-          "nome": "Processamento",
-          "valor": "Python e PySpark",
-          "icone": "transform"
+          "nome": "Linhagem",
+          "valor": "source_url, hash do payload e run_id",
+          "icone": "trace"
         },
         {
-          "nome": "Confiabilidade",
-          "valor": "48 testes automatizados",
+          "nome": "Incrementalidade",
+          "valor": "snapshot, append, watermark, merge e SCD2",
+          "icone": "sync"
+        },
+        {
+          "nome": "Qualidade",
+          "valor": "PKs, expectations e validação de CNPJ",
           "icone": "quality"
         },
         {
-          "nome": "Entrega",
-          "valor": "GitHub Actions",
+          "nome": "Validação",
+          "valor": "48 testes pytest e GitHub Actions",
           "icone": "ci"
         }
-      ]
+      ],
+      "tituloBase": "Controles transversais"
     },
     "escopoRotulo": "Evidências:",
     "repositorio": "https://github.com/IldeanFreitas/fast-track-engenharia-v3"
   },
   {
-    "id": "case-financial-request",
+    "id": "case-rpa-oidc",
     "status": {
-      "variante": "designed",
-      "rotulo": "Arquitetura documentada"
+      "variante": "done",
+      "rotulo": "Entregue em homologação"
     },
-    "titulo": "Workflow de Solicitações Financeiras",
-    "descricao": "Solicitações financeiras, uma a uma ou em lote, com rateio entre centros de custo e anexos como evidência. O processamento no ERP é assíncrono: a interface registra e acompanha, sem depender de o ERP responder na hora.",
-    "escopo": "o contrato e o exemplo são sintéticos, feitos para publicação. Ficam de fora o aplicativo, as automações, o ambiente e a integração com o ERP — nenhum deles é alegado.",
+    "titulo": "RPA de autenticação OTP e persistência OIDC",
+    "descricao": "Robô em Power Automate Desktop que renova tokens OIDC para múltiplas contas. Ele usa HTTP onde existe API e recorre ao navegador somente para login, OTP e captura do token; após a conferência, o serviço interno o distribui em Redis com TTL.",
+    "escopo": "Validado ponta a ponta em homologação, com processamento multiconta, falhas isoladas por conta e classificação operacional de erros. O case público preserva a anonimização de ambientes, portais, endpoints e credenciais.",
     "tags": [
-      "Power Apps Canvas",
-      "Power Automate",
-      "Integração ERP",
-      "Modelagem de Dados",
-      "Testes"
+      "Power Automate Desktop",
+      "JavaScript",
+      "OAuth2 / OIDC",
+      "REST",
+      "Redis",
+      "Automação de navegador",
+      "Node.js + jsdom"
     ],
     "diagrama": {
-      "alt": "Jornada da solicitação financeira: rascunho, validação, envio, processamento assíncrono e liquidação, com rateio, evidências e rastreabilidade.",
-      "etiqueta": "Jornada financeira",
-      "titulo": "Solicitação rastreável",
-      "forma": "fluxo",
-      "etapas": [
+      "alt": "Diagrama de três zonas da automação OIDC. À esquerda, o serviço interno de tokens com provedor OAuth2, API de credenciais e Redis com TTL. Ao centro, o robô em Power Automate Desktop. À direita, um portal externo no navegador com login, desafio OTP e localStorage. Dez etapas numeradas alternam chamadas HTTP e interações no navegador; três restrições explicam por que não há uma solução somente por API.",
+      "etiqueta": "RPA de autenticação com OTP",
+      "titulo": "Anatomia de uma conta",
+      "subtitulo": "Ciclo de aproximadamente 70 segundos por conta",
+      "forma": "rpa-detailed",
+      "zonas": {
+        "servico": {
+          "classe": "servico",
+          "icone": "api",
+          "produto": "nodejs",
+          "subtitulo": "Rede interna",
+          "titulo": "Serviço de tokens em Node.js",
+          "itens": [
+            {
+              "titulo": "Provedor OAuth2",
+              "nota": "Credenciais de serviço",
+              "icone": "lock"
+            },
+            {
+              "titulo": "API de credenciais",
+              "nota": "Contas, OTP e conferência",
+              "icone": "api"
+            },
+            {
+              "titulo": "Redis com TTL",
+              "nota": "Distribuição do token às integrações",
+              "icone": "database"
+            }
+          ]
+        },
+        "portal": {
+          "classe": "portal",
+          "icone": "app",
+          "subtitulo": "Navegador",
+          "titulo": "Portal externo",
+          "itens": [
+            {
+              "titulo": "Tela de login",
+              "nota": "Sessão e credenciais",
+              "icone": "lock"
+            },
+            {
+              "titulo": "Tela do código",
+              "nota": "Desafio OTP com seis campos",
+              "icone": "check"
+            },
+            {
+              "titulo": "localStorage",
+              "nota": "Onde o SDK grava o OIDC",
+              "icone": "database"
+            }
+          ]
+        }
+      },
+      "robo": {
+        "icone": "workflow",
+        "produto": "power-automate",
+        "titulo": "Power Automate Desktop",
+        "subfluxos": [
+          "Main",
+          "Autenticar API",
+          "Buscar contas",
+          "Login no portal",
+          "Resolver OTP",
+          "Capturar OIDC",
+          "Persistir token",
+          "Log e tratar erro"
+        ],
+        "rodape": "Tratamento de erro por conta · uma falha não derruba a rodada"
+      },
+      "chamadas": [
         {
-          "tipo": "Estado 01",
-          "titulo": "Rascunho",
-          "nota": "Dados iniciais",
-          "icone": "document"
+          "numero": "1",
+          "meio": "http",
+          "rotulo": "POST de autenticação",
+          "nota": "Client credentials"
         },
         {
-          "tipo": "Estado 02",
-          "titulo": "Validação",
-          "nota": "Rateio e anexos",
-          "icone": "check",
+          "numero": "2",
+          "meio": "http",
+          "rotulo": "GET da lista de contas",
+          "nota": "OTP inicialmente vazio"
+        },
+        {
+          "numero": "3",
+          "meio": "navegador",
+          "rotulo": "Encerra sessão anterior",
+          "nota": "Limpeza antes do login"
+        },
+        {
+          "numero": "4",
+          "meio": "navegador",
+          "rotulo": "Usuário e senha",
+          "nota": "Interação com a tela"
+        },
+        {
+          "numero": "5",
+          "meio": "navegador",
+          "rotulo": "Tela do código",
+          "nota": "Seis campos de OTP"
+        },
+        {
+          "numero": "6",
+          "meio": "http",
+          "rotulo": "GET da lista de contas",
+          "nota": "OTP preenchido após o desafio · polling controlado",
           "destaque": true
         },
         {
-          "tipo": "Estado 03",
-          "titulo": "Envio",
-          "nota": "Chave idempotente",
-          "icone": "send"
+          "numero": "7",
+          "meio": "navegador",
+          "rotulo": "Digita e confirma o OTP",
+          "nota": "Espera os redirects"
         },
         {
-          "tipo": "Estado 04",
-          "titulo": "Processamento",
-          "nota": "Integração assíncrona",
+          "numero": "8",
+          "meio": "navegador",
+          "rotulo": "Lê a chave OIDC",
+          "nota": "Captura no localStorage"
+        },
+        {
+          "numero": "9",
+          "meio": "http",
+          "rotulo": "PUT do token",
+          "nota": "Payload normalizado · confirmação 204"
+        },
+        {
+          "numero": "10",
+          "meio": "http",
+          "rotulo": "GET de conferência",
+          "nota": "Registro legível · confirmação 200"
+        }
+      ],
+      "restricoes": [
+        {
+          "titulo": "ROPG bloqueado",
+          "nota": "Sem autenticação direta por API",
+          "icone": "shield"
+        },
+        {
+          "titulo": "Token nasce no navegador",
+          "nota": "O SDK o grava no localStorage",
+          "icone": "lock"
+        },
+        {
+          "titulo": "OTP só existe no desafio",
+          "nota": "Código disponível por janela curta",
           "icone": "sync"
-        },
-        {
-          "tipo": "Estado 05",
-          "titulo": "Liquidação",
-          "nota": "Status consultável",
-          "icone": "receipt"
         }
       ],
-      "governanca": [
+      "janelas": [
         {
-          "nome": "Dados",
-          "valor": "Cabeçalho e rateio",
-          "icone": "database"
+          "titulo": "Código disponível na API",
+          "valor": "aprox. 30 s"
         },
         {
-          "nome": "Evidências",
-          "valor": "Metadados protegidos",
-          "icone": "attachment"
+          "titulo": "auth_time aceito na gravação",
+          "valor": "30 min"
         },
         {
-          "nome": "Controle",
-          "valor": "Histórico de status",
-          "icone": "trace"
-        }
-      ]
-    },
-    "escopoRotulo": "Declaração de escopo:",
-    "repositorio": "https://github.com/IldeanFreitas/financial-request-workflow-case"
-  },
-  {
-    "id": "case-delivery-governance",
-    "status": {
-      "variante": "evolving",
-      "rotulo": "Em evolução"
-    },
-    "titulo": "Governança de Delivery para Power Platform",
-    "descricao": "Kit público de playbooks e templates para conduzir entregas de Power Platform com escopo rastreável, quality gates, registro de riscos, evidências de teste e decisão explícita de liberação.",
-    "escopo": "3 playbooks e 3 templates cobrindo descoberta, garantia de construção e liberação, com portão de aceite declarado em cada fase. É material de referência para adaptação, não uma Solution exportada nem processo de cliente algum.",
-    "tags": ["ALM", "Quality Gates", "Rastreabilidade", "Acessibilidade", "Gestão de Riscos"],
-    "diagrama": {
-      "alt": "Fluxo de governança de delivery: descoberta, build, qualidade, decisão de Go ou No-Go e release, com escopo, riscos e evidências rastreáveis.",
-      "etiqueta": "Delivery governado",
-      "titulo": "Gates de qualidade",
-      "forma": "fluxo",
-      "etapas": [
-        {
-          "tipo": "Gate 01",
-          "titulo": "Descoberta",
-          "nota": "Escopo e riscos",
-          "icone": "search"
-        },
-        {
-          "tipo": "Gate 02",
-          "titulo": "Build",
-          "nota": "Artefatos versionados",
-          "icone": "code"
-        },
-        {
-          "tipo": "Gate 03",
-          "titulo": "Qualidade",
-          "nota": "Testes e revisão",
-          "icone": "quality",
-          "destaque": true
-        },
-        {
-          "tipo": "Gate 04",
-          "titulo": "Go / No-Go",
-          "nota": "Decisão explícita",
-          "icone": "decision"
-        },
-        {
-          "tipo": "Gate 05",
-          "titulo": "Release",
-          "nota": "Evidência registrada",
-          "icone": "release"
+          "titulo": "Validade do token OIDC",
+          "valor": "poucas horas"
         }
       ],
-      "governanca": [
-        {
-          "nome": "ALM",
-          "valor": "Ambientes e versões",
-          "icone": "layers"
-        },
-        {
-          "nome": "Riscos",
-          "valor": "Registro e tratamento",
-          "icone": "shield"
-        },
-        {
-          "nome": "Acessibilidade",
-          "valor": "Critério de qualidade",
-          "icone": "check"
-        }
-      ]
+      "legenda": "Cada conta percorre este ciclo em cerca de 70 segundos. As chamadas HTTP resolvem tudo que tem endpoint; o navegador entra apenas onde não existe alternativa. O passo 6 é a inversão que define o projeto: o código de verificação só aparece na API depois que o login já foi submetido."
     },
-    "escopoRotulo": "Declaração de escopo:",
-    "repositorio": "https://github.com/IldeanFreitas/power-platform-delivery-governance"
-  },
-  {
-    "id": "case-component-library",
-    "status": {
-      "variante": "evolving",
-      "rotulo": "Em evolução"
-    },
-    "titulo": "Biblioteca de Componentes para Power Platform",
-    "descricao": "Componente de cabeçalho reutilizável para Canvas Apps, com contrato explícito de 7 propriedades de entrada e 3 eventos de saída, em 3 variantes e 2 temas. A regra que organiza o desenho é a fronteira: o componente desenha e avisa; navegação, acesso a dados e regra de negócio ficam no app que o consome — por isso ele não referencia conector nem fonte de dados alguma.",
-    "escopoRotulo": "Declaração de escopo:",
-    "escopo": "código de referência em PaYaml, com contrato, variantes e critérios de acessibilidade documentados. Não é um .msapp exportado nem uma Solution pronta para importar: usar em produção exige recriar o componente no Studio e validar com pac canvas pack.",
-    "tags": ["Power Apps Canvas", "Canvas Component", "PaYaml", "Acessibilidade", "Design System"],
-    "repositorio": "https://github.com/IldeanFreitas/power-platform-component-library",
-    "diagrama": {
-      "alt": "Contrato do componente de cabeçalho: o app consumidor fornece nome, tema, variante e contagem de notificações; o componente desenha o cabeçalho em três variantes e dois temas; e devolve três eventos, que o app consumidor trata. Navegação, dados e regra de negócio permanecem fora do componente.",
-      "etiqueta": "Contrato de componente",
-      "titulo": "Entradas, eventos e fronteira",
-      "forma": "fluxo",
-      "etapas": [
-        {
-          "tipo": "Entrada",
-          "titulo": "Propriedades",
-          "nota": "Nome, tema, variante",
-          "icone": "sliders"
-        },
-        {
-          "tipo": "Componente",
-          "titulo": "cmpAppHeader",
-          "nota": "3 variantes, 2 temas",
-          "icone": "component",
-          "destaque": true
-        },
-        {
-          "tipo": "Saída",
-          "titulo": "3 eventos",
-          "nota": "Marca, notificações, perfil",
-          "icone": "output"
-        },
-        {
-          "tipo": "Consumidor",
-          "titulo": "App anfitrião",
-          "nota": "Navegação e dados",
-          "icone": "app"
-        }
-      ],
-      "governanca": [
-        {
-          "nome": "Fronteira",
-          "valor": "Sem conector nem fonte de dados",
-          "icone": "shield"
-        },
-        {
-          "nome": "Acessibilidade",
-          "valor": "Alvo de 44px e ordem de foco",
-          "icone": "check"
-        },
-        {
-          "nome": "Reuso",
-          "valor": "Contrato versionado",
-          "icone": "catalog"
-        }
-      ]
-    }
-  },
-  {
-    "id": "case-field-operations",
-    "status": {
-      "variante": "designed",
-      "rotulo": "Arquitetura documentada"
-    },
-    "titulo": "Workflow de Operações de Campo",
-    "descricao": "Registro de atividade de campo num fluxo que funciona no celular e no desktop. A modelagem cobre dados gerais, localização, equipe, serviços e anexos, e termina num documento que fecha o relatório — depois disso, o conteúdo não muda mais.",
-    "escopo": "modelo e amostras recriados do zero para publicar. Não entram o aplicativo original, os fluxos nem o ambiente, e não há afirmação de implantação em produção.",
-    "tags": [
-      "Power Apps Canvas",
-      "Power Automate",
-      "Modelagem de Dados",
-      "Acessibilidade",
-      "Testes"
-    ],
-    "diagrama": {
-      "alt": "Fluxo de operações de campo: rascunho, etapas de execução, evidências, envio e documento final, com dados, equipe e serviços registrados.",
-      "etiqueta": "Execução em campo",
-      "titulo": "Fluxo responsivo",
-      "forma": "fluxo",
-      "etapas": [
-        {
-          "tipo": "Etapa 01",
-          "titulo": "Rascunho",
-          "nota": "Dados gerais",
-          "icone": "document"
-        },
-        {
-          "tipo": "Etapa 02",
-          "titulo": "Planejamento",
-          "nota": "Local e equipe",
-          "icone": "map"
-        },
-        {
-          "tipo": "Etapa 03",
-          "titulo": "Serviços",
-          "nota": "Atividades em campo",
-          "icone": "wrench",
-          "destaque": true
-        },
-        {
-          "tipo": "Etapa 04",
-          "titulo": "Evidências",
-          "nota": "Anexos e metadados",
-          "icone": "attachment"
-        },
-        {
-          "tipo": "Etapa 05",
-          "titulo": "Documento",
-          "nota": "Encerramento",
-          "icone": "receipt"
-        }
-      ],
-      "governanca": [
-        {
-          "nome": "Experiência",
-          "valor": "Desktop e mobile",
-          "icone": "app"
-        },
-        {
-          "nome": "Acessibilidade",
-          "valor": "Fluxo inclusivo",
-          "icone": "check"
-        },
-        {
-          "nome": "Qualidade",
-          "valor": "Cenários de teste",
-          "icone": "quality"
-        }
-      ]
-    },
-    "escopoRotulo": "Declaração de escopo:",
-    "repositorio": "https://github.com/IldeanFreitas/field-operations-workflow-case"
+    "escopoRotulo": "Evidências e limites:"
   }
 ]

@@ -84,6 +84,100 @@ test('o diagrama da AWS é conteúdo legível, não imagem', async ({ page }) =>
   await expect(diagrama).toHaveAttribute('aria-label', /.{60,}/);
 });
 
+test('o DataOps separa caminho de dados, controle e capacidades transversais', async ({ page }) => {
+  const diagrama = page.locator('#case-dataops .architecture-diagram--dataflow');
+  await diagrama.scrollIntoViewIfNeeded();
+
+  await expect(diagrama).toHaveAttribute('aria-label', /Visão lógica do laboratório DataOps/);
+  await expect(diagrama.locator('.dataflow-track > .dataflow-node')).toHaveCount(5);
+  await expect(diagrama.locator('.dataflow-dbt__stages > li')).toHaveCount(3);
+  await expect(diagrama.locator('.dataflow-control-plane')).toContainText(
+    'Plano de controle · Airflow'
+  );
+  await expect(diagrama.locator('.dataflow-control-plane')).toContainText('não transforma dados');
+  await expect(diagrama.locator('.dataflow-foundation li')).toHaveCount(4);
+  await expect(diagrama.locator('.dataflow-product-icon')).toHaveCount(6);
+  await expect(diagrama.locator('img[src*="vendor/postgresql"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/airbyte"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/snowflake"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/dbt"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/airflow"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
+  await expect(diagrama.locator('.dataflow-icon')).not.toHaveCount(0);
+});
+
+test('a operação assíncrona separa fila, plano de controle e proteções', async ({ page }) => {
+  const diagrama = page.locator('#case-fiscal-orchestration .architecture-diagram--async');
+  await diagrama.scrollIntoViewIfNeeded();
+
+  await expect(diagrama).toHaveAttribute('aria-label', /Power Apps importa um arquivo Excel/);
+  await expect(diagrama.locator('.async-job-node')).toHaveCount(4);
+  await expect(diagrama.locator('.async-job-node--entrada')).toContainText('Power Apps');
+  await expect(diagrama.locator('.async-job-node--entrada')).toContainText('arquivo Excel');
+  await expect(diagrama.locator('.async-job-node--fila')).toContainText('Fila');
+  await expect(diagrama.locator('.async-control-plane')).toContainText('Plano de controle');
+  await expect(diagrama.locator('.async-control-plane')).toContainText('Power Automate');
+  await expect(diagrama.locator('.async-control-plane')).toContainText('retentativas');
+  await expect(diagrama.locator('img[src*="vendor/dataverse"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/power-apps"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/power-automate"]')).toHaveCount(1);
+  await expect(diagrama.locator('.async-guardrail')).toHaveCount(3);
+});
+
+test('o Lakehouse da Câmara distingue coleta, ambientes e controles', async ({ page }) => {
+  const diagrama = page.locator('#case-camara-lakehouse .architecture-diagram--lakehouse');
+  await diagrama.scrollIntoViewIfNeeded();
+
+  await expect(diagrama).toHaveAttribute('aria-label', /coletor Python/);
+  await expect(diagrama.locator('.lakehouse-node')).toHaveCount(4);
+  await expect(diagrama.locator('.lakehouse-medallion li')).toHaveCount(3);
+  await expect(diagrama.locator('.lakehouse-track')).toContainText('Worker Python');
+  await expect(diagrama.locator('.lakehouse-track')).toContainText('Unity Catalog Volume');
+  await expect(diagrama.locator('.lakehouse-track')).toContainText('7 dimensões · 4 fatos');
+  await expect(diagrama.locator('img[src*="vendor/python"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="vendor/databricks"]')).toHaveCount(2);
+  await expect(diagrama.locator('.lakehouse-environments')).toContainText('Desenvolvimento local');
+  await expect(diagrama.locator('.lakehouse-environments')).toContainText('Lakehouse Databricks');
+  await expect(diagrama.locator('.lakehouse-controls li')).toHaveCount(4);
+  await expect(diagrama.locator('.lakehouse-controls')).toContainText('48 testes pytest');
+});
+
+test('o RPA OIDC distingue HTTP, navegador e persistência Redis sem expor o portal', async ({
+  page
+}) => {
+  const card = page.locator('#case-rpa-oidc');
+  const diagrama = card.locator('.architecture-diagram--rpa-detailed');
+  await diagrama.scrollIntoViewIfNeeded();
+
+  await expect(card).toContainText('Entregue em homologação');
+  await expect(card).toContainText('Power Automate Desktop');
+  await expect(card).toContainText('Redis');
+  await expect(card.locator('a')).toHaveCount(0);
+  await expect(diagrama).toHaveAttribute('aria-label', /Redis com TTL/);
+  await expect(diagrama.locator('.rpa-detailed-zone')).toHaveCount(2);
+  await expect(diagrama.locator('.rpa-product-icon')).toHaveCount(2);
+  await expect(diagrama.locator('.rpa-product-icon').first()).toHaveAttribute(
+    'src',
+    /nodejsHex\.svg$/
+  );
+  await expect(diagrama.locator('.rpa-product-icon').last()).toHaveAttribute(
+    'src',
+    /PowerAutomate_scalable\.svg$/
+  );
+  await expect(diagrama.locator('.rpa-detailed-robot')).toContainText('Power Automate Desktop');
+  await expect(diagrama.locator('.rpa-detailed-zones')).toContainText('Redis com TTL');
+  await expect(diagrama.locator('.rpa-detailed-zones')).toContainText('localStorage');
+  await expect(diagrama.locator('.rpa-detailed-calls .rpa-call')).toHaveCount(10);
+  await expect(diagrama.locator('.rpa-call--accent')).toContainText(
+    'OTP preenchido após o desafio'
+  );
+  await expect(diagrama.locator('.rpa-detailed-restrictions li')).toHaveCount(3);
+  await expect(diagrama.locator('.rpa-detailed-clocks li')).toHaveCount(3);
+  await expect(diagrama.locator('.rpa-detailed-legend')).toContainText('HTTP');
+  await expect(diagrama.locator('.rpa-detailed-legend')).toContainText('Navegador');
+});
+
 test('os cases são gerados de uma forma só', async ({ page }) => {
   // Antes de virarem dados, os seis cases eram blocos quase iguais mantidos à
   // mão, e um deles tinha divergido: usava class="button button--secondary",

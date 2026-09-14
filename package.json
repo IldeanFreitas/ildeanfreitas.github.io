@@ -20,6 +20,7 @@
     "build": "node scripts/build.mjs && node scripts/sitemap.mjs",
     "build:check": "node scripts/build.mjs --check",
     "serve": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs --watch",
     "test": "playwright test tests/comportamento.spec.js tests/acessibilidade.spec.js tests/sem-javascript.spec.js",
     "test:visual": "playwright test tests/visual.spec.js",
     "test:ui": "playwright test --ui",
