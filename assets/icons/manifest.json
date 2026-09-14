@@ -1,0 +1,406 @@
+{
+  "schemaVersion": "1.0",
+  "purpose": "Catálogo de proveniência para ícones usados em diagramas de arquitetura.",
+  "policy": {
+    "vendorAssets": "Somente ativos originais obtidos da fonte oficial, preservados sem alteração e registrados com termos, data e checksum.",
+    "neutralAssets": "Uma única família neutra por diagrama; use apenas para conceitos, nunca para representar produto de fornecedor.",
+    "fallback": "Se não houver licença ou ativo oficial adequado, usar ícone neutro com o nome do produto em texto."
+  },
+  "sources": [
+    {
+      "id": "microsoft-architecture-icons",
+      "provider": "Microsoft",
+      "url": "https://learn.microsoft.com/azure/architecture/icons/",
+      "covers": ["Azure", "Fabric", "Power Platform", "Power BI"],
+      "status": "approved-source"
+    },
+    {
+      "id": "aws-architecture-icons",
+      "provider": "AWS",
+      "url": "https://aws.amazon.com/architecture/icons/",
+      "covers": ["AWS"],
+      "status": "approved-source"
+    },
+    {
+      "id": "google-cloud-icons",
+      "provider": "Google Cloud",
+      "url": "https://cloud.google.com/icons",
+      "covers": ["Google Cloud"],
+      "status": "approved-source"
+    },
+    {
+      "id": "fluent-system-icons",
+      "provider": "Microsoft",
+      "url": "https://github.com/microsoft/fluentui-system-icons",
+      "covers": ["conceitos neutros"],
+      "license": "MIT",
+      "status": "approved-source"
+    },
+    {
+      "id": "dbt-brand-assets",
+      "provider": "dbt Labs",
+      "url": "https://www.getdbt.com/brand-guidelines",
+      "covers": ["dbt"],
+      "status": "approved-source"
+    },
+    {
+      "id": "snowflake-brand-assets",
+      "provider": "Snowflake",
+      "url": "https://www.snowflake.com/brand-guidelines/",
+      "covers": ["Snowflake"],
+      "status": "approved-source"
+    },
+    {
+      "id": "postgresql-brand-assets",
+      "provider": "PostgreSQL Global Development Group",
+      "url": "https://www.postgresql.org/about/policies/trademarks/",
+      "covers": ["PostgreSQL"],
+      "status": "approved-source"
+    },
+    {
+      "id": "airbyte-brand-assets",
+      "provider": "Airbyte",
+      "url": "https://airbyte.com/company/press",
+      "covers": ["Airbyte"],
+      "status": "approved-source"
+    },
+    {
+      "id": "apache-airflow-brand-assets",
+      "provider": "Apache Software Foundation",
+      "url": "https://airflow.apache.org/community/resources/",
+      "covers": ["Apache Airflow"],
+      "status": "approved-source"
+    },
+    {
+      "id": "python-brand-assets",
+      "provider": "Python Software Foundation",
+      "url": "https://www.python.org/community/logos/",
+      "termsUrl": "https://www.python.org/psf/trademarks-faq/",
+      "covers": ["Python"],
+      "status": "approved-source"
+    },
+    {
+      "id": "apache-spark-brand-assets",
+      "provider": "Apache Software Foundation",
+      "url": "https://spark.apache.org/faq.html",
+      "termsUrl": "https://spark.apache.org/trademarks.html",
+      "covers": ["Apache Spark", "PySpark"],
+      "status": "approved-source"
+    },
+    {
+      "id": "databricks-brand-assets",
+      "provider": "Databricks",
+      "url": "https://brand.databricks.com/iconography",
+      "termsUrl": "https://brand.databricks.com/terms-and-conditions",
+      "covers": ["Databricks", "Databricks Lakehouse", "Unity Catalog", "Delta Lake"],
+      "status": "approved-source"
+    },
+    {
+      "id": "microsoft-fabric-icons",
+      "provider": "Microsoft",
+      "url": "https://learn.microsoft.com/en-us/fabric/fundamentals/icons",
+      "covers": ["Microsoft Fabric", "Power BI"],
+      "status": "approved-source"
+    },
+    {
+      "id": "microsoft-sharepoint-product-icon",
+      "provider": "Microsoft",
+      "url": "https://learn.microsoft.com/en-us/sharepoint/dev/design/designing-a-web-part-icon",
+      "termsUrl": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "covers": ["SharePoint"],
+      "status": "approved-source"
+    },
+    {
+      "id": "sap-fiori-icons",
+      "provider": "SAP SE",
+      "url": "https://www.sap.com/design-system/fiori-design-web/resources/downloads",
+      "termsUrl": "https://www.apache.org/licenses/LICENSE-2.0",
+      "covers": ["SAP Fiori semantic icons"],
+      "license": "Apache-2.0",
+      "status": "approved-source"
+    },
+    {
+      "id": "nodejs-brand-assets",
+      "provider": "OpenJS Foundation / Node.js",
+      "url": "https://nodejs.org/en/about/branding/",
+      "termsUrl": "https://trademark-policy.openjsf.org/",
+      "covers": ["Node.js", "JavaScript"],
+      "status": "approved-source"
+    },
+    {
+      "id": "redis-brand-assets",
+      "provider": "Redis Ltd.",
+      "url": "https://brand.redis.io/",
+      "termsUrl": "https://redis.io/legal/trademark-policy/",
+      "covers": ["Redis"],
+      "status": "official-source-requires-manual-retrieval",
+      "notes": "O kit oficial estava indisponível para obtenção automatizada em 2026-09-07. A política exige atribuição por página; enquanto não houver arquivo baixado pelo canal oficial, usar ícone neutro e rótulo textual."
+    }
+  ],
+  "assets": [
+    {
+      "id": "fluent-neutral-set-dataflow",
+      "source": "fluent-system-icons",
+      "type": "neutral-concept-icons",
+      "retrievedOn": "2026-09-04",
+      "license": "MIT",
+      "licenseFile": "assets/icons/neutral/fluent/LICENSE",
+      "files": [
+        {
+          "path": "assets/icons/neutral/fluent/database.svg",
+          "sourcePath": "assets/Database/SVG/ic_fluent_database_24_regular.svg",
+          "sha256": "e57c4c83c2016d47554cc5b63a94bb23e5ebd0451d00a45b3a26dc75f66a068d"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/arrow-sync.svg",
+          "sourcePath": "assets/Arrow Sync/SVG/ic_fluent_arrow_sync_24_regular.svg",
+          "sha256": "9537e4dc984b915d1d67bf2ed61c1fdf713c69d0b293a4dc12b2520d57ab55b7"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/database-arrow-right.svg",
+          "sourcePath": "assets/Database Arrow Right/SVG/ic_fluent_database_arrow_right_24_regular.svg",
+          "sha256": "42886572d7f9eeba2baf2178febd10eda5d6395926967605ccf78cde2d1bc4c5"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/database-multiple.svg",
+          "sourcePath": "assets/Database Multiple/SVG/ic_fluent_database_multiple_20_regular.svg",
+          "sha256": "4e507ee172aa2eee8e787255ffc281a646307fc196c8fec7604a550b9cf5bf1c"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/chart-multiple.svg",
+          "sourcePath": "assets/Chart Multiple/SVG/ic_fluent_chart_multiple_24_regular.svg",
+          "sha256": "cee5bb85d05fe1f2656aeefa7760a015e0d76c64ef26279648dba4232acc788c"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/database-search.svg",
+          "sourcePath": "assets/Database Search/SVG/ic_fluent_database_search_24_regular.svg",
+          "sha256": "4c3e269f1379788b72d5ab4ff8afc2773bc049b3c9894fd2b8f4030f613ae941"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/lock-closed.svg",
+          "sourcePath": "assets/Lock Closed/SVG/ic_fluent_lock_closed_24_regular.svg",
+          "sha256": "589e952219e9f3f018b33bebc9e2fe9ac8038cf2db5bc03350d5ff20a13dcd60"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/database-checkmark.svg",
+          "sourcePath": "assets/Database Checkmark/SVG/ic_fluent_database_checkmark_24_regular.svg",
+          "sha256": "f19c6af77216fa549254643b5f8806b8b1d312ad485a6f88bd26606c417ceae7"
+        }
+      ]
+    },
+    {
+      "id": "vendor-dataflow-stack",
+      "type": "vendor-official-icons",
+      "retrievedOn": "2026-09-04",
+      "usage": "Diagramas de arquitetura e documentação interna; o nome do produto deve permanecer adjacente à marca.",
+      "files": [
+        {
+          "product": "PostgreSQL",
+          "source": "postgresql-brand-assets",
+          "sourceUrl": "https://wiki.postgresql.org/images/a/a4/PostgreSQL_logo.3colors.svg",
+          "termsUrl": "https://www.postgresql.org/about/policies/trademarks/",
+          "path": "assets/icons/vendor/postgresql/PostgreSQL_logo.3colors.svg",
+          "originalFilename": "PostgreSQL_logo.3colors.svg",
+          "sha256": "51f93e19516081fc7d6fe6ab9bbab07abe5f7819e28016eefacea6dea691bc54"
+        },
+        {
+          "product": "Airbyte",
+          "source": "airbyte-brand-assets",
+          "sourceUrl": "https://cdn.prod.website-files.com/69cd59b46b485182422b1176/69cd59b46b485182422b3129_68cfa1bce7e7b420ce5b7e06_669aca25ef8d71135dc65dbe_airbyte.svg",
+          "termsUrl": "https://airbyte.com/company/press",
+          "path": "assets/icons/vendor/airbyte/airbyte.svg",
+          "originalFilename": "669aca25ef8d71135dc65dbe_airbyte.svg",
+          "sha256": "139b4923702fcc6db03c53978b56f57c253641e804bc48c208b7fe6a06fd077c"
+        },
+        {
+          "product": "Airbyte",
+          "source": "airbyte-brand-assets",
+          "sourceUrl": "https://airbyte.com/images/Airbyte_icon_color.svg",
+          "termsUrl": "https://airbyte.com/company/press",
+          "path": "assets/icons/vendor/airbyte/Airbyte_icon_color.svg",
+          "originalFilename": "Airbyte_icon_color.svg",
+          "sha256": "b669dcfa0deab6bd55da697c5511f84bff04a388c97b3d4a78090087b0b7fefa"
+        },
+        {
+          "product": "Apache Airflow",
+          "source": "apache-airflow-brand-assets",
+          "sourceUrl": "https://airflow.apache.org/images/airflow-icon.svg",
+          "termsUrl": "https://cwiki.apache.org/confluence/display/AIRFLOW/Brandbook",
+          "path": "assets/icons/vendor/airflow/airflow-icon.svg",
+          "originalFilename": "airflow-icon.svg",
+          "sha256": "5ef09e84bc3ec931468369b388e9be65fd68fd93c09e53f73b15f295f67f60e3"
+        },
+        {
+          "product": "dbt",
+          "source": "dbt-brand-assets",
+          "sourceUrl": "https://cdn.sanity.io/files/wl0ndo6t/main/0ea2ccef348a2014d2a38fa63bf7c23fb898a448.zip",
+          "termsUrl": "https://www.getdbt.com/brand-guidelines",
+          "path": "assets/icons/vendor/dbt/dbt-bit-standalone.png",
+          "originalFilename": "dbt-bit-standalone.png",
+          "sha256": "2d7f920805477e53febcbc1325c745bbbdad7dd1f4256548e5519d59246e1b1a"
+        },
+        {
+          "product": "Snowflake",
+          "source": "snowflake-brand-assets",
+          "sourceUrl": "https://www.snowflake.com/wp-content/uploads/2020/02/Snowflake-Logo-Files.zip",
+          "termsUrl": "https://www.snowflake.com/brand-guidelines/",
+          "path": "assets/icons/vendor/snowflake/bug-sno-blue.png",
+          "originalFilename": "bug-sno-blue.png",
+          "sha256": "e0b2c7bc3eb037e4ca5d72b390a1fe5016343f5c72d6571825343020e587da79"
+        },
+        {
+          "product": "Power BI",
+          "source": "microsoft-fabric-icons",
+          "sourceUrl": "https://github.com/microsoft/fabric-samples/raw/main/docs-samples/Icons.zip",
+          "termsUrl": "https://learn.microsoft.com/en-us/power-platform/guidance/icons",
+          "path": "assets/icons/vendor/power-bi/power_bi_48_color.svg",
+          "originalFilename": "power_bi_48_color.svg",
+          "sha256": "264abad01f50acaffb697b3ede22215b7d87f387c1af92f0a0b14117d2c2e4f1"
+        },
+        {
+          "product": "Dataverse",
+          "source": "microsoft-architecture-icons",
+          "sourceUrl": "https://download.microsoft.com/download/498606aa-6d27-4f13-aa5c-1401078c153b/Power-Platform-icons-scalable.zip",
+          "termsUrl": "https://learn.microsoft.com/en-us/power-platform/guidance/icons",
+          "path": "assets/icons/vendor/dataverse/Dataverse_scalable.svg",
+          "originalFilename": "Dataverse_scalable.svg",
+          "sha256": "df71c0111148d116515a02c5cb07483caad2bcb779664fa16fd837a4709504ab"
+        },
+        {
+          "product": "Power Automate",
+          "source": "microsoft-architecture-icons",
+          "sourceUrl": "https://download.microsoft.com/download/498606aa-6d27-4f13-aa5c-1401078c153b/Power-Platform-icons-scalable.zip",
+          "termsUrl": "https://learn.microsoft.com/en-us/power-platform/guidance/icons",
+          "path": "assets/icons/vendor/power-automate/PowerAutomate_scalable.svg",
+          "originalFilename": "PowerAutomate_scalable.svg",
+          "sha256": "2025db7bb3feec49d75681934b8561fb958cf11bdf0e2acf6e2b28db5c755e8d"
+        },
+        {
+          "product": "Power Apps",
+          "source": "microsoft-architecture-icons",
+          "sourceUrl": "https://download.microsoft.com/download/498606aa-6d27-4f13-aa5c-1401078c153b/Power-Platform-icons-scalable.zip",
+          "termsUrl": "https://learn.microsoft.com/en-us/power-platform/guidance/icons",
+          "path": "assets/icons/vendor/power-apps/PowerApps_scalable.svg",
+          "originalFilename": "PowerApps_scalable.svg",
+          "sha256": "c357907ad0a2d24a6d8c82b23fe4d2aaa4a4524076991f74770fc043a4cc455a"
+        },
+        {
+          "product": "Python",
+          "source": "python-brand-assets",
+          "sourceUrl": "https://legacy.python.org/community/logos/python-logo-generic.svg",
+          "termsUrl": "https://www.python.org/psf/trademarks-faq/",
+          "path": "assets/icons/vendor/python/python-logo-generic.svg",
+          "originalFilename": "python-logo-generic.svg",
+          "sha256": "0305d6b2bb2e2761502d072e8e2db1248dbd1a99f51fb4b4bcb9e43c486ef6b2"
+        },
+        {
+          "product": "Python",
+          "source": "python-brand-assets",
+          "sourceUrl": "https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/files/python-logo-only.svg",
+          "termsUrl": "https://www.python.org/psf/trademarks-faq/",
+          "path": "assets/icons/vendor/python/python-logo-only.svg",
+          "originalFilename": "python-logo-only.svg",
+          "sha256": "baec8662a1461c2cacc326b54d2727cb2f1ce07ba02d00f5b826d035104f649f"
+        },
+        {
+          "product": "Apache Spark",
+          "source": "apache-spark-brand-assets",
+          "sourceUrl": "https://spark.apache.org/images/spark-logo-trademark.png",
+          "termsUrl": "https://spark.apache.org/trademarks.html",
+          "path": "assets/icons/vendor/apache-spark/spark-logo-trademark.png",
+          "originalFilename": "spark-logo-trademark.png",
+          "sha256": "fae6c1e3e6baa865efe4b3c545b4fd457310ffbc356ace9bae3965e9e64d39c0"
+        }
+      ]
+    },
+    {
+      "id": "vendor-databricks",
+      "type": "vendor-official-icons",
+      "retrievedOn": "2026-09-07",
+      "usage": "Diagramas de arquitetura e documentação interna; o nome do produto deve permanecer adjacente à marca.",
+      "files": [
+        {
+          "product": "Databricks",
+          "source": "databricks-brand-assets",
+          "sourceUrl": "https://brandfolder.com/s/g587wt9tgz8sbqsrfc3m",
+          "termsUrl": "https://brand.databricks.com/terms-and-conditions",
+          "path": "assets/icons/vendor/databricks/databricks-symbol-color.svg",
+          "originalFilename": "databricks-symbol-color.svg",
+          "sha256": "eb3daaa00a07d4a3a4b7ae719e0e911dd6e3cef8249cac790678d7f89798a363"
+        }
+      ]
+    },
+    {
+      "id": "vendor-financial-stack",
+      "type": "vendor-official-icons",
+      "retrievedOn": "2026-09-07",
+      "usage": "Diagramas de arquitetura e documentação interna; o nome do produto deve permanecer adjacente à marca ou ao ícone semântico.",
+      "files": [
+        {
+          "product": "SharePoint",
+          "source": "microsoft-sharepoint-product-icon",
+          "sourceUrl": "https://res-1.cdn.office.net/files/fabric-cdn-prod_20221209.001/assets/brand-icons/product/svg/sharepoint_48x1.svg",
+          "termsUrl": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+          "path": "assets/icons/vendor/sharepoint/sharepoint_48x1.svg",
+          "originalFilename": "sharepoint_48x1.svg",
+          "sha256": "7f260c54c77342eb16ce20ab132729c7e640e7ead6a4bb9e7d1b4a94bd0e8eda"
+        },
+        {
+          "product": "SAP ECC FI",
+          "source": "sap-fiori-icons",
+          "sourceUrl": "https://registry.npmjs.org/@sap-theming/theming-base-content/-/theming-base-content-11.36.5.tgz",
+          "termsUrl": "https://www.apache.org/licenses/LICENSE-2.0",
+          "path": "assets/icons/vendor/sap/accounting-document-verification.svg",
+          "originalFilename": "accounting-document-verification.svg",
+          "sha256": "0805cf293ed6f68b45ec86e101b5f1f41b253ff11b7f957cfd6008e9703b5dcd",
+          "license": "Apache-2.0",
+          "licenseFile": "assets/icons/vendor/sap/LICENSE",
+          "notes": "Ícone semântico SAP Fiori; não reproduz a marca SAP."
+        }
+      ]
+    },
+    {
+      "id": "vendor-nodejs-stack",
+      "type": "vendor-official-icons",
+      "retrievedOn": "2026-09-07",
+      "usage": "Diagramas de arquitetura e documentação; mantenha o nome do produto adjacente à marca e siga a política de marcas da OpenJS Foundation.",
+      "files": [
+        {
+          "product": "Node.js",
+          "source": "nodejs-brand-assets",
+          "sourceUrl": "https://nodejs.org/static/logos/nodejsHex.svg",
+          "termsUrl": "https://trademark-policy.openjsf.org/",
+          "path": "assets/icons/vendor/nodejs/nodejsHex.svg",
+          "originalFilename": "nodejsHex.svg",
+          "sha256": "e4c8de546b2462ad9497679c55609701144ffacd8e18ac17a7f7f7b795de9fe7"
+        },
+        {
+          "product": "JavaScript",
+          "source": "nodejs-brand-assets",
+          "sourceUrl": "https://nodejs.org/static/logos/jsIconGreen.svg",
+          "termsUrl": "https://trademark-policy.openjsf.org/",
+          "path": "assets/icons/vendor/nodejs/jsIconGreen.svg",
+          "originalFilename": "jsIconGreen.svg",
+          "sha256": "3c88b1a2261132b11d242fe8831525be051450e1149c965d5a5f1ded63e9b50d"
+        }
+      ]
+    },
+    {
+      "id": "vendor-aws-stack",
+      "type": "vendor-official-icons",
+      "retrievedOn": "2026-09-07",
+      "usage": "Diagramas de arquitetura do portfólio; o nome do serviço deve permanecer adjacente à marca, e o ativo é usado sem alteração de forma ou cor.",
+      "files": [
+        {
+          "product": "Amazon S3",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg",
+          "originalFilename": "Arch_Amazon-Simple-Storage-Service_48.svg",
+          "sha256": "bb0df5b7ca52da7323888ed588baefa1c68a23b5776f325bc8ec29825c185a31"
+        }
+      ]
+    }
+  ]
+}

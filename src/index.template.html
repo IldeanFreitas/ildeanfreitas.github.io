@@ -163,19 +163,25 @@
       <div class="grid grid--2 mt-10">
         <div>
           <p class="lead">
-            Comecei em implantação de ERP e sustentação de ambientes de TI no interior do Pará.
+            Comecei consertando hardware e instalando sistemas no interior do Pará, migrei para
+            redes e passei seis anos como gestor dos sistemas de uma empresa de atacado e varejo.
+            Era a ponte entre quem usava o ERP e quem o mantinha.
             Essa origem definiu meu jeito de trabalhar.
           </p>
           <p class="muted">
-            Ao longo do caminho passei por varejo, distribuição, mineração e consultoria. Hoje atuo
-            como analista de desenvolvimento de software sênior na Compass UOL, em projetos
-            corporativos que combinam Power Platform e Business Intelligence sobre fontes como
-            SAP Datasphere, SAP BW, SAP HANA, Analysis Services e Azure Databricks.
+            Junto com os ERPs, eu respondia pela infraestrutura — banco de dados, replicação,
+            backup e firewall — coordenando as equipes de suporte de rede e hardware. Em 2017
+            migrei para desenvolvimento sobre a Power Platform. Depois vieram varejo, distribuição,
+            mineração e consultoria; hoje atuo como analista de desenvolvimento de software sênior
+            na Compass UOL, em projetos corporativos que combinam Power Platform e Business
+            Intelligence sobre fontes como SAP Datasphere, SAP BW, SAP HANA, Analysis Services e
+            Azure Databricks.
           </p>
           <p class="muted">
             Sou pós-graduado em Engenharia e Arquitetura de Dados com Inteligência Artificial e
             tenho MBA em Ciência de Dados e Big Data Analytics, sobre uma base de bacharelado em
-            Sistemas de Informação.
+            Sistemas de Informação. O que ficou de todo esse percurso é a insistência em
+            governança, documentação e reuso do que já funciona — este portfólio segue as mesmas regras.
           </p>
         </div>
 
@@ -246,10 +252,10 @@
           <div class="card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
           </div>
-          <h3>AI Engineering <span class="dim">· formação concluída</span></h3>
+          <h3>AI Engineering</h3>
           <p>
-            Formação concluída em IA generativa, com 103 horas em Python, APIs, modelos de linguagem,
-            RAG, agentes e automação. Os cases públicos de IA aplicada seguem em evolução.
+            Aplicações de IA generativa sobre Python e APIs: modelos de linguagem, RAG para ancorar
+            respostas em base própria, agentes e automação de tarefas. Cases públicos em evolução.
           </p>
           <ul class="taglist">
             <li class="tag">Python</li><li class="tag">APIs</li>
@@ -291,41 +297,43 @@
     <div class="wrap">
       <p class="eyebrow">Engenharia de Dados · Projeto acadêmico aplicado</p>
       <h2>Plataforma de Dados Integrada na AWS</h2>
-      <p class="lead">Arquitetura em camadas com AWS S3 e pipeline ETL, desenvolvida como projeto aplicado da pós-graduação em Engenharia e Arquitetura de Dados com Inteligência Artificial.</p>
+      <p class="lead">Arquitetura em camadas sobre Amazon S3, com pipeline ETL e organização Medalhão, desenvolvida como projeto aplicado da pós-graduação em Engenharia e Arquitetura de Dados com Inteligência Artificial. O cenário simula uma operação de mineração, escolhida por concentrar sistemas que não conversam entre si.</p>
 
       <div class="case-detail__intro">
         <div>
           <span class="status status--done">Projeto acadêmico concluído</span>
           <p>
-            A proposta organiza o dado desde a entrada até o consumo analítico, usando a arquitetura
-            Medalhão para separar dados brutos, dados tratados e dados prontos para consumo.
-            O foco do trabalho é escalabilidade, governança, qualidade dos dados e apoio à tomada de decisão.
+            A operação modelada reúne controle de combustível e manutenção de frota em ERP, telemetria
+            IoT da movimentação de cargas, integrações por API e arquivos de geologia e laboratório.
+            Cada origem entra no Bronze como chegou, o ETL padroniza e valida no Silver, e o Gold
+            entrega o modelo pronto para análise. Catálogo, controle de acesso, qualidade e
+            monitoramento atravessam as três camadas.
           </p>
           <p class="scope">
-            <b>Declaração de escopo:</b> projeto acadêmico autoral concluído em 2025, sem dados corporativos ou de terceiros. A imagem abaixo é uma representação conceitual do case.
+            <b>Declaração de escopo:</b> projeto acadêmico autoral concluído em 2025. A mineradora é um cenário simulado e os dados são fictícios — nada aqui saiu de sistema corporativo ou de terceiros. O diagrama representa a arquitetura proposta, não um ambiente em produção.
           </p>
           <ul class="taglist">
-            <li class="tag">AWS S3</li><li class="tag">ETL</li><li class="tag">Arquitetura Medalhão</li>
+            <li class="tag">Amazon S3</li><li class="tag">ETL</li><li class="tag">Arquitetura Medalhão</li>
             <li class="tag">Governança</li><li class="tag">Qualidade de dados</li>
           </ul>
         </div>
 
-        <figure class="architecture-diagram" role="img" aria-label="Arquitetura da plataforma de dados na AWS: sistemas operacionais, arquivos, APIs e dispositivos alimentam as camadas Bronze, Silver e Gold no AWS S3 por pipelines ETL, consumidas em dashboards, análises, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
-          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em AWS S3</b></div>
-          <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>Fluxo de dados</span><span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>Camadas Medalhão</span></div>
+        <figure class="architecture-diagram" role="img" aria-label="Arquitetura de dados de uma operação de mineração simulada: ERP corporativo, arquivos técnicos, APIs internas e telemetria em campo alimentam as camadas Bronze, Silver e Gold no Amazon S3 por pipeline ETL, consumidas em dashboards, análises avançadas, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
+          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em Amazon S3</b></div>
+          <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>Fluxo de dados</span></div>
           <div class="diagram-data-layout">
             <section class="diagram-zone">
               <p class="diagram-zone__title">Fontes</p>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Sistemas operacionais</span><span class="diagram-stage__meta">Bases transacionais</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 4v16M4 9h4M4 14h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Arquivos</span><span class="diagram-stage__meta">Logs e CSV</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">APIs e serviços</span><span class="diagram-stage__meta">Integrações</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 7h.01M12 7h.01M16 7h.01M10 17h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Dispositivos</span><span class="diagram-stage__meta">Telemetria e IoT</span></div>
+              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">ERP corporativo</span><span class="diagram-stage__meta">Combustível e manutenção de frota</span></div>
+              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 4v16M4 9h4M4 14h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Arquivos técnicos</span><span class="diagram-stage__meta">Geologia e laboratório</span></div>
+              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">APIs internas</span><span class="diagram-stage__meta">Integração entre sistemas</span></div>
+              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 7h.01M12 7h.01M16 7h.01M10 17h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Telemetria em campo</span><span class="diagram-stage__meta">Sensores IoT de carga</span></div>
             </section>
             <section class="diagram-zone diagram-zone--pipeline">
               <p class="diagram-zone__title">Pipeline de dados</p>
-              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg></span><div><b>Bronze · AWS S3</b><span>Dado bruto, rastreável</span></div><span class="diagram-layer__mark">BRZ</span></div>
+              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><img class="diagram-layer__product-icon" src="assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg" alt=""></span><div><b>Bronze · Amazon S3</b><span>Dado bruto, rastreável</span></div><span class="diagram-layer__mark">BRZ</span></div>
               <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10l-3-3M17 17H7l3 3M17 7l3 3-3 3M7 17l-3-3 3-3"/></svg></span><div><b>Silver · ETL</b><span>Padronização e validação</span></div><span class="diagram-layer__mark">SLV</span></div>
-              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13M7 21v-6h10v6M7 10h.01M12 10h.01M17 10h.01"/></svg></span><div><b>Gold · AWS S3</b><span>Pronto para consumo</span></div><span class="diagram-layer__mark">GLD</span></div>
+              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><img class="diagram-layer__product-icon" src="assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg" alt=""></span><div><b>Gold · Amazon S3</b><span>Pronto para consumo</span></div><span class="diagram-layer__mark">GLD</span></div>
             </section>
             <section class="diagram-zone">
               <p class="diagram-zone__title">Consumo</p>
