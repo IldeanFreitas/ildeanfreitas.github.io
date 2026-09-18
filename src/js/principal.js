@@ -25,6 +25,7 @@
   iniciar('tema', function () {
     var botao = document.getElementById('themeToggle');
     var icone = document.getElementById('themeIcon');
+    var corDaBarra = document.querySelector('meta[name="theme-color"]');
     if (!botao || !icone) return;
 
     var SOL =
@@ -35,6 +36,9 @@
       raiz.setAttribute('data-theme', modo);
       botao.setAttribute('aria-pressed', String(modo === 'dark'));
       icone.innerHTML = modo === 'dark' ? LUA : SOL;
+      /* A cor da barra do navegador acompanha o tema escolhido, não o do
+         sistema — o site não segue prefers-color-scheme. */
+      if (corDaBarra) corDaBarra.setAttribute('content', modo === 'dark' ? '#000000' : '#f4f6f3');
       if (!salvar) return;
       try {
         localStorage.setItem('tema', modo);
@@ -58,17 +62,22 @@
     var rotulo = document.getElementById('navToggleLabel');
     if (!nav || !botao || !rotulo) return;
 
+    /* Os rótulos vêm do HTML (data-abrir/data-fechar): o mesmo script serve a
+       página em português e a em inglês. */
+    var ABRIR = botao.getAttribute('data-abrir') || 'Abrir menu';
+    var FECHAR = botao.getAttribute('data-fechar') || 'Fechar menu';
+
     function fechar() {
       nav.setAttribute('data-open', 'false');
       botao.setAttribute('aria-expanded', 'false');
-      rotulo.textContent = 'Abrir menu';
+      rotulo.textContent = ABRIR;
     }
 
     botao.addEventListener('click', function () {
       var aberto = nav.getAttribute('data-open') === 'true';
       nav.setAttribute('data-open', String(!aberto));
       botao.setAttribute('aria-expanded', String(!aberto));
-      rotulo.textContent = aberto ? 'Abrir menu' : 'Fechar menu';
+      rotulo.textContent = aberto ? ABRIR : FECHAR;
     });
 
     nav.addEventListener('click', function (e) {

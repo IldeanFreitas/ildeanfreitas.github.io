@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import cases from '../src/data/cases.json' with { type: 'json' };
 
 /**
  * As funcionalidades inventariadas no diagnóstico. Este arquivo é o contrato
@@ -8,6 +9,16 @@ import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
+});
+
+test('o tema escuro é o padrão, mesmo em sistema com preferência clara', async ({ page }) => {
+  // O site não segue prefers-color-scheme: escuro é identidade, não palpite.
+  // Só a escolha explícita do visitante, salva em localStorage, muda isso.
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.evaluate('localStorage.clear()');
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#000000');
 });
 
 test('alterna o tema e reflete no aria-pressed', async ({ page }) => {
@@ -47,8 +58,10 @@ test('o menu mobile abre, fecha por Escape e devolve o foco', async ({ page }, t
   const nav = page.locator('#nav');
 
   await expect(botao).toHaveAttribute('aria-expanded', 'false');
+  await expect(botao).toHaveText('Abrir menu');
   await botao.click();
   await expect(botao).toHaveAttribute('aria-expanded', 'true');
+  await expect(botao).toHaveText('Fechar menu');
   await expect(nav).toHaveAttribute('data-open', 'true');
 
   await page.keyboard.press('Escape');
@@ -69,19 +82,61 @@ test('a navegação marca a seção ativa', async ({ page }, testInfo) => {
   await expect(page.locator('.nav__link[aria-current]')).toHaveCount(1);
 });
 
+test('a versão em inglês existe, aponta de volta e tem os mesmos cases', async ({ page }) => {
+  // Outra página, gerada no build — não troca de strings no cliente. O
+  // conteúdo precisa estar no HTML servido para buscador e para uso sem JS.
+  await page.goto('/en/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.locator('h1')).toHaveCount(1);
+  await expect(page.locator('a.lang-toggle')).toHaveAttribute('href', '/');
+  await expect(page.locator('link[rel="alternate"][hreflang="pt-BR"]')).toHaveAttribute(
+    'href',
+    'https://ildeanfreitas.github.io/'
+  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://ildeanfreitas.github.io/en/'
+  );
+  await expect(page.locator('.case-card')).toHaveCount(cases.length);
+  await expect(page.locator('#navToggle')).toHaveText('Open menu');
+
+  // E a página em português aponta para a inglesa.
+  await page.goto('/');
+  await expect(page.locator('a.lang-toggle')).toHaveAttribute('href', '/en/');
+  await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
+    'href',
+    'https://ildeanfreitas.github.io/en/'
+  );
+});
+
+test('a legenda de selos cobre exatamente os selos usados nos cases', async ({ page }) => {
+  // O gap mais visível da avaliação de 2026-09-17: a legenda prometia selos
+  // que nenhum case usava, e os cases usavam selos que a legenda não explicava.
+  const legenda = await page
+    .locator('#sobre .lista-empilhada .status')
+    .evaluateAll((els) => els.map((e) => e.textContent.trim()));
+  const usados = await page
+    .locator('.case-card .status')
+    .evaluateAll((els) => [...new Set(els.map((e) => e.textContent.trim()))]);
+  expect(usados.sort()).toEqual(legenda.sort());
+});
+
 test('o diagrama da AWS é conteúdo legível, não imagem', async ({ page }) => {
   // Substitui o antigo teste do modal de ampliação. Aquele modal existia só
   // para dar zoom num PNG de 1,3 MB com texto dentro; com o diagrama montado
-  // nos mesmos componentes dos outros seis cases, ele deixou de ter função.
-  // O que precisa ser garantido agora é o que a troca entregou: texto de
-  // verdade, que se seleciona, se busca e acompanha o tema.
-  const diagrama = page.locator('#plataforma-dados-aws .architecture-diagram');
+  // nos mesmos componentes dos outros cases, ele deixou de ter função.
+  // O case agora vive na grade, como os demais, com o selo que corresponde ao
+  // que ele é: arquitetura proposta, não executada.
+  const card = page.locator('#plataforma-dados-aws');
+  const diagrama = card.locator('.architecture-diagram');
+  await expect(card.locator('.status')).toHaveText('Arquitetura documentada');
   await expect(diagrama).toBeVisible();
   await expect(diagrama).toContainText('Bronze');
   await expect(diagrama).toContainText('Silver');
   await expect(diagrama).toContainText('Gold');
   await expect(diagrama).toHaveAttribute('role', 'img');
   await expect(diagrama).toHaveAttribute('aria-label', /.{60,}/);
+  await expect(diagrama.locator('img[src*="vendor/aws"]')).toHaveCount(2);
 });
 
 test('o DataOps separa caminho de dados, controle e capacidades transversais', async ({ page }) => {
@@ -104,6 +159,21 @@ test('o DataOps separa caminho de dados, controle e capacidades transversais', a
   await expect(diagrama.locator('img[src*="vendor/airflow"]')).toHaveCount(1);
   await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
   await expect(diagrama.locator('.dataflow-icon')).not.toHaveCount(0);
+});
+
+test('o bloco dbt do DataOps não estoura a largura no celular', async ({ page }, testInfo) => {
+  // Defeito visto na avaliação: a 375px as camadas STG/INT/DW ficavam numa
+  // coluna estreita à direita do cabeçalho, com o texto cortado.
+  test.skip(testInfo.project.name !== 'mobile', 'só faz sentido na largura de celular');
+  const painel = page.locator('#case-dataops .dataflow-dbt');
+  await painel.scrollIntoViewIfNeeded();
+  const estouro = await painel.evaluate((el) => {
+    const limite = el.getBoundingClientRect().right;
+    return [...el.querySelectorAll('li b, li small')].some(
+      (t) => t.scrollWidth > t.clientWidth + 1 || t.getBoundingClientRect().right > limite
+    );
+  });
+  expect(estouro, 'texto das camadas dbt cortado ou fora do painel').toBe(false);
 });
 
 test('a operação assíncrona separa fila, plano de controle e proteções', async ({ page }) => {
@@ -150,7 +220,9 @@ test('o RPA OIDC distingue HTTP, navegador e persistência Redis sem expor o por
   const diagrama = card.locator('.architecture-diagram--rpa-detailed');
   await diagrama.scrollIntoViewIfNeeded();
 
-  await expect(card).toContainText('Entregue em homologação');
+  // Selo âmbar próprio: "homologação" não é "entregue", e o verde dizia que era.
+  await expect(card.locator('.status')).toHaveText('Em homologação');
+  await expect(card.locator('.status')).toHaveClass(/status--staging/);
   await expect(card).toContainText('Power Automate Desktop');
   await expect(card).toContainText('Redis');
   await expect(card.locator('a')).toHaveCount(0);
@@ -178,6 +250,19 @@ test('o RPA OIDC distingue HTTP, navegador e persistência Redis sem expor o por
   await expect(diagrama.locator('.rpa-detailed-legend')).toContainText('Navegador');
 });
 
+test('cada case traz decisões técnicas e resultado', async ({ page }) => {
+  // Blocos que respondem ao que um avaliador pergunta: por que assim, e deu
+  // em quê. Papel e aprendizados são opcionais; decisões e resultado, não.
+  const cards = page.locator('.case-card');
+  const total = await cards.count();
+  for (let i = 0; i < total; i++) {
+    const fatos = cards.nth(i).locator('.case-facts');
+    await expect(fatos, `case ${i} sem bloco de fatos`).toHaveCount(1);
+    await expect(fatos.locator('h4', { hasText: 'Decisões técnicas' })).toHaveCount(1);
+    await expect(fatos.locator('h4', { hasText: 'Resultado' })).toHaveCount(1);
+  }
+});
+
 test('os cases são gerados de uma forma só', async ({ page }) => {
   // Antes de virarem dados, os seis cases eram blocos quase iguais mantidos à
   // mão, e um deles tinha divergido: usava class="button button--secondary",
@@ -195,6 +280,15 @@ test('os cases são gerados de uma forma só', async ({ page }) => {
     // Um link sem estilo cai para display:inline; o botão é inline-flex.
     const display = await link.evaluate((el) => getComputedStyle(el).display);
     expect(display, `link ${i} sem estilo de botão`).toBe('inline-flex');
+  }
+});
+
+test('links que abrem em nova aba avisam o leitor de tela', async ({ page }) => {
+  const externos = page.locator('a[target="_blank"]');
+  const total = await externos.count();
+  expect(total).toBeGreaterThan(0);
+  for (let i = 0; i < total; i++) {
+    await expect(externos.nth(i)).toContainText(/abre em nova aba/);
   }
 });
 

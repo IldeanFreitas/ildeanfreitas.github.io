@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<!--
+  GENERATED FILE — do not edit.
+
+  Built by `npm run build` from src/. Edits here last until the next build,
+  which overwrites everything without warning.
+
+  Where to edit:
+    styles         src/css/          (order in src/css/ordem.json)
+    behaviour      src/js/
+    structure      src/index.en.template.html   (Portuguese version: src/index.template.html)
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ildean Freitas — Power Platform, Data Engineering and Applied AI</title>
+<meta name="description" content="Portfolio of Ildean Freitas: Power Platform, Data Engineering, Analytics and Applied AI. Architecture, technical decisions and documented cases with their real status.">
+<meta name="author" content="Ildean Freitas">
+<link rel="canonical" href="https://ildeanfreitas.github.io/en/">
+<link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/">
+<link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/">
+
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta property="og:site_name" content="Ildean Freitas">
+<meta property="og:title" content="Ildean Freitas — Power Platform, Data Engineering and Applied AI">
+<meta property="og:description" content="Architecture, technical decisions and documented cases. Every project states its real status.">
+<meta property="og:url" content="https://ildeanfreitas.github.io/en/">
+<meta property="og:image" content="https://ildeanfreitas.github.io/assets/img/og-image-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ildean Freitas — the bridge between the process and trustworthy data. Power Platform, Data Engineering and Applied AI.">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Dark is the default on any system; the main script switches this colour
+     when the visitor picks the light theme. -->
+<meta name="theme-color" content="#000000">
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4df00'/%3E%3Cg fill='%230b1200'%3E%3Crect x='8' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='9' height='3.2' rx='1'/%3E%3Crect x='15' y='14.6' width='7' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"Person","name":"Ildean Freitas",
+  "jobTitle":"Senior Software Development Analyst",
+  "description":"Power Platform, Data Engineering, Analytics and Applied AI.",
+  "url":"https://ildeanfreitas.github.io/en/",
+  "sameAs":["https://github.com/IldeanFreitas","https://www.linkedin.com/in/ildean-freitas-0aa7352b/"],
+  "address":{"@type":"PostalAddress","addressLocality":"Marabá","addressRegion":"PA","addressCountry":"BR"},
+  "knowsAbout":["Power Apps","Power Automate","Power BI","Data Engineering","SQL","dbt","Airflow","Azure Databricks","Dimensional modeling","Dataverse","Artificial Intelligence"],
+  "alumniOf":[
+    {"@type":"EducationalOrganization","name":"XP Educação"},
+    {"@type":"EducationalOrganization","name":"Faculdade Metropolitana"},
+    {"@type":"EducationalOrganization","name":"Uniasselvi"}
+  ]
+}
+</script>
+
+<!-- Preload of the two heaviest weights on the page. 600 and 800 appear in
+     few elements and can be discovered by the CSS at no visible cost. -->
+<link rel="preload" href="/assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+<!--{{ CSS }}-->
+</style>
+<script>
+<!--{{ JS_INICIALIZACAO }}-->
+</script>
+<noscript><style>.js-anima .reveal{opacity:1;transform:none}</style></noscript>
+</head>
+
+<body>
+<a class="skip" href="#conteudo">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="#inicio">
+      <svg width="27" height="27" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="9" fill="#c4df00"/>
+        <g fill="#0b1200">
+          <rect x="8" y="9" width="3.4" height="14" rx="1"/>
+          <rect x="15" y="9" width="3.4" height="14" rx="1"/>
+          <rect x="15" y="9" width="9" height="3.2" rx="1"/>
+          <rect x="15" y="14.6" width="7" height="3" rx="1"/>
+        </g>
+      </svg>
+      Ildean Freitas
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="#sobre">About</a></li>
+        <li><a class="nav__link" href="#servicos">Expertise</a></li>
+        <li><a class="nav__link" href="#cases">Cases</a></li>
+        <li><a class="nav__link" href="#trajetoria">Career</a></li>
+        <li><a class="nav__link" href="#formacao">Education</a></li>
+        <li><a class="nav__link" href="#contato">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- A link, not a button: the Portuguese version is another page, built
+         at build time, so the content exists in the served HTML (SEO, no-JS). -->
+    <a class="icon-btn icon-btn--text lang-toggle" href="/" hreflang="pt-BR" lang="pt-BR" aria-label="PT — ler esta página em português">PT</a>
+
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" data-abrir="Open menu" data-fechar="Close menu">
+      <span class="sr-only" id="navToggleLabel">Open menu</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <button class="icon-btn" id="themeToggle" type="button" aria-pressed="true">
+      <span class="sr-only">Toggle between light and dark theme</span>
+      <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">Power Platform + Data Engineering + Applied AI</p>
+
+          <h1 class="hero__title">The bridge between the process and <em>trustworthy data</em>.</h1>
+
+          <p class="hero__desc">
+            I'm Ildean Freitas, a senior software development analyst. For about ten years I've
+            been building the application that collects the data, the automation that moves it
+            and the pipeline that delivers it, trustworthy, to the people who decide.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn--primary" href="#cases">
+              See the cases
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+            <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Where I work</h2>
+          <ul>
+            <li><strong>Power Apps:</strong> enterprise applications with business rules and reusable components</li>
+            <li><strong>Power Automate:</strong> flows, custom connectors and integration through REST APIs</li>
+            <li><strong>Power BI:</strong> dimensional modeling, Power Query and strategic indicators</li>
+            <li><strong>SharePoint and Dataverse:</strong> data structures for applications</li>
+            <li><strong>Data Engineering:</strong> layered architecture, ETL and Data Warehouse</li>
+            <li><strong>Applied AI:</strong> completed training in generative AI; no public case yet</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- dt before dd, as the <dl> grammar requires; the CSS flips the visual
+           order so the number sits above the label. -->
+      <dl class="stats">
+        <div><dt>Years of experience</dt><dd>~10</dd></div>
+        <div><dt>Users served</dt><dd>+10k</dd></div>
+        <div><dt>Power Platform applications</dt><dd>+40</dd></div>
+        <div><dt>Postgraduate degrees</dt><dd>3</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="section" id="sobre">
+    <div class="wrap">
+      <p class="eyebrow">About</p>
+      <h2>I understand the process before proposing the solution</h2>
+
+      <div class="grid grid--2 mt-10">
+        <div>
+          <p class="lead">
+            The foundation is infrastructure: hardware, networks and six years managing the
+            systems of a wholesale and retail company, responsible for the ERP, the database,
+            replication, backup, the firewall and the network and hardware support teams.
+          </p>
+          <p class="muted">
+            In 2017 I moved into development on the Power Platform. Since then I've worked across
+            retail, distribution, mining, the public sector and consulting. Today I'm a senior
+            software development analyst at Compass UOL, on projects that combine Power Platform
+            and Business Intelligence over SAP Datasphere, SAP BW, SAP HANA, Analysis Services and
+            Azure Databricks.
+          </p>
+          <p class="muted">
+            My education followed the same order as my career: a bachelor's degree in Information
+            Systems, a postgraduate degree in IT Governance, an MBA in Data Science and Big Data
+            Analytics and a postgraduate degree in Data Engineering and Architecture with an
+            Emphasis on AI.
+          </p>
+
+          <h3 class="segmentos__titulo">Industries I've worked in</h3>
+          <ul class="taglist segmentos">
+            <li class="tag">Energy · oil and gas</li>
+            <li class="tag">Natural gas</li>
+            <li class="tag">Mining</li>
+            <li class="tag">Federal public administration</li>
+            <li class="tag">Aerospace</li>
+            <li class="tag">Healthcare</li>
+            <li class="tag">Financial market</li>
+            <li class="tag">Metropolitan transit</li>
+            <li class="tag">Waste management</li>
+            <li class="tag">Home appliance industry</li>
+            <li class="tag">Chemical bulk logistics</li>
+            <li class="tag">Retail and wholesale</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>How this portfolio works</h3>
+          <p>
+            Every case states the stage it is in. Nothing here claims execution, metrics or impact
+            without evidence; what is only documented architecture is called exactly that.
+          </p>
+          <ul class="lista-empilhada">
+            <li><span class="status status--done sem-margem">Delivered</span> <span class="muted">implemented and verifiable</span></li>
+            <li><span class="status status--staging sem-margem">In acceptance testing</span> <span class="muted">validated end to end, outside production</span></li>
+            <li><span class="status status--designed sem-margem">Architecture documented</span> <span class="muted">designed, not executed</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERTISE ============ -->
+  <section class="section section--alt" id="servicos">
+    <div class="wrap">
+      <p class="eyebrow">Expertise</p>
+      <h2>Three fronts that are usually separate projects</h2>
+      <p class="lead">
+        In most companies I've worked for, the people who build the app that collects the data
+        are not the people who build the pipeline that analyses it. I do both. Data usually gets
+        lost precisely in the handoff between the two.
+      </p>
+
+      <div class="grid grid--3 mt-12">
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
+          </div>
+          <h3>Power Platform</h3>
+          <p>
+            Enterprise applications and process automation: business rules, reusable components,
+            custom connectors and system-to-system integration through REST APIs.
+          </p>
+          <ul class="taglist">
+            <li class="tag">Power Apps</li><li class="tag">Power Automate</li>
+            <li class="tag">Dataverse</li><li class="tag">Power Fx</li>
+            <li class="tag">SharePoint</li><li class="tag">REST APIs</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg>
+          </div>
+          <h3>Data Engineering &amp; Analytics</h3>
+          <p>
+            Pipelines, dimensional modeling, transformation and analytical consumption: from the
+            source data to reliable indicators for operations and decisions.
+          </p>
+          <ul class="taglist">
+            <li class="tag">SQL</li><li class="tag">Databricks</li>
+            <li class="tag">dbt</li><li class="tag">Power BI</li>
+            <li class="tag">DAX</li><li class="tag">Dimensional modeling</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+          </div>
+          <h3>Applied AI</h3>
+          <p>
+            Generative AI applications on Python and APIs: language models, RAG to ground answers
+            in your own knowledge base, agents and task automation. Training completed in 2026;
+            no public case yet.
+          </p>
+          <ul class="taglist">
+            <li class="tag">Python</li><li class="tag">APIs</li>
+            <li class="tag">LLMs</li><li class="tag">RAG</li>
+            <li class="tag">AI agents</li><li class="tag">Automation</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASES ============ -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <p class="eyebrow">Cases</p>
+      <h2>Projects and architectures</h2>
+      <p class="lead">
+        I'd rather have a few well-told cases than a long list. Each one states the stage it is in
+        and what can be verified.
+      </p>
+
+      <div class="case-grid">
+
+<!--{{ CASES }}-->
+
+      </div>
+
+      <p class="note">
+        <b>Why every case carries a badge.</b>
+        Because “delivered”, “in acceptance testing” and “architecture documented” are not the
+        same thing, and the reader deserves to know which is which. The same goes for every number
+        and certification on this page.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CAREER ============ -->
+  <section class="section section--alt" id="trajetoria">
+    <div class="wrap">
+      <p class="eyebrow">Career</p>
+      <h2>From ERP rollouts to data engineering</h2>
+
+      <!-- Employers are named; clients served through consulting firms appear
+           by industry, not by name. -->
+      <ol class="timeline">
+        <li data-current>
+          <time datetime="2024-05">May 2024 — present</time>
+          <h3>Senior Software Development Analyst · Compass UOL</h3>
+          <p>
+            Assigned to a client in the <b>energy (oil and gas)</b> sector. Support and evolution
+            of <b>68 Power BI dashboards</b> and <b>8 enterprise applications</b>, used by
+            <b>more than 10,000 employees</b> as a basis for decisions. Data integration and
+            modeling from SAP Datasphere, SAP BW, SAP HANA, Analysis Services, SQL Server, Oracle
+            and Azure Databricks. Power Automate automations on SharePoint. Agile teams with SAFe,
+            Scrum and Kanban. Remote.
+          </p>
+        </li>
+        <li>
+          <time datetime="2023-08">August 2023 — May 2024</time>
+          <h3>Software Development Analyst (mid-level) · First Decision</h3>
+          <p>
+            Assigned to a <b>federal public administration</b> body. <b>More than 10
+            applications</b> in Power Apps on Dataverse and SharePoint, with Power Automate
+            automations and custom connectors, plus Power BI dashboards. Enterprise architecture
+            and integration standards. Brasília, DF.
+          </p>
+        </li>
+        <li>
+          <time datetime="2020-07">July 2020 — August 2023</time>
+          <h3>Software Development Analyst · Mining</h3>
+          <p>
+            Built the corporate Data Warehouse of a mining company, covering <b>10 areas</b>:
+            human resources, finance, inventory, logistics, billing, geology and laboratory,
+            material movement, fleet telemetry and machinery operating hours. The model unified
+            the ERP, vehicle tracking and fuel control, which until then only existed separately.
+            In parallel, <b>more than 15 applications</b> in Power Apps and the automations that
+            fed them. Power Automate, Power BI and Report Builder on SQL Server and Firebird.
+            Marabá, PA.
+          </p>
+        </li>
+        <li>
+          <time datetime="2017-11">November 2017 — March 2020</time>
+          <h3>Software Development Analyst · Wholesale and distribution</h3>
+          <p>
+            Introduced the Power Platform at a distributor: <b>more than 10 applications</b> that
+            digitized processes previously run outside any system, integrated with the TOTVS ERP
+            and Máxima's field sales platform. Decision-support reports for directors, managers
+            and the field sales team. IT environment support and administration of SQL Server,
+            Oracle and Firebird. Marabá, PA.
+          </p>
+        </li>
+        <li>
+          <time datetime="2016-04">April 2016 — August 2017</time>
+          <h3>Software Development Analyst · Supermarket retail</h3>
+          <p>
+            Led the ERP replacement of a hypermarket chain across <b>4 stores</b> (headquarters
+            and three branches, with <b>60 checkouts each</b>) to WinThor/TOTVS, completed in
+            <b>3 months</b>. Project manager role: requirements, acceptance, cutover from the
+            previous system and post-go-live support. Trained <b>more than 200 employees</b> in
+            checkout operation, finance, accounts payable and receivable, purchasing and inventory
+            movement. Parauapebas, PA.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section class="section" id="formacao">
+    <div class="wrap">
+      <p class="eyebrow">Education and certifications</p>
+      <h2>Academic background and credentials</h2>
+
+      <div class="grid grid--2 mt-12">
+
+        <div class="card">
+          <h3>Academic background</h3>
+          <ul class="stack-list">
+            <li>
+              <b>Postgraduate (Lato Sensu) · Specialization in Data Engineering and Architecture with an Emphasis on AI</b>
+              <div class="meta"><span>XP Educação</span><span class="when">Nov 2024 – Nov 2025</span></div>
+            </li>
+            <li>
+              <b>MBA · Data Science and Big Data Analytics</b>
+              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">Jan 2022 – Jan 2023</span></div>
+            </li>
+            <li>
+              <b>Postgraduate · IT Governance</b>
+              <div class="meta"><span>Uniasselvi</span><span class="when">2016–2018</span></div>
+            </li>
+            <li>
+              <b>Bachelor's · Information Systems</b>
+              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">2009–2013</span></div>
+            </li>
+          </ul>
+          <h3 class="stack-list__subtitulo">Continuing education</h3>
+          <ul class="stack-list">
+            <li>
+              <b>Generative AI Engineer Program 2026: AI in Practice</b>
+              <div class="meta"><span>Udemy Business · 103 hours</span><span class="when">Aug 2026</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Certifications</h3>
+          <p>Only certifications with a publicly verifiable credential.</p>
+          <ul class="stack-list">
+            <li>
+              <b>Microsoft Certified: Azure Fundamentals (AZ-900)</b>
+              <div class="meta"><span>Microsoft · credential <code>5516EB957F5566A1</code></span><span class="when">Jan 2025</span></div>
+            </li>
+            <li>
+              <b>Data Engineering with Airbyte, dbt and SQL</b>
+              <div class="meta"><span>Data Science Academy · credential <code>67352a79cd1ad941e10835fc</code></span><span class="when">Aug 2026</span></div>
+            </li>
+          </ul>
+          <p class="dim texto-miudo sem-margem mt-5">
+            Languages: Portuguese (native) and English (basic).
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section section--alt contact" id="contato">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h2>Let's talk</h2>
+      <p class="lead">
+        Open to conversations about Data Engineering, Power Platform and Applied AI.
+        LinkedIn is the fastest channel.
+      </p>
+      <div class="actions">
+        <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Message me on LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">See my GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+      <p class="dim texto-miudo mt-9">
+        Marabá, Pará · Brazil · available for remote work
+      </p>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="sem-margem">© <span id="ano">2026</span> Ildean Freitas · Own content, no corporate data.</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
+      <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
+      <li><a href="/" hreflang="pt-BR" lang="pt-BR">Português</a></li>
+      <li><a href="#inicio">Top</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+<!--{{ JS_PRINCIPAL }}-->
+</script>
+</body>
+</html>

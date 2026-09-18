@@ -1,0 +1,736 @@
+[
+  {
+    "id": "case-dataops",
+    "status": {
+      "variante": "done",
+      "rotulo": "Delivered"
+    },
+    "natureza": "Personal lab · private repository",
+    "titulo": "DataOps Lab: an end-to-end analytical pipeline",
+    "descricao": "Capstone lab of a Data Engineering program: an analytical pipeline executed end to end over a transactional PostgreSQL database running in Docker. Airbyte replicates the tables into the Snowflake RAW layer, dbt standardizes them and builds the dimensional model across STAGING, INT and DW, and Airflow coordinates the cycle (source freshness, sync, dbt build and reconciliation against the source) before consumption in Power BI.",
+    "escopo": "lab completed and delivered. 22 dbt models over a fact table of 16,044 rows; dbt build finishes with 136 passing tests and no warnings in both execution environments, local and containerized. Personal data stays out of the analytical model and every layer runs with the least privilege it needs. The repository is private, so these numbers are not publicly verifiable; I demonstrate them in a conversation.",
+    "escopoRotulo": "Evidence and limits:",
+    "papel": "Individual, self-directed project: capstone lab of the Data Engineering program, from the Docker infrastructure to the dashboard.",
+    "decisoes": [
+      {
+        "titulo": "Separate layers in Snowflake.",
+        "texto": "RAW keeps what Airbyte delivered; STAGING and DW are rebuilt by dbt. The source stays auditable and consumption stays stable."
+      },
+      {
+        "titulo": "Reconcile against the source, not between layers.",
+        "texto": "The DAG compares the row counts of the 15 PostgreSQL tables with RAW and fails on any divergence. The internal reconciliation compared two sides of the same load: had Airbyte brought 90% of the rentals, both sides would agree at 90%."
+      },
+      {
+        "titulo": "Two dbt targets.",
+        "texto": "A local build used to write straight into the schemas Power BI reads. With dev and prod separated, a test never overwrites what the report consumes."
+      },
+      {
+        "titulo": "One service user with an RSA key per tool.",
+        "texto": "Airbyte and dbt have distinct passwordless users, each with the least privilege of its layer."
+      },
+      {
+        "titulo": "Personal data out of the DW.",
+        "texto": "The customer dimension stopped publishing street address, postal code and phone: no measure used those columns, and the Power BI reader role could see them purely by inertia."
+      }
+    ],
+    "resultado": "22 dbt models and 136 tests: keys, 21 relationships between staging models, grain of bridge tables, business rules and reconciliation. Freshness on all 15 sources, warning at 24 h and error at 48 h. A Power BI dashboard with 15 DAX measures. Private repository: demonstrated in a conversation.",
+    "aprendizados": [
+      "A calendar derived from observed dates has gaps and makes DATEADD return wrong values silently; the date dimension needs to be a contiguous spine, with a test that blocks regressions.",
+      "The reconciliation that matters is against the source. Comparing two layers derived from the same load only proves the load is consistent with itself."
+    ],
+    "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
+    "destaqueVisual": true,
+    "diagrama": {
+      "alt": "Logical view of the DataOps lab: PostgreSQL feeds Airbyte; data flows through Snowflake RAW, STAGING, INT and Data Warehouse before being consumed in Power BI. Airflow acts as the control plane, while governance, security and quality are cross-cutting capabilities.",
+      "etiqueta": "Data architecture",
+      "titulo": "Development environment",
+      "forma": "dataflow",
+      "zonas": [
+        {
+          "titulo": "Sources",
+          "etapas": [
+            {
+              "tipo": "Source",
+              "titulo": "PostgreSQL",
+              "nota": "Local Docker",
+              "icone": "database",
+              "destaque": true
+            },
+            {
+              "tipo": "Ingestion",
+              "titulo": "Airbyte",
+              "nota": "Synchronization",
+              "icone": "sync"
+            }
+          ]
+        },
+        {
+          "titulo": "Data pipeline",
+          "pipeline": true,
+          "camadas": [
+            {
+              "tipo": "Persistence",
+              "titulo": "Snowflake RAW",
+              "nota": "Data as received",
+              "sigla": "RAW",
+              "icone": "snowflake"
+            },
+            {
+              "titulo": "STAGING · dbt",
+              "nota": "Standardization and tests",
+              "sigla": "STG",
+              "icone": "transform",
+              "destaque": true
+            },
+            {
+              "titulo": "INT · dbt",
+              "nota": "Reusable rules and joins",
+              "sigla": "INT",
+              "icone": "transform"
+            },
+            {
+              "titulo": "Data Warehouse · dbt",
+              "nota": "Analytical model",
+              "sigla": "DW",
+              "icone": "warehouse"
+            }
+          ]
+        },
+        {
+          "titulo": "Consumption",
+          "etapas": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Power BI",
+              "nota": "Indicators and analysis",
+              "icone": "chart",
+              "destaque": true
+            }
+          ]
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Orchestration",
+          "valor": "Schedules, monitoring, alerts and retries",
+          "icone": "airflow"
+        },
+        {
+          "nome": "Governance",
+          "valor": "Catalog, lineage and data contracts",
+          "icone": "catalog"
+        },
+        {
+          "nome": "Security",
+          "valor": "IAM, managed secrets and encryption",
+          "icone": "lock"
+        },
+        {
+          "nome": "Quality",
+          "valor": "Freshness, tests, rules and reconciliation",
+          "icone": "quality"
+        }
+      ],
+      "orquestracao": {
+        "nome": "Airflow",
+        "valor": "Sync, reconciliation, dbt build and alerts",
+        "icone": "airflow"
+      },
+      "tituloBase": "Cross-cutting capabilities"
+    }
+  },
+  {
+    "id": "case-fiscal-orchestration",
+    "status": {
+      "variante": "done",
+      "rotulo": "Delivered"
+    },
+    "natureza": "Corporate project · public reconstruction",
+    "titulo": "Tax Document Processing Orchestration",
+    "descricao": "A Power Apps Canvas application that receives batches of tax invoices through spreadsheet import. A Power Automate flow validates the file and records each row as a job in Dataverse; Power Automate Desktop robots consume the queue, register the invoice on the regulatory portals and return the outcome, which the operator follows on the same screen. Every job has an idempotency key and is claimed before it runs: resubmitting a batch does not duplicate processing.",
+    "escopo": "the project was delivered with import through the app, a queue in Dataverse, execution by the robots and status lookup in operation. The public repository is a reconstruction: the queue contract, diagram, sample data and test scenarios were rewritten from scratch, with no real environment, portal, credential or document.",
+    "escopoRotulo": "Scope statement:",
+    "decisoes": [
+      {
+        "titulo": "An idempotency key per job.",
+        "texto": "Each imported row becomes a job with its own key; resubmitting the batch creates no duplicates."
+      },
+      {
+        "titulo": "A claim that expires.",
+        "texto": "The worker claims the job with a lock that expires; if it never confirms execution, the job returns to the queue with no manual intervention."
+      },
+      {
+        "titulo": "Bounded retries and traceable failure.",
+        "texto": "A temporary failure goes back to the queue up to the attempt limit; a definitive failure is recorded with correlation and logs."
+      },
+      {
+        "titulo": "Workers only get compatible jobs, and never secrets.",
+        "texto": "Portal credentials and parameters live in a vault and environment variables; the job payload does not carry them."
+      },
+      {
+        "titulo": "Operators see status and summary, not the automation.",
+        "texto": "The screen follows the outcome of each job without exposing documents, portals or sensitive evidence."
+      }
+    ],
+    "resultado": "In operation, with import through the app, a queue in Dataverse, execution by the robots and status lookup. Volume, cycle time and number of portals are not published.",
+    "aprendizados": [
+      "Separating who submits the batch from who processes it is what makes safe reprocessing possible: the operator resubmits, the queue decides.",
+      "Explicit states (pending, claimed, running, retry pending, failed) turn monitoring into a query instead of an investigation."
+    ],
+    "tags": [
+      "Power Apps Canvas",
+      "Dataverse",
+      "Power Automate",
+      "Power Automate Desktop",
+      "Observability"
+    ],
+    "diagrama": {
+      "alt": "Tax processing orchestration architecture: Power Apps imports an Excel file and creates a job queue in Dataverse; the Power Automate orchestrator claims the job, applies a lock and retries before execution by the RPA worker; monitoring records status and evidence.",
+      "etiqueta": "Asynchronous operation",
+      "titulo": "Queue and workers",
+      "forma": "async",
+      "etapas": [
+        {
+          "tipo": "Input",
+          "titulo": "Power Apps",
+          "nota": "Imports the Excel file",
+          "icone": "upload",
+          "produto": "power-apps"
+        },
+        {
+          "tipo": "State",
+          "titulo": "Job queue",
+          "nota": "Dataverse",
+          "icone": "queue",
+          "produto": "dataverse",
+          "destaque": true
+        },
+        {
+          "tipo": "Control",
+          "titulo": "Orchestrator",
+          "nota": "Power Automate · cloud flow",
+          "icone": "workflow",
+          "produto": "power-automate"
+        },
+        {
+          "tipo": "Execution",
+          "titulo": "RPA worker",
+          "nota": "Regulatory portal",
+          "icone": "bot"
+        },
+        {
+          "tipo": "Return",
+          "titulo": "Monitoring",
+          "nota": "Status and evidence",
+          "icone": "monitor"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Idempotency",
+          "valor": "One key per job",
+          "icone": "sync"
+        },
+        {
+          "nome": "Resilience",
+          "valor": "Lock and retries",
+          "icone": "retry"
+        },
+        {
+          "nome": "Traceability",
+          "valor": "Correlation and logs",
+          "icone": "trace"
+        }
+      ]
+    },
+    "repositorio": "https://github.com/IldeanFreitas/fiscal-process-orchestrator-case"
+  },
+  {
+    "id": "case-camara-lakehouse",
+    "status": {
+      "variante": "done",
+      "rotulo": "Delivered"
+    },
+    "natureza": "Academic project · public repository",
+    "titulo": "Brazilian Chamber of Deputies — Lakehouse Pipeline",
+    "descricao": "A Lakehouse implemented on Databricks for the open data of the Brazilian Chamber of Deputies. A Python collector queries 17 endpoints configured in YAML, preserves an auditable origin and promotes the data through Bronze, Silver and Gold for analytical consumption in Power BI.",
+    "escopo": "the Lakehouse runs on Databricks with Unity Catalog Volume, PySpark and Delta; the local environment supports development and testing. 48 automated tests and continuous validation on GitHub.",
+    "escopoRotulo": "Evidence:",
+    "papel": "Individual final project of a Data Engineering program (Upskill Tiller, cohort 2): collection, modeling, tests, documentation and publication.",
+    "decisoes": [
+      {
+        "titulo": "Medallion instead of direct ELT or Data Vault.",
+        "texto": "Bronze keeps the raw payload, so reprocessing Silver and Gold never requires going back to the API. Data Vault would be overkill for the volume and cadence."
+      },
+      {
+        "titulo": "Endpoint catalog in YAML.",
+        "texto": "The 17 endpoints are data, not code: adding one means adding a block, with its incremental strategy declared and validated in a dataclass."
+      },
+      {
+        "titulo": "PySpark on Databricks, pandas in CI.",
+        "texto": "The same sequence of operations runs in pandas locally in about 6 seconds, without a cluster, and in native PySpark on Databricks."
+      },
+      {
+        "titulo": "Audit embedded in every record.",
+        "texto": "Every Bronze row carries the ingestion timestamp, endpoint, source URL, page, run identifier and payload hash; lineage does not depend on a join with a control table."
+      }
+    ],
+    "resultado": "Six mandatory analytical deliverables and two optional ones (vote streaming and change data capture of bill progress with SCD2), 48 automated tests across six modules and continuous validation on GitHub Actions. Public repository.",
+    "aprendizados": [
+      "A repository that runs in three modes (local pandas, local PySpark and Databricks) only holds up if the logic is the same in all three and CI proves it on every push.",
+      "Per-record audit costs columns, but it removes the question “where did this row come from?” in the middle of an incident."
+    ],
+    "tags": [
+      "Python",
+      "PySpark",
+      "Delta Lake",
+      "Databricks",
+      "Power BI",
+      "Data Quality",
+      "GitHub Actions"
+    ],
+    "diagrama": {
+      "alt": "Logical view of the Databricks Lakehouse for the Brazilian Chamber of Deputies: the public API feeds a Python collector that writes an auditable landing into a Unity Catalog Volume; data flows through the Delta layers Bronze, Silver and Gold, and the analytical products are consumed in Power BI. The flow is supported by lineage, incremental strategies, quality and tests.",
+      "etiqueta": "Public Lakehouse",
+      "titulo": "Databricks Lakehouse · Power BI",
+      "forma": "lakehouse",
+      "etapas": [
+        {
+          "tipo": "Public source",
+          "titulo": "Chamber API",
+          "nota": "17 endpoints",
+          "icone": "api"
+        },
+        {
+          "tipo": "Collection",
+          "titulo": "Python worker",
+          "nota": "pagination and retries",
+          "icone": "sync",
+          "produto": "python"
+        },
+        {
+          "tipo": "Auditable landing",
+          "titulo": "Unity Catalog Volume",
+          "nota": "URL, hash and run_id",
+          "icone": "document",
+          "destaque": true
+        },
+        {
+          "tipo": "Layer 01",
+          "titulo": "Bronze",
+          "nota": "raw per entity · Delta",
+          "icone": "layers"
+        },
+        {
+          "tipo": "Layer 02",
+          "titulo": "Silver",
+          "nota": "typing and deduplication",
+          "icone": "transform"
+        },
+        {
+          "tipo": "Layer 03",
+          "titulo": "Gold",
+          "nota": "7 dimensions · 4 facts",
+          "icone": "warehouse",
+          "destaque": true
+        },
+        {
+          "tipo": "Analytical products",
+          "titulo": "Power BI",
+          "nota": "dashboards and analysis",
+          "icone": "chart",
+          "produto": "power-bi"
+        }
+      ],
+      "ambientes": [
+        {
+          "nome": "Local development",
+          "valor": "Python · JSONL · Parquet · tests and experimentation"
+        },
+        {
+          "nome": "Databricks Lakehouse",
+          "valor": "PySpark · Unity Catalog Volume · Delta",
+          "produto": "databricks"
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Lineage",
+          "valor": "source_url, payload hash and run_id",
+          "icone": "trace"
+        },
+        {
+          "nome": "Incrementality",
+          "valor": "snapshot, append, watermark, merge and SCD2",
+          "icone": "sync"
+        },
+        {
+          "nome": "Quality",
+          "valor": "PKs, expectations and CNPJ validation",
+          "icone": "quality"
+        },
+        {
+          "nome": "Validation",
+          "valor": "48 pytest tests and GitHub Actions",
+          "icone": "ci"
+        }
+      ],
+      "tituloBase": "Cross-cutting controls"
+    },
+    "repositorio": "https://github.com/IldeanFreitas/fast-track-engenharia-v3"
+  },
+  {
+    "id": "case-rpa-oidc",
+    "status": {
+      "variante": "staging",
+      "rotulo": "In acceptance testing"
+    },
+    "natureza": "Corporate project · anonymized case",
+    "titulo": "OTP authentication RPA with OIDC token persistence",
+    "descricao": "A Power Automate Desktop robot that renews OIDC tokens for multiple accounts. It uses HTTP wherever an API exists and falls back to the browser only for login, OTP and token capture; after verification, the internal service distributes the token through Redis with a TTL.",
+    "escopo": "validated end to end in the acceptance environment, with multi-account processing, failures isolated per account and operational error classification. The public case keeps environments, portals, endpoints and credentials anonymized.",
+    "escopoRotulo": "Evidence and limits:",
+    "decisoes": [
+      {
+        "titulo": "HTTP where an API exists, browser only where it doesn't.",
+        "texto": "OAuth2 authentication, the account list, the OTP lookup and the token write are HTTP calls; the browser steps in for login, OTP and reading localStorage. Every step kept out of the browser is a step that doesn't break when the portal changes a CSS class."
+      },
+      {
+        "titulo": "Failure isolated per account.",
+        "texto": "Each account runs inside an error-handling block: an invalid password or a missing OTP doesn't bring the whole run down, and the final summary classifies failures by cause."
+      },
+      {
+        "titulo": "Verify after writing.",
+        "texto": "After the PUT, a GET confirms the token is readable by the integrations: persistence only counts once it has been read back."
+      }
+    ],
+    "resultado": "Validated end to end in acceptance testing, with about twelve accounts per run and a cycle of roughly 70 seconds per account. Production and real volume are not published.",
+    "aprendizados": [
+      "The constraint defines the design: with ROPG blocked, a token born in the browser and a short-lived OTP, the order login → challenge → lookup → typing is not a choice, it is the only possible sequence.",
+      "Before automating the screen, spend the validation phase finding out what the API already solves: here it was half of the steps."
+    ],
+    "tags": [
+      "Power Automate Desktop",
+      "JavaScript",
+      "OAuth2 / OIDC",
+      "REST",
+      "Redis",
+      "Browser automation",
+      "Node.js + jsdom"
+    ],
+    "diagrama": {
+      "alt": "Three-zone diagram of the OIDC automation. On the left, the internal token service with the OAuth2 provider, the credentials API and Redis with TTL. In the centre, the Power Automate Desktop robot. On the right, an external portal in the browser with login, OTP challenge and localStorage. Ten numbered steps alternate HTTP calls and browser interactions; three constraints explain why there is no API-only solution.",
+      "etiqueta": "OTP authentication RPA",
+      "titulo": "Anatomy of one account",
+      "subtitulo": "Cycle of roughly 70 seconds per account",
+      "forma": "rpa-detailed",
+      "zonas": {
+        "servico": {
+          "classe": "servico",
+          "icone": "api",
+          "produto": "nodejs",
+          "subtitulo": "Internal network",
+          "titulo": "Token service in Node.js",
+          "itens": [
+            {
+              "titulo": "OAuth2 provider",
+              "nota": "Service credentials",
+              "icone": "lock"
+            },
+            {
+              "titulo": "Credentials API",
+              "nota": "Accounts, OTP and verification",
+              "icone": "api"
+            },
+            {
+              "titulo": "Redis with TTL",
+              "nota": "Token distribution to the integrations",
+              "icone": "database"
+            }
+          ]
+        },
+        "portal": {
+          "classe": "portal",
+          "icone": "app",
+          "subtitulo": "Browser",
+          "titulo": "External portal",
+          "itens": [
+            {
+              "titulo": "Login screen",
+              "nota": "Session and credentials",
+              "icone": "lock"
+            },
+            {
+              "titulo": "Code screen",
+              "nota": "Six-field OTP challenge",
+              "icone": "check"
+            },
+            {
+              "titulo": "localStorage",
+              "nota": "Where the SDK stores the OIDC token",
+              "icone": "database"
+            }
+          ]
+        }
+      },
+      "robo": {
+        "icone": "workflow",
+        "produto": "power-automate",
+        "titulo": "Power Automate Desktop",
+        "subfluxos": [
+          "Main",
+          "Authenticate API",
+          "Fetch accounts",
+          "Portal login",
+          "Resolve OTP",
+          "Capture OIDC",
+          "Persist token",
+          "Log and handle errors"
+        ],
+        "rodape": "Error handling per account · one failure does not bring the run down"
+      },
+      "chamadas": [
+        {
+          "numero": "1",
+          "meio": "http",
+          "rotulo": "Authentication POST",
+          "nota": "Client credentials"
+        },
+        {
+          "numero": "2",
+          "meio": "http",
+          "rotulo": "GET account list",
+          "nota": "OTP initially empty"
+        },
+        {
+          "numero": "3",
+          "meio": "navegador",
+          "rotulo": "End previous session",
+          "nota": "Cleanup before login"
+        },
+        {
+          "numero": "4",
+          "meio": "navegador",
+          "rotulo": "Username and password",
+          "nota": "Screen interaction"
+        },
+        {
+          "numero": "5",
+          "meio": "navegador",
+          "rotulo": "Code screen",
+          "nota": "Six OTP fields"
+        },
+        {
+          "numero": "6",
+          "meio": "http",
+          "rotulo": "GET account list",
+          "nota": "OTP filled after the challenge · controlled polling",
+          "destaque": true
+        },
+        {
+          "numero": "7",
+          "meio": "navegador",
+          "rotulo": "Type and confirm the OTP",
+          "nota": "Waits for the redirects"
+        },
+        {
+          "numero": "8",
+          "meio": "navegador",
+          "rotulo": "Read the OIDC key",
+          "nota": "Captured from localStorage"
+        },
+        {
+          "numero": "9",
+          "meio": "http",
+          "rotulo": "PUT token",
+          "nota": "Normalized payload · 204 confirmation"
+        },
+        {
+          "numero": "10",
+          "meio": "http",
+          "rotulo": "Verification GET",
+          "nota": "Readable record · 200 confirmation"
+        }
+      ],
+      "restricoes": [
+        {
+          "titulo": "ROPG blocked",
+          "nota": "No direct API authentication",
+          "icone": "shield"
+        },
+        {
+          "titulo": "Token is born in the browser",
+          "nota": "The SDK writes it to localStorage",
+          "icone": "lock"
+        },
+        {
+          "titulo": "OTP only exists during the challenge",
+          "nota": "Code available for a short window",
+          "icone": "sync"
+        }
+      ],
+      "janelas": [
+        {
+          "titulo": "Code available in the API",
+          "valor": "approx. 30 s"
+        },
+        {
+          "titulo": "auth_time accepted on write",
+          "valor": "30 min"
+        },
+        {
+          "titulo": "OIDC token validity",
+          "valor": "a few hours"
+        }
+      ],
+      "legenda": "Each account goes through this cycle in about 70 seconds. HTTP calls handle everything that has an endpoint; the browser steps in only where there is no alternative. Step 6 is the inversion that defines the project: the verification code only appears in the API after the login has already been submitted."
+    }
+  },
+  {
+    "id": "plataforma-dados-aws",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Architecture documented"
+    },
+    "natureza": "Academic project · postgraduate program",
+    "titulo": "Integrated Data Platform on AWS",
+    "descricao": "A layered architecture on Amazon S3, with an ETL pipeline and Medallion organization, developed as the applied project of the postgraduate program in Data Engineering and Architecture with an Emphasis on AI. The scenario simulates a mining operation (fuel control and fleet maintenance in an ERP, IoT telemetry of cargo movement, API integrations and geology and laboratory files), chosen because it concentrates systems that do not talk to each other.",
+    "escopo": "individual academic project completed in 2025. The mining company is a simulated scenario and the data is fictitious; nothing here came from a corporate or third-party system. The diagram represents the proposed architecture, not a production environment.",
+    "escopoRotulo": "Scope statement:",
+    "papel": "Individual applied project of the postgraduate program: survey of the sources, design of the layers and of the cross-cutting controls.",
+    "decisoes": [
+      {
+        "titulo": "Bronze receives data as it arrives.",
+        "texto": "Every source lands without transformation, preserving traceability and the basis for reprocessing."
+      },
+      {
+        "titulo": "Silver concentrates standardization.",
+        "texto": "Typing, treatment and validation live in a single layer, so Gold never has to fix data."
+      },
+      {
+        "titulo": "Governance spans all three layers.",
+        "texto": "Catalog, access control, quality and monitoring are a condition of every stage, not a stage of their own."
+      }
+    ],
+    "resultado": "Architecture proposed and documented; no execution, load or environment.",
+    "aprendizados": [
+      "In an operation with an ERP, telemetry, APIs and spreadsheets, the problem is not volume, it is data that doesn't talk. The Bronze layer exists to accept everything before deciding what to standardize."
+    ],
+    "tags": ["Amazon S3", "ETL", "Medallion architecture", "Governance", "Data quality"],
+    "diagrama": {
+      "alt": "Data architecture of a simulated mining operation: corporate ERP, technical files, internal APIs and field telemetry feed the Bronze, Silver and Gold layers on Amazon S3 through an ETL pipeline, consumed by dashboards, advanced analytics, machine learning and data marts, over a foundation of catalog, access control, quality and monitoring.",
+      "etiqueta": "Medallion architecture",
+      "titulo": "Layers on Amazon S3",
+      "forma": "zonas",
+      "legenda": { "fluxo": "Data flow" },
+      "zonas": [
+        {
+          "titulo": "Sources",
+          "etapas": [
+            {
+              "tipo": "Source",
+              "titulo": "Corporate ERP",
+              "nota": "Fuel and fleet maintenance",
+              "icone": "database"
+            },
+            {
+              "tipo": "Source",
+              "titulo": "Technical files",
+              "nota": "Geology and laboratory",
+              "icone": "document"
+            },
+            {
+              "tipo": "Source",
+              "titulo": "Internal APIs",
+              "nota": "System integration",
+              "icone": "api"
+            },
+            {
+              "tipo": "Source",
+              "titulo": "Field telemetry",
+              "nota": "IoT cargo sensors",
+              "icone": "sliders"
+            }
+          ]
+        },
+        {
+          "titulo": "Data pipeline",
+          "pipeline": true,
+          "camadas": [
+            {
+              "titulo": "Bronze · Amazon S3",
+              "nota": "Raw, traceable data",
+              "sigla": "BRZ",
+              "produto": "aws-s3"
+            },
+            {
+              "titulo": "Silver · ETL",
+              "nota": "Standardization and validation",
+              "sigla": "SLV",
+              "icone": "transform",
+              "destaque": true
+            },
+            {
+              "titulo": "Gold · Amazon S3",
+              "nota": "Ready for consumption",
+              "sigla": "GLD",
+              "produto": "aws-s3"
+            }
+          ]
+        },
+        {
+          "titulo": "Consumption",
+          "etapas": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Dashboards",
+              "nota": "Indicators",
+              "icone": "chart"
+            },
+            {
+              "tipo": "Analytics",
+              "titulo": "Advanced analytics",
+              "nota": "Exploration",
+              "icone": "search"
+            },
+            {
+              "tipo": "Models",
+              "titulo": "Machine learning",
+              "nota": "Predicted cases",
+              "icone": "decision"
+            },
+            {
+              "tipo": "Delivery",
+              "titulo": "Data marts",
+              "nota": "Applications",
+              "icone": "output"
+            }
+          ]
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Catalog",
+          "valor": "Metadata and lineage",
+          "icone": "catalog"
+        },
+        {
+          "nome": "Access",
+          "valor": "Policies and permissions",
+          "icone": "lock"
+        },
+        {
+          "nome": "Quality",
+          "valor": "Rules and validations",
+          "icone": "quality"
+        },
+        {
+          "nome": "Operations",
+          "valor": "Monitoring and audit",
+          "icone": "monitor"
+        }
+      ],
+      "tituloBase": "Cross-cutting capabilities"
+    }
+  }
+]

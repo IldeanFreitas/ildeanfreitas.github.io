@@ -30,4 +30,15 @@
 /* Lista empilhada sem marcador — usada no cartão de status dos cases. */
 .lista-empilhada{display:flex;flex-direction:column;gap:var(--space-3);font-size:.9rem}
 
-@media print{.site-header,.actions,.skip,.site-footer,.hero__bg{display:none}body{background:#fff;color:#000}}
+/* Impressão: quem salva o portfólio em PDF leva o tema claro, sem o
+   cabeçalho (e com ele os controles de tema, idioma e menu), com cada
+   diagrama inteiro numa página e o endereço dos links de repositório
+   visível — no papel, um link sem URL é só texto. */
+@media print{
+  .site-header,.actions,.skip,.site-footer,.hero__bg{display:none}
+  body{background:#fff;color:#000}
+  .section{border-top-color:#ddd;padding:2rem 0}
+  .card,.panel,.note{box-shadow:none;break-inside:avoid}
+  .architecture-diagram{break-inside:avoid}
+  .case-card a[href^="http"]::after{content:" — " attr(href);font-weight:400;font-size:.8em}
+}

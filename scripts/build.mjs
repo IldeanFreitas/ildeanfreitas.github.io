@@ -1,5 +1,5 @@
 /**
- * Monta index.html a partir de src/.
+ * Monta index.html, en/index.html e 404.html a partir de src/.
  *
  * Node puro, sem dependência e sem bundler: o resultado precisa ser
  * inspecionável a olho, porque é ele que vai para produção.
@@ -10,12 +10,12 @@
  * visita, que é a única que importa aqui.
  *
  *   node scripts/build.mjs           monta
- *   node scripts/build.mjs --check   verifica se o index.html está atualizado
+ *   node scripts/build.mjs --check   verifica se os artefatos estão atualizados
  */
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { renderizarCases } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const conferir = process.argv.includes('--check');
@@ -57,14 +57,64 @@ const partes = await Promise.all(
 
 const css = ['@layer base,componentes,utilitarios;', ...partes].join('\n\n');
 
-const cases = JSON.parse(await ler('src/data/cases.json'));
+const [cases, casesEn] = await Promise.all([
+  ler('src/data/cases.json').then(JSON.parse),
+  ler('src/data/cases.en.json').then(JSON.parse)
+]);
 
-const [template, template404, jsInicializacao, jsPrincipal] = await Promise.all([
+const [template, templateEn, template404, jsInicializacao, jsPrincipal] = await Promise.all([
   ler('src/index.template.html'),
+  ler('src/index.en.template.html'),
   ler('src/404.template.html'),
   ler('src/js/inicializacao.js'),
   ler('src/js/principal.js')
 ]);
+
+/**
+ * As duas línguas são dois templates, não um template com dicionário: o
+ * texto corrido do site (hero, sobre, trajetória) não se traduz bem por
+ * chave, e um template que só tivesse marcadores ficaria ilegível.
+ *
+ * O preço da duplicação é a deriva silenciosa — alguém acrescenta uma seção
+ * em português e esquece a inglesa. Esta verificação cobra esse preço no
+ * build: os dois templates precisam ter o mesmo esqueleto de marcação. Só o
+ * texto e os atributos que carregam texto podem diferir.
+ */
+function esqueleto(html) {
+  return html
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(
+      /<script type="application\/ld\+json">[\s\S]*?<\/script>/,
+      '<script type="application/ld+json"></script>'
+    )
+    .replace(
+      /\s+(lang|hreflang|href|content|aria-label|alt|title|datetime|data-[\w-]+)="[^"]*"/g,
+      ''
+    )
+    .replace(/>[^<]*</g, '><')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function conferirEsqueletos() {
+  const pt = esqueleto(template);
+  const en = esqueleto(templateEn);
+  if (pt === en) return true;
+  // Aponta o primeiro ponto de divergência para a correção ser direta.
+  let i = 0;
+  while (i < pt.length && pt[i] === en[i]) i++;
+  console.error('Os templates pt-BR e en divergem na estrutura de marcação.');
+  console.error(`  pt: …${pt.slice(Math.max(0, i - 80), i + 120)}`);
+  console.error(`  en: …${en.slice(Math.max(0, i - 80), i + 120)}`);
+  return false;
+}
+
+if (!conferirEsqueletos()) process.exit(1);
+
+if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].id)) {
+  console.error('cases.json e cases.en.json precisam ter os mesmos cases, na mesma ordem.');
+  process.exit(1);
+}
 
 /**
  * A 404 é servida sozinha, então precisa carregar o próprio CSS. Mas recebe a
@@ -83,7 +133,17 @@ const PAGINAS = [
     template,
     marcadores: {
       '<!--{{ CSS }}-->': css,
-      '<!--{{ CASES }}-->': renderizarCases(cases),
+      '<!--{{ CASES }}-->': renderizarCases(cases, 'pt'),
+      '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
+      '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
+    }
+  },
+  {
+    arquivo: 'en/index.html',
+    template: templateEn,
+    marcadores: {
+      '<!--{{ CSS }}-->': css,
+      '<!--{{ CASES }}-->': renderizarCases(casesEn, 'en'),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }
@@ -123,15 +183,16 @@ for (const pagina of PAGINAS) {
       desatualizado = true;
     }
   } else {
+    await mkdir(dirname(join(RAIZ, pagina.arquivo)), { recursive: true });
     await writeFile(join(RAIZ, pagina.arquivo), saida, 'utf8');
   }
 }
 
 if (conferir) {
   if (desatualizado) process.exit(1);
-  console.warn('index.html e 404.html estão atualizados.');
+  console.warn('index.html, en/index.html e 404.html estão atualizados.');
 } else {
   console.warn(
-    `Montados: index.html (${ordem.length} arquivos de CSS, ${cases.length} cases) e 404.html.`
+    `Montados: index.html e en/index.html (${ordem.length} arquivos de CSS, ${cases.length} cases) e 404.html.`
   );
 }

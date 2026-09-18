@@ -21,6 +21,13 @@ for (const tema of ['dark', 'light']) {
   });
 }
 
+test('versão em inglês sem violações de acessibilidade', async ({ page }) => {
+  await page.goto('/en/');
+  const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
+  const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
+  expect(resumo, resumo.join('\n')).toEqual([]);
+});
+
 /**
  * Contraste medido à mão, e não é redundância com o axe.
  *
@@ -46,6 +53,9 @@ const AMOSTRA = [
   '.diagram-layer span',
   '.diagram-foundation span',
   '.case-card__content p',
+  '.case-facts li',
+  '.case-facts h4',
+  '.status-natureza',
   '.scope',
   '.tag',
   '.hero__desc',
@@ -149,6 +159,35 @@ for (const tema of ['dark', 'light']) {
   });
 }
 
+test('nenhum texto abaixo de 11px em nenhuma largura', async ({ page }) => {
+  // A avaliação de 2026-09-17 achou 155 dos 406 textos da página com menos
+  // de 10px — quase todos nos diagramas. Piso de 11.2px (0.7rem) em qualquer
+  // largura para rótulos; em telas estreitas os diagramas empilham e o texto
+  // corrido deles sobe para 12.8px (ver o bloco de 560px em diagrama.css).
+  await page.goto('/');
+  await page.evaluate(() =>
+    document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible'))
+  );
+  const piso = 11.1;
+  const pequenos = await page.evaluate((min) => {
+    const folhas = [...document.querySelectorAll('main *')].filter(
+      (e) => !e.children.length && e.textContent.trim() && e.getBoundingClientRect().width > 0
+    );
+    return [
+      ...new Set(
+        folhas
+          .map((e) => ({ tam: parseFloat(getComputedStyle(e).fontSize), e }))
+          .filter((x) => x.tam < min)
+          .map(
+            (x) =>
+              `${x.tam.toFixed(1)}px ${x.e.tagName}.${String(x.e.className).split(' ')[0]} "${x.e.textContent.trim().slice(0, 30)}"`
+          )
+      )
+    ].slice(0, 15);
+  }, piso);
+  expect(pequenos, pequenos.join('\n')).toEqual([]);
+});
+
 test('404 sem violações de acessibilidade', async ({ page }) => {
   await page.goto('/404.html');
   const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
@@ -165,4 +204,14 @@ test('toda imagem tem texto alternativo', async ({ page }) => {
   await page.goto('/');
   const semAlt = await page.locator('img:not([alt])').count();
   expect(semAlt).toBe(0);
+});
+
+test('a lista de definições do hero está na ordem da gramática', async ({ page }) => {
+  // <dt> antes de <dd>: o leitor de tela anuncia o rótulo e depois o valor.
+  // A ordem visual (número em cima) é responsabilidade do CSS.
+  await page.goto('/');
+  const ordem = await page
+    .locator('.stats > div')
+    .evaluateAll((divs) => divs.map((d) => [...d.children].map((c) => c.tagName).join('>')));
+  expect(ordem.every((o) => o === 'DT>DD')).toBe(true);
 });

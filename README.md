@@ -12,12 +12,13 @@ Site estático em HTML, CSS e JavaScript puros. **Zero dependência de runtime**
 
 O que existe de ferramental serve para desenvolver e verificar; nada disso chega ao navegador.
 
-> **`index.html` e `404.html` são gerados.** Editá-los funciona até o próximo `npm run build`, que sobrescreve tudo. A fonte fica em `src/`.
+> **`index.html`, `en/index.html` e `404.html` são gerados.** Editá-los funciona até o próximo `npm run build`, que sobrescreve tudo. A fonte fica em `src/`.
 
 ```
 .
 ├── src/                    FONTE — é aqui que se edita
 │   ├── index.template.html estrutura da página, com marcadores
+│   ├── index.en.template.html  a mesma estrutura em inglês (o build exige esqueleto idêntico)
 │   ├── 404.template.html   página de erro
 │   ├── css/
 │   │   ├── ordem.json      ordem de concatenação (a cascata depende dela)

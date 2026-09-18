@@ -18,3 +18,9 @@ src/404.template.html
 # Herdados, reescritos em etapas posteriores do plano.
 404.html
 README.md
+
+# Página gerada em inglês
+en/index.html
+
+# Template em inglês: mesmo estilo compacto do template em português.
+src/index.en.template.html
