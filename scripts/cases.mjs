@@ -1,11 +1,102 @@
 /**
- * Renderiza os cases a partir de src/data/cases.json.
+ * Renderiza os cases a partir de src/data/cases.json (ou cases.en.json).
  *
  * Roda em TEMPO DE BUILD, não no navegador. Montar os cases no cliente
  * resolveria a duplicação e destruiria o SEO: o conteúdo precisa estar no HTML
  * que o servidor entrega, que é o que o buscador lê e o que aparece com
  * JavaScript desativado.
+ *
+ * O texto dos cases vem do JSON; as poucas frases fixas dos diagramas (rótulos
+ * de eixo, "Plano de controle", títulos de bloco) vêm do dicionário T abaixo,
+ * escolhido pelo idioma que o build passa. Assim a versão em inglês usa o
+ * mesmo renderizador — e qualquer divergência estrutural entre as duas
+ * páginas é impossível por construção.
  */
+
+const DICIONARIO = {
+  pt: {
+    verRepositorio: 'Ver repositório e evidências',
+    novaAba: '(abre em nova aba)',
+    papel: 'Meu papel',
+    decisoes: 'Decisões técnicas',
+    resultado: 'Resultado',
+    aprendizados: 'Aprendizados',
+    visaoLogica: 'Visão lógica · caminho de dados',
+    origemConsumo: 'Origem → consumo',
+    caminhoDeDados: 'Caminho de dados',
+    fluxoDoProcesso: 'Fluxo do processo',
+    capacidades: 'Capacidades transversais',
+    controles: 'Controles transversais',
+    planoDeControle: 'Plano de controle',
+    orquestraNaoTransforma: 'Orquestra o fluxo, não transforma dados',
+    transformacao: 'Transformação',
+    dbtCamadas: 'dbt · camadas analíticas',
+    caminhoDoJob: 'Caminho do job',
+    entradaRetorno: 'Entrada → retorno',
+    reservaLock: 'reserva o job, aplica lock e agenda retentativas',
+    protecoes: 'Proteções por etapa',
+    batchOrigemProdutos: 'Batch · origem → produtos',
+    caminhoLakehouse: 'Caminho de dados do Lakehouse',
+    medalhao: 'Medalhão Lakehouse',
+    camadasDelta: 'Camadas Delta',
+    ambientes: 'Ambientes de execução',
+    controlesLakehouse: 'Controles transversais do Lakehouse',
+    apiOuNavegador: 'API quando existe · navegador quando é obrigatório',
+    tresZonas: 'Três zonas da automação',
+    robo: 'Robô',
+    cicloDeUmaConta: 'Ciclo de uma conta',
+    chamadasHttp: 'Chamadas HTTP',
+    interacoesNavegador: 'Interações no navegador',
+    http: 'HTTP',
+    navegador: 'Navegador',
+    passo6: 'O passo 6 só ocorre após o login',
+    porQueNaoPost: 'Por que não é só um',
+    porQueNaoPostAria: 'Por que não é só um POST de token',
+    janelas: 'Janelas que governam o desenho'
+  },
+  en: {
+    verRepositorio: 'See repository and evidence',
+    novaAba: '(opens in a new tab)',
+    papel: 'My role',
+    decisoes: 'Technical decisions',
+    resultado: 'Outcome',
+    aprendizados: 'Lessons learned',
+    visaoLogica: 'Logical view · data path',
+    origemConsumo: 'Source → consumption',
+    caminhoDeDados: 'Data path',
+    fluxoDoProcesso: 'Process flow',
+    capacidades: 'Cross-cutting capabilities',
+    controles: 'Cross-cutting controls',
+    planoDeControle: 'Control plane',
+    orquestraNaoTransforma: 'Orchestrates the flow, does not transform data',
+    transformacao: 'Transformation',
+    dbtCamadas: 'dbt · analytical layers',
+    caminhoDoJob: 'Job path',
+    entradaRetorno: 'Input → return',
+    reservaLock: 'claims the job, applies a lock and schedules retries',
+    protecoes: 'Safeguards per stage',
+    batchOrigemProdutos: 'Batch · source → products',
+    caminhoLakehouse: 'Lakehouse data path',
+    medalhao: 'Medallion Lakehouse',
+    camadasDelta: 'Delta layers',
+    ambientes: 'Execution environments',
+    controlesLakehouse: 'Lakehouse cross-cutting controls',
+    apiOuNavegador: 'API when it exists · browser when it is mandatory',
+    tresZonas: 'The three zones of the automation',
+    robo: 'Robot',
+    cicloDeUmaConta: 'Cycle of one account',
+    chamadasHttp: 'HTTP calls',
+    interacoesNavegador: 'Browser interactions',
+    http: 'HTTP',
+    navegador: 'Browser',
+    passo6: 'Step 6 only happens after login',
+    porQueNaoPost: 'Why it is not just a',
+    porQueNaoPostAria: 'Why it is not just a token POST',
+    janelas: 'Time windows that shape the design'
+  }
+};
+
+let T = DICIONARIO.pt;
 
 /** Escapa o que vai para dentro de um atributo HTML. */
 const attr = (s) =>
@@ -111,43 +202,59 @@ const iconesNeutros = {
 const iconeNeutro = (nome) =>
   `<span class="dataflow-icon dataflow-icon--${iconesNeutros[nome] || 'database'}" aria-hidden="true"></span>`;
 
+/* Caminhos absolutos: a mesma marcação é servida em / e em /en/, e um caminho
+ * relativo resolveria para /en/assets/... na segunda. */
+const VENDOR = '/assets/icons/vendor';
+
 /* Arquivos originais dos fornecedores, obtidos das fontes registradas no
  * manifesto. A marca é decorativa porque o nome do produto permanece no
- * mesmo cartão, de modo que leitores de tela não recebem texto duplicado. */
+ * mesmo cartão, de modo que leitores de tela não recebem texto duplicado.
+ * Os diagramas ficam abaixo da dobra; `loading="lazy"` adia os PNGs maiores
+ * (Snowflake, dbt) sem tocar nos arquivos originais do catálogo. */
+const imgProduto = (classe, src) =>
+  `<img class="${classe}" src="${src}" alt="" aria-hidden="true" loading="lazy" decoding="async">`;
+
 const marcasDataflow = {
-  postgresql: 'assets/icons/vendor/postgresql/PostgreSQL_logo.3colors.svg',
-  airbyte: 'assets/icons/vendor/airbyte/Airbyte_icon_color.svg',
-  snowflake: 'assets/icons/vendor/snowflake/bug-sno-blue.png',
-  dbt: 'assets/icons/vendor/dbt/dbt-bit-standalone.png',
-  airflow: 'assets/icons/vendor/airflow/airflow-icon.svg',
-  'power-bi': 'assets/icons/vendor/power-bi/power_bi_48_color.svg'
+  postgresql: `${VENDOR}/postgresql/PostgreSQL_logo.3colors.svg`,
+  airbyte: `${VENDOR}/airbyte/Airbyte_icon_color.svg`,
+  snowflake: `${VENDOR}/snowflake/bug-sno-blue.png`,
+  dbt: `${VENDOR}/dbt/dbt-bit-standalone.png`,
+  airflow: `${VENDOR}/airflow/airflow-icon.svg`,
+  'power-bi': `${VENDOR}/power-bi/power_bi_48_color.svg`
 };
-const iconeProduto = (marca) =>
-  `<img class="dataflow-product-icon" src="${marcasDataflow[marca]}" alt="" aria-hidden="true">`;
+const iconeProduto = (marca) => imgProduto('dataflow-product-icon', marcasDataflow[marca]);
 const iconeDataflow = (marca, neutro) =>
   marcasDataflow[marca] ? iconeProduto(marca) : iconeNeutro(neutro);
 
 const marcasAssincronas = {
-  dataverse: 'assets/icons/vendor/dataverse/Dataverse_scalable.svg',
-  'power-apps': 'assets/icons/vendor/power-apps/PowerApps_scalable.svg',
-  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+  dataverse: `${VENDOR}/dataverse/Dataverse_scalable.svg`,
+  'power-apps': `${VENDOR}/power-apps/PowerApps_scalable.svg`,
+  'power-automate': `${VENDOR}/power-automate/PowerAutomate_scalable.svg`
 };
 const iconeAssincrono = (etapa) =>
   etapa.produto && marcasAssincronas[etapa.produto]
-    ? `<img class="async-product-icon" src="${marcasAssincronas[etapa.produto]}" alt="" aria-hidden="true">`
+    ? imgProduto('async-product-icon', marcasAssincronas[etapa.produto])
     : icone(etapa.icone);
 
 /* Marcas oficiais empregadas somente nos nós que nomeiam o produto exato.
  * Redis permanece como conceito neutro neste case: não há um ativo oficial
  * baixado e validado no catálogo local para uso público. */
 const marcasRpa = {
-  nodejs: 'assets/icons/vendor/nodejs/nodejsHex.svg',
-  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+  nodejs: `${VENDOR}/nodejs/nodejsHex.svg`,
+  'power-automate': `${VENDOR}/power-automate/PowerAutomate_scalable.svg`
 };
 const iconeRpa = (nome, produto) =>
-  produto && marcasRpa[produto]
-    ? `<img class="rpa-product-icon" src="${marcasRpa[produto]}" alt="" aria-hidden="true">`
-    : icone(nome);
+  produto && marcasRpa[produto] ? imgProduto('rpa-product-icon', marcasRpa[produto]) : icone(nome);
+
+/* Camadas do diagrama genérico em zonas (case AWS): o ícone oficial do S3
+ * entra como <img>, como nos demais diagramas. */
+const marcasCamada = {
+  'aws-s3': `${VENDOR}/aws/Arch_Amazon-Simple-Storage-Service_48.svg`
+};
+const iconeCamada = (c) =>
+  c.produto && marcasCamada[c.produto]
+    ? imgProduto('diagram-layer__product-icon', marcasCamada[c.produto])
+    : icone(c.icone || 'layers');
 
 const etapa = (e) =>
   `<div class="diagram-stage${e.destaque ? ' diagram-stage--accent' : ''}">` +
@@ -157,7 +264,7 @@ const etapa = (e) =>
 
 const camada = (c) =>
   `<div class="diagram-layer${c.destaque ? ' diagram-layer--accent' : ''}">` +
-  `<span class="diagram-layer__icon" aria-hidden="true">${icone(c.icone || 'layers')}</span>` +
+  `<span class="diagram-layer__icon" aria-hidden="true">${iconeCamada(c)}</span>` +
   `<div><b>${texto(c.titulo)}</b><span>${texto(c.nota)}</span></div>` +
   `<span class="diagram-layer__mark">${texto(c.sigla)}</span></div>`;
 
@@ -197,13 +304,23 @@ function diagrama(d) {
     ? `\n            <div class="diagram-orchestration${pipeline ? ' diagram-orchestration--pipeline' : ''}"><span class="diagram-orchestration__icon" aria-hidden="true">${icone(d.orquestracao.icone || 'airflow')}</span><span><b>${texto(d.orquestracao.nome)}</b>${texto(d.orquestracao.valor)}</span></div>`
     : '';
 
-  const legenda = d.legenda
-    ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>${texto(d.legenda.fluxo)}</span><span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>${texto(d.legenda.controle)}</span></div>\n`
+  // A legenda mostra só as linhas que o case declara: um diagrama sem plano de
+  // controle não precisa explicar uma linha tracejada que não existe.
+  const itensLegenda = d.legenda
+    ? [
+        d.legenda.fluxo &&
+          `<span><i class="diagram-legend__line" aria-hidden="true"></i>${texto(d.legenda.fluxo)}</span>`,
+        d.legenda.controle &&
+          `<span><i class="diagram-legend__line diagram-legend__line--dashed" aria-hidden="true"></i>${texto(d.legenda.controle)}</span>`
+      ].filter(Boolean)
     : d.forma === 'fluxo'
-      ? `\n            <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>Fluxo do processo</span></div>\n`
-      : '';
+      ? [`<span><i class="diagram-legend__line" aria-hidden="true"></i>${T.fluxoDoProcesso}</span>`]
+      : [];
+  const legenda = itensLegenda.length
+    ? `\n            <div class="diagram-legend">${itensLegenda.join('')}</div>\n`
+    : '';
 
-  const tituloBase = `<p class="diagram-foundation__title">${texto(d.tituloBase || 'Capacidades transversais')}</p>`;
+  const tituloBase = `<p class="diagram-foundation__title">${texto(d.tituloBase || T.capacidades)}</p>`;
 
   return (
     `          <figure class="architecture-diagram" role="img" aria-label="${attr(d.alt)}">\n` +
@@ -230,7 +347,7 @@ const noDataflow = (etapa, grupo, conectado = false) =>
 const nomeCamadaDbt = (titulo) => texto(titulo.replace(/\s*·\s*dbt$/i, ''));
 const painelDbt = (camadas) =>
   `<article class="dataflow-dbt dataflow-node dataflow-node--transformacao dataflow-node--emphasis dataflow-node--connected">
-                <div class="dataflow-dbt__head"><span class="dataflow-node__icon">${iconeProduto('dbt')}</span><div><span class="dataflow-node__kind">Transformação</span><b>dbt · camadas analíticas</b></div></div>
+                <div class="dataflow-dbt__head"><span class="dataflow-node__icon">${iconeProduto('dbt')}</span><div><span class="dataflow-node__kind">${T.transformacao}</span><b>${T.dbtCamadas}</b></div></div>
                 <ol class="dataflow-dbt__stages">${camadas
                   .map(
                     (camada) =>
@@ -247,7 +364,7 @@ function dataflow(d) {
   }));
   const transformacoes = d.zonas[1].camadas.map((etapa) => ({
     ...etapa,
-    tipo: etapa.titulo.includes('RAW') ? 'Persistência' : 'Transformação',
+    tipo: etapa.titulo.includes('RAW') ? etapa.tipo || 'Persistência' : T.transformacao,
     grupo: 'transformacao',
     marca: etapa.titulo.includes('Snowflake') ? 'snowflake' : 'dbt'
   }));
@@ -269,15 +386,15 @@ function dataflow(d) {
 
   return `          <figure class="architecture-diagram architecture-diagram--dataflow" aria-label="${attr(d.alt)}">
             <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
-            <div class="dataflow-intro"><span>Visão lógica · caminho de dados</span><span>Origem → consumo</span></div>
-            <section class="dataflow-track" aria-label="Caminho de dados">
+            <div class="dataflow-intro"><span>${T.visaoLogica}</span><span>${T.origemConsumo}</span></div>
+            <section class="dataflow-track" aria-label="${T.caminhoDeDados}">
               ${noDataflow(postgresql, postgresql.grupo, true)}
               ${noDataflow(airbyte, airbyte.grupo, true)}
               ${noDataflow(snowflake, snowflake.grupo, true)}
               ${painelDbt(camadasDbt)}
               ${noDataflow(powerBi, powerBi.grupo)}
             </section>
-            <div class="dataflow-control-plane"><span class="dataflow-control-plane__icon">${iconeProduto('airflow')}</span><div><b>Plano de controle · ${texto(d.orquestracao.nome)}</b><span>${texto(d.orquestracao.valor)}</span></div><small>Orquestra o fluxo, não transforma dados</small></div>
+            <div class="dataflow-control-plane"><span class="dataflow-control-plane__icon">${iconeProduto('airflow')}</span><div><b>${T.planoDeControle} · ${texto(d.orquestracao.nome)}</b><span>${texto(d.orquestracao.valor)}</span></div><small>${T.orquestraNaoTransforma}</small></div>
             <section class="dataflow-foundation" aria-label="${attr(d.tituloBase)}"><p>${texto(d.tituloBase)}</p><ul>${controles}</ul></section>
           </figure>`;
 }
@@ -299,14 +416,14 @@ function fluxoAssincrono(d) {
 
   return `          <figure class="architecture-diagram architecture-diagram--async" aria-label="${attr(d.alt)}">
             <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
-            <div class="async-intro"><span>Caminho do job</span><span>Entrada → retorno</span></div>
+            <div class="async-intro"><span>${T.caminhoDoJob}</span><span>${T.entradaRetorno}</span></div>
             <div class="async-layout">
               ${noAssincrono(entrada, 'entrada', true)}
               ${noAssincrono(fila, 'fila', true)}
-              <div class="async-control-plane"><span class="async-control-plane__icon" aria-hidden="true">${iconeAssincrono(orquestrador)}</span><div><span>Plano de controle</span><b>${texto(orquestrador.titulo)}</b><small>${texto(orquestrador.nota)} · reserva o job, aplica lock e agenda retentativas</small></div></div>
+              <div class="async-control-plane"><span class="async-control-plane__icon" aria-hidden="true">${iconeAssincrono(orquestrador)}</span><div><span>${T.planoDeControle}</span><b>${texto(orquestrador.titulo)}</b><small>${texto(orquestrador.nota)} · ${T.reservaLock}</small></div></div>
               ${noAssincrono(worker, 'worker', true)}
               ${noAssincrono(monitoramento, 'monitoramento')}
-              <section class="async-guardrails" aria-label="Proteções por etapa"><p>Proteções por etapa</p><ul>${protecao(idempotencia, 'fila')}${protecao(resiliencia, 'controle')}${protecao(rastreabilidade, 'monitoramento')}</ul></section>
+              <section class="async-guardrails" aria-label="${T.protecoes}"><p>${T.protecoes}</p><ul>${protecao(idempotencia, 'fila')}${protecao(resiliencia, 'controle')}${protecao(rastreabilidade, 'monitoramento')}</ul></section>
             </div>
           </figure>`;
 }
@@ -322,26 +439,26 @@ const noLakehouse = (etapa, conectado = false) =>
               </article>`;
 
 const marcasLakehouse = {
-  databricks: 'assets/icons/vendor/databricks/databricks-symbol-color.svg',
-  python: 'assets/icons/vendor/python/python-logo-only.svg',
-  'power-bi': 'assets/icons/vendor/power-bi/power_bi_48_color.svg'
+  databricks: `${VENDOR}/databricks/databricks-symbol-color.svg`,
+  python: `${VENDOR}/python/python-logo-only.svg`,
+  'power-bi': `${VENDOR}/power-bi/power_bi_48_color.svg`
 };
 const iconeLakehouse = (etapa) =>
   etapa.produto && marcasLakehouse[etapa.produto]
-    ? `<img class="lakehouse-product-icon" src="${marcasLakehouse[etapa.produto]}" alt="">`
+    ? imgProduto('lakehouse-product-icon', marcasLakehouse[etapa.produto])
     : icone(etapa.icone);
 
 const marcasAmbienteLakehouse = {
-  databricks: 'assets/icons/vendor/databricks/databricks-symbol-color.svg'
+  databricks: `${VENDOR}/databricks/databricks-symbol-color.svg`
 };
 const iconeAmbienteLakehouse = (ambiente) =>
   ambiente.produto && marcasAmbienteLakehouse[ambiente.produto]
-    ? `<img class="lakehouse-environment__product-icon" src="${marcasAmbienteLakehouse[ambiente.produto]}" alt="">`
+    ? imgProduto('lakehouse-environment__product-icon', marcasAmbienteLakehouse[ambiente.produto])
     : '';
 
 const painelMedallion = (camadas) =>
   `<article class="lakehouse-medallion lakehouse-medallion--connected">
-                <div class="lakehouse-medallion__head"><span class="lakehouse-node__icon" aria-hidden="true"><img class="lakehouse-medallion__product-icon" src="${marcasLakehouse.databricks}" alt=""></span><span><small>Medalhão Lakehouse</small><b>Camadas Delta</b></span></div>
+                <div class="lakehouse-medallion__head"><span class="lakehouse-node__icon" aria-hidden="true">${imgProduto('lakehouse-medallion__product-icon', marcasLakehouse.databricks)}</span><span><small>${T.medalhao}</small><b>${T.camadasDelta}</b></span></div>
                 <ol>${camadas
                   .map(
                     (camada) =>
@@ -367,33 +484,34 @@ function lakehouse(d) {
 
   return `          <figure class="architecture-diagram architecture-diagram--lakehouse" aria-label="${attr(d.alt)}">
             <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
-            <div class="lakehouse-intro"><span>Visão lógica · caminho de dados</span><span>Batch · origem → produtos</span></div>
-            <section class="lakehouse-track" aria-label="Caminho de dados do Lakehouse">
+            <div class="lakehouse-intro"><span>${T.visaoLogica}</span><span>${T.batchOrigemProdutos}</span></div>
+            <section class="lakehouse-track" aria-label="${T.caminhoLakehouse}">
               ${noLakehouse(fonte, true)}
               ${noLakehouse(coleta, true)}
               ${noLakehouse(landing, true)}
               ${painelMedallion([bronze, silver, gold])}
               ${noLakehouse(produtos)}
             </section>
-            <section class="lakehouse-environments" aria-label="Ambientes de execução"><p>Ambientes de execução</p><ul>${ambientes}</ul></section>
-            <section class="lakehouse-controls" aria-label="Controles transversais do Lakehouse"><p>${texto(d.tituloBase || 'Controles transversais')}</p><ul>${controles}</ul></section>
+            <section class="lakehouse-environments" aria-label="${T.ambientes}"><p>${T.ambientes}</p><ul>${ambientes}</ul></section>
+            <section class="lakehouse-controls" aria-label="${T.controlesLakehouse}"><p>${texto(d.tituloBase || T.controles)}</p><ul>${controles}</ul></section>
           </figure>`;
 }
 
 /* A jornada financeira é uma arquitetura operacional, e não uma sequência de
  * estados da tela. Ela deixa explícitos os limites entre a experiência do
  * solicitante, a persistência, a orquestração e o ERP, sem publicar dados ou
- * objetos do ambiente de origem. */
+ * objetos do ambiente de origem. (Sem case ativo no momento; mantido para o
+ * caso público voltar à grade.) */
 const marcasFinanceiras = {
-  'power-apps': 'assets/icons/vendor/power-apps/PowerApps_scalable.svg',
-  sharepoint: 'assets/icons/vendor/sharepoint/sharepoint_48x1.svg',
-  'power-automate': 'assets/icons/vendor/power-automate/PowerAutomate_scalable.svg'
+  'power-apps': `${VENDOR}/power-apps/PowerApps_scalable.svg`,
+  sharepoint: `${VENDOR}/sharepoint/sharepoint_48x1.svg`,
+  'power-automate': `${VENDOR}/power-automate/PowerAutomate_scalable.svg`
 };
 const iconeFinanceiro = (etapa) =>
   etapa.produto === 'sap'
     ? '<span class="financial-sap-icon" aria-hidden="true"></span>'
     : etapa.produto && marcasFinanceiras[etapa.produto]
-      ? `<img class="financial-product-icon" src="${marcasFinanceiras[etapa.produto]}" alt="" aria-hidden="true">`
+      ? imgProduto('financial-product-icon', marcasFinanceiras[etapa.produto])
       : icone(etapa.icone);
 const noFinanceiro = (etapa, conectado = false) =>
   `<article class="financial-node${etapa.destaque ? ' financial-node--emphasis' : ''}${conectado ? ' financial-node--connected' : ''}">
@@ -412,15 +530,15 @@ function jornadaFinanceira(d) {
 
   return `          <figure class="architecture-diagram architecture-diagram--financial" aria-label="${attr(d.alt)}">
             <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
-            <div class="financial-intro"><span>Visão lógica · solicitação ao acompanhamento</span><span>Assíncrono · interface → ERP</span></div>
-            <section class="financial-track" aria-label="Caminho operacional da solicitação financeira">
+            <div class="financial-intro"><span>${texto(d.intro || '')}</span><span>${texto(d.introDireita || '')}</span></div>
+            <section class="financial-track" aria-label="${attr(d.tituloTrilha || '')}">
               ${noFinanceiro(solicitacao, true)}
               ${noFinanceiro(persistencia, true)}
               ${noFinanceiro(orquestracao, true)}
               ${noFinanceiro(erp, true)}
               ${noFinanceiro(status)}
             </section>
-            <section class="financial-controls" aria-label="Controles transversais da jornada financeira"><p>${texto(d.tituloBase || 'Controles transversais')}</p><ul>${controles}</ul></section>
+            <section class="financial-controls" aria-label="${T.controles}"><p>${texto(d.tituloBase || T.controles)}</p><ul>${controles}</ul></section>
           </figure>`;
 }
 
@@ -462,25 +580,52 @@ function anatomiaRpa(d) {
 
   return `          <figure class="architecture-diagram architecture-diagram--rpa-detailed" aria-label="${attr(d.alt)}">
             <div class="diagram-header"><p class="diagram-kicker">${texto(d.etiqueta)}</p><b>${texto(d.titulo)}</b></div>
-            <div class="rpa-detailed-intro"><span>API quando existe · navegador quando é obrigatório</span><span>${texto(d.subtitulo)}</span></div>
-            <section class="rpa-detailed-zones" aria-label="Três zonas da automação">
+            <div class="rpa-detailed-intro"><span>${T.apiOuNavegador}</span><span>${texto(d.subtitulo)}</span></div>
+            <section class="rpa-detailed-zones" aria-label="${T.tresZonas}">
               ${painelRpa(d.zonas.servico)}
               <article class="rpa-detailed-robot">
-                <header><span aria-hidden="true">${iconeRpa(d.robo.icone, d.robo.produto)}</span><div><small>Robô</small><b>${texto(d.robo.titulo)}</b></div></header>
+                <header><span aria-hidden="true">${iconeRpa(d.robo.icone, d.robo.produto)}</span><div><small>${T.robo}</small><b>${texto(d.robo.titulo)}</b></div></header>
                 <ol>${d.robo.subfluxos.map((subfluxo) => `<li>${texto(subfluxo)}</li>`).join('')}</ol>
                 <p>${texto(d.robo.rodape)}</p>
               </article>
               ${painelRpa(d.zonas.portal)}
             </section>
-            <section class="rpa-detailed-calls" aria-label="Ciclo de uma conta">
-              <div><p><i aria-hidden="true"></i>Chamadas HTTP</p><ol>${chamadasHttp}</ol></div>
-              <div><p><i aria-hidden="true"></i>Interações no navegador</p><ol>${chamadasNavegador}</ol></div>
+            <section class="rpa-detailed-calls" aria-label="${T.cicloDeUmaConta}">
+              <div><p><i aria-hidden="true"></i>${T.chamadasHttp}</p><ol>${chamadasHttp}</ol></div>
+              <div><p><i aria-hidden="true"></i>${T.interacoesNavegador}</p><ol>${chamadasNavegador}</ol></div>
             </section>
-            <div class="rpa-detailed-legend"><span><i aria-hidden="true"></i>HTTP</span><span><i aria-hidden="true"></i>Navegador</span><span>O passo 6 só ocorre após o login</span></div>
-            <section class="rpa-detailed-restrictions" aria-label="Por que não é só um POST de token"><p>Por que não é só um <code>POST /token</code></p><ul>${restricoes}</ul></section>
-            <section class="rpa-detailed-clocks" aria-label="Janelas que governam o desenho"><p>Janelas que governam o desenho</p><ul>${janelas}</ul></section>
+            <div class="rpa-detailed-legend"><span><i aria-hidden="true"></i>${T.http}</span><span><i aria-hidden="true"></i>${T.navegador}</span><span>${T.passo6}</span></div>
+            <section class="rpa-detailed-restrictions" aria-label="${T.porQueNaoPostAria}"><p>${T.porQueNaoPost} <code>POST /token</code></p><ul>${restricoes}</ul></section>
+            <section class="rpa-detailed-clocks" aria-label="${T.janelas}"><p>${T.janelas}</p><ul>${janelas}</ul></section>
             <figcaption>${texto(d.legenda)}</figcaption>
           </figure>`;
+}
+
+/**
+ * Bloco de fatos do case: papel, decisões, resultado e aprendizados. São
+ * opcionais por case — o que o autor não documentou simplesmente não aparece,
+ * em vez de virar um "a definir" publicado.
+ */
+function fatos(c) {
+  const blocos = [];
+  if (c.papel) blocos.push(`<div><h4>${T.papel}</h4><p>${texto(c.papel)}</p></div>`);
+  if (c.decisoes && c.decisoes.length)
+    blocos.push(
+      `<div><h4>${T.decisoes}</h4><ul>${c.decisoes
+        .map((d) => `<li><b>${texto(d.titulo)}</b> ${texto(d.texto)}</li>`)
+        .join('')}</ul></div>`
+    );
+  if (c.resultado) blocos.push(`<div><h4>${T.resultado}</h4><p>${texto(c.resultado)}</p></div>`);
+  if (c.aprendizados && c.aprendizados.length)
+    blocos.push(
+      `<div><h4>${T.aprendizados}</h4><ul>${c.aprendizados.map((a) => `<li>${texto(a)}</li>`).join('')}</ul></div>`
+    );
+  if (!blocos.length) return [];
+  return [
+    `          <div class="case-facts">`,
+    ...blocos.map((b) => `            ${b}`),
+    `          </div>`
+  ];
 }
 
 /**
@@ -495,10 +640,11 @@ export function renderizarCase(c) {
   const partes = [
     `        <article class="${classes}" id="${attr(c.id)}">`,
     `          <div class="case-card__content">`,
-    `          <span class="status status--${attr(c.status.variante)}">${texto(c.status.rotulo)}</span>`,
+    `          <p class="case-card__status"><span class="status status--${attr(c.status.variante)} sem-margem">${texto(c.status.rotulo)}</span>${c.natureza ? `<span class="status-natureza">${texto(c.natureza)}</span>` : ''}</p>`,
     `          <h3>${texto(c.titulo)}</h3>`,
     `          <p>${texto(c.descricao)}</p>`,
     `          <p class="scope"><b>${texto(c.escopoRotulo)}</b> ${texto(c.escopo)}</p>`,
+    ...fatos(c),
     `          <ul class="taglist">`,
     ...c.tags.map((t) => `            <li class="tag">${texto(t)}</li>`),
     `          </ul>`
@@ -506,7 +652,7 @@ export function renderizarCase(c) {
 
   if (c.repositorio) {
     partes.push(
-      `          <a class="btn btn--ghost mt-6" href="${attr(c.repositorio)}" target="_blank" rel="noopener">Ver repositório e evidências <span aria-hidden="true">↗</span></a>`
+      `          <a class="btn btn--ghost mt-6" href="${attr(c.repositorio)}" target="_blank" rel="noopener">${T.verRepositorio} <span aria-hidden="true">↗</span><span class="sr-only"> ${T.novaAba}</span></a>`
     );
   }
 
@@ -514,6 +660,7 @@ export function renderizarCase(c) {
   return partes.join('\n');
 }
 
-export function renderizarCases(cases) {
+export function renderizarCases(cases, idioma = 'pt') {
+  T = DICIONARIO[idioma] || DICIONARIO.pt;
   return cases.map(renderizarCase).join('\n\n');
 }

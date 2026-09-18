@@ -5,3 +5,6 @@ test-results/
 # verdade mora em src/css/ e é verificado lá.
 src/index.template.html
 src/404.template.html
+
+# O template em inglês também só tem o marcador dentro do <style>.
+src/index.en.template.html

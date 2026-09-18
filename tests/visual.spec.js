@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
  * Dois motivos de instabilidade, ambos reais neste site:
  *
  * 1. A captura de página inteira rola o documento, e a rolagem dispara o
- *    `loading="lazy"` da imagem de 1,3 MB do case AWS. A imagem chegando entre
+ *    `loading="lazy"` das imagens dos diagramas. A imagem chegando entre
  *    os dois disparos de comparação impede a estabilização.
  * 2. Trocar `data-theme` depois da carga dispara as transições de 0.3s, e a
  *    captura pega o meio da transição.
@@ -73,6 +73,16 @@ for (const tema of ['dark', 'light']) {
     });
   });
 }
+
+test('página em inglês', async ({ page }) => {
+  await page.goto('/en/');
+  await estabilizar(page, 'dark');
+  await expect(page).toHaveScreenshot('pagina-en.png', {
+    fullPage: true,
+    animations: 'disabled',
+    timeout: 15_000
+  });
+});
 
 test('seção de cases', async ({ page }) => {
   await page.goto('/#cases');

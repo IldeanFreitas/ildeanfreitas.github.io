@@ -3,15 +3,14 @@
 (function () {
   var raiz = document.documentElement;
 
-  /* 1. Tema. Restaura a escolha salva; sem ela, segue a preferência do
-        sistema. Aqui, e não depois da carga, para não haver piscada de tema
-        errado em quem escolheu o claro. */
+  /* 1. Tema. O escuro é o padrão — é a identidade do site, não uma
+        preferência a ser adivinhada. Só a escolha explícita do visitante,
+        salva em localStorage, muda isso. Aqui, e não depois da carga, para
+        não haver piscada de tema errado em quem escolheu o claro. */
   try {
     var salvo = localStorage.getItem('tema');
     if (salvo === 'dark' || salvo === 'light') {
       raiz.setAttribute('data-theme', salvo);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      raiz.setAttribute('data-theme', 'light');
     }
   } catch (e) {
     /* Modo privado bloqueia localStorage. O tema padrão do HTML continua

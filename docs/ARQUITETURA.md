@@ -148,3 +148,27 @@ estilo.
 `.gitattributes` normaliza para LF. Antes da etapa 2 havia CRLF e LF misturados
 no mesmo arquivo, e o build gerava um `index.html` diferente do versionado sem
 nenhuma mudança de conteúdo — o `build:check` acusaria diferença para sempre.
+
+## Dois idiomas, um esqueleto
+
+A versão em inglês (`/en/`) é outra página gerada no build, a partir de
+`src/index.en.template.html` e `src/data/cases.en.json` — não é troca de
+strings no cliente. O motivo é o mesmo dos cases: o conteúdo precisa estar no
+HTML que o servidor entrega, para o buscador e para quem navega sem JavaScript.
+
+O preço de dois templates é a deriva silenciosa. O build cobra esse preço: ele
+compara o esqueleto de marcação dos dois (tags e classes, sem texto e sem os
+atributos que carregam texto) e falha se divergirem. Acrescentou uma seção em
+português, precisa acrescentar em inglês antes de conseguir montar o site.
+
+As poucas frases fixas dos diagramas ("Plano de controle", "Chamadas HTTP")
+vivem num dicionário em `scripts/cases.mjs`, escolhido pelo idioma. Os rótulos
+do menu compacto vêm de `data-abrir`/`data-fechar` no botão — o mesmo
+script serve as duas páginas. Caminhos de assets são absolutos (`/assets/…`)
+porque a mesma marcação é servida em `/` e em `/en/`.
+
+## Tema: escuro é o padrão
+
+O site não segue `prefers-color-scheme`. O escuro é identidade, não palpite;
+só a escolha explícita do visitante, salva em `localStorage`, muda o tema. A
+cor da barra do navegador (`theme-color`) acompanha a escolha, não o sistema.

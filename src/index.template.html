@@ -8,39 +8,50 @@
   Onde mexer:
     estilos        src/css/          (ordem em src/css/ordem.json)
     comportamento  src/js/
-    estrutura      src/index.template.html
+    estrutura      src/index.template.html   (versão em inglês: src/index.en.template.html)
 -->
 <html lang="pt-BR" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ildean Freitas — Power Platform, Dados e IA Aplicada</title>
-<meta name="description" content="Portfólio de Ildean Freitas: Power Platform, Engenharia de Dados, Analytics e IA Aplicada. Arquitetura, decisões técnicas e cases documentados com status real.">
+<title>Ildean Freitas — Power Platform, Engenharia de Dados e IA aplicada</title>
+<meta name="description" content="Portfólio de Ildean Freitas: Power Platform, Engenharia de Dados, Analytics e IA aplicada. Arquitetura, decisões técnicas e cases documentados com status real.">
 <meta name="author" content="Ildean Freitas">
 <link rel="canonical" href="https://ildeanfreitas.github.io/">
+<link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/">
+<link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/">
 
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="pt_BR">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="Ildean Freitas">
-<meta property="og:title" content="Ildean Freitas — Power Platform, Dados e IA Aplicada">
+<meta property="og:title" content="Ildean Freitas — Power Platform, Engenharia de Dados e IA aplicada">
 <meta property="og:description" content="Arquitetura, decisões técnicas e cases documentados. Cada projeto declara o seu status real.">
 <meta property="og:url" content="https://ildeanfreitas.github.io/">
 <meta property="og:image" content="https://ildeanfreitas.github.io/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ildean Freitas — a ponte entre o processo e o dado confiável. Power Platform, Engenharia de Dados e IA aplicada.">
 <meta name="twitter:card" content="summary_large_image">
 
-<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#f4f6f3" media="(prefers-color-scheme: light)">
+<!-- O tema escuro é o padrão em qualquer sistema; o script principal troca
+     esta cor quando o visitante escolhe o claro. -->
+<meta name="theme-color" content="#000000">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4df00'/%3E%3Cg fill='%230b1200'%3E%3Crect x='8' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='9' height='3.2' rx='1'/%3E%3Crect x='15' y='14.6' width='7' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4df00'/%3E%3Cg fill='%230b1200'%3E%3Crect x='8' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='9' height='3.2' rx='1'/%3E%3Crect x='15' y='14.6' width='7' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <script type="application/ld+json">
 {
   "@context":"https://schema.org","@type":"Person","name":"Ildean Freitas",
   "jobTitle":"Analista de Desenvolvimento de Software Sênior",
-  "description":"Power Platform, Engenharia de Dados, Analytics e IA Aplicada.",
+  "description":"Power Platform, Engenharia de Dados, Analytics e IA aplicada.",
   "url":"https://ildeanfreitas.github.io/",
   "sameAs":["https://github.com/IldeanFreitas","https://www.linkedin.com/in/ildean-freitas-0aa7352b/"],
-  "knowsAbout":["Power Apps","Power Automate","Power BI","Engenharia de Dados","SQL","Azure Databricks","Modelagem dimensional","Dataverse","Inteligência Artificial"],
+  "address":{"@type":"PostalAddress","addressLocality":"Marabá","addressRegion":"PA","addressCountry":"BR"},
+  "knowsAbout":["Power Apps","Power Automate","Power BI","Engenharia de Dados","SQL","dbt","Airflow","Azure Databricks","Modelagem dimensional","Dataverse","Inteligência Artificial"],
   "alumniOf":[
     {"@type":"EducationalOrganization","name":"XP Educação"},
     {"@type":"EducationalOrganization","name":"Faculdade Metropolitana"},
@@ -51,8 +62,8 @@
 
 <!-- Preload dos dois pesos de maior volume na página. Os 600 e 800 aparecem
      em poucos elementos e podem ser descobertos pelo CSS sem custo visível. -->
-<link rel="preload" href="assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
 
 <style>
 <!--{{ CSS }}-->
@@ -92,7 +103,11 @@
       </ul>
     </nav>
 
-    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav">
+    <!-- Link, não botão: a versão em inglês é outra página, gerada no build,
+         para que o conteúdo exista no HTML servido (SEO e uso sem JS). -->
+    <a class="icon-btn icon-btn--text lang-toggle" href="/en/" hreflang="en" lang="en" aria-label="EN — read this page in English">EN</a>
+
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" data-abrir="Abrir menu" data-fechar="Fechar menu">
       <span class="sr-only" id="navToggleLabel">Abrir menu</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -112,14 +127,14 @@
     <div class="wrap">
       <div class="hero__grid">
         <div>
-          <p class="eyebrow">Power Platform + Dados + IA Aplicada</p>
+          <p class="eyebrow">Power Platform + Engenharia de Dados + IA aplicada</p>
 
           <h1 class="hero__title">A ponte entre o processo e o <em>dado confiável</em>.</h1>
 
           <p class="hero__desc">
             Sou Ildean Freitas, analista de desenvolvimento de software sênior. Há cerca de dez anos
-            construo aplicações, automações e pipelines analíticos que sustentam a decisão —
-            com formação concluída em IA generativa e cases públicos em evolução sobre esses fundamentos.
+            construo a aplicação que coleta o dado, a automação que o move e o pipeline que o
+            entrega confiável a quem decide.
           </p>
 
           <div class="actions">
@@ -127,8 +142,8 @@
               Ver os cases
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
-            <a class="btn btn--ghost" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn</a>
-            <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub</a>
+            <a class="btn btn--ghost" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (abre em nova aba)</span></a>
+            <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (abre em nova aba)</span></a>
           </div>
         </div>
 
@@ -140,16 +155,18 @@
             <li><strong>Power BI:</strong> modelagem dimensional, Power Query e indicadores estratégicos</li>
             <li><strong>SharePoint e Dataverse:</strong> estruturação de dados para aplicações</li>
             <li><strong>Engenharia de Dados:</strong> arquitetura em camadas, ETL e Data Warehouse</li>
-            <li><strong>IA aplicada:</strong> formação concluída em IA generativa; cases públicos em evolução</li>
+            <li><strong>IA aplicada:</strong> formação concluída em IA generativa; ainda sem case público</li>
           </ul>
         </div>
       </div>
 
+      <!-- dt antes de dd, como a gramática do <dl> exige; o CSS inverte a
+           ordem visual para o número ficar em cima do rótulo. -->
       <dl class="stats">
-        <div><dd>~10</dd><dt>Anos de experiência</dt></div>
-        <div><dd>+10 mil</dd><dt>Usuários atendidos</dt></div>
-        <div><dd>3</dd><dt>Pós-graduações</dt></div>
-        <div><dd>Sênior</dd><dt>Atuação atual</dt></div>
+        <div><dt>Anos de experiência</dt><dd>~10</dd></div>
+        <div><dt>Usuários atendidos</dt><dd>+10 mil</dd></div>
+        <div><dt>Aplicações Power Platform</dt><dd>+40</dd></div>
+        <div><dt>Pós-graduações</dt><dd>3</dd></div>
       </dl>
     </div>
   </section>
@@ -163,40 +180,50 @@
       <div class="grid grid--2 mt-10">
         <div>
           <p class="lead">
-            Comecei consertando hardware e instalando sistemas no interior do Pará, migrei para
-            redes e passei seis anos como gestor dos sistemas de uma empresa de atacado e varejo.
-            Era a ponte entre quem usava o ERP e quem o mantinha.
-            Essa origem definiu meu jeito de trabalhar.
+            A base é infraestrutura: hardware, redes e seis anos como gestor dos sistemas de uma
+            empresa de atacado e varejo, respondendo pelo ERP, pelo banco de dados, pela replicação,
+            pelo backup, pelo firewall e pelas equipes de suporte de rede e hardware.
           </p>
           <p class="muted">
-            Junto com os ERPs, eu respondia pela infraestrutura — banco de dados, replicação,
-            backup e firewall — coordenando as equipes de suporte de rede e hardware. Em 2017
-            migrei para desenvolvimento sobre a Power Platform. Depois vieram varejo, distribuição,
-            mineração e consultoria; hoje atuo como analista de desenvolvimento de software sênior
-            na Compass UOL, em projetos corporativos que combinam Power Platform e Business
-            Intelligence sobre fontes como SAP Datasphere, SAP BW, SAP HANA, Analysis Services e
-            Azure Databricks.
+            Em 2017 passei a desenvolver sobre a Power Platform. Desde então atravessei varejo,
+            distribuição, mineração, setor público e consultoria. Hoje sou analista de
+            desenvolvimento de software sênior na Compass UOL, em projetos que combinam Power
+            Platform e Business Intelligence sobre SAP Datasphere, SAP BW, SAP HANA, Analysis
+            Services e Azure Databricks.
           </p>
           <p class="muted">
-            Sou pós-graduado em Engenharia e Arquitetura de Dados com Inteligência Artificial e
-            tenho MBA em Ciência de Dados e Big Data Analytics, sobre uma base de bacharelado em
-            Sistemas de Informação. O que ficou de todo esse percurso é a insistência em
-            governança, documentação e reuso do que já funciona — este portfólio segue as mesmas regras.
+            A formação seguiu a mesma ordem da carreira: bacharelado em Sistemas de Informação,
+            pós-graduação em Governança de TI, MBA em Ciência de Dados e Big Data Analytics e
+            pós-graduação em Engenharia e Arquitetura de Dados com Ênfase em IA.
           </p>
+
+          <h3 class="segmentos__titulo">Segmentos em que já atuei</h3>
+          <ul class="taglist segmentos">
+            <li class="tag">Energia · óleo e gás</li>
+            <li class="tag">Gás natural</li>
+            <li class="tag">Mineração</li>
+            <li class="tag">Administração pública federal</li>
+            <li class="tag">Aeroespacial</li>
+            <li class="tag">Saúde</li>
+            <li class="tag">Mercado financeiro</li>
+            <li class="tag">Transporte metropolitano</li>
+            <li class="tag">Gestão de resíduos</li>
+            <li class="tag">Indústria de eletrodomésticos</li>
+            <li class="tag">Logística de granéis químicos</li>
+            <li class="tag">Varejo e atacado</li>
+          </ul>
         </div>
 
         <div class="card">
           <h3>Como este portfólio funciona</h3>
           <p>
-            Cada case declara explicitamente o seu estágio. Nada aqui afirma execução, métrica ou
-            impacto sem evidência — e quando um projeto é apenas arquitetura documentada, ele diz
-            isso com todas as letras.
+            Cada case declara o estágio em que está. Nada aqui afirma execução, métrica ou impacto
+            sem evidência; o que é só arquitetura documentada é chamado assim.
           </p>
           <ul class="lista-empilhada">
             <li><span class="status status--done sem-margem">Entregue</span> <span class="muted">implementado e comprovável</span></li>
-            <li><span class="status status--evolving sem-margem">Em evolução</span> <span class="muted">em construção ativa</span></li>
+            <li><span class="status status--staging sem-margem">Em homologação</span> <span class="muted">validado ponta a ponta fora de produção</span></li>
             <li><span class="status status--designed sem-margem">Arquitetura documentada</span> <span class="muted">projetado, não executado</span></li>
-            <li><span class="status status--soon sem-margem">Em preparação</span> <span class="muted">conteúdo sendo produzido</span></li>
           </ul>
         </div>
       </div>
@@ -210,8 +237,8 @@
       <h2>Três frentes que costumam ser projetos separados</h2>
       <p class="lead">
         Na maioria das empresas por onde passei, quem constrói o aplicativo que coleta o dado não
-        é quem monta o pipeline que o analisa. Trabalho dos dois lados — e é daí que vem quase
-        tudo o que aprendi sobre onde o dado se perde no caminho.
+        é quem monta o pipeline que o analisa. Eu faço os dois. O dado costuma se perder
+        justamente na passagem de um para o outro.
       </p>
 
       <div class="grid grid--3 mt-12">
@@ -252,10 +279,11 @@
           <div class="card__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
           </div>
-          <h3>AI Engineering</h3>
+          <h3>IA aplicada</h3>
           <p>
             Aplicações de IA generativa sobre Python e APIs: modelos de linguagem, RAG para ancorar
-            respostas em base própria, agentes e automação de tarefas. Cases públicos em evolução.
+            respostas em base própria, agentes e automação de tarefas. Formação concluída em 2026;
+            ainda sem case público.
           </p>
           <ul class="taglist">
             <li class="tag">Python</li><li class="tag">APIs</li>
@@ -274,8 +302,8 @@
       <p class="eyebrow">Cases</p>
       <h2>Projetos e arquiteturas</h2>
       <p class="lead">
-        Prefiro três cases fortes a uma lista longa e superficial. Este portfólio está sendo
-        construído por partes — o que já está aqui é real e verificável.
+        Prefiro poucos cases bem contados a uma lista longa. Cada um diz em que estágio está e o
+        que dá para verificar.
       </p>
 
       <div class="case-grid">
@@ -285,88 +313,11 @@
       </div>
 
       <p class="note">
-        <b>Por que alguns cases dizem “não executado”.</b>
-        Porque é verdade. Prefiro um portfólio menor e confiável a um maior e impreciso — e o mesmo
-        critério vale para toda métrica, entrega e certificação citada aqui.
+        <b>Por que cada case carrega um selo.</b>
+        Porque “entregue”, “em homologação” e “arquitetura documentada” não são a mesma coisa, e
+        quem lê merece saber qual é qual. O mesmo vale para cada número e certificação desta
+        página.
       </p>
-    </div>
-  </section>
-
-  <!-- ============ CASE AWS DETALHADO ============ -->
-  <section class="section section--alt" id="plataforma-dados-aws">
-    <div class="wrap">
-      <p class="eyebrow">Engenharia de Dados · Projeto acadêmico aplicado</p>
-      <h2>Plataforma de Dados Integrada na AWS</h2>
-      <p class="lead">Arquitetura em camadas sobre Amazon S3, com pipeline ETL e organização Medalhão, desenvolvida como projeto aplicado da pós-graduação em Engenharia e Arquitetura de Dados com Inteligência Artificial. O cenário simula uma operação de mineração, escolhida por concentrar sistemas que não conversam entre si.</p>
-
-      <div class="case-detail__intro">
-        <div>
-          <span class="status status--done">Projeto acadêmico concluído</span>
-          <p>
-            A operação modelada reúne controle de combustível e manutenção de frota em ERP, telemetria
-            IoT da movimentação de cargas, integrações por API e arquivos de geologia e laboratório.
-            Cada origem entra no Bronze como chegou, o ETL padroniza e valida no Silver, e o Gold
-            entrega o modelo pronto para análise. Catálogo, controle de acesso, qualidade e
-            monitoramento atravessam as três camadas.
-          </p>
-          <p class="scope">
-            <b>Declaração de escopo:</b> projeto acadêmico autoral concluído em 2025. A mineradora é um cenário simulado e os dados são fictícios — nada aqui saiu de sistema corporativo ou de terceiros. O diagrama representa a arquitetura proposta, não um ambiente em produção.
-          </p>
-          <ul class="taglist">
-            <li class="tag">Amazon S3</li><li class="tag">ETL</li><li class="tag">Arquitetura Medalhão</li>
-            <li class="tag">Governança</li><li class="tag">Qualidade de dados</li>
-          </ul>
-        </div>
-
-        <figure class="architecture-diagram" role="img" aria-label="Arquitetura de dados de uma operação de mineração simulada: ERP corporativo, arquivos técnicos, APIs internas e telemetria em campo alimentam as camadas Bronze, Silver e Gold no Amazon S3 por pipeline ETL, consumidas em dashboards, análises avançadas, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.">
-          <div class="diagram-header"><p class="diagram-kicker">Arquitetura Medalhão</p><b>Camadas em Amazon S3</b></div>
-          <div class="diagram-legend"><span><i class="diagram-legend__line" aria-hidden="true"></i>Fluxo de dados</span></div>
-          <div class="diagram-data-layout">
-            <section class="diagram-zone">
-              <p class="diagram-zone__title">Fontes</p>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">ERP corporativo</span><span class="diagram-stage__meta">Combustível e manutenção de frota</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4zM8 4v16M4 9h4M4 14h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Arquivos técnicos</span><span class="diagram-stage__meta">Geologia e laboratório</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 4l-4 16"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">APIs internas</span><span class="diagram-stage__meta">Integração entre sistemas</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="16" rx="2"/><path d="M8 7h.01M12 7h.01M16 7h.01M10 17h4"/></svg></span><span class="diagram-stage__type">Origem</span></div><span class="diagram-stage__title">Telemetria em campo</span><span class="diagram-stage__meta">Sensores IoT de carga</span></div>
-            </section>
-            <section class="diagram-zone diagram-zone--pipeline">
-              <p class="diagram-zone__title">Pipeline de dados</p>
-              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><img class="diagram-layer__product-icon" src="assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg" alt=""></span><div><b>Bronze · Amazon S3</b><span>Dado bruto, rastreável</span></div><span class="diagram-layer__mark">BRZ</span></div>
-              <div class="diagram-layer diagram-layer--accent"><span class="diagram-layer__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10l-3-3M17 17H7l3 3M17 7l3 3-3 3M7 17l-3-3 3-3"/></svg></span><div><b>Silver · ETL</b><span>Padronização e validação</span></div><span class="diagram-layer__mark">SLV</span></div>
-              <div class="diagram-layer"><span class="diagram-layer__icon" aria-hidden="true"><img class="diagram-layer__product-icon" src="assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg" alt=""></span><div><b>Gold · Amazon S3</b><span>Pronto para consumo</span></div><span class="diagram-layer__mark">GLD</span></div>
-            </section>
-            <section class="diagram-zone">
-              <p class="diagram-zone__title">Consumo</p>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="diagram-stage__type">Analytics</span></div><span class="diagram-stage__title">Dashboards</span><span class="diagram-stage__meta">Indicadores</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/></svg></span><span class="diagram-stage__type">Analytics</span></div><span class="diagram-stage__title">Análises avançadas</span><span class="diagram-stage__meta">Exploração</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17a7 7 0 0 1 14 0M8 10a4 4 0 1 1 8 0M12 3v3M4 21h16"/></svg></span><span class="diagram-stage__type">Modelos</span></div><span class="diagram-stage__title">Machine learning</span><span class="diagram-stage__meta">Casos previstos</span></div>
-              <div class="diagram-stage"><div class="diagram-stage__header"><span class="diagram-stage__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></span><span class="diagram-stage__type">Entrega</span></div><span class="diagram-stage__title">Data marts</span><span class="diagram-stage__meta">Aplicações</span></div>
-            </section>
-          </div>
-          <div class="diagram-foundation"><p class="diagram-foundation__title">Capacidades transversais</p><div class="diagram-foundation__item"><span class="diagram-foundation__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5v-16Z"/><path d="M4 19a2.5 2.5 0 0 1 2.5-2.5H20"/></svg></span><span><b>Catálogo</b>Metadados e linhagem</span></div><div class="diagram-foundation__item"><span class="diagram-foundation__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><span><b>Acesso</b>Políticas e permissões</span></div><div class="diagram-foundation__item"><span class="diagram-foundation__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 14.5 8 20 8.8l-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9L9.5 8 12 3Z"/><path d="m9.5 11.5 1.5 1.5 3.5-3.5"/></svg></span><span><b>Qualidade</b>Regras e validações</span></div><div class="diagram-foundation__item"><span class="diagram-foundation__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 10h2l2-3 3 6 1-3h2"/></svg></span><span><b>Operação</b>Monitoramento e auditoria</span></div></div>
-        </figure>
-      </div>
-
-      <!-- Título oculto no lugar de aria-label. O rótulo anterior estava num
-           <div> sem role e era descartado por leitor de tela; movido para <ul>
-           continuaria recusado, porque o papel "list" não aceita nome de
-           autor. Um título real resolve melhor: entra na navegação por
-           títulos e dispensa ARIA. -->
-      <h3 class="sr-only">Camadas da arquitetura</h3>
-      <ul class="case-detail__layers">
-        <li class="case-detail__layer">
-          <b>BRONZE</b>
-          <p>Recebe os dados na forma mais próxima possível da origem, preservando rastreabilidade e base para reprocessamentos.</p>
-        </li>
-        <li class="case-detail__layer">
-          <b>SILVER</b>
-          <p>Concentra padronização, tratamentos e validações necessários para elevar a qualidade e a consistência dos dados.</p>
-        </li>
-        <li class="case-detail__layer">
-          <b>GOLD</b>
-          <p>Disponibiliza dados organizados para consumo analítico e suporte à tomada de decisão.</p>
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -376,35 +327,38 @@
       <p class="eyebrow">Trajetória</p>
       <h2>De implantação de ERP a engenharia de dados</h2>
 
+      <!-- Empregadores nomeados; clientes atendidos por consultoria aparecem
+           pelo segmento, não pelo nome. -->
       <ol class="timeline">
         <li data-current>
           <time datetime="2024-05">Maio de 2024 — atual</time>
           <h3>Analista de Desenvolvimento de Software Sênior · Compass UOL</h3>
           <p>
-            Alocado na <b>Petrobras</b>. Sustentação e evolução de <b>68 painéis de Power BI</b>
-            e de <b>8 aplicações corporativas</b>, consumidos por <b>mais de 10 mil colaboradores</b>
-            como base de decisão. Integração e modelagem de dados de SAP Datasphere, SAP BW,
-            SAP HANA, Analysis Services, SQL Server, Oracle e Azure Databricks. Automações em
-            Power Automate sobre SharePoint. Times ágeis com SAFe, Scrum e Kanban. Remoto.
+            Alocado em cliente do setor de <b>energia (óleo e gás)</b>. Sustentação e evolução de
+            <b>68 painéis de Power BI</b> e de <b>8 aplicações corporativas</b>, consumidos por
+            <b>mais de 10 mil colaboradores</b> como base de decisão. Integração e modelagem de dados
+            de SAP Datasphere, SAP BW, SAP HANA, Analysis Services, SQL Server, Oracle e Azure
+            Databricks. Automações em Power Automate sobre SharePoint. Times ágeis com SAFe, Scrum e
+            Kanban. Remoto.
           </p>
         </li>
         <li>
           <time datetime="2023-08">Agosto de 2023 — maio de 2024</time>
           <h3>Analista de Desenvolvimento de Software Pleno · First Decision</h3>
           <p>
-            Alocado no <b>Ministério da Gestão e da Inovação em Serviços Públicos (MGI)</b>.
-            <b>Mais de 10 aplicações</b> em Power Apps sobre Dataverse e SharePoint, com automações
-            em Power Automate e conectores personalizados, além de dashboards em Power BI. Padrões
-            de arquitetura e integração corporativa. Brasília/DF.
+            Alocado em órgão da <b>administração pública federal</b>. <b>Mais de 10 aplicações</b>
+            em Power Apps sobre Dataverse e SharePoint, com automações em Power Automate e
+            conectores personalizados, além de dashboards em Power BI. Padrões de arquitetura e
+            integração corporativa. Brasília/DF.
           </p>
         </li>
         <li>
           <time datetime="2020-07">Julho de 2020 — agosto de 2023</time>
-          <h3>Analista de Desenvolvimento de Software · Buritirama Mineração</h3>
+          <h3>Analista de Desenvolvimento de Software · Mineração</h3>
           <p>
-            Construção do Data Warehouse corporativo de uma mineradora, cobrindo <b>10 áreas</b> —
+            Construção do Data Warehouse corporativo de uma mineradora, cobrindo <b>10 áreas</b>:
             recursos humanos, financeiro, estoque, logística, faturamento, geologia e laboratório,
-            além de movimentação de material, telemetria de frota e horas de operação de maquinário.
+            movimentação de material, telemetria de frota e horas de operação de maquinário.
             O modelo unificou o ERP, o rastreamento de veículos e o controle de abastecimento, que
             até então só existiam separados. Em paralelo, <b>mais de 15 aplicações</b> em Power Apps
             e as automações que as alimentavam. Power Automate, Power BI e Report Builder sobre
@@ -413,24 +367,25 @@
         </li>
         <li>
           <time datetime="2017-11">Novembro de 2017 — março de 2020</time>
-          <h3>Analista de Desenvolvimento de Software · Comercial Tapajós</h3>
+          <h3>Analista de Desenvolvimento de Software · Atacado e distribuição</h3>
           <p>
-            Introdução da Power Platform na empresa: <b>mais de 10 aplicações</b> que digitalizaram
-            processos até então conduzidos fora de sistema, integradas ao ERP TOTVS e à plataforma
-            de venda externa da Máxima. Relatórios de apoio à decisão para diretoria, gerência e
-            equipe de vendas em campo. Sustentação dos ambientes de TI e administração de SQL Server,
-            Oracle e Firebird. Marabá/PA.
+            Introdução da Power Platform numa distribuidora: <b>mais de 10 aplicações</b> que
+            digitalizaram processos até então conduzidos fora de sistema, integradas ao ERP TOTVS e à
+            plataforma de venda externa da Máxima. Relatórios de apoio à decisão para diretoria,
+            gerência e equipe de vendas em campo. Sustentação dos ambientes de TI e administração de
+            SQL Server, Oracle e Firebird. Marabá/PA.
           </p>
         </li>
         <li>
           <time datetime="2016-04">Abril de 2016 — agosto de 2017</time>
-          <h3>Analista de Desenvolvimento de Software · Hipermercado Senna</h3>
+          <h3>Analista de Desenvolvimento de Software · Varejo supermercadista</h3>
           <p>
-            Condução da substituição do ERP em <b>4 lojas</b> — matriz e três filiais, com
-            <b>60 checkouts cada</b> — para WinThor/TOTVS, concluída em <b>3 meses</b>. Papel de gestor do projeto: requisitos,
-            homologação, corte do sistema anterior e suporte pós-implantação. Treinamento de
-            <b>mais de 200 colaboradores</b> em operação de checkout, financeiro, contas a pagar e
-            a receber, compras e movimentação de estoque. Parauapebas/PA.
+            Condução da substituição do ERP de uma rede de hipermercados em <b>4 lojas</b> (matriz
+            e três filiais, com <b>60 checkouts cada</b>) para WinThor/TOTVS, concluída em
+            <b>3 meses</b>. Papel de gestor do projeto: requisitos, homologação, corte do sistema
+            anterior e suporte pós-implantação. Treinamento de <b>mais de 200 colaboradores</b> em
+            operação de checkout, financeiro, contas a pagar e a receber, compras e movimentação de
+            estoque. Parauapebas/PA.
           </p>
         </li>
       </ol>
@@ -446,14 +401,10 @@
       <div class="grid grid--2 mt-12">
 
         <div class="card">
-          <h3>Formação acadêmica e profissional</h3>
+          <h3>Formação acadêmica</h3>
           <ul class="stack-list">
             <li>
-              <b>Formação Engenheiro de IA Generativa 2026: IA na Prática</b>
-              <div class="meta"><span>Udemy Business · 103 horas</span><span class="when">ago 2026</span></div>
-            </li>
-            <li>
-              <b>Pós-graduação Lato Sensu · Especialização em Engenharia e Arquitetura de Dados com Inteligência Artificial</b>
+              <b>Pós-graduação Lato Sensu · Especialização em Engenharia e Arquitetura de Dados com Ênfase em IA</b>
               <div class="meta"><span>XP Educação</span><span class="when">nov 2024 – nov 2025</span></div>
             </li>
             <li>
@@ -469,13 +420,19 @@
               <div class="meta"><span>Faculdade Metropolitana</span><span class="when">2009–2013</span></div>
             </li>
           </ul>
+          <h3 class="stack-list__subtitulo">Formação complementar</h3>
+          <ul class="stack-list">
+            <li>
+              <b>Formação Engenheiro de IA Generativa 2026: IA na Prática</b>
+              <div class="meta"><span>Udemy Business · 103 horas</span><span class="when">ago 2026</span></div>
+            </li>
+          </ul>
         </div>
 
         <div class="card">
           <h3>Certificações</h3>
           <p>Somente certificações com credencial pública verificável.</p>
           <ul class="stack-list">
-            <!-- INSERIR o link público de verificação em cada item antes de publicar -->
             <li>
               <b>Microsoft Certified: Azure Fundamentals (AZ-900)</b>
               <div class="meta"><span>Microsoft · credencial <code>5516EB957F5566A1</code></span><span class="when">Jan 2025</span></div>
@@ -500,12 +457,12 @@
       <p class="eyebrow">Contato</p>
       <h2>Vamos conversar</h2>
       <p class="lead">
-        Aberto a conversas sobre Engenharia de Dados, Power Platform e IA Aplicada.
+        Aberto a conversas sobre Engenharia de Dados, Power Platform e IA aplicada.
         O LinkedIn é o canal mais rápido.
       </p>
       <div class="actions">
-        <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Falar pelo LinkedIn</a>
-        <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">Ver o GitHub</a>
+        <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Falar pelo LinkedIn<span class="sr-only"> (abre em nova aba)</span></a>
+        <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">Ver o GitHub<span class="sr-only"> (abre em nova aba)</span></a>
       </div>
       <p class="dim texto-miudo mt-9">
         Marabá, Pará · Brasil · disponível para atuação remota
@@ -520,8 +477,9 @@
   <div class="wrap site-footer__inner">
     <p class="sem-margem">© <span id="ano">2026</span> Ildean Freitas · Conteúdo próprio, sem dados corporativos.</p>
     <ul class="footer-links">
-      <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn</a></li>
-      <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (abre em nova aba)</span></a></li>
+      <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (abre em nova aba)</span></a></li>
+      <li><a href="/en/" hreflang="en" lang="en">English</a></li>
       <li><a href="#inicio">Topo</a></li>
     </ul>
   </div>

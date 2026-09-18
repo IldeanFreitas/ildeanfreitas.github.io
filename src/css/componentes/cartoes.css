@@ -27,6 +27,11 @@
   padding:.28rem .7rem;border-radius:var(--r-pill)
 }
 
+/* Segmentos atendidos (seção Sobre): a mesma pílula das tecnologias, sem
+   empurrar o bloco para o fim do cartão. */
+.segmentos__titulo{margin:1.75rem 0 .75rem;font-size:.78rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-dim)}
+.segmentos{margin-top:0}
+
 /* Selos de status */
 .status{
   display:inline-flex;align-items:center;gap:.45rem;align-self:flex-start;
@@ -36,15 +41,34 @@
 }
 .status::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:currentColor;flex:none}
 .status--done{color:var(--ok);background:var(--ok-bg)}
+/* Homologação: validado, mas fora de produção. Âmbar, para não se confundir
+   com o verde de "entregue" — foi o que acontecia quando o selo era o mesmo. */
+.status--staging{color:var(--warn);background:var(--warn-bg)}
 .status--evolving{color:var(--warn);background:var(--warn-bg)}
 .status--designed{color:var(--info);background:var(--info-bg)}
 .status--soon{color:var(--idle);background:var(--idle-bg)}
+
+/* Selo + natureza do projeto (acadêmico, corporativo, autoral) na mesma linha */
+.case-card__status{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .85rem;margin:0 0 1rem}
+.card p.case-card__status{font-size:.8rem;margin-bottom:1rem}
+.status-natureza{color:var(--text-muted);font-size:.8rem}
 
 .scope{
   font-size:.86rem;color:var(--text-muted);
   border-left:2px solid var(--border-lime);padding-left:.9rem;margin:0 0 1.25rem
 }
 .scope b{color:var(--text);font-weight:600}
+
+/* Fatos do case: papel, decisões, resultado, aprendizados. Um bloco por
+   pergunta que o recrutador faz — "o que ele fez?", "por quê?", "e deu em
+   quê?" — em vez de um parágrafo que responde às três de uma vez. */
+.case-facts{display:grid;gap:1.1rem;margin:0 0 1.5rem;padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
+.case-facts h4{margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.card .case-facts p{margin:0;font-size:.88rem;color:var(--text-muted)}
+.case-facts ul{display:grid;gap:.45rem;padding-left:1.1rem;list-style:disc}
+.case-facts li{font-size:.88rem;line-height:1.5;color:var(--text-muted)}
+.case-facts li::marker{color:var(--accent-solid)}
+.case-facts li b{color:var(--text);font-weight:600}
 
 .note{
   background:var(--surface-card);border:1px solid var(--border-lime);

@@ -5,9 +5,39 @@
       "variante": "done",
       "rotulo": "Entregue"
     },
+    "natureza": "Laboratório autoral · repositório privado",
     "titulo": "Laboratório DataOps: pipeline analítico ponta a ponta",
-    "descricao": "Laboratório de conclusão da formação em Engenharia de Dados: pipeline analítico executado de ponta a ponta sobre uma base transacional em PostgreSQL, containerizada em Docker. O Airbyte replica as tabelas para a camada RAW do Snowflake, o dbt padroniza e monta o modelo dimensional em STAGING, INT e DW, e o Airflow coordena o ciclo — frescor da fonte, sincronização, dbt build e reconciliação contra a origem — antes do consumo em Power BI.",
-    "escopo": "laboratório concluído e entregue. São 22 modelos dbt sobre uma tabela fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados e nenhum aviso nos dois ambientes de execução, local e em container. Dado pessoal fica fora do modelo analítico e cada camada roda com o menor privilégio necessário. O repositório é privado, então esses números não são publicamente verificáveis — demonstro em uma conversa.",
+    "descricao": "Laboratório de conclusão da formação em Engenharia de Dados: pipeline analítico executado de ponta a ponta sobre uma base transacional em PostgreSQL, containerizada em Docker. O Airbyte replica as tabelas para a camada RAW do Snowflake, o dbt padroniza e monta o modelo dimensional em STAGING, INT e DW, e o Airflow coordena o ciclo (frescor da fonte, sincronização, dbt build e reconciliação contra a origem) antes do consumo em Power BI.",
+    "escopo": "laboratório concluído e entregue. São 22 modelos dbt sobre uma tabela fato de 16.044 linhas, e o dbt build fecha com 136 testes aprovados e nenhum aviso nos dois ambientes de execução, local e em container. Dado pessoal fica fora do modelo analítico e cada camada roda com o menor privilégio necessário. O repositório é privado, então esses números não são publicamente verificáveis; demonstro em uma conversa.",
+    "escopoRotulo": "Evidências e limites:",
+    "papel": "Projeto autoral e individual: laboratório de conclusão da formação em Engenharia de Dados, da infraestrutura em Docker ao painel.",
+    "decisoes": [
+      {
+        "titulo": "Camadas separadas no Snowflake.",
+        "texto": "RAW preserva o que o Airbyte entregou; STAGING e DW são reconstruídos pelo dbt. A origem fica auditável e o consumo, estável."
+      },
+      {
+        "titulo": "Reconciliar contra a origem, não entre camadas.",
+        "texto": "A DAG compara a contagem das 15 tabelas no PostgreSQL com o RAW e falha na divergência. A reconciliação interna comparava dois lados da mesma carga: se o Airbyte trouxesse 90% das locações, os dois lados concordariam em 90%."
+      },
+      {
+        "titulo": "Dois targets no dbt.",
+        "texto": "Um build local escrevia direto nos schemas que o Power BI consome. Com dev e prod separados, um teste não sobrescreve o que o relatório lê."
+      },
+      {
+        "titulo": "Usuário de serviço com chave RSA por ferramenta.",
+        "texto": "Airbyte e dbt têm usuários distintos, sem senha, com o menor privilégio de cada camada."
+      },
+      {
+        "titulo": "Dado pessoal fora do DW.",
+        "texto": "A dimensão de clientes deixou de publicar logradouro, CEP e telefone: nenhuma medida usava esses campos, e a role de leitura do Power BI os enxergava por inércia."
+      }
+    ],
+    "resultado": "22 modelos dbt e 136 testes: chaves, 21 relacionamentos entre modelos de staging, grão das tabelas ponte, regras de negócio e reconciliação. Frescor das 15 fontes com alerta em 24 h e erro em 48 h. Painel Power BI com 15 medidas DAX. Repositório privado: demonstro em uma conversa.",
+    "aprendizados": [
+      "Um calendário derivado das datas observadas deixa buracos e faz DATEADD devolver valor errado sem aviso; a dimensão de datas precisa ser um spine contíguo, com teste que impeça regressão.",
+      "A reconciliação que importa é contra a fonte. Comparar duas camadas derivadas da mesma carga só prova que a carga é consistente consigo mesma."
+    ],
     "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
     "destaqueVisual": true,
     "diagrama": {
@@ -106,8 +136,7 @@
         "icone": "airflow"
       },
       "tituloBase": "Capacidades transversais"
-    },
-    "escopoRotulo": "Evidências e limites:"
+    }
   },
   {
     "id": "case-fiscal-orchestration",
@@ -115,9 +144,38 @@
       "variante": "done",
       "rotulo": "Entregue"
     },
+    "natureza": "Projeto corporativo · reconstrução pública",
     "titulo": "Orquestração de Processamento Fiscal",
-    "descricao": "Aplicação em Power Apps Canvas que recebe lotes de notas fiscais por importação de planilha. Um fluxo em Power Automate valida o arquivo e grava cada linha como trabalho no Dataverse; robôs em Power Automate Desktop consomem a fila, registram a nota nos portais e devolvem o desfecho, que o operador acompanha na própria tela. Cada trabalho tem chave de idempotência e é reservado antes de rodar — reenviar um lote não duplica processamento.",
+    "descricao": "Aplicação em Power Apps Canvas que recebe lotes de notas fiscais por importação de planilha. Um fluxo em Power Automate valida o arquivo e grava cada linha como trabalho no Dataverse; robôs em Power Automate Desktop consomem a fila, registram a nota nos portais e devolvem o desfecho, que o operador acompanha na própria tela. Cada trabalho tem chave de idempotência e é reservado antes de rodar: reenviar um lote não duplica processamento.",
     "escopo": "o projeto foi entregue com importação pelo aplicativo, fila no Dataverse, execução pelos robôs e consulta de status em operação. O repositório público é uma reconstrução: contrato da fila, diagrama, dados de exemplo e cenários de teste foram reescritos do zero, sem ambiente, portal, credencial ou documento real.",
+    "escopoRotulo": "Declaração de escopo:",
+    "decisoes": [
+      {
+        "titulo": "Chave de idempotência por trabalho.",
+        "texto": "Cada linha importada vira um job com chave própria; reenviar o lote não cria duplicidade."
+      },
+      {
+        "titulo": "Reserva com prazo de expiração.",
+        "texto": "O worker reserva o job com um bloqueio que expira; se não confirmar a execução, o job volta à fila sem intervenção manual."
+      },
+      {
+        "titulo": "Retentativas limitadas e falha rastreável.",
+        "texto": "Falha temporária volta à fila até o limite de tentativas; falha definitiva fica registrada com correlação e log."
+      },
+      {
+        "titulo": "Worker só recebe o que é compatível, e nunca segredo.",
+        "texto": "Credenciais e parâmetros de portal ficam em cofre e variáveis de ambiente; o payload do job não os transporta."
+      },
+      {
+        "titulo": "Operador vê status e resumo, não a automação.",
+        "texto": "A tela acompanha o desfecho de cada job sem expor documento, portal ou evidência sensível."
+      }
+    ],
+    "resultado": "Em operação, com importação pelo aplicativo, fila no Dataverse, execução pelos robôs e consulta de status. Volume, tempo de ciclo e quantidade de portais não são publicados.",
+    "aprendizados": [
+      "Separar quem envia o lote de quem o processa é o que permite reprocessar com segurança: o operador reenvia, a fila decide.",
+      "Estados explícitos (pendente, reservado, em execução, aguardando retentativa, falhou) transformam o monitoramento numa consulta, não numa investigação."
+    ],
     "tags": [
       "Power Apps Canvas",
       "Dataverse",
@@ -184,18 +242,43 @@
         }
       ]
     },
-    "escopoRotulo": "Declaração de escopo:",
     "repositorio": "https://github.com/IldeanFreitas/fiscal-process-orchestrator-case"
   },
   {
     "id": "case-camara-lakehouse",
     "status": {
       "variante": "done",
-      "rotulo": "Projeto acadêmico concluído"
+      "rotulo": "Entregue"
     },
+    "natureza": "Projeto acadêmico · repositório público",
     "titulo": "Câmara dos Deputados — Pipeline Lakehouse",
     "descricao": "Lakehouse implementado no Databricks para dados abertos da Câmara dos Deputados. Um coletor Python consulta 17 endpoints configurados em YAML, preserva a origem auditável e promove os dados por Bronze, Silver e Gold para consumo analítico no Power BI.",
     "escopo": "o Lakehouse opera no Databricks com Unity Catalog Volume, PySpark e Delta; o ambiente local apoia desenvolvimento e testes. São 48 testes automatizados e validação contínua no GitHub.",
+    "escopoRotulo": "Evidências:",
+    "papel": "Projeto final individual do programa de Engenharia de Dados (Upskill Tiller, turma 2): coleta, modelagem, testes, documentação e publicação.",
+    "decisoes": [
+      {
+        "titulo": "Medalhão em vez de ELT direto ou Data Vault.",
+        "texto": "Bronze preserva o payload bruto, então reprocessar Silver e Gold nunca exige voltar à API. Data Vault seria excesso para o volume e a cadência."
+      },
+      {
+        "titulo": "Catálogo de endpoints em YAML.",
+        "texto": "Os 17 endpoints são dado, não código: adicionar um é acrescentar um bloco, com estratégia incremental declarada e validada em dataclass."
+      },
+      {
+        "titulo": "PySpark no Databricks, pandas no CI.",
+        "texto": "A mesma sequência de operações roda em pandas localmente em cerca de 6 segundos, sem cluster, e em PySpark nativo no Databricks."
+      },
+      {
+        "titulo": "Auditoria embutida por registro.",
+        "texto": "Cada linha Bronze carrega instante de ingestão, endpoint, URL de origem, página, identificador da execução e hash do payload; a linhagem não depende de join com tabela de controle."
+      }
+    ],
+    "resultado": "Seis entregáveis analíticos obrigatórios e dois opcionais (streaming de votações e CDC de tramitação com SCD2), 48 testes automatizados em seis módulos e validação contínua no GitHub Actions. Repositório público.",
+    "aprendizados": [
+      "Um repositório que roda em três modos (pandas local, PySpark local e Databricks) só se mantém se a lógica for a mesma nos três e o CI provar isso a cada push.",
+      "Auditoria por registro custa colunas, mas elimina a pergunta “de onde veio esta linha?” na hora do incidente."
+    ],
     "tags": [
       "Python",
       "PySpark",
@@ -293,18 +376,38 @@
       ],
       "tituloBase": "Controles transversais"
     },
-    "escopoRotulo": "Evidências:",
     "repositorio": "https://github.com/IldeanFreitas/fast-track-engenharia-v3"
   },
   {
     "id": "case-rpa-oidc",
     "status": {
-      "variante": "done",
-      "rotulo": "Entregue em homologação"
+      "variante": "staging",
+      "rotulo": "Em homologação"
     },
+    "natureza": "Projeto corporativo · case anonimizado",
     "titulo": "RPA de autenticação OTP e persistência OIDC",
     "descricao": "Robô em Power Automate Desktop que renova tokens OIDC para múltiplas contas. Ele usa HTTP onde existe API e recorre ao navegador somente para login, OTP e captura do token; após a conferência, o serviço interno o distribui em Redis com TTL.",
-    "escopo": "Validado ponta a ponta em homologação, com processamento multiconta, falhas isoladas por conta e classificação operacional de erros. O case público preserva a anonimização de ambientes, portais, endpoints e credenciais.",
+    "escopo": "validado ponta a ponta em homologação, com processamento multiconta, falhas isoladas por conta e classificação operacional de erros. O case público preserva a anonimização de ambientes, portais, endpoints e credenciais.",
+    "escopoRotulo": "Evidências e limites:",
+    "decisoes": [
+      {
+        "titulo": "HTTP onde existe API, navegador só onde não existe.",
+        "texto": "Autenticação OAuth2, lista de contas, consulta do OTP e gravação do token são chamadas HTTP; o navegador entra para login, OTP e leitura do localStorage. Cada passo fora dele é um passo que não quebra quando o portal muda uma classe CSS."
+      },
+      {
+        "titulo": "Falha isolada por conta.",
+        "texto": "Cada conta roda num bloco de tratamento de erro: uma senha inválida ou um OTP ausente não derruba a rodada, e o resumo final classifica as falhas por causa."
+      },
+      {
+        "titulo": "Conferência depois de gravar.",
+        "texto": "Depois do PUT, um GET confirma que o token ficou legível para as integrações: a persistência só conta quando é lida de volta."
+      }
+    ],
+    "resultado": "Validado ponta a ponta em homologação, com cerca de doze contas por rodada e ciclo de aproximadamente 70 segundos por conta. Produção e volume real não são publicados.",
+    "aprendizados": [
+      "A restrição define o desenho: sem ROPG, com token nascido no navegador e OTP de janela curta, a ordem login → desafio → consulta → digitação não é escolha, é a única sequência possível.",
+      "Antes de automatizar a tela, gaste a validação descobrindo o que a API já resolve: aqui foi metade dos passos."
+    ],
     "tags": [
       "Power Automate Desktop",
       "JavaScript",
@@ -480,7 +583,153 @@
         }
       ],
       "legenda": "Cada conta percorre este ciclo em cerca de 70 segundos. As chamadas HTTP resolvem tudo que tem endpoint; o navegador entra apenas onde não existe alternativa. O passo 6 é a inversão que define o projeto: o código de verificação só aparece na API depois que o login já foi submetido."
+    }
+  },
+  {
+    "id": "plataforma-dados-aws",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Arquitetura documentada"
     },
-    "escopoRotulo": "Evidências e limites:"
+    "natureza": "Projeto acadêmico · pós-graduação",
+    "titulo": "Plataforma de Dados Integrada na AWS",
+    "descricao": "Arquitetura em camadas sobre Amazon S3, com pipeline ETL e organização Medalhão, desenvolvida como projeto aplicado da pós-graduação em Engenharia e Arquitetura de Dados com Ênfase em IA. O cenário simula uma operação de mineração (controle de combustível e manutenção de frota em ERP, telemetria IoT da movimentação de cargas, integrações por API e arquivos de geologia e laboratório), escolhida por concentrar sistemas que não conversam entre si.",
+    "escopo": "projeto acadêmico autoral concluído em 2025. A mineradora é um cenário simulado e os dados são fictícios; nada aqui saiu de sistema corporativo ou de terceiros. O diagrama representa a arquitetura proposta, não um ambiente em produção.",
+    "escopoRotulo": "Declaração de escopo:",
+    "papel": "Projeto aplicado individual da pós-graduação: levantamento das fontes, desenho das camadas e dos controles transversais.",
+    "decisoes": [
+      {
+        "titulo": "Bronze recebe como chegou.",
+        "texto": "Cada origem entra sem transformação, preservando rastreabilidade e a base para reprocessar."
+      },
+      {
+        "titulo": "Silver concentra a padronização.",
+        "texto": "Tipagem, tratamento e validação ficam numa camada só, para que o Gold nunca precise corrigir dado."
+      },
+      {
+        "titulo": "Governança atravessa as três camadas.",
+        "texto": "Catálogo, controle de acesso, qualidade e monitoramento são condição de todas as etapas, não uma etapa."
+      }
+    ],
+    "resultado": "Arquitetura proposta e documentada; sem execução, carga ou ambiente.",
+    "aprendizados": [
+      "Numa operação com ERP, telemetria, APIs e planilhas, o problema não é volume, é dado que não conversa. A camada Bronze existe para aceitar tudo antes de decidir o que padronizar."
+    ],
+    "tags": ["Amazon S3", "ETL", "Arquitetura Medalhão", "Governança", "Qualidade de dados"],
+    "diagrama": {
+      "alt": "Arquitetura de dados de uma operação de mineração simulada: ERP corporativo, arquivos técnicos, APIs internas e telemetria em campo alimentam as camadas Bronze, Silver e Gold no Amazon S3 por pipeline ETL, consumidas em dashboards, análises avançadas, machine learning e data marts, sobre uma base de catálogo, controle de acesso, qualidade e monitoramento.",
+      "etiqueta": "Arquitetura Medalhão",
+      "titulo": "Camadas em Amazon S3",
+      "forma": "zonas",
+      "legenda": { "fluxo": "Fluxo de dados" },
+      "zonas": [
+        {
+          "titulo": "Fontes",
+          "etapas": [
+            {
+              "tipo": "Origem",
+              "titulo": "ERP corporativo",
+              "nota": "Combustível e manutenção de frota",
+              "icone": "database"
+            },
+            {
+              "tipo": "Origem",
+              "titulo": "Arquivos técnicos",
+              "nota": "Geologia e laboratório",
+              "icone": "document"
+            },
+            {
+              "tipo": "Origem",
+              "titulo": "APIs internas",
+              "nota": "Integração entre sistemas",
+              "icone": "api"
+            },
+            {
+              "tipo": "Origem",
+              "titulo": "Telemetria em campo",
+              "nota": "Sensores IoT de carga",
+              "icone": "sliders"
+            }
+          ]
+        },
+        {
+          "titulo": "Pipeline de dados",
+          "pipeline": true,
+          "camadas": [
+            {
+              "titulo": "Bronze · Amazon S3",
+              "nota": "Dado bruto, rastreável",
+              "sigla": "BRZ",
+              "produto": "aws-s3"
+            },
+            {
+              "titulo": "Silver · ETL",
+              "nota": "Padronização e validação",
+              "sigla": "SLV",
+              "icone": "transform",
+              "destaque": true
+            },
+            {
+              "titulo": "Gold · Amazon S3",
+              "nota": "Pronto para consumo",
+              "sigla": "GLD",
+              "produto": "aws-s3"
+            }
+          ]
+        },
+        {
+          "titulo": "Consumo",
+          "etapas": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Dashboards",
+              "nota": "Indicadores",
+              "icone": "chart"
+            },
+            {
+              "tipo": "Analytics",
+              "titulo": "Análises avançadas",
+              "nota": "Exploração",
+              "icone": "search"
+            },
+            {
+              "tipo": "Modelos",
+              "titulo": "Machine learning",
+              "nota": "Casos previstos",
+              "icone": "decision"
+            },
+            {
+              "tipo": "Entrega",
+              "titulo": "Data marts",
+              "nota": "Aplicações",
+              "icone": "output"
+            }
+          ]
+        }
+      ],
+      "governanca": [
+        {
+          "nome": "Catálogo",
+          "valor": "Metadados e linhagem",
+          "icone": "catalog"
+        },
+        {
+          "nome": "Acesso",
+          "valor": "Políticas e permissões",
+          "icone": "lock"
+        },
+        {
+          "nome": "Qualidade",
+          "valor": "Regras e validações",
+          "icone": "quality"
+        },
+        {
+          "nome": "Operação",
+          "valor": "Monitoramento e auditoria",
+          "icone": "monitor"
+        }
+      ],
+      "tituloBase": "Capacidades transversais"
+    }
   }
 ]

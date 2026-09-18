@@ -14,7 +14,7 @@
     "lint": "npm run lint:css && npm run lint:js && npm run lint:html",
     "lint:css": "stylelint \"**/*.{css,html}\"",
     "lint:js": "eslint .",
-    "lint:html": "html-validate index.html 404.html",
+    "lint:html": "html-validate index.html en/index.html 404.html",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "node scripts/build.mjs && node scripts/sitemap.mjs",

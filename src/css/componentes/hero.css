@@ -41,12 +41,16 @@
 }
 .panel strong{color:var(--text);font-weight:600}
 
-/* Faixa de números */
+/* Faixa de números.
+   No HTML o <dt> (rótulo) vem antes do <dd> (valor), como a gramática do
+   <dl> exige e como o leitor de tela anuncia melhor. A ordem visual é a
+   inversa — número em cima — por CSS, não por marcação fora de ordem. */
 .stats{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
   gap:1.75rem 1rem;padding:clamp(2.25rem,5vw,3.25rem) 0;
   margin-top:clamp(3rem,6vw,4.5rem);
   border-top:1px solid var(--border);text-align:center
 }
+.stats>div{display:flex;flex-direction:column-reverse}
 .stats dd{margin:0;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em;color:var(--accent)}
 .stats dt{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:.25rem}

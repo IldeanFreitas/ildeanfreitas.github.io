@@ -13,4 +13,7 @@
 .site-footer__inner{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;font-size:.86rem;color:var(--text-dim)}
 .site-footer a{color:var(--text-muted);text-decoration:none}
 .site-footer a:hover{color:var(--accent)}
-.footer-links{display:flex;gap:1.4rem;flex-wrap:wrap}
+/* Alvo de toque de pelo menos 24px (WCAG 2.5.8): os links tinham 19px de
+   altura, o que basta para o mouse e não para o polegar. */
+.footer-links{display:flex;gap:1rem;flex-wrap:wrap}
+.footer-links a{display:inline-block;padding:.4rem .2rem;min-height:1.5rem}
