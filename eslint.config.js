@@ -49,7 +49,7 @@ export default [
 
   {
     // Build e utilidades. Código novo, sem restrição de compatibilidade.
-    files: ['scripts/**/*.mjs', 'tests/**/*.js', '*.config.js'],
+    files: ['scripts/**/*.mjs', 'tests/**/*.js', 'tests/**/*.mjs', '*.config.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -58,7 +58,8 @@ export default [
         process: 'readonly',
         URL: 'readonly',
         document: 'readonly',
-        getComputedStyle: 'readonly'
+        getComputedStyle: 'readonly',
+        structuredClone: 'readonly'
       }
     },
     rules: {

@@ -19,7 +19,9 @@
   transition:color .15s ease,background .15s ease
 }
 .nav__link:hover{color:var(--text);background:var(--surface-soft)}
-.nav__link[aria-current]{color:var(--accent);background:var(--lime-soft)}
+/* Seção ativa: texto forte e sublinhado, sem lime (o acento fica para o
+   destaque do diagrama e o CTA). */
+.nav__link[aria-current]{color:var(--text);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.4em}
 
 .icon-btn{
   display:grid;place-items:center;width:2.35rem;height:2.35rem;flex:none;

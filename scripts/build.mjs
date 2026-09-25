@@ -13,7 +13,7 @@
  *   node scripts/build.mjs --check   verifica se os artefatos estão atualizados
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { renderizarCases } from './cases.mjs';
+import { renderizarCases, ErroDeCase } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -122,6 +122,21 @@ if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].
  * derivou para outra marca (azul-marinho, teal, fonte de sistema) sem ninguém
  * notar, porque nada liga uma página à outra.
  */
+/**
+ * Dado de case inválido (ícone ou marca desconhecida, campo ausente, formato
+ * de diagrama que o renderizador não reconhece) para o build com a mensagem
+ * do gerador, sem pilha: ela já diz case, bloco e valor.
+ */
+function renderizar(lista, idioma, arquivo) {
+  try {
+    return renderizarCases(lista, idioma);
+  } catch (erro) {
+    if (!(erro instanceof ErroDeCase)) throw erro;
+    console.error(`Dado de case inválido em ${arquivo}: ${erro.message}`);
+    process.exit(1);
+  }
+}
+
 const css404 = [
   (await ler('src/css/base/fonte.css')).trimEnd(),
   (await ler('src/css/base/tokens.css')).trimEnd()
@@ -133,7 +148,7 @@ const PAGINAS = [
     template,
     marcadores: {
       '<!--{{ CSS }}-->': css,
-      '<!--{{ CASES }}-->': renderizarCases(cases, 'pt'),
+      '<!--{{ CASES }}-->': renderizar(cases, 'pt', 'src/data/cases.json'),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }
@@ -143,7 +158,7 @@ const PAGINAS = [
     template: templateEn,
     marcadores: {
       '<!--{{ CSS }}-->': css,
-      '<!--{{ CASES }}-->': renderizarCases(casesEn, 'en'),
+      '<!--{{ CASES }}-->': renderizar(casesEn, 'en', 'src/data/cases.en.json'),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }

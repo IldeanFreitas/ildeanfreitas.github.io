@@ -82,6 +82,19 @@ test('a navegação marca a seção ativa', async ({ page }, testInfo) => {
   await expect(page.locator('.nav__link[aria-current]')).toHaveCount(1);
 });
 
+test('no topo da página nenhum item do menu fica ativo', async ({ page }, testInfo) => {
+  // Voltar ao topo de uma vez deixava "Contato" com aria-current: o hero não
+  // tem link, então nenhuma seção entrava na faixa para substituí-lo.
+  if (testInfo.project.name !== 'desktop') await page.locator('#navToggle').click();
+  await page.locator('a.nav__link[href="#contato"]').click();
+  await expect(page.locator('.nav__link[href="#contato"]')).toHaveAttribute(
+    'aria-current',
+    'location'
+  );
+  await page.keyboard.press('Home');
+  await expect(page.locator('.nav__link[aria-current]')).toHaveCount(0);
+});
+
 test('a versão em inglês existe, aponta de volta e tem os mesmos cases', async ({ page }) => {
   // Outra página, gerada no build — não troca de strings no cliente. O
   // conteúdo precisa estar no HTML servido para buscador e para uso sem JS.
@@ -121,51 +134,195 @@ test('a legenda de selos cobre exatamente os selos usados nos cases', async ({ p
   expect(usados.sort()).toEqual(legenda.sort());
 });
 
-test('o diagrama da AWS é conteúdo legível, não imagem', async ({ page }) => {
-  // Substitui o antigo teste do modal de ampliação. Aquele modal existia só
-  // para dar zoom num PNG de 1,3 MB com texto dentro; com o diagrama montado
-  // nos mesmos componentes dos outros cases, ele deixou de ter função.
-  // O case agora vive na grade, como os demais, com o selo que corresponde ao
-  // que ele é: arquitetura proposta, não executada.
+test('os cases seguem a ordem editorial: dados primeiro', async ({ page }) => {
+  const ids = await page.locator('.case-card').evaluateAll((els) => els.map((e) => e.id));
+  expect(ids).toEqual([
+    'case-dataops',
+    'case-camara-lakehouse',
+    'plataforma-dados-aws',
+    'case-fiscal-orchestration',
+    'case-rpa-oidc'
+  ]);
+});
+
+test('todo diagrama é figure com aria-label, figcaption de uma frase e um único destaque', async ({
+  page
+}) => {
+  const figuras = page.locator('.case-card figure.architecture-diagram');
+  await expect(figuras).toHaveCount(cases.length);
+  for (let i = 0; i < cases.length; i++) {
+    const f = figuras.nth(i);
+    await expect(f).toHaveAttribute('aria-label', /.{60,}/);
+    const legenda = f.locator('figcaption');
+    await expect(legenda).toHaveCount(1);
+    const texto = (await legenda.textContent()).trim();
+    // Uma frase: termina em ponto e não tem outro ponto final no meio.
+    expect(texto.split(/[.!?](\s|$)/).filter((s) => s && s.trim()).length, texto).toBe(1);
+    await expect(
+      f.locator('.diagram-node--accent, .diagram-step--accent, .diagram-call--accent')
+    ).toHaveCount(1);
+  }
+});
+
+test('todo bloco de diagrama tem ícone', async ({ page }) => {
+  const semIcone = await page
+    .locator(
+      '.architecture-diagram :is(.diagram-node, .diagram-step, .diagram-band__items li, .diagram-node__list li, .diagram-control)'
+    )
+    .evaluateAll(
+      (els) =>
+        els.filter((el) => {
+          const icone = el.querySelector(
+            ':scope > .diagram-node__icon, :scope > * > .diagram-node__icon'
+          );
+          return !icone || !icone.querySelector('img, svg, .diagram-icon');
+        }).length
+    );
+  expect(semIcone).toBe(0);
+});
+
+test('o diagrama da AWS mostra o estudo documentado, com marcas oficiais e destaque na Gold', async ({
+  page
+}) => {
   const card = page.locator('#plataforma-dados-aws');
   const diagrama = card.locator('.architecture-diagram');
   await expect(card.locator('.status')).toHaveText('Arquitetura documentada');
-  await expect(diagrama).toBeVisible();
-  await expect(diagrama).toContainText('Bronze');
-  await expect(diagrama).toContainText('Silver');
-  await expect(diagrama).toContainText('Gold');
-  await expect(diagrama).toHaveAttribute('role', 'img');
+  await expect(diagrama).toHaveClass(/architecture-diagram--trilha/);
+  await expect(diagrama).toHaveClass(/diagram-anima/);
+  await expect(diagrama).not.toHaveClass(/reveal/);
   await expect(diagrama).toHaveAttribute('aria-label', /.{60,}/);
-  await expect(diagrama.locator('img[src*="vendor/aws"]')).toHaveCount(2);
+  // Cada serviço AWS nomeado entra com o ícone oficial registrado no manifesto.
+  for (const arquivo of [
+    'Simple-Storage-Service',
+    'AWS-Glue',
+    'Amazon-Athena',
+    'Amazon-Redshift',
+    'AWS-Step-Functions',
+    'AWS-Lake-Formation',
+    'Amazon-CloudWatch',
+    'Identity-and-Access-Management'
+  ])
+    await expect(
+      diagrama.locator(`img[src*="vendor/aws/"][src*="${arquivo}"]`).first()
+    ).toBeAttached();
+  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
+  // O destaque é a Gold em Iceberg, que é o que faz do lake um lakehouse.
+  await expect(diagrama.locator('.diagram-step--accent')).toContainText('Gold');
+  await expect(diagrama.locator('.diagram-step--accent')).toContainText('MERGE');
+  // Step Functions é plano de controle: pontilhado só até a zona dos jobs Glue.
+  await expect(diagrama.locator('.diagram-control')).toContainText('Step Functions');
+  const tracos = await diagrama
+    .locator('.diagram-ties--controle i')
+    .evaluateAll((els) => els.map((e) => !e.classList.contains('diagram-ties__vazio')));
+  expect(tracos).toEqual([false, false, true, false, false]);
+  await expect(diagrama.locator('.diagram-control')).toContainText('job Bronze, depois job Silver');
+  // Consumo em coluna: Athena à parte; uma seta só, do Redshift para o Power BI.
+  const consumo = diagrama.locator('.diagram-zone--consumo');
+  await expect(consumo).toHaveClass(/diagram-zone--stack/);
+  await expect(consumo.locator('.diagram-link')).toHaveCount(1);
+  await expect(consumo.locator('.diagram-node--flows-down')).toContainText('Redshift');
+  // O que é só documentado leva etiqueta de texto e item de legenda.
+  for (const nome of [
+    'Step Functions',
+    'Gold',
+    'Redshift',
+    'Power BI',
+    'Lake Formation',
+    'CloudWatch'
+  ])
+    await expect(
+      diagrama
+        .locator(':is(.diagram-control,.diagram-step,.diagram-node:not(.diagram-node--group),li)', {
+          hasText: nome
+        })
+        .locator('.diagram-tag')
+        .first()
+    ).toHaveText('Documentado');
+  await expect(diagrama.locator('.diagram-tag')).toHaveCount(6);
+  await expect(diagrama.locator('.diagram-legend')).toContainText('Documentado, sem execução');
 });
 
 test('o DataOps separa caminho de dados, controle e capacidades transversais', async ({ page }) => {
-  const diagrama = page.locator('#case-dataops .architecture-diagram--dataflow');
+  const diagrama = page.locator('#case-dataops .architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
 
+  await expect(page.locator('#case-dataops .status')).toHaveText('Laboratório concluído');
+  await expect(page.locator('#case-dataops .status')).toHaveClass(/status--lab/);
+
   await expect(diagrama).toHaveAttribute('aria-label', /Visão lógica do laboratório DataOps/);
-  await expect(diagrama.locator('.dataflow-track > .dataflow-node')).toHaveCount(5);
-  await expect(diagrama.locator('.dataflow-dbt__stages > li')).toHaveCount(3);
-  await expect(diagrama.locator('.dataflow-control-plane')).toContainText(
-    'Plano de controle · Airflow'
+  const zonas = diagrama.locator('.diagram-track > .diagram-zone');
+  await expect(zonas.locator('> .diagram-zone__title')).toHaveText([
+    'Fontes',
+    'Ingestão',
+    'Armazenamento e transformação',
+    'Consumo'
+  ]);
+  // Airbyte é ingestão, não fonte.
+  await expect(zonas.nth(1)).toContainText('Airbyte');
+  await expect(zonas.nth(0)).not.toContainText('Airbyte');
+  await expect(diagrama.locator('.diagram-steps > li')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-steps .diagram-icon')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-step--accent')).toContainText('STAGING');
+  await expect(diagrama.locator('.diagram-control')).toContainText('Plano de controle · Airflow');
+  await expect(diagrama.locator('.diagram-control')).toContainText('a transformação é do dbt');
+  // Governança ligada por pontilhado, sem "Orquestração" repetida na faixa.
+  const faixa = diagrama.locator('.diagram-band--governanca');
+  await expect(faixa).toHaveClass(/diagram-band--dotted/);
+  await expect(faixa).not.toContainText('Orquestração');
+  await expect(faixa.locator('li')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-ties--governanca i')).toHaveCount(4);
+  // O Airflow liga por pontilhado fonte, ingestão e armazenamento; o consumo
+  // (Power BI) não é acionado pela DAG.
+  await expect(diagrama.locator('.diagram-ties--controle i:not(.diagram-ties__vazio)')).toHaveCount(
+    3
   );
-  await expect(diagrama.locator('.dataflow-control-plane')).toContainText('não transforma dados');
-  await expect(diagrama.locator('.dataflow-foundation li')).toHaveCount(4);
-  await expect(diagrama.locator('.dataflow-product-icon')).toHaveCount(6);
-  await expect(diagrama.locator('img[src*="vendor/postgresql"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/airbyte"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/snowflake"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/dbt"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/airflow"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
-  await expect(diagrama.locator('.dataflow-icon')).not.toHaveCount(0);
+  // A legenda descreve o pontilhado; o tracejado é só do meio navegador do RPA.
+  await expect(diagrama.locator('.diagram-legend__line--dotted')).toHaveCount(1);
+  await expect(diagrama.locator('.diagram-legend__line--dashed')).toHaveCount(0);
+  for (const marca of ['postgresql', 'airbyte', 'snowflake', 'dbt', 'airflow', 'power-bi'])
+    await expect(diagrama.locator(`img[src*="vendor/${marca}"]`)).toHaveCount(1);
+});
+
+test('as marcas de produto têm ao menos 20px em qualquer largura', async ({ page }) => {
+  const pequenas = await page
+    .locator('.architecture-diagram img.diagram-node__logo')
+    .evaluateAll((imgs) =>
+      imgs
+        .map((i) => {
+          i.scrollIntoView();
+          const r = i.getBoundingClientRect();
+          return { src: i.getAttribute('src'), w: r.width, h: r.height };
+        })
+        .filter((r) => Math.max(r.w, r.h) < 20)
+        .map((r) => `${r.src} ${r.w.toFixed(1)}×${r.h.toFixed(1)}`)
+    );
+  expect(pequenas, pequenas.join('\n')).toEqual([]);
+});
+
+test('no celular o nó empilha: rótulo acima do título, uma coluna', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'só faz sentido na largura de celular');
+  const erros = await page.locator('.architecture-diagram .diagram-node').evaluateAll((nos) =>
+    nos
+      .map((no) => {
+        const rotulo = no.querySelector(':scope > .diagram-node__kind');
+        const titulo = no.querySelector(':scope > .diagram-node__title');
+        const nota = no.querySelector(':scope > .diagram-node__note');
+        if (!titulo || !nota) return 'nó sem título ou nota';
+        const t = titulo.getBoundingClientRect();
+        const n = nota.getBoundingClientRect();
+        if (rotulo && rotulo.getBoundingClientRect().bottom > t.top + 1)
+          return `rótulo ao lado do título: ${titulo.textContent}`;
+        if (n.top < t.bottom - 1) return `nota ao lado do título: ${titulo.textContent}`;
+        return null;
+      })
+      .filter(Boolean)
+  );
+  expect(erros, erros.join('\n')).toEqual([]);
 });
 
 test('o bloco dbt do DataOps não estoura a largura no celular', async ({ page }, testInfo) => {
-  // Defeito visto na avaliação: a 375px as camadas STG/INT/DW ficavam numa
-  // coluna estreita à direita do cabeçalho, com o texto cortado.
   test.skip(testInfo.project.name !== 'mobile', 'só faz sentido na largura de celular');
-  const painel = page.locator('#case-dataops .dataflow-dbt');
+  const painel = page.locator('#case-dataops .diagram-node--group');
   await painel.scrollIntoViewIfNeeded();
   const estouro = await painel.evaluate((el) => {
     const limite = el.getBoundingClientRect().right;
@@ -176,78 +333,101 @@ test('o bloco dbt do DataOps não estoura a largura no celular', async ({ page }
   expect(estouro, 'texto das camadas dbt cortado ou fora do painel').toBe(false);
 });
 
-test('a operação assíncrona separa fila, plano de controle e proteções', async ({ page }) => {
-  const diagrama = page.locator('#case-fiscal-orchestration .architecture-diagram--async');
+test('a operação fiscal: o app deixa o lote pronto, o orquestrador o seleciona e o retorno do robô é só previsto', async ({
+  page
+}) => {
+  const diagrama = page.locator('#case-fiscal-orchestration .architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
 
-  await expect(diagrama).toHaveAttribute('aria-label', /Power Apps importa um arquivo Excel/);
-  await expect(diagrama.locator('.async-job-node')).toHaveCount(4);
-  await expect(diagrama.locator('.async-job-node--entrada')).toContainText('Power Apps');
-  await expect(diagrama.locator('.async-job-node--entrada')).toContainText('arquivo Excel');
-  await expect(diagrama.locator('.async-job-node--fila')).toContainText('Fila');
-  await expect(diagrama.locator('.async-control-plane')).toContainText('Plano de controle');
-  await expect(diagrama.locator('.async-control-plane')).toContainText('Power Automate');
-  await expect(diagrama.locator('.async-control-plane')).toContainText('retentativas');
-  await expect(diagrama.locator('img[src*="vendor/dataverse"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/power-apps"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/power-automate"]')).toHaveCount(1);
-  await expect(diagrama.locator('.async-guardrail')).toHaveCount(3);
+  await expect(diagrama).toHaveAttribute('aria-label', /previsto no contrato de status/);
+  const trilha = diagrama.locator('.diagram-track');
+  await expect(trilha.locator('.diagram-node')).toHaveCount(4);
+  await expect(trilha).toContainText('Power Apps');
+  await expect(trilha).toContainText('Portal nacional de NFS-e');
+  // O que é arquitetura-alvo não entra no fluxo em produção.
+  await expect(trilha).not.toContainText(/Evidências protegidas|categoria/);
+  await expect(diagrama.locator('.diagram-node--accent')).toContainText('Lotes e notas');
+  // Robô e portal são de outra equipe / externos; o app e o Dataverse, não.
+  await expect(trilha.locator('.diagram-node--external')).toHaveCount(2);
+  await expect(trilha.locator('.diagram-node--external').first()).toContainText('Robô');
+  await expect(diagrama.locator('.diagram-control')).toContainText('Plano de controle');
+  await expect(diagrama.locator('.diagram-control')).toContainText('disparo manual');
+  // Sem reserva com prazo nem worker por categoria no que está em produção.
+  await expect(diagrama).not.toContainText(/expira|expires|reserva/);
+  // O papel separa o que foi do autor e o que foi do time de automação.
+  await expect(page.locator('#case-fiscal-orchestration .case-facts')).toContainText(
+    'time de automação'
+  );
+  // Retorno no sentido contrário (robô → lote → Power Apps), marcado como
+  // previsto no contrato: o robô em produção só lê o lote.
+  const faixaRetorno = diagrama.locator('.diagram-return');
+  await expect(faixaRetorno).toHaveClass(/diagram-return--planned/);
+  await expect(faixaRetorno.locator('.diagram-zone__title .diagram-tag')).toHaveText(
+    'Previsto no contrato'
+  );
+  await expect(diagrama.locator('.diagram-legend')).toContainText('Previsto no contrato');
+  const retorno = faixaRetorno.locator('.diagram-node');
+  await expect(retorno).toHaveCount(3);
+  await expect(retorno.nth(0)).toContainText('Devolve o resultado');
+  await expect(retorno.nth(2)).toContainText('Operador vê o resultado');
+  await expect(diagrama).not.toContainText(/credencial em coluna|avisa por e-mail/);
+  await expect(diagrama.locator('.diagram-return .diagram-link--reverse')).toHaveCount(2);
+  await expect(diagrama.locator('.diagram-band--governanca li')).toHaveCount(4);
 });
 
-test('o Lakehouse da Câmara distingue coleta, ambientes e controles', async ({ page }) => {
-  const diagrama = page.locator('#case-camara-lakehouse .architecture-diagram--lakehouse');
+test('o Lakehouse da Câmara termina em tabelas Gold, sem Power BI', async ({ page }) => {
+  const card = page.locator('#case-camara-lakehouse');
+  const diagrama = card.locator('.architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
 
+  await expect(card).not.toContainText('Power BI');
+  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(0);
   await expect(diagrama).toHaveAttribute('aria-label', /coletor Python/);
-  await expect(diagrama.locator('.lakehouse-node')).toHaveCount(4);
-  await expect(diagrama.locator('.lakehouse-medallion li')).toHaveCount(3);
-  await expect(diagrama.locator('.lakehouse-track')).toContainText('Worker Python');
-  await expect(diagrama.locator('.lakehouse-track')).toContainText('Unity Catalog Volume');
-  await expect(diagrama.locator('.lakehouse-track')).toContainText('7 dimensões · 4 fatos');
+  await expect(diagrama.locator('.diagram-steps > li')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-step--accent')).toContainText('Bronze');
+  await expect(diagrama.locator('.diagram-zone--consumo')).toContainText('Tabelas Gold');
+  await expect(diagrama.locator('.diagram-zone--consumo')).toContainText('BI e SQL');
   await expect(diagrama.locator('img[src*="vendor/python"]')).toHaveCount(1);
-  await expect(diagrama.locator('img[src*="vendor/power-bi"]')).toHaveCount(1);
   await expect(diagrama.locator('img[src*="vendor/databricks"]')).toHaveCount(2);
-  await expect(diagrama.locator('.lakehouse-environments')).toContainText('Desenvolvimento local');
-  await expect(diagrama.locator('.lakehouse-environments')).toContainText('Lakehouse Databricks');
-  await expect(diagrama.locator('.lakehouse-controls li')).toHaveCount(4);
-  await expect(diagrama.locator('.lakehouse-controls')).toContainText('48 testes pytest');
+  const ambientes = diagrama.locator('.diagram-band--ambiente li');
+  await expect(ambientes).toHaveCount(2);
+  await expect(ambientes.nth(0)).toContainText('Desenvolvimento local');
+  await expect(ambientes.nth(0).locator('.diagram-icon--laptop')).toHaveCount(1);
+  await expect(diagrama.locator('.diagram-band--governanca li')).toHaveCount(4);
+  await expect(diagrama).toContainText('48 testes pytest');
 });
 
-test('o RPA OIDC distingue HTTP, navegador e persistência Redis sem expor o portal', async ({
+test('o RPA OIDC entrega o token ao serviço da equipe, sem Redis e sem expor o portal', async ({
   page
 }) => {
   const card = page.locator('#case-rpa-oidc');
-  const diagrama = card.locator('.architecture-diagram--rpa-detailed');
+  const diagrama = card.locator('.architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
 
-  // Selo âmbar próprio: "homologação" não é "entregue", e o verde dizia que era.
-  await expect(card.locator('.status')).toHaveText('Em homologação');
-  await expect(card.locator('.status')).toHaveClass(/status--staging/);
+  await expect(card.locator('.status')).toHaveText('Entregue');
+  await expect(card.locator('.status')).toHaveClass(/status--done/);
   await expect(card).toContainText('Power Automate Desktop');
-  await expect(card).toContainText('Redis');
+  await expect(card).not.toContainText('Redis');
+  await expect(card).toContainText('serviço de tokens de outra equipe');
   await expect(card.locator('a')).toHaveCount(0);
-  await expect(diagrama).toHaveAttribute('aria-label', /Redis com TTL/);
-  await expect(diagrama.locator('.rpa-detailed-zone')).toHaveCount(2);
-  await expect(diagrama.locator('.rpa-product-icon')).toHaveCount(2);
-  await expect(diagrama.locator('.rpa-product-icon').first()).toHaveAttribute(
-    'src',
-    /nodejsHex\.svg$/
-  );
-  await expect(diagrama.locator('.rpa-product-icon').last()).toHaveAttribute(
-    'src',
-    /PowerAutomate_scalable\.svg$/
-  );
-  await expect(diagrama.locator('.rpa-detailed-robot')).toContainText('Power Automate Desktop');
-  await expect(diagrama.locator('.rpa-detailed-zones')).toContainText('Redis com TTL');
-  await expect(diagrama.locator('.rpa-detailed-zones')).toContainText('localStorage');
-  await expect(diagrama.locator('.rpa-detailed-calls .rpa-call')).toHaveCount(10);
-  await expect(diagrama.locator('.rpa-call--accent')).toContainText(
+
+  const servico = diagrama.locator('.diagram-node--external').first();
+  await expect(servico).toContainText('Serviço de tokens de outra equipe');
+  await expect(servico.locator('img')).toHaveCount(0);
+  await expect(servico.locator('> .diagram-node__head .diagram-icon--cloud')).toHaveCount(1);
+  await expect(diagrama.locator('img[src*="PowerAutomate_scalable.svg"]')).toHaveCount(1);
+  await expect(diagrama).toContainText('Disparo manual');
+  await expect(diagrama).toContainText('Log por execução');
+  await expect(diagrama).toContainText('Segredo em variável sensível');
+  await expect(diagrama).toContainText('localStorage');
+  await expect(diagrama.locator('.diagram-call')).toHaveCount(10);
+  await expect(diagrama.locator('.diagram-call--accent')).toContainText(
     'OTP preenchido após o desafio'
   );
-  await expect(diagrama.locator('.rpa-detailed-restrictions li')).toHaveCount(3);
-  await expect(diagrama.locator('.rpa-detailed-clocks li')).toHaveCount(3);
-  await expect(diagrama.locator('.rpa-detailed-legend')).toContainText('HTTP');
-  await expect(diagrama.locator('.rpa-detailed-legend')).toContainText('Navegador');
+  await expect(diagrama.locator('.diagram-band').nth(0).locator('li')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-band').nth(1).locator('li')).toHaveCount(3);
+  await expect(diagrama.locator('.diagram-legend')).toContainText('HTTP');
+  await expect(diagrama.locator('.diagram-legend')).toContainText('Navegador');
 });
 
 test('cada case traz decisões técnicas e resultado', async ({ page }) => {

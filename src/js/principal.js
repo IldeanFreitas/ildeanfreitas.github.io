@@ -2,6 +2,9 @@
   'use strict';
 
   var raiz = document.documentElement;
+  /* Quando cada bloco .reveal ficou visível: a animação dos diagramas espera o
+     fade do cartão que os contém. */
+  var reveladoEm = typeof WeakMap === 'function' ? new WeakMap() : new Map();
 
   /* Cada funcionalidade roda isolada. Antes, tudo vivia num escopo só e a
      primeira instrução acessava #ano sem guarda: renomear o elemento do
@@ -105,12 +108,21 @@
     var observador = new IntersectionObserver(
       function (entradas) {
         entradas.forEach(function (entrada) {
-          if (!entrada.isIntersecting) return;
+          var href = '#' + entrada.target.id;
+          if (!entrada.isIntersecting) {
+            /* A seção saiu da faixa central: deixa de ser a atual. Sem isto,
+               voltar ao topo de uma vez (Home, link da marca) mantinha
+               "Contato" marcado, porque nenhuma outra seção entrava na faixa
+               para substituí-lo — no topo está o hero, que não tem link. */
+            links.forEach(function (a) {
+              if (a.getAttribute('href') === href) a.removeAttribute('aria-current');
+            });
+            return;
+          }
           links.forEach(function (a) {
             /* "location" é o valor previsto para posição dentro da mesma página;
              "true" fazia o leitor de tela anunciar "atual" sem qualificar. */
-            if (a.getAttribute('href') === '#' + entrada.target.id)
-              a.setAttribute('aria-current', 'location');
+            if (a.getAttribute('href') === href) a.setAttribute('aria-current', 'location');
             else a.removeAttribute('aria-current');
           });
         });
@@ -138,6 +150,7 @@
           entradas.forEach(function (entrada) {
             if (!entrada.isIntersecting) return;
             entrada.target.classList.add('is-visible');
+            reveladoEm.set(entrada.target, Date.now());
             obs.unobserve(entrada.target);
           });
         },
@@ -152,6 +165,55 @@
        mostrar o conteúdo. Sem esta linha, a classe cai em 1,2s e tudo
        aparece sem animação — que é a falha correta. */
     raiz.setAttribute('data-revelacao-pronta', '');
+  });
+
+  iniciar('animação dos diagramas', function () {
+    /* A figura do diagrama fica fora do .reveal: dentro dele, a sequência
+       começava com a figura ainda meio transparente e o início do fluxo se
+       perdia. Ela dispara quando o topo da figura passa de 3/4 da tela e, se
+       o cartão acabou de aparecer, espera o fade dele (0,55s) terminar.
+       Sem JS, com a trava js-anima caída ou com movimento reduzido, o CSS
+       não anima nada e o diagrama já está inteiro. */
+    var figuras = document.querySelectorAll('.diagram-anima');
+    var reduzido =
+      window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var FADE_DO_CARTAO = 600;
+
+    function acionar(figura) {
+      figura.classList.add('is-visible');
+    }
+
+    if (reduzido || !('IntersectionObserver' in window)) {
+      figuras.forEach(acionar);
+      return;
+    }
+
+    var observador = new IntersectionObserver(
+      function (entradas, obs) {
+        entradas.forEach(function (entrada) {
+          if (!entrada.isIntersecting) return;
+          var figura = entrada.target;
+          obs.unobserve(figura);
+          var cartao = figura.closest('.reveal');
+          var espera = 0;
+          if (cartao) {
+            var desde = reveladoEm.get(cartao);
+            espera =
+              desde === undefined
+                ? cartao.classList.contains('is-visible')
+                  ? 0
+                  : FADE_DO_CARTAO
+                : Math.max(0, FADE_DO_CARTAO - (Date.now() - desde));
+          }
+          if (espera) window.setTimeout(acionar, espera, figura);
+          else acionar(figura);
+        });
+      },
+      { rootMargin: '0px 0px -25% 0px' }
+    );
+    figuras.forEach(function (f) {
+      observador.observe(f);
+    });
   });
 
   iniciar('foco na âncora', function () {
