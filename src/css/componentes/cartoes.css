@@ -41,6 +41,9 @@
 }
 .status::before{content:"";width:.4rem;height:.4rem;border-radius:50%;background:currentColor;flex:none}
 .status--done{color:var(--ok);background:var(--ok-bg)}
+/* Laboratório concluído: executado de ponta a ponta, mas em ambiente de
+   laboratório. Cor própria para não se passar por "entregue" (verde). */
+.status--lab{color:var(--lab);background:var(--lab-bg)}
 /* Homologação: validado, mas fora de produção. Âmbar, para não se confundir
    com o verde de "entregue" — foi o que acontecia quando o selo era o mesmo. */
 .status--staging{color:var(--warn);background:var(--warn-bg)}
@@ -63,12 +66,41 @@
    pergunta que o recrutador faz — "o que ele fez?", "por quê?", "e deu em
    quê?" — em vez de um parágrafo que responde às três de uma vez. */
 .case-facts{display:grid;gap:1.1rem;margin:0 0 1.5rem;padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
-.case-facts h4{margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+/* Títulos e marcadores neutros: o lime fica para o destaque do diagrama e o CTA. */
+.case-facts h4{margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
 .card .case-facts p{margin:0;font-size:.88rem;color:var(--text-muted)}
 .case-facts ul{display:grid;gap:.45rem;padding-left:1.1rem;list-style:disc}
 .case-facts li{font-size:.88rem;line-height:1.5;color:var(--text-muted)}
-.case-facts li::marker{color:var(--accent-solid)}
+.case-facts li::marker{color:var(--text-dim)}
 .case-facts li b{color:var(--text);font-weight:600}
+
+/* Case no desktop: duas colunas. A narrativa (selo, título, descrição,
+   escopo) fica à esquerda, na medida de leitura, e os fatos (papel, decisões,
+   resultado, aprendizados) à direita; tecnologias e botão do repositório
+   fecham o bloco abaixo das duas, e o diagrama segue na largura inteira.
+   Abaixo de 980px nada muda: uma coluna.
+   Os fatos costumam ser mais longos que a narrativa; com as duas colunas
+   presas ao topo sobravam 220-400px vazios sob a esquerda. A narrativa agora
+   é sticky: acompanha a leitura dos fatos e para no fim deles. O topo desconta
+   o cabeçalho fixo (4.4rem) com folga. O par narrativa/fatos fica num
+   envoltório próprio (.case-card__cols) porque o sticky se limita ao pai:
+   com as tecnologias no mesmo grid, a narrativa descia sobre elas.
+   Tecnologias e botão ficam em .case-card__foot, bloco comum: como item de
+   grid o botão seria "blockificado" (inline-flex viraria flex), e o teste
+   "os cases são gerados de uma forma só" cobra inline-flex. O seletor tem
+   .card para vencer o max-width de diagrama.css, que carrega depois. */
+@media (min-width:980px){
+  .card.case-card--feature .case-card__content{max-width:none}
+  .case-card__cols{display:grid;grid-template-columns:minmax(0,47fr) minmax(0,49fr);column-gap:4%;align-items:start}
+  .case-card__intro{position:sticky;top:calc(4.4rem + 1.25rem)}
+  .case-card__cols>.case-facts{margin:0}
+}
+
+/* Cartão ao lado de uma coluna de texto (Sobre: "Como este portfólio
+   funciona"). Esticado até a altura do texto, terminava com ~300px de caixa
+   vazia; do tamanho do conteúdo, fica no topo e o vazio deixa de ser caixa.
+   Cartões lado a lado (Formação) continuam com a mesma altura. */
+.grid--2>div:not(.card)+.card{align-self:start}
 
 .note{
   background:var(--surface-card);border:1px solid var(--border-lime);

@@ -39,15 +39,17 @@ dist/
 npm-debug.log*
 *.log
 
-# Saída do Playwright. As capturas de referência em
-# tests/*-snapshots/ SÃO versionadas: sem elas a etapa 2 não teria
-# contra o que comparar.
+# Saída do Playwright (relatórios e resultados de execução).
 test-results/
 playwright-report/
 blob-report/
 
-# Capturas de referencia visual: 21 MB por conjunto, e o Git guardaria cada
+# Capturas de referencia visual: NAO sao versionadas. 21 MB por conjunto, e o Git guardaria cada
 # versao para sempre. Sao artefato local e transitorio -- gere com
 # `npm run baseline` antes de comecar uma etapa, compare com
 # `npm run test:visual` ao termina-la. Ver docs/QUALIDADE.md.
 tests/*-snapshots/
+
+# Capturas avulsas de revisão visual (preview-*.png) feitas durante o
+# trabalho em diagramas. Não são baseline nem artefato do site.
+preview-*.png

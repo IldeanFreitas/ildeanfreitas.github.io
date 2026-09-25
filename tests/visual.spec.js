@@ -87,8 +87,11 @@ test('página em inglês', async ({ page }) => {
 test('seção de cases', async ({ page }) => {
   await page.goto('/#cases');
   await estabilizar(page);
+  // A seção de cases é quase tão alta quanto a página inteira no desktop; o
+  // prazo padrão (5 s) estourava ao gerar a baseline.
   await expect(page.locator('#cases')).toHaveScreenshot('secao-cases.png', {
-    animations: 'disabled'
+    animations: 'disabled',
+    timeout: 15_000
   });
 });
 

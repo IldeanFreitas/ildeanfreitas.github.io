@@ -189,6 +189,172 @@
       ]
     },
     {
+      "id": "fluent-neutral-set-diagramas",
+      "source": "fluent-system-icons",
+      "type": "neutral-concept-icons",
+      "retrievedOn": "2026-09-25",
+      "license": "MIT",
+      "licenseFile": "assets/icons/neutral/fluent/LICENSE",
+      "usage": "Conceitos dos diagramas refeitos (família única, variante 24 regular); obtidos de https://raw.githubusercontent.com/microsoft/fluentui-system-icons/main/ sem alteração.",
+      "files": [
+        {
+          "path": "assets/icons/neutral/fluent/globe.svg",
+          "sourcePath": "assets/Globe/SVG/ic_fluent_globe_24_regular.svg",
+          "sha256": "bb024c6df766abce2e500a714d6818f2654bfcb507594d68cff28ec48d7296fd"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/folder.svg",
+          "sourcePath": "assets/Folder/SVG/ic_fluent_folder_24_regular.svg",
+          "sha256": "b223f863f213dcc1bf75a65d31a287830380c08503c79565b317c77b10e7a2e1"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/archive.svg",
+          "sourcePath": "assets/Archive/SVG/ic_fluent_archive_24_regular.svg",
+          "sha256": "de1389ad2e4a8fe9ba9430d8457a1e1f459ef8eded2ef480788f90a7f7806306"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/filter.svg",
+          "sourcePath": "assets/Filter/SVG/ic_fluent_filter_24_regular.svg",
+          "sha256": "06d1ca481689c345922149cae48b1471135d251a9a3e7caf389ab40caaddf8f7"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/table.svg",
+          "sourcePath": "assets/Table/SVG/ic_fluent_table_24_regular.svg",
+          "sha256": "f6021978e1c20649e4b07276db570c51a8b6436540d46020a186233301948e30"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/table-search.svg",
+          "sourcePath": "assets/Table Search/SVG/ic_fluent_table_search_24_regular.svg",
+          "sha256": "3a23404e81c6767d6831caac2ab9b4658e61d7346ae617d6a661f2b3f7d26958"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/cube.svg",
+          "sourcePath": "assets/Cube/SVG/ic_fluent_cube_24_regular.svg",
+          "sha256": "e98fbf3843e7aab040d65ad4420deff5bf4864bfe602d9797abbd37d51519a31"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/merge.svg",
+          "sourcePath": "assets/Merge/SVG/ic_fluent_merge_24_regular.svg",
+          "sha256": "c8535541cf7e99d2fcb9fcebf916172846dcd42de4a0cfedfc9c9238baa370cb"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/laptop.svg",
+          "sourcePath": "assets/Laptop/SVG/ic_fluent_laptop_24_regular.svg",
+          "sha256": "518cf3b0f33f5540de6769a8f625569abd66587a0036fe226649dc4764c8c506"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/flow.svg",
+          "sourcePath": "assets/Flow/SVG/ic_fluent_flow_24_regular.svg",
+          "sha256": "bde27d98aca1b7bfb1956dd33c8dc897b7af469d6a7f36660ed611d338e0b4d3"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/history.svg",
+          "sourcePath": "assets/History/SVG/ic_fluent_history_24_regular.svg",
+          "sha256": "07d75bb67b1b81cf504b86952cf90fc7af2de44ee6b335595ee3806047fc45b4"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/beaker.svg",
+          "sourcePath": "assets/Beaker/SVG/ic_fluent_beaker_24_regular.svg",
+          "sha256": "a98c0e7ffd421cd8bea167911bb4908eb176a8378ce9eecb2f916ddcdeedef51"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/branch.svg",
+          "sourcePath": "assets/Branch/SVG/ic_fluent_branch_24_regular.svg",
+          "sha256": "a8955f892119e1d84812197b26384f417cb639dd150b4382743e81160b619ae9"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/key.svg",
+          "sourcePath": "assets/Key/SVG/ic_fluent_key_24_regular.svg",
+          "sha256": "1424c553a38abe9b9f686c83eface19100b7474a205a7d47b0c669bd18a7d708"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/arrow-sync-checkmark.svg",
+          "sourcePath": "assets/Arrow Sync Checkmark/SVG/ic_fluent_arrow_sync_checkmark_24_regular.svg",
+          "sha256": "fee6def1f50b56ea7d430246715197f7148bcd0345ad28301be264f63e966985"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/arrow-clockwise.svg",
+          "sourcePath": "assets/Arrow Clockwise/SVG/ic_fluent_arrow_clockwise_24_regular.svg",
+          "sha256": "488566eef8203823292a19660c47d4b9c86ca64e6910848342e6b5fa3c5a7558"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/shield-lock.svg",
+          "sourcePath": "assets/Shield Lock/SVG/ic_fluent_shield_lock_24_regular.svg",
+          "sha256": "8ac457627d37f3f2aa419de000c7b59066ad0403bf8cb95e29786c8c6ceb49e2"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/shield-dismiss.svg",
+          "sourcePath": "assets/Shield Dismiss/SVG/ic_fluent_shield_dismiss_24_regular.svg",
+          "sha256": "7cb0fe4aa504aa12d1fb4ae33b35784bf02284409febe71cef245a13f7ae1657"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/document-lock.svg",
+          "sourcePath": "assets/Document Lock/SVG/ic_fluent_document_lock_24_regular.svg",
+          "sha256": "76bd9222f097169d016587617bfbffbb42dfda6dbc517cb05a1d6d1025915010"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/document-text.svg",
+          "sourcePath": "assets/Document Text/SVG/ic_fluent_document_text_24_regular.svg",
+          "sha256": "f76c2ec8378f3d0d2f6569b34ff54b7b3c3b7215a93745b92d4906aa882f84e5"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/server.svg",
+          "sourcePath": "assets/Server/SVG/ic_fluent_server_24_regular.svg",
+          "sha256": "ea65287c1ac725607d2e5b6ea2bfcd7d588b82a9f68084ef61511e65aa7af8a5"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/plug-connected.svg",
+          "sourcePath": "assets/Plug Connected/SVG/ic_fluent_plug_connected_24_regular.svg",
+          "sha256": "5082c942dfb966a9d15f3eb9a0692157d9b48b1efbbe7e5cc7988305e3bce956"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/storage.svg",
+          "sourcePath": "assets/Storage/SVG/ic_fluent_storage_24_regular.svg",
+          "sha256": "ca1e816db3d9aa9007a8669dcbe149534b442f626ce6e503914a0d9a8c1881dd"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/cloud.svg",
+          "sourcePath": "assets/Cloud/SVG/ic_fluent_cloud_24_regular.svg",
+          "sha256": "b631a912bb75df4ffb80361cbb168c14bda043b9a4deb6807b9e30f017207495"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/window.svg",
+          "sourcePath": "assets/Window/SVG/ic_fluent_window_24_regular.svg",
+          "sha256": "6e2ec499c1bff13971b59a44b2fd3212d5aeb26bf78c31e1695a40dfac05cb4d"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/password.svg",
+          "sourcePath": "assets/Password/SVG/ic_fluent_password_24_regular.svg",
+          "sha256": "a9f4d1485f11b0702834dee6e4845c134fd197e165211de816102f90e1125899"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/dialpad.svg",
+          "sourcePath": "assets/Dialpad/SVG/ic_fluent_dialpad_24_regular.svg",
+          "sha256": "c533e6e2d1b2677195186b4ad91b0a93d7cd80fabe57a2dc5e7c20ac09084803"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/cursor-click.svg",
+          "sourcePath": "assets/Cursor Click/SVG/ic_fluent_cursor_click_24_regular.svg",
+          "sha256": "f879521d784c8e98f657b4fc0fe6063ab288788cb3d69662677e5db8058d235d"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/eye-off.svg",
+          "sourcePath": "assets/Eye Off/SVG/ic_fluent_eye_off_24_regular.svg",
+          "sha256": "69c812230955937160708700e81ff4064251ff7107834fa86b9e1c7b2d479272"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/timer.svg",
+          "sourcePath": "assets/Timer/SVG/ic_fluent_timer_24_regular.svg",
+          "sha256": "beb3918cb04c5ac833b974777d12bc0a714b944c8c12a8ee406295bff118fe45"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/clock.svg",
+          "sourcePath": "assets/Clock/SVG/ic_fluent_clock_24_regular.svg",
+          "sha256": "5b2faea30a81e8db8c2ec212be3c0f1aa7f756e62b2ef3c7f0fc081afdf08726"
+        }
+      ]
+    },
+    {
       "id": "vendor-dataflow-stack",
       "type": "vendor-official-icons",
       "retrievedOn": "2026-09-04",
@@ -399,6 +565,76 @@
           "path": "assets/icons/vendor/aws/Arch_Amazon-Simple-Storage-Service_48.svg",
           "originalFilename": "Arch_Amazon-Simple-Storage-Service_48.svg",
           "sha256": "bb0df5b7ca52da7323888ed588baefa1c68a23b5776f325bc8ec29825c185a31"
+        },
+        {
+          "product": "AWS Glue",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_AWS-Glue_48.svg",
+          "originalFilename": "Arch_AWS-Glue_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "f98d18c9698d54ecf10b6d05ddc80b4da8c22fa2a28f8d1795e5a9c182dd3f90"
+        },
+        {
+          "product": "Amazon Athena",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_Amazon-Athena_48.svg",
+          "originalFilename": "Arch_Amazon-Athena_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "5644ca441ec8fea1519218ac70d998c97358855d9f28598f7db5910d625ba4bc"
+        },
+        {
+          "product": "Amazon Redshift",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_Amazon-Redshift_48.svg",
+          "originalFilename": "Arch_Amazon-Redshift_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "b2a267bb27552a7608cae3cd0284b5617498848a273a2ef752f9dcb338312b65"
+        },
+        {
+          "product": "AWS Step Functions",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_AWS-Step-Functions_48.svg",
+          "originalFilename": "Arch_AWS-Step-Functions_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "c1bb81d6504d283c6b31cbd9516fa6b8364010ea3c30ae614507114ca34192ad"
+        },
+        {
+          "product": "AWS Lake Formation",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_AWS-Lake-Formation_48.svg",
+          "originalFilename": "Arch_AWS-Lake-Formation_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "164d11b006139552470e3c38db5604c4569fb640831636a38d7551578a418461"
+        },
+        {
+          "product": "Amazon CloudWatch",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_Amazon-CloudWatch_48.svg",
+          "originalFilename": "Arch_Amazon-CloudWatch_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "9920f2db47fed7e2437c329e8b231edcb0f55db82f02413afa3f2d546c30d552"
+        },
+        {
+          "product": "AWS Identity and Access Management",
+          "source": "aws-architecture-icons",
+          "sourceUrl": "https://d1.awsstatic.com/onedam/marketing-channels/website/public/shared/architecture-icon-release/Icon-package_07312026.5846e92413caa21490223536cc97f1269e44fa92.zip",
+          "termsUrl": "https://aws.amazon.com/architecture/icons/",
+          "path": "assets/icons/vendor/aws/Arch_AWS-Identity-and-Access-Management_48.svg",
+          "originalFilename": "Arch_AWS-Identity-and-Access-Management_48.svg",
+          "retrievedOn": "2026-09-25",
+          "sha256": "81954dcfb86d5f410f7084345e459cd5c7ca1d76032d34f771ad379c94e062b6"
         }
       ]
     }

@@ -36,6 +36,23 @@ test.describe('sem JavaScript', () => {
     }
   });
 
+  test('os diagramas animados aparecem inteiros e parados', async ({ page }) => {
+    await page.goto('/');
+    const figuras = page.locator('.architecture-diagram.diagram-anima');
+    expect(await figuras.count()).toBeGreaterThan(0);
+    const problemas = await figuras.evaluateAll((fs) =>
+      fs.flatMap((f) =>
+        [f, ...f.querySelectorAll('.diagram-node, .diagram-step, .diagram-call, .diagram-band')]
+          .filter((el) => {
+            const s = getComputedStyle(el);
+            return Number(s.opacity) < 1 || s.transform !== 'none' || s.animationName !== 'none';
+          })
+          .map((el) => el.className)
+      )
+    );
+    expect(problemas, problemas.join('\n')).toEqual([]);
+  });
+
   test('as seções âncora continuam alcançáveis', async ({ page }) => {
     await page.goto('/');
     for (const id of [

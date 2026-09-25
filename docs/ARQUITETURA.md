@@ -106,10 +106,14 @@ HTML era válido e nada quebrava.
 
 O diagrama tem duas formas, ambas no esquema:
 
-| Forma     | Usada por | Estrutura                               |
-| --------- | --------- | --------------------------------------- |
-| `fluxo`   | 5 cases   | uma sequência de etapas                 |
-| `camadas` | DataOps   | zonas, uma delas com camadas empilhadas |
+| Forma          | Usada por                    | Estrutura                                                                                   |
+| -------------- | ---------------------------- | ------------------------------------------------------------------------------------------- |
+| `trilha`       | DataOps, Câmara, AWS, Fiscal | zonas em linha (fontes → consumo), plano de controle acima e governança abaixo, pontilhados |
+| `rpa-detailed` | RPA OIDC                     | serviço, robô e portal, com as chamadas HTTP e de navegador em raias                        |
+
+A forma `zonas`, herdada do case AWS antigo (sem animação e com ícones inline
+próprios), saiu em 25/09/2026, quando o case passou a representar o estudo de
+lakehouse na AWS e foi redesenhado como `trilha`.
 
 Case novo é um objeto no JSON. Mudança na anatomia do cartão é uma edição em
 `cases.mjs`, não seis.
@@ -120,6 +124,19 @@ Cinco cases abrem o parágrafo com **Declaração de escopo:** e o da Câmara co
 **Evidências:**. A primeira versão do renderizador fixava o texto e apagava o
 do case divergente — o que foi pego comparando o DOM antes e depois, nó a nó,
 e não teria aparecido em nenhum teste de comportamento.
+
+### O que não roda aparece marcado, no próprio diagrama
+
+`situacao` (`documentado` ou `previsto`) em nó, etapa, item de faixa, plano de
+controle ou faixa de retorno desenha contorno tracejado e uma etiqueta de texto,
+e acrescenta o item correspondente à legenda daquele diagrama. Serve ao estudo
+AWS (executado até a Silver; o resto só nos guias) e ao retorno do robô no
+fiscal (previsto no contrato, não implementado). Sistema de outra equipe
+(`externo`) usa fundo listrado na trilha, não tracejado: o tracejado de linha é
+o meio navegador do RPA. Na trilha também existem `peso` por zona (1 a 12,
+quando a soma automática deixa a zona estreita demais) e `ligaAoProximo`
+(seta para baixo entre dois nós de uma zona empilhada). Valor inválido em
+qualquer um deles para o build.
 
 ## Cascata: camadas e ordem
 

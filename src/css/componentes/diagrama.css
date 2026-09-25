@@ -4,269 +4,394 @@
 .case-card__content{min-width:0}
 .case-card__content .taglist{margin-top:1.5rem}
 .case-card--feature .case-card__content{max-width:65ch}
-/* O diagrama é um painel de instrumento: fica escuro nos DOIS temas, de
-   propósito. O que estava errado não era isso — era o fundo ser literal
-   (rgba(4,12,14,...)) enquanto o texto vinha de token de tema. No tema claro
-   o texto virava quase-preto sobre fundo quase-preto: o título das etapas
-   media 1.02 de contraste, ou seja, invisível, nos oito diagramas.
 
-   A correção redefine os tokens DENTRO do componente. Assim fundo e texto
-   passam a sair sempre do mesmo conjunto, que é a regra que o defeito violava
-   — e os filhos continuam escritos com var(), sem literal espalhado. */
+/* =========================================================
+   COMPONENTE ÚNICO DE DIAGRAMA
+
+   Antes havia cinco sistemas paralelos de nó (dataflow-node,
+   async-job-node, lakehouse-node, rpa-detailed-*, diagram-stage/layer),
+   cada um com sombra, cor literal e regra de celular próprias. Agora todo
+   bloco é um .diagram-node e o que varia é modificador.
+
+   Tudo sai de token de tema: o diagrama acompanha o tema claro em vez de
+   ficar escuro com hex fixo. Separação por contorno, nunca por sombra.
+   A cor da zona chega por --dg-cor, herdada da zona para os nós.
+   ========================================================= */
 .architecture-diagram{
-  --text:#ffffff;
-  --text-muted:#c1c1c1;
-  --text-dim:#b0b9b8;
-  --accent:#c4df00;
-  --border:rgba(255,255,255,.09);
-  --border-strong:rgba(255,255,255,.16);
-  --border-lime:rgba(162,183,0,.30);
-  --surface-soft:rgba(255,255,255,.02);
-
-  min-width:0;margin:0;padding:1.25rem;
-  background:linear-gradient(145deg,rgba(8,30,33,.95),rgba(4,12,14,.92));
-  border:1px solid var(--border-strong);border-radius:var(--r-card);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 32px rgba(0,0,0,.16)
+  --dg-gap:1rem;--dg-vao:1rem;
+  display:grid;gap:var(--dg-vao);min-width:0;margin:0;padding:clamp(1rem,2.2vw,1.75rem);
+  color:var(--text);background:var(--surface-diagram);
+  border:1px solid var(--border-strong);border-radius:var(--r-card)
 }
-.diagram-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0 0 .8rem;border-bottom:1px solid var(--border)}
-.diagram-kicker{margin:0;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-.diagram-header b{color:var(--accent);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
-.diagram-legend{display:flex;justify-content:flex-end;gap:1.25rem;padding-top:.75rem;color:var(--text-muted);font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.diagram-legend span{display:flex;align-items:center;gap:.4rem}
-.diagram-legend__line{display:block;width:2.35rem;border-top:2px solid var(--accent)}
-.diagram-legend__line::after{content:"→";display:block;float:right;margin-top:-.65rem;color:var(--accent);font-size:.9rem}
+.diagram-header{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.35rem 1rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+/* Parágrafos do diagrama: `.card p` (0,1,1) e `.card p:last-of-type`
+   (0,2,1) dariam a eles o corpo e a margem do cartão. */
+.card .architecture-diagram p{margin:0}
+p.diagram-kicker{color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.diagram-header b{color:var(--text-muted);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.diagram-legend{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.25rem;color:var(--text-muted);font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.diagram-legend span{display:flex;align-items:center;gap:.45rem}
+.diagram-legend__line{display:block;width:2rem;border-top:2px solid var(--diagram-link)}
 .diagram-legend__line--dashed{border-top-style:dashed}
-.diagram-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.65rem;padding:1rem 0}
-.diagram-flow--pipeline{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;padding:1rem 0 .75rem}
-.diagram-stage{
-  position:relative;display:grid;align-content:start;gap:.35rem;min-height:6.1rem;padding:.75rem;
-  background:rgba(4,12,14,.7);border:1px solid var(--border);border-radius:var(--r-sm)
+/* Uma legenda de linhas para a página inteira: contínua = dado; pontilhada =
+   controle e governança (não transporta dado); tracejada = meio "navegador"
+   do RPA. Nenhum outro significado usa essas duas. */
+.diagram-legend__line--dotted{border-top-style:dotted}
+.diagram-legend .diagram-legend__note{font-weight:600;letter-spacing:0;text-transform:none}
+/* Caixa tracejada: bloco só documentado ou só previsto (situacao). É contorno
+   de bloco, não linha; a legenda do próprio diagrama diz o que significa. */
+.diagram-legend__box{display:block;flex:0 0 auto;width:1.1rem;height:.8rem;border:2px dashed var(--diagram-link);border-radius:3px}
+.diagram-caption{margin:0;color:var(--text-muted);font-size:.8rem;line-height:1.45}
+
+/* Papel da zona → cor de série (acento de borda, ícone e marcador do título) */
+.diagram-zone--fonte{--dg-cor:var(--serie-4)}
+.diagram-zone--ingestao,.diagram-zone--processamento{--dg-cor:var(--serie-3)}
+.diagram-zone--armazenamento{--dg-cor:var(--serie-1)}
+.diagram-zone--consumo{--dg-cor:var(--serie-5)}
+.diagram-zone--externo{--dg-cor:var(--text-dim)}
+.diagram-band--governanca{--dg-cor:var(--serie-2)}
+.diagram-band--ambiente,.diagram-control{--dg-cor:var(--text-muted)}
+
+
+/* ---------- Trilha e zonas ---------- */
+.diagram-track{display:flex;gap:var(--dg-gap);min-width:0}
+.diagram-zone{position:relative;display:flex;flex:1 1 0;flex-direction:column;gap:.6rem;min-width:0}
+/* Título de zona: o mesmo estilo em todo diagrama, faixa e raia */
+p.diagram-zone__title{display:flex;align-items:center;gap:.45rem;margin:0;color:var(--text-muted);font-size:.7rem;font-weight:800;letter-spacing:.08em;line-height:1.3;text-transform:uppercase}
+.diagram-zone__title::before{content:"";flex:0 0 auto;width:.85rem;height:3px;border-radius:2px;background:var(--dg-cor,var(--text-dim))}
+.diagram-zone__title code{color:var(--text);font:inherit;text-transform:none}
+.diagram-zone__nodes{display:flex;flex:1;gap:var(--dg-gap);min-width:0}
+.diagram-zone--stack .diagram-zone__nodes{flex-direction:column;gap:.5rem}
+
+/* ---------- Nó ---------- */
+.diagram-node{
+  position:relative;display:flex;flex:1 1 0;flex-direction:column;gap:.4rem;min-width:0;padding:.85rem .8rem;
+  background:var(--surface-node);border:1px solid var(--border-strong);border-left:3px solid var(--dg-cor,var(--border-strong));border-radius:12px
 }
-.diagram-stage--accent{border-color:var(--border-lime);background:linear-gradient(135deg,rgba(198,223,0,.13),rgba(4,12,14,.72))}
-.diagram-stage__header{display:flex;align-items:center;gap:.45rem;min-width:0}
-.diagram-stage__icon,.diagram-layer__icon,.diagram-foundation__icon,.diagram-orchestration__icon{display:grid;flex:0 0 auto;place-items:center;color:var(--accent)}
-.diagram-stage__icon{width:1.35rem;height:1.35rem;padding:.18rem;border:1px solid var(--border-lime);border-radius:6px;background:rgba(198,223,0,.05)}
-.diagram-stage__icon svg,.diagram-layer__icon svg,.diagram-foundation__icon svg,.diagram-orchestration__icon svg{display:block;width:100%;height:100%}
-.diagram-stage__type{color:var(--accent);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.diagram-stage__badge{margin-left:auto;padding:.18rem .32rem;border:1px solid var(--border-lime);border-radius:6px;color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.06em}
-.diagram-stage__title{color:var(--text);font-size:.83rem;font-weight:700;line-height:1.2}
-.diagram-stage__meta{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.diagram-flow .diagram-stage:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.53rem;top:50%;translate:50% -50%;color:var(--accent);font-size:.95rem;font-weight:700}
-/* auto-fit em vez de 3 colunas fixas: a faixa de governança tem entre tres
-   e cinco itens dependendo do case, e o numero fixo deixava o quarto item
-   sozinho numa segunda linha. */
-.diagram-foundation{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.55rem;padding:.7rem;border:1px solid var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.055)}
-.diagram-foundation__title{grid-column:1/-1;margin:0;color:var(--accent);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-align:center;text-transform:uppercase}
-.diagram-foundation__item{display:grid;grid-template-columns:1.4rem minmax(0,1fr);align-items:start;gap:.4rem;min-width:0}
-.diagram-foundation__icon{width:1.2rem;height:1.2rem;margin-top:.05rem}
-.diagram-foundation__item>span:last-child{color:var(--text-muted);font-size:.7rem;line-height:1.3}
-.diagram-foundation b{display:block;margin-bottom:.18rem;color:var(--accent);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
-.diagram-data-layout{display:grid;grid-template-columns:.75fr 1.65fr .75fr;gap:.65rem;padding:1rem 0}
-.diagram-zone{position:relative;min-width:0;padding:.7rem;border:1px solid var(--border);border-radius:var(--r-sm);background:rgba(4,12,14,.48)}
-.diagram-zone__title{margin:0 0 .6rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-/* O titulo fica na altura natural e as camadas dividem o espaco restante.
-   Sem grid-auto-rows, a linha do titulo esticava junto e abria um vao entre
-   ele e a primeira camada quando outra zona era mais alta. */
-.diagram-zone--pipeline{display:grid;gap:.45rem;grid-template-rows:auto;grid-auto-rows:1fr}
-.diagram-layer{display:grid;grid-template-columns:1.35rem minmax(0,1fr) auto;align-items:center;gap:.5rem;padding:.55rem .6rem;border:1px solid var(--border);border-radius:8px;background:rgba(4,12,14,.62)}
-.diagram-layer--accent{border-color:var(--border-lime);background:linear-gradient(90deg,rgba(198,223,0,.12),rgba(4,12,14,.62))}
-/* O div que envolve o rótulo e a descrição precisa empilhar: <b> e <span>
-   são inline por padrão, e sem isto saía "Snowflake RAWDados recebidos"
-   numa linha só. Defeito que já estava em producao nos seis diagramas. */
-.diagram-layer>div{display:grid;gap:.1rem;min-width:0}
-.diagram-layer b{color:var(--text);font-size:.72rem;line-height:1.15}
-.diagram-layer span{color:var(--text-dim);font-size:.7rem;line-height:1.25}
-.diagram-layer__icon{width:1.25rem;height:1.25rem}
+.diagram-node--accent{background:var(--surface-node-accent);border-color:var(--accent)}
+/* Sistema de outra equipe: faixa cinza (--dg-cor da zona externa), fundo
+   listrado e rótulo "Outra equipe"/"Sistema externo". Não é tracejado: no RPA
+   o tracejado é o meio navegador, e no bloco ele marca o que não roda. */
+.diagram-node--external{background:var(--surface-diagram)}
+/* Listra só na trilha: o RPA (publicado antes) fica como estava. */
+.architecture-diagram--trilha .diagram-node--external{background-image:repeating-linear-gradient(135deg,transparent 0 7px,var(--diagram-stripe) 7px 9px)}
+/* Só documentado (estudo) ou só previsto (contrato): contorno tracejado,
+   sem preenchimento, e etiqueta de texto; a cor nunca é o único canal. */
+:is(.diagram-node--planned,.diagram-step--planned,.diagram-return--planned .diagram-node){border-style:dashed;background-color:transparent}
+.diagram-tag{display:inline-block;align-self:flex-start;justify-self:start;padding:.05rem .4rem;border:1px dashed var(--diagram-link);border-radius:6px;color:var(--text-muted);font-size:.7rem;font-weight:700;letter-spacing:.02em;line-height:1.35;text-transform:none}
+.diagram-item--planned .diagram-tag{margin-top:.3rem}
+p.diagram-zone__title .diagram-tag{margin-left:.25rem;font-weight:700;letter-spacing:.02em}
+.diagram-node--compact{padding:.65rem .7rem}
+.diagram-node__head{display:flex;align-items:center;gap:.5rem;min-width:0}
+/* 2.25rem de caixa: a marca do fabricante fica com cerca de 24px, legível
+   no celular (a revisão mediu Snowflake e dbt a 14,5px). */
+.diagram-node__icon{display:grid;flex:0 0 auto;place-items:center;width:2.25rem;height:2.25rem;padding:.3rem;color:var(--dg-cor,var(--text-muted));background:var(--surface-diagram);border:1px solid var(--border);border-radius:9px}
+.diagram-node__icon>*{display:block;width:100%;height:100%}
 /* Ativo oficial de fabricante entra como <img>: a política do manifesto exige
    preservá-lo sem alteração, então não pode ser recolorido por currentColor. */
-.diagram-layer__product-icon{display:block;width:100%;height:100%;object-fit:contain}
-.diagram-layer__mark{display:grid;place-items:center;min-width:2.05rem;height:1.65rem;padding:0 .28rem;border:1px solid var(--border-lime);border-radius:7px;color:var(--accent)!important;font-size:.7rem!important;font-weight:800;letter-spacing:.04em}
-.diagram-zone .diagram-stage{min-height:0;padding:.62rem}
-.diagram-zone .diagram-stage + .diagram-stage{margin-top:.45rem}
-.diagram-data-layout .diagram-zone:not(:last-child)::after{content:"→";position:absolute;z-index:2;right:-.4rem;top:50%;translate:50% -50%;color:var(--accent);font-size:1rem;font-weight:700}
-.diagram-orchestration{display:grid;grid-template-columns:1.6rem minmax(0,1fr);align-items:center;gap:.55rem;margin:-.1rem 0 .75rem;padding:.55rem .7rem;border:1px dashed var(--border-lime);border-radius:var(--r-sm);background:rgba(198,223,0,.04)}
-.diagram-orchestration__icon{width:1.45rem;height:1.45rem}
-.diagram-orchestration span:last-child{color:var(--text-muted);font-size:.7rem;line-height:1.35}
-.diagram-orchestration b{margin-right:.35rem;color:var(--accent);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
-.diagram-orchestration--pipeline{max-width:28rem;margin:0 auto .75rem;border-style:dashed}
-/* O DataOps é uma arquitetura de ferramentas, não uma lista de texto. Os
-   pictogramas ganham presença sem alterar os demais diagramas durante a
-   revisão individual dos cases. */
-.case-card--dataops .diagram-stage__icon{width:2rem;height:2rem;padding:.32rem;border-radius:8px}
-.case-card--dataops .diagram-stage__header{gap:.55rem}
-.case-card--dataops .diagram-stage__type{font-size:.7rem}
-.case-card--dataops .diagram-layer{grid-template-columns:1.7rem minmax(0,1fr) auto;gap:.6rem;padding:.7rem}
-.case-card--dataops .diagram-layer__icon{width:1.55rem;height:1.55rem}
-.case-card--dataops .diagram-orchestration__icon{width:1.7rem;height:1.7rem}
-.case-card--dataops .diagram-foundation__icon{width:1.4rem;height:1.4rem}
-/* DataOps: caminho de dados, plano de controle e capacidades transversais
-   recebem superfícies distintas para que não disputem a mesma hierarquia. */
-.architecture-diagram--dataflow{padding:clamp(1.25rem,2.2vw,2rem);background:linear-gradient(145deg,#102427 0%,#081416 58%,#061012 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 40px rgba(0,0,0,.22)}
-.architecture-diagram--dataflow .diagram-header{padding-bottom:1rem}
-.architecture-diagram--dataflow .diagram-header b{font-size:.7rem}
-.dataflow-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .75rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-.dataflow-intro span:last-child{color:var(--accent)}
-.dataflow-track{display:grid;grid-template-columns:.9fr .9fr 1fr 2.4fr 1fr;gap:.8rem;padding:.25rem 0 1.5rem}
-.dataflow-node{position:relative;display:grid;align-content:start;gap:.5rem;min-width:0;min-height:9.75rem;padding:1rem .85rem;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid var(--border);border-radius:12px;transition:transform .18s ease,border-color .18s ease,background .18s ease}
-.dataflow-node:hover{transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018))}
-.dataflow-node--emphasis{border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}
-.dataflow-node__head{display:flex;align-items:center;gap:.45rem;min-width:0}
-.dataflow-node__icon{display:grid;flex:0 0 auto;place-items:center;width:1.75rem;height:1.75rem;padding:.36rem;color:var(--accent);border:1px solid var(--border-lime);border-radius:8px;background:rgba(198,223,0,.055)}
-.dataflow-node__icon svg{display:block;width:100%;height:100%}
-.dataflow-product-icon{display:block;width:100%;height:100%;object-fit:contain}
-.dataflow-icon{display:block;width:100%;height:100%;background:currentColor;mask:var(--dataflow-icon) no-repeat center/contain;-webkit-mask:var(--dataflow-icon) no-repeat center/contain}
-.dataflow-icon--database{--dataflow-icon:url("/assets/icons/neutral/fluent/database.svg")}
-.dataflow-icon--arrow-sync{--dataflow-icon:url("/assets/icons/neutral/fluent/arrow-sync.svg")}
-.dataflow-icon--database-arrow-right{--dataflow-icon:url("/assets/icons/neutral/fluent/database-arrow-right.svg")}
-.dataflow-icon--database-multiple{--dataflow-icon:url("/assets/icons/neutral/fluent/database-multiple.svg")}
-.dataflow-icon--chart-multiple{--dataflow-icon:url("/assets/icons/neutral/fluent/chart-multiple.svg")}
-.dataflow-icon--database-search{--dataflow-icon:url("/assets/icons/neutral/fluent/database-search.svg")}
-.dataflow-icon--lock-closed{--dataflow-icon:url("/assets/icons/neutral/fluent/lock-closed.svg")}
-.dataflow-icon--database-checkmark{--dataflow-icon:url("/assets/icons/neutral/fluent/database-checkmark.svg")}
-.dataflow-node__kind{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-.dataflow-node>b{color:var(--text);font-size:.79rem;line-height:1.2}
-.dataflow-node>span{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.dataflow-node>i{position:absolute;right:.62rem;bottom:.62rem;display:grid;place-items:center;min-width:2rem;height:1.35rem;padding:0 .28rem;border:1px solid var(--border-lime);border-radius:5px;color:var(--accent);font-size:.7rem;font-style:normal;font-weight:800;letter-spacing:.05em}
-.dataflow-node--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.72rem;width:.72rem;border-top:1px solid rgba(198,223,0,.6)}
-.dataflow-node--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.72rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-/* dbt é uma única etapa da arquitetura, com três camadas internas. Agrupar
-   STG, INT e DW reduz repetição e deixa o caminho principal mais legível. */
-.dataflow-dbt{grid-template-rows:auto minmax(0,1fr);gap:.75rem;padding:.85rem 1rem}
-.dataflow-dbt__head{display:flex;align-items:center;gap:.55rem;min-width:0}.dataflow-dbt__head>div{display:grid;gap:.13rem;min-width:0}
-.dataflow-dbt__head b{color:var(--text);font-size:.79rem;line-height:1.2}
-.dataflow-dbt__stages{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin:0;padding:0;list-style:none}
-.dataflow-dbt__stages li{position:relative;display:grid;align-content:start;gap:.25rem;min-width:0;padding:.55rem .6rem;border:1px solid rgba(198,223,0,.18);border-radius:8px;background:rgba(4,12,14,.26)}
-.dataflow-dbt__stages li:not(:last-child)::after{content:"→";position:absolute;z-index:2;top:50%;right:-.32rem;translate:50% -50%;color:var(--accent);font-size:.72rem;font-weight:800}
-.dataflow-dbt__stages span{width:max-content;min-width:1.8rem;padding:.14rem .25rem;border:1px solid var(--border-lime);border-radius:4px;color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.05em;text-align:center}
-.dataflow-dbt__stages b{color:var(--text);font-size:.7rem;line-height:1.2}.dataflow-dbt__stages small{color:var(--text-dim);font-size:.7rem;line-height:1.28}
-.dataflow-control-plane{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;align-items:center;gap:.75rem;margin:0 0 .75rem;padding:.8rem 1rem;border:1px dashed rgba(198,223,0,.42);border-radius:12px;background:linear-gradient(90deg,rgba(198,223,0,.08),rgba(198,223,0,.025))}
-.dataflow-control-plane__icon{display:grid;place-items:center;width:1.75rem;height:1.75rem;color:var(--accent)}
-.dataflow-control-plane__icon svg{display:block;width:100%;height:100%}
-.dataflow-control-plane__icon .dataflow-product-icon{width:1.75rem;height:1.75rem}
-.dataflow-control-plane__icon .dataflow-icon{color:var(--accent)}
-.dataflow-control-plane b,.dataflow-control-plane span{display:block}
-.dataflow-control-plane b{margin-bottom:.15rem;color:var(--text);font-size:.71rem;letter-spacing:.035em}
-.dataflow-control-plane span,.dataflow-control-plane small{color:var(--text-muted);font-size:.7rem;line-height:1.35}
-.dataflow-control-plane small{max-width:16rem;text-align:right}
-.dataflow-foundation{padding:1rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.018)}
-.dataflow-foundation>p{margin:0 0 .8rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
-.dataflow-foundation ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}
-.dataflow-foundation li{display:grid;grid-template-columns:1.3rem minmax(0,1fr);align-items:start;gap:.45rem;min-width:0}
-.dataflow-foundation li>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--accent)}
-.dataflow-foundation li>span svg{display:block;width:100%;height:100%}
-.dataflow-foundation li>span .dataflow-icon{color:var(--accent)}
-.dataflow-foundation li b,.dataflow-foundation li small{display:block}
-.dataflow-foundation li b{margin-bottom:.17rem;color:var(--text);font-size:.7rem;letter-spacing:.045em;text-transform:uppercase}
-.dataflow-foundation li small{color:var(--text-dim);font-size:.7rem;line-height:1.35}
+.diagram-node__logo{object-fit:contain}
+.diagram-node__logo[src*="/vendor/aws/"]{outline:1px solid var(--logo-contorno)}
+.diagram-node__kind{margin-top:.1rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.07em;line-height:1.2;text-transform:uppercase}
+.diagram-node__mark{flex:0 0 auto;margin-left:auto;padding:.1rem .35rem;border:1px solid var(--border-strong);border-radius:6px;color:var(--text-muted);font-size:.7rem;font-weight:800;letter-spacing:.05em}
+.diagram-node__title{color:var(--text);font-size:.85rem;line-height:1.2}
+.diagram-node__note{color:var(--text-dim);font-size:.72rem;line-height:1.35}
+.diagram-node--accent :is(.diagram-node__kind,.diagram-node__mark){color:var(--accent)}
+.diagram-node--compact .diagram-node__icon{width:2rem;height:2rem;padding:.25rem}
+.diagram-node--compact .diagram-node__title{font-size:.8rem}
 
-/* Lakehouse Câmara: fluxo lógico em uma única direção, com o ambiente de
-   execução e os controles fora do caminho dos dados. */
-.architecture-diagram--lakehouse{padding:clamp(1.25rem,2.2vw,2rem);background:linear-gradient(145deg,#102427 0%,#081416 58%,#061012 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 40px rgba(0,0,0,.22)}
-.architecture-diagram--lakehouse .diagram-header{padding-bottom:1rem}.architecture-diagram--lakehouse .diagram-header b{font-size:.7rem}
-.lakehouse-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .75rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.lakehouse-intro span:last-child{color:var(--accent)}
-.lakehouse-track{display:grid;grid-template-columns:.92fr 1.08fr 1.16fr 2.8fr 1.3fr;gap:.72rem;padding:.25rem 0 1rem}
-.lakehouse-node{position:relative;display:grid;align-content:start;gap:.48rem;min-width:0;min-height:9.5rem;padding:.9rem .72rem;border:1px solid var(--border);border-radius:12px;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));transition:transform .18s ease,border-color .18s ease,background .18s ease}.lakehouse-node:hover{transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018))}.lakehouse-node--emphasis{border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}
-.lakehouse-node__head{display:flex;align-items:center;gap:.4rem;min-width:0}.lakehouse-node__icon{display:grid;flex:0 0 auto;place-items:center;width:1.7rem;height:1.7rem;padding:.32rem;color:var(--accent);border:1px solid var(--border-lime);border-radius:8px;background:rgba(198,223,0,.055)}.lakehouse-node__icon svg,.lakehouse-product-icon,.lakehouse-medallion__product-icon{display:block;width:100%;height:100%;object-fit:contain}.lakehouse-node__kind{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.075em;line-height:1.15;text-transform:uppercase}.lakehouse-node>b{color:var(--text);font-size:.75rem;line-height:1.22}.lakehouse-node>span{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.lakehouse-node--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.64rem;width:.64rem;border-top:1px solid rgba(198,223,0,.6)}.lakehouse-node--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.64rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-.lakehouse-medallion{position:relative;display:grid;grid-template-rows:auto minmax(0,1fr);gap:.62rem;min-width:0;min-height:9.5rem;padding:.8rem;border:1px solid var(--border-lime);border-radius:12px;background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}.lakehouse-medallion__head{display:grid;grid-template-columns:1.7rem minmax(0,1fr);align-items:center;gap:.46rem}.lakehouse-medallion__head>span:last-child{display:flex;align-items:baseline;gap:.38rem;min-width:0}.lakehouse-medallion__head small,.lakehouse-medallion li small{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.07em;line-height:1.15;text-transform:uppercase}.lakehouse-medallion__head b{color:var(--text);font-size:.78rem;line-height:1.2}.lakehouse-medallion ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.58rem;margin:0;padding:0;list-style:none}.lakehouse-medallion li{position:relative;display:grid;grid-template-columns:1.55rem minmax(0,1fr);align-content:start;gap:.36rem;min-width:0;padding:.6rem;border:1px solid rgba(255,255,255,.1);border-radius:9px;background:rgba(4,12,14,.25)}.lakehouse-medallion li:not(:last-child)::after{content:"→";position:absolute;z-index:2;top:50%;right:-.3rem;translate:50% -50%;color:var(--accent);font-size:.7rem;font-weight:800}.lakehouse-medallion li>span{display:grid;place-items:center;width:1.5rem;height:1.5rem;color:var(--accent)}.lakehouse-medallion li>span svg{display:block;width:100%;height:100%}.lakehouse-medallion li>div{display:grid;gap:.16rem;min-width:0}.lakehouse-medallion li b{color:var(--text);font-size:.7rem;line-height:1.15}.lakehouse-medallion li em{color:var(--text-dim);font-size:.7rem;font-style:normal;line-height:1.28}.lakehouse-medallion__layer--accent{border-color:rgba(198,223,0,.3)!important;background:rgba(198,223,0,.055)!important}.lakehouse-medallion--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.64rem;width:.64rem;border-top:1px solid rgba(198,223,0,.6)}.lakehouse-medallion--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.64rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-.lakehouse-environments,.lakehouse-controls{padding:.8rem .9rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.018)}.lakehouse-environments{margin-bottom:.75rem;border-style:dashed;border-color:rgba(198,223,0,.4);background:linear-gradient(90deg,rgba(198,223,0,.08),rgba(198,223,0,.025))}.lakehouse-environments>p,.lakehouse-controls>p{margin:0 0 .58rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.lakehouse-environments ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}.lakehouse-environments li{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:.55rem;min-width:0}.lakehouse-environments li>div{display:grid;grid-template-columns:minmax(7.7rem,max-content) minmax(0,1fr);align-items:baseline;gap:.65rem;min-width:0}.lakehouse-environments b{color:var(--text);font-size:.7rem;white-space:nowrap}.lakehouse-environments span{color:var(--text-muted);font-size:.7rem;line-height:1.35}.lakehouse-environment__product-icon{display:block;width:2rem;height:1.55rem;object-fit:contain}
-.lakehouse-controls ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}.lakehouse-controls li{display:grid;grid-template-columns:1.25rem minmax(0,1fr);align-items:start;gap:.42rem;min-width:0}.lakehouse-controls li>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--accent)}.lakehouse-controls li>span svg{display:block;width:100%;height:100%}.lakehouse-controls b,.lakehouse-controls small{display:block}.lakehouse-controls b{margin-bottom:.14rem;color:var(--text);font-size:.7rem;letter-spacing:.045em;text-transform:uppercase}.lakehouse-controls small{color:var(--text-dim);font-size:.7rem;line-height:1.32}
-/* Jornada financeira: os blocos representam limites de responsabilidade, não
-   estados de uma tela. A seta termina no acompanhamento porque o app não
-   executa a liquidação no ERP. */
-.architecture-diagram--financial{padding:clamp(1.25rem,2.2vw,2rem);background:linear-gradient(145deg,#102427 0%,#081416 58%,#061012 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 40px rgba(0,0,0,.22)}
-.architecture-diagram--financial .diagram-header{padding-bottom:1rem}.architecture-diagram--financial .diagram-header b{font-size:.7rem}
-.financial-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .75rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.financial-intro span:last-child{color:var(--accent)}
-.financial-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.72rem;padding:.25rem 0 1rem}
-.financial-node{position:relative;display:grid;align-content:start;gap:.48rem;min-width:0;min-height:9.5rem;padding:.9rem .72rem;border:1px solid var(--border);border-radius:12px;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));transition:transform .18s ease,border-color .18s ease,background .18s ease}.financial-node:hover{transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018))}.financial-node--emphasis{border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}
-.financial-node__head{display:flex;align-items:center;gap:.4rem;min-width:0}.financial-node__icon{display:grid;flex:0 0 auto;place-items:center;width:1.7rem;height:1.7rem;padding:.32rem;color:var(--accent);border:1px solid var(--border-lime);border-radius:8px;background:rgba(198,223,0,.055)}.financial-node__icon svg,.financial-product-icon,.financial-sap-icon{display:block;width:100%;height:100%;object-fit:contain}.financial-sap-icon{background:var(--accent);mask:url("/assets/icons/vendor/sap/accounting-document-verification.svg") center/contain no-repeat}.financial-node__kind{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.075em;line-height:1.15;text-transform:uppercase}.financial-node>b{color:var(--text);font-size:.75rem;line-height:1.22}.financial-node>span{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.financial-node--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.64rem;width:.64rem;border-top:1px solid rgba(198,223,0,.6)}.financial-node--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.64rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-.financial-controls{padding:.8rem .9rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.018)}.financial-controls>p{margin:0 0 .58rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.financial-controls ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}.financial-controls li{display:grid;grid-template-columns:1.25rem minmax(0,1fr);align-items:start;gap:.42rem;min-width:0}.financial-controls li>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--accent)}.financial-controls li>span svg{display:block;width:100%;height:100%}.financial-controls b,.financial-controls small{display:block}.financial-controls b{margin-bottom:.14rem;color:var(--text);font-size:.7rem;letter-spacing:.045em;text-transform:uppercase}.financial-controls small{color:var(--text-dim);font-size:.7rem;line-height:1.32}
-/* RPA-XP: fluxo de renovação de token por conta. A arquitetura nomeia apenas
-   fronteiras genéricas, preservando o anonimato de portal, contas e serviço. */
-.architecture-diagram--rpa{padding:clamp(1.25rem,2.2vw,2rem);background:linear-gradient(145deg,#102427 0%,#081416 58%,#061012 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 40px rgba(0,0,0,.22)}
-.architecture-diagram--rpa .diagram-header{padding-bottom:1rem}.architecture-diagram--rpa .diagram-header b{font-size:.7rem}
-.rpa-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .75rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.rpa-intro span:last-child{color:var(--accent)}
-.rpa-track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.72rem;padding:.25rem 0 1rem}
-.rpa-node{position:relative;display:grid;align-content:start;gap:.48rem;min-width:0;min-height:9.5rem;padding:.9rem .72rem;border:1px solid var(--border);border-radius:12px;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));transition:transform .18s ease,border-color .18s ease,background .18s ease}.rpa-node:hover{transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018))}.rpa-node--emphasis{border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}
-.rpa-node__head{display:flex;align-items:center;gap:.4rem;min-width:0}.rpa-node__icon{display:grid;flex:0 0 auto;place-items:center;width:1.7rem;height:1.7rem;padding:.32rem;color:var(--accent);border:1px solid var(--border-lime);border-radius:8px;background:rgba(198,223,0,.055)}.rpa-node__icon svg,.rpa-product-icon{display:block;width:100%;height:100%;object-fit:contain}.rpa-node__kind{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.075em;line-height:1.15;text-transform:uppercase}.rpa-node>b{color:var(--text);font-size:.75rem;line-height:1.22}.rpa-node>span{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.rpa-node--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.64rem;width:.64rem;border-top:1px solid rgba(198,223,0,.6)}.rpa-node--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.64rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-.rpa-controls{padding:.8rem .9rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.018)}.rpa-controls>p{margin:0 0 .58rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.rpa-controls ul{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin:0;padding:0;list-style:none}.rpa-controls li{display:grid;grid-template-columns:1.25rem minmax(0,1fr);align-items:start;gap:.42rem;min-width:0}.rpa-controls li>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--accent)}.rpa-controls li>span svg{display:block;width:100%;height:100%}.rpa-controls b,.rpa-controls small{display:block}.rpa-controls b{margin-bottom:.14rem;color:var(--text);font-size:.7rem;letter-spacing:.045em;text-transform:uppercase}.rpa-controls small{color:var(--text-dim);font-size:.7rem;line-height:1.32}
-/* RPA-XP: visão de uma conta para deixar explícita a alternância entre HTTP
-   e navegador. Não há marca, domínio, conta, segredo ou seletor do portal. */
-.architecture-diagram--rpa-detailed{padding:clamp(1.25rem,2.2vw,2rem);background:linear-gradient(145deg,#102427 0%,#081416 58%,#061012 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 40px rgba(0,0,0,.22)}.architecture-diagram--rpa-detailed .diagram-header{padding-bottom:1rem}.architecture-diagram--rpa-detailed .diagram-header b{font-size:.74rem}.rpa-detailed-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .8rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.rpa-detailed-intro span:last-child{color:var(--accent)}
-.rpa-detailed-zones{display:grid;grid-template-columns:1fr 1.16fr 1fr;gap:.75rem;padding:.3rem 0 .85rem}.rpa-detailed-zone,.rpa-detailed-robot{min-width:0;border:1px solid var(--border);border-radius:12px;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}.rpa-detailed-zone{padding:.8rem}.rpa-detailed-zone header,.rpa-detailed-robot header{display:grid;grid-template-columns:1.65rem minmax(0,1fr);align-items:center;gap:.48rem;padding-bottom:.62rem;border-bottom:1px solid rgba(255,255,255,.08)}.rpa-detailed-zone header>span,.rpa-detailed-robot header>span{display:grid;place-items:center;width:1.55rem;height:1.55rem;color:var(--accent)}.rpa-detailed-zone header>span svg,.rpa-detailed-robot header>span svg{display:block;width:100%;height:100%}.rpa-product-icon{display:block;width:1.55rem;height:1.55rem;object-fit:contain}.rpa-detailed-zone header div,.rpa-detailed-robot header div{display:grid;gap:.12rem}.rpa-detailed-zone header small,.rpa-detailed-robot header small{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.rpa-detailed-zone header b,.rpa-detailed-robot header b{color:var(--text);font-size:.76rem;line-height:1.18}.rpa-detailed-zone ul{display:grid;gap:.42rem;margin:.65rem 0 0;padding:0;list-style:none}.rpa-detailed-zone li{display:grid;grid-template-columns:1.15rem minmax(0,1fr);gap:.38rem;align-items:start;min-width:0;padding:.45rem;border:1px solid rgba(255,255,255,.08);border-radius:8px;background:rgba(0,0,0,.12)}.rpa-detailed-zone li>span{display:grid;place-items:center;width:1.05rem;height:1.05rem;color:var(--accent)}.rpa-detailed-zone li>span svg{display:block;width:100%;height:100%}.rpa-detailed-zone li div{display:grid;gap:.1rem}.rpa-detailed-zone li b{color:var(--text);font-size:.7rem;line-height:1.18}.rpa-detailed-zone li small{color:var(--text-dim);font-size:.7rem;line-height:1.26}.rpa-detailed-zone--servico{border-color:rgba(198,223,0,.25)}
-.rpa-detailed-robot{padding:.85rem;border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}.rpa-detailed-robot ol{display:grid;gap:.31rem;margin:.7rem 0;padding:0;list-style:none;counter-reset:subflow}.rpa-detailed-robot li{counter-increment:subflow;color:var(--text);font-size:.7rem;line-height:1.2}.rpa-detailed-robot li::before{content:counter(subflow,decimal-leading-zero);display:inline-block;width:1.6rem;margin-right:.42rem;color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.06em}.rpa-detailed-robot p{margin:0;padding:.48rem .55rem;border-left:2px solid var(--accent);color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.rpa-detailed-calls{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.7rem}.rpa-detailed-calls>div{padding:.72rem .78rem;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.018)}.rpa-detailed-calls p{display:flex;align-items:center;gap:.38rem;margin:0 0 .5rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.075em;text-transform:uppercase}.rpa-detailed-calls p i{display:block;width:1.2rem;border-top:1px solid currentColor}.rpa-detailed-calls>div:last-child p i{border-top-style:dashed}.rpa-detailed-calls ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.42rem;margin:0;padding:0;list-style:none}.rpa-call{display:grid;grid-template-columns:1.3rem minmax(0,1fr);align-items:start;gap:.38rem;min-width:0}.rpa-call>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--text);border:1px solid var(--border-strong);border-radius:50%;font-size:.7rem;font-weight:800}.rpa-call div{display:grid;gap:.1rem}.rpa-call b{color:var(--text);font-size:.7rem;line-height:1.18}.rpa-call small{color:var(--text-dim);font-size:.7rem;line-height:1.25}.rpa-call--accent>span{color:#0a1112;border-color:var(--accent);background:var(--accent)}.rpa-call--accent b{color:var(--accent)}
-.rpa-detailed-legend{display:flex;flex-wrap:wrap;gap:.7rem;padding:.48rem .7rem;margin-bottom:.7rem;border:1px dashed rgba(198,223,0,.35);border-radius:8px;color:var(--text-dim);font-size:.7rem}.rpa-detailed-legend span{display:flex;align-items:center;gap:.3rem}.rpa-detailed-legend i{display:block;width:1.2rem;border-top:1px solid var(--text-dim)}.rpa-detailed-legend span:nth-child(2) i{border-top-style:dashed}.rpa-detailed-legend span:last-child{color:var(--accent)}
-.rpa-detailed-restrictions,.rpa-detailed-clocks{padding:.75rem .8rem;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,.018)}.rpa-detailed-restrictions{margin-bottom:.7rem;border-color:rgba(198,223,0,.3);background:linear-gradient(90deg,rgba(198,223,0,.08),rgba(198,223,0,.025))}.rpa-detailed-restrictions>p,.rpa-detailed-clocks>p{margin:0 0 .55rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.075em;text-transform:uppercase}.rpa-detailed-restrictions code{color:var(--accent);font:inherit}.rpa-detailed-restrictions ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin:0;padding:0;list-style:none}.rpa-detailed-restrictions li{display:grid;grid-template-columns:1.2rem minmax(0,1fr);gap:.4rem;align-items:start;min-width:0}.rpa-detailed-restrictions li>span{display:grid;place-items:center;width:1.1rem;height:1.1rem;color:var(--accent)}.rpa-detailed-restrictions li>span svg{display:block;width:100%;height:100%}.rpa-detailed-restrictions li div{display:grid;gap:.1rem}.rpa-detailed-restrictions li b{color:var(--text);font-size:.7rem;line-height:1.2}.rpa-detailed-restrictions li small{color:var(--text-dim);font-size:.7rem;line-height:1.25}.rpa-detailed-clocks ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;margin:0;padding:0;list-style:none}.rpa-detailed-clocks li{display:grid;gap:.13rem;min-width:0}.rpa-detailed-clocks li b{color:var(--text-dim);font-size:.7rem;line-height:1.22}.rpa-detailed-clocks li span{color:var(--accent);font-size:.7rem;font-weight:700}.architecture-diagram--rpa-detailed figcaption{margin-top:.7rem;color:var(--text-muted);font-size:.7rem;line-height:1.4}
-/* Operação assíncrona: a fila mantém estado; o orquestrador forma um plano
-   de controle sobre fila e worker, em vez de ser uma etapa linear comum. */
-.architecture-diagram--async{padding:clamp(1.25rem,2.2vw,2rem)}
-.async-intro{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0 .7rem;color:var(--text-dim);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.async-intro span:last-child{color:var(--accent)}
-.async-layout{display:grid;grid-template-columns:.8fr 1.25fr 1fr 1fr;column-gap:.8rem;row-gap:.8rem;padding:.2rem 0 .25rem}
-.async-job-node{position:relative;display:grid;align-content:start;gap:.45rem;min-width:0;min-height:7.65rem;padding:.9rem .8rem;border:1px solid var(--border);border-radius:12px;background:linear-gradient(155deg,rgba(255,255,255,.045),rgba(255,255,255,.012));transition:transform .18s ease,border-color .18s ease,background .18s ease}.async-job-node:hover{transform:translateY(-2px);border-color:var(--border-strong);background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.018))}
-.async-job-node--entrada{grid-column:1;grid-row:2}.async-job-node--fila{grid-column:2;grid-row:2}.async-job-node--worker{grid-column:3;grid-row:2}.async-job-node--monitoramento{grid-column:4;grid-row:2}
-.async-job-node--emphasis{border-color:var(--border-lime);background:linear-gradient(145deg,rgba(198,223,0,.11),rgba(255,255,255,.018))}
-.async-job-node__head{display:flex;align-items:center;gap:.45rem;min-width:0}.async-job-node__icon{display:grid;flex:0 0 auto;place-items:center;width:1.75rem;height:1.75rem;padding:.32rem;color:var(--accent);border:1px solid var(--border-lime);border-radius:8px;background:rgba(198,223,0,.055)}.async-job-node__icon svg,.async-product-icon{display:block;width:100%;height:100%;object-fit:contain}
-.async-job-node__kind{color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.async-job-node>b{color:var(--text);font-size:.8rem;line-height:1.2}.async-job-node>span{color:var(--text-dim);font-size:.7rem;line-height:1.35}
-.async-job-node--connected::after{content:"";position:absolute;z-index:2;top:50%;right:-.82rem;width:.82rem;border-top:1px solid rgba(198,223,0,.6)}.async-job-node--connected::before{content:"";position:absolute;z-index:3;top:calc(50% - 3px);right:-.82rem;width:6px;height:6px;border-top:1px solid var(--accent);border-right:1px solid var(--accent);rotate:45deg}
-.async-control-plane{display:grid;grid-column:2/4;grid-row:1;grid-template-columns:2.35rem minmax(0,1fr);align-items:center;gap:.7rem;min-width:0;padding:.75rem 1rem;border:1px dashed rgba(198,223,0,.44);border-radius:12px;background:linear-gradient(90deg,rgba(198,223,0,.1),rgba(198,223,0,.025))}.async-control-plane__icon{display:grid;place-items:center;width:2.1rem;height:2.1rem}.async-control-plane__icon .async-product-icon{width:100%;height:100%}.async-control-plane>div{display:grid;gap:.12rem;min-width:0}.async-control-plane span{color:var(--accent);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.async-control-plane b{color:var(--text);font-size:.8rem;line-height:1.2}.async-control-plane small{color:var(--text-muted);font-size:.7rem;line-height:1.35}
-.async-guardrails{grid-column:1/-1;grid-row:3;padding:.75rem .8rem;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.018)}.async-guardrails>p{margin:0 0 .55rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.async-guardrails ul{display:grid;grid-template-columns:.8fr 1.25fr 1fr 1fr;gap:.8rem;margin:0;padding:0;list-style:none}.async-guardrail{display:grid;grid-template-columns:1.25rem minmax(0,1fr);align-items:start;gap:.42rem;min-width:0}.async-guardrail--fila{grid-column:2}.async-guardrail--controle{grid-column:3}.async-guardrail--monitoramento{grid-column:4}.async-guardrail>span{display:grid;place-items:center;width:1.2rem;height:1.2rem;color:var(--accent)}.async-guardrail>span svg{display:block;width:100%;height:100%}.async-guardrail b,.async-guardrail small{display:block}.async-guardrail b{margin-bottom:.14rem;color:var(--text);font-size:.7rem;letter-spacing:.045em;text-transform:uppercase}.async-guardrail small{color:var(--text-dim);font-size:.7rem;line-height:1.3}
-@media(max-width:900px){
-  .dataflow-track{grid-template-columns:1fr;gap:.6rem;padding-bottom:1rem}
-  .dataflow-node{min-height:0;grid-template-columns:auto minmax(8rem,1fr) minmax(0,1fr);align-items:center;gap:.75rem;padding:.75rem 1rem}
-  .dataflow-node__head{gap:.55rem}.dataflow-node>b{font-size:.86rem}.dataflow-node>span{font-size:.7rem}.dataflow-node>i{position:static;justify-self:end}
-  .dataflow-node--connected::after{top:auto;right:auto;bottom:-.6rem;left:50%;width:0;height:.6rem;border-top:0;border-left:1px solid rgba(198,223,0,.6)}
-  .dataflow-node--connected::before{top:auto;right:auto;bottom:-.6rem;left:calc(50% - 3px);border-top:0;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);rotate:45deg}
-  .dataflow-dbt{display:grid;grid-template-columns:auto minmax(8rem,1fr);align-items:center;gap:.75rem;padding:.75rem 1rem}.dataflow-dbt__stages{grid-column:2}.dataflow-dbt__head{align-self:start}
-  .dataflow-foundation ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-  .lakehouse-track{grid-template-columns:1fr;gap:.6rem;padding-bottom:1rem}.lakehouse-node{grid-template-columns:auto minmax(8rem,1fr) minmax(0,1fr);align-items:center;gap:.75rem;min-height:0;padding:.75rem 1rem}.lakehouse-node>b{font-size:.86rem}.lakehouse-node>span{font-size:.7rem}.lakehouse-node--connected::after,.lakehouse-medallion--connected::after{top:auto;right:auto;bottom:-.6rem;left:50%;width:0;height:.6rem;border-top:0;border-left:1px solid rgba(198,223,0,.6)}.lakehouse-node--connected::before,.lakehouse-medallion--connected::before{top:auto;right:auto;bottom:-.6rem;left:calc(50% - 3px);border-top:0;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);rotate:45deg}.lakehouse-medallion{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);min-height:0}.lakehouse-medallion ol{grid-template-columns:1fr;gap:.45rem}.lakehouse-medallion li:not(:last-child)::after{content:"↓";top:auto;right:auto;bottom:-.25rem;left:50%;translate:-50% 50%}.lakehouse-controls ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-  .financial-track{grid-template-columns:1fr;gap:.6rem;padding-bottom:1rem}.financial-node{grid-template-columns:auto minmax(8rem,1fr) minmax(0,1fr);align-items:center;gap:.75rem;min-height:0;padding:.75rem 1rem}.financial-node>b{font-size:.86rem}.financial-node>span{font-size:.7rem}.financial-node--connected::after{top:auto;right:auto;bottom:-.6rem;left:50%;width:0;height:.6rem;border-top:0;border-left:1px solid rgba(198,223,0,.6)}.financial-node--connected::before{top:auto;right:auto;bottom:-.6rem;left:calc(50% - 3px);border-top:0;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);rotate:45deg}.financial-controls ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-  .rpa-track{grid-template-columns:1fr;gap:.6rem;padding-bottom:1rem}.rpa-node{grid-template-columns:auto minmax(8rem,1fr) minmax(0,1fr);align-items:center;gap:.75rem;min-height:0;padding:.75rem 1rem}.rpa-node>b{font-size:.86rem}.rpa-node>span{font-size:.7rem}.rpa-node--connected::after{top:auto;right:auto;bottom:-.6rem;left:50%;width:0;height:.6rem;border-top:0;border-left:1px solid rgba(198,223,0,.6)}.rpa-node--connected::before{top:auto;right:auto;bottom:-.6rem;left:calc(50% - 3px);border-top:0;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);rotate:45deg}.rpa-controls ul{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
-  .rpa-detailed-zones{grid-template-columns:1fr;gap:.6rem}.rpa-detailed-calls{grid-template-columns:1fr}.rpa-detailed-restrictions ul,.rpa-detailed-clocks ul{grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
-  .async-layout{grid-template-columns:1fr;gap:.6rem;padding-bottom:1rem}.async-job-node--entrada,.async-job-node--fila,.async-control-plane,.async-job-node--worker,.async-job-node--monitoramento,.async-guardrails{grid-column:1;grid-row:auto}.async-job-node{grid-template-columns:auto minmax(8rem,1fr) minmax(0,1fr);align-items:center;gap:.75rem;min-height:0;padding:.75rem 1rem}.async-job-node>b{font-size:.86rem}.async-job-node>span{font-size:.7rem}.async-job-node--connected::after{top:auto;right:auto;bottom:-.6rem;left:50%;width:0;height:.6rem;border-top:0;border-left:1px solid rgba(198,223,0,.6)}.async-job-node--connected::before{top:auto;right:auto;bottom:-.6rem;left:calc(50% - 3px);border-top:0;border-right:1px solid var(--accent);border-bottom:1px solid var(--accent);rotate:45deg}.async-control-plane{grid-template-columns:2.35rem minmax(0,1fr)}.async-guardrails ul{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}.async-guardrail--fila,.async-guardrail--controle,.async-guardrail--monitoramento{grid-column:auto}
+/* Pesos de largura (depois de zona e nó, que declaram flex: 1): uma zona ou nó ocupa tantas partes quantas etapas tem */
+.diagram-w2{flex-grow:2}
+.diagram-w3{flex-grow:3}
+.diagram-w4{flex-grow:4}
+.diagram-w5{flex-grow:5}
+.diagram-w6{flex-grow:6}
+.diagram-w7{flex-grow:7}
+.diagram-w8{flex-grow:8}
+.diagram-w9{flex-grow:9}
+.diagram-w10{flex-grow:10}
+.diagram-w11{flex-grow:11}
+.diagram-w12{flex-grow:12}
+
+/* Ícone de conceito (Fluent): máscara, herda a cor da zona */
+.diagram-icon{background:currentColor;mask:var(--dg-icone) no-repeat center/contain;-webkit-mask:var(--dg-icone) no-repeat center/contain}
+.diagram-icon--archive{--dg-icone:url("/assets/icons/neutral/fluent/archive.svg")}
+.diagram-icon--arrow-clockwise{--dg-icone:url("/assets/icons/neutral/fluent/arrow-clockwise.svg")}
+.diagram-icon--arrow-sync{--dg-icone:url("/assets/icons/neutral/fluent/arrow-sync.svg")}
+.diagram-icon--arrow-sync-checkmark{--dg-icone:url("/assets/icons/neutral/fluent/arrow-sync-checkmark.svg")}
+.diagram-icon--beaker{--dg-icone:url("/assets/icons/neutral/fluent/beaker.svg")}
+.diagram-icon--branch{--dg-icone:url("/assets/icons/neutral/fluent/branch.svg")}
+.diagram-icon--chart-multiple{--dg-icone:url("/assets/icons/neutral/fluent/chart-multiple.svg")}
+.diagram-icon--clock{--dg-icone:url("/assets/icons/neutral/fluent/clock.svg")}
+.diagram-icon--cloud{--dg-icone:url("/assets/icons/neutral/fluent/cloud.svg")}
+.diagram-icon--cube{--dg-icone:url("/assets/icons/neutral/fluent/cube.svg")}
+.diagram-icon--cursor-click{--dg-icone:url("/assets/icons/neutral/fluent/cursor-click.svg")}
+.diagram-icon--database{--dg-icone:url("/assets/icons/neutral/fluent/database.svg")}
+.diagram-icon--database-arrow-right{--dg-icone:url("/assets/icons/neutral/fluent/database-arrow-right.svg")}
+.diagram-icon--database-checkmark{--dg-icone:url("/assets/icons/neutral/fluent/database-checkmark.svg")}
+.diagram-icon--database-multiple{--dg-icone:url("/assets/icons/neutral/fluent/database-multiple.svg")}
+.diagram-icon--database-search{--dg-icone:url("/assets/icons/neutral/fluent/database-search.svg")}
+.diagram-icon--dialpad{--dg-icone:url("/assets/icons/neutral/fluent/dialpad.svg")}
+.diagram-icon--document-lock{--dg-icone:url("/assets/icons/neutral/fluent/document-lock.svg")}
+.diagram-icon--document-text{--dg-icone:url("/assets/icons/neutral/fluent/document-text.svg")}
+.diagram-icon--eye-off{--dg-icone:url("/assets/icons/neutral/fluent/eye-off.svg")}
+.diagram-icon--filter{--dg-icone:url("/assets/icons/neutral/fluent/filter.svg")}
+.diagram-icon--flow{--dg-icone:url("/assets/icons/neutral/fluent/flow.svg")}
+.diagram-icon--folder{--dg-icone:url("/assets/icons/neutral/fluent/folder.svg")}
+.diagram-icon--globe{--dg-icone:url("/assets/icons/neutral/fluent/globe.svg")}
+.diagram-icon--history{--dg-icone:url("/assets/icons/neutral/fluent/history.svg")}
+.diagram-icon--key{--dg-icone:url("/assets/icons/neutral/fluent/key.svg")}
+.diagram-icon--laptop{--dg-icone:url("/assets/icons/neutral/fluent/laptop.svg")}
+.diagram-icon--lock-closed{--dg-icone:url("/assets/icons/neutral/fluent/lock-closed.svg")}
+.diagram-icon--merge{--dg-icone:url("/assets/icons/neutral/fluent/merge.svg")}
+.diagram-icon--password{--dg-icone:url("/assets/icons/neutral/fluent/password.svg")}
+.diagram-icon--plug-connected{--dg-icone:url("/assets/icons/neutral/fluent/plug-connected.svg")}
+.diagram-icon--server{--dg-icone:url("/assets/icons/neutral/fluent/server.svg")}
+.diagram-icon--shield-dismiss{--dg-icone:url("/assets/icons/neutral/fluent/shield-dismiss.svg")}
+.diagram-icon--shield-lock{--dg-icone:url("/assets/icons/neutral/fluent/shield-lock.svg")}
+.diagram-icon--storage{--dg-icone:url("/assets/icons/neutral/fluent/storage.svg")}
+.diagram-icon--table{--dg-icone:url("/assets/icons/neutral/fluent/table.svg")}
+.diagram-icon--table-search{--dg-icone:url("/assets/icons/neutral/fluent/table-search.svg")}
+.diagram-icon--timer{--dg-icone:url("/assets/icons/neutral/fluent/timer.svg")}
+.diagram-icon--window{--dg-icone:url("/assets/icons/neutral/fluent/window.svg")}
+
+/* ---------- Nó de grupo: etapas internas (dbt, medalhão) ---------- */
+.diagram-steps{display:flex;gap:1rem;margin:.25rem 0 0;padding:0;list-style:none}
+/* Rede de segurança: palavra que não couber quebra em vez de vazar da etapa
+   (hífen automático foi descartado: hifenizava "views" com a regra do pt). */
+.diagram-step :is(b,small){overflow-wrap:break-word}
+.diagram-step{position:relative;display:flex;flex:1 1 0;flex-direction:column;gap:.3rem;min-width:0;padding:.55rem .6rem;background:var(--surface-diagram);border:1px solid var(--border);border-radius:9px}
+.diagram-step--accent{background:var(--surface-node-accent);border-color:var(--accent)}
+.diagram-step--accent .diagram-node__mark{color:var(--accent)}
+.diagram-step__head{display:flex;align-items:center;gap:.4rem}
+.diagram-step__head .diagram-node__icon{width:1.9rem;height:1.9rem;padding:.25rem}
+.diagram-step b{color:var(--text);font-size:.75rem;line-height:1.2}
+.diagram-step small{color:var(--text-dim);font-size:.7rem;line-height:1.3}
+.diagram-step:not(:last-child)::after{content:"";position:absolute;top:50%;right:calc(-.5rem - 4px);width:7px;height:7px;border-top:2px solid var(--diagram-link);border-right:2px solid var(--diagram-link);rotate:45deg;translate:0 -50%}
+
+/* ---------- Conexões ----------
+   Linha na direção do dado, com ponta: é o trilho, sempre visível. O <i> é a
+   janela do pulso da animação de entrada; o ::before dele é o dado, um traço
+   na cor da zona que atravessa o vão inteiro. Parado, fica invisível. */
+.diagram-link{position:absolute;z-index:2;top:50%;left:100%;width:calc(var(--dg-gap) + 1px);height:0;margin-left:-1px;border-top:2px solid var(--diagram-link);pointer-events:none}
+.diagram-link::after{content:"";position:absolute;top:-5px;right:1px;width:8px;height:8px;border-top:2px solid var(--diagram-link);border-right:2px solid var(--diagram-link);rotate:45deg}
+.diagram-link i{position:absolute;top:-3px;left:0;width:100%;height:4px;overflow:hidden}
+.diagram-link i::before{content:"";position:absolute;top:0;bottom:0;left:0;width:60%;border-radius:2px;background:var(--dg-cor,var(--text-muted));opacity:0}
+.diagram-link--zone{top:calc(50% + .95rem)}
+.diagram-link--reverse{right:100%;left:auto;margin:0 -1px 0 0}
+.diagram-link--reverse::after{right:auto;left:1px;border:0;border-bottom:2px solid var(--diagram-link);border-left:2px solid var(--diagram-link)}
+.diagram-link--both::before{content:"";position:absolute;top:-5px;left:1px;width:8px;height:8px;border-bottom:2px solid var(--diagram-link);border-left:2px solid var(--diagram-link);rotate:45deg}
+.diagram-link--dashed{border-top-style:dashed}
+
+/* Seta para baixo entre dois nós de uma zona empilhada (Redshift → Power BI):
+   vertical em qualquer largura. O nó de origem ganha margem para o vão da
+   seta ter o mesmo tamanho das outras conexões. */
+.diagram-zone--stack .diagram-node--flows-down{margin-bottom:calc(var(--dg-gap) - .5rem)}
+.diagram-zone--stack .diagram-node>.diagram-link--down{top:100%;right:auto;left:50%;width:0;height:calc(var(--dg-gap) + 1px);margin:-1px 0 0 -1px;border-top:0;border-left:2px solid var(--diagram-link)}
+.diagram-zone--stack .diagram-node>.diagram-link--down::after{top:auto;right:auto;bottom:1px;left:-5px;border:0;border-right:2px solid var(--diagram-link);border-bottom:2px solid var(--diagram-link)}
+.diagram-zone--stack .diagram-node>.diagram-link--down i{top:0;left:-3px;width:4px;height:100%}
+.diagram-zone--stack .diagram-node>.diagram-link--down i::before{right:0;bottom:auto;width:auto;height:60%}
+/* Pontilhado da governança dentro da zona, da base dos nós até o fim da
+   trilha. Só existe na trilha alinhada pelo topo, no desktop. */
+.diagram-zone__tie{display:none}
+
+/* ---------- Plano de controle (pontilhado: não transporta dado) ---------- */
+.diagram-control{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.5rem .9rem;padding:.75rem .9rem;background:var(--surface-node);border:1px dotted var(--diagram-link);border-radius:12px}
+.diagram-control__label{display:block;margin-bottom:.15rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.diagram-control b{display:block;color:var(--text);font-size:.8rem;line-height:1.35}
+.diagram-control--planned{border-style:dashed}
+.diagram-control .diagram-tag{margin-top:.35rem}
+.diagram-control small{max-width:17rem;color:var(--text-muted);font-size:.72rem;line-height:1.35;text-align:right}
+
+/* ---------- Retorno (sentido contrário ao da trilha) ---------- */
+.diagram-return{--dg-cor:var(--serie-5);display:grid;gap:.6rem}
+.diagram-return__nodes{display:flex;flex-direction:row-reverse;gap:var(--dg-gap)}
+
+/* ---------- Faixas: governança, ambientes, restrições, janelas ---------- */
+.diagram-band{display:grid;gap:.75rem;min-width:0;padding:.85rem .95rem;background:var(--surface-node);border:1px solid var(--border-strong);border-radius:12px}
+.diagram-band--dashed{border-style:dashed}
+.diagram-band--dotted{border-style:dotted;border-color:var(--diagram-link)}
+.diagram-band__items{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:.75rem 1rem;margin:0;padding:0;list-style:none}
+.diagram-band__items li,.diagram-node__list li{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:.55rem;min-width:0}
+.diagram-band__items .diagram-node__icon,.diagram-node__list .diagram-node__icon{width:2.1rem;height:2.1rem;padding:.25rem}
+.diagram-band__items b,.diagram-node__list b{display:block;margin-bottom:.12rem;color:var(--text);font-size:.72rem;line-height:1.25}
+.diagram-band__items b{letter-spacing:.04em;text-transform:uppercase}
+.diagram-band__items small,.diagram-node__list small{display:block;color:var(--text-dim);font-size:.72rem;line-height:1.35}
+/* Pontilhados: da governança até o bloco de cima (trilha ou retorno) e do
+   plano de controle até as zonas que ele orquestra. Ligam sem ser seta,
+   porque nenhum dos dois transporta dado. Mesmos pesos da trilha, então cada
+   traço cai no centro da sua zona; a altura cobre o gap da figura. */
+.diagram-ties{display:flex;gap:var(--dg-gap);height:0}
+:where(.diagram-ties) i{position:relative;flex:1 1 0}
+.diagram-ties i::before{content:"";position:absolute;top:calc(-1 * var(--dg-vao));left:50%;height:calc(2 * var(--dg-vao));border-left:2px dotted var(--serie-2)}
+.diagram-ties--controle i::before{border-left-color:var(--diagram-link)}
+.diagram-ties .diagram-ties__vazio::before{content:none}
+
+/* ---------- RPA: listas internas, subfluxos e chamadas ---------- */
+.diagram-node__list{display:grid;gap:.5rem;margin:.35rem 0 0;padding:.6rem 0 0;list-style:none;border-top:1px solid var(--border)}
+p.diagram-node__subtitle{padding-top:.35rem;color:var(--text-dim);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.diagram-node__subflows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem .8rem;margin:0;padding:0;list-style:none;counter-reset:subfluxo}
+.diagram-node__subflows li{counter-increment:subfluxo;color:var(--text);font-size:.72rem;line-height:1.25}
+.diagram-node__subflows li::before{content:counter(subfluxo,decimal-leading-zero);margin-right:.4rem;color:var(--text-dim);font-size:.7rem;font-weight:800}
+p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);color:var(--text-muted);font-size:.72rem;line-height:1.35}
+.diagram-track--rpa .diagram-node__list{border-top-color:var(--border)}
+/* As chamadas são executadas pelo robô: acendem na cor dele (processamento). */
+.diagram-calls{--dg-cor:var(--serie-3);display:grid;grid-template-columns:1fr 1fr;gap:var(--dg-gap)}
+.diagram-calls__lane{display:grid;align-content:start;gap:.6rem;min-width:0;padding:.8rem;background:var(--surface-node);border:1px solid var(--border-strong);border-radius:12px}
+.diagram-calls__lane--browser{border-style:dashed}
+.diagram-calls__lane .diagram-zone__title::before{height:0;border-top:2px solid var(--diagram-link);background:none}
+.diagram-calls__lane--browser .diagram-zone__title::before{border-top-style:dashed}
+.diagram-calls ol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:0;padding:0;list-style:none}
+.diagram-call{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:.45rem;min-width:0;padding:.4rem;border:1px solid transparent;border-radius:8px}
+.diagram-call__num{display:grid;place-items:center;width:1.5rem;height:1.5rem;border:1px solid var(--border-strong);border-radius:50%;color:var(--text);font-size:.7rem;font-weight:800}
+.diagram-call b{display:block;color:var(--text);font-size:.72rem;line-height:1.2}
+.diagram-call small{display:block;color:var(--text-dim);font-size:.7rem;line-height:1.3}
+.diagram-call--accent{background:var(--surface-node-accent);border-color:var(--accent)}
+.diagram-call--accent .diagram-call__num{color:var(--bg);background:var(--accent);border-color:var(--accent)}
+.diagram-call--accent b{color:var(--accent)}
+
+/* ---------- Desktop largo: trilha em linha ----------
+   Vão maior entre blocos para o pulso andar de verdade pela conexão (com
+   1rem ele percorria ~10px).
+   Trilha com zona empilhada (--topo): os nós simples ficam do tamanho do
+   conteúdo em vez de esticar até a altura da coluna empilhada, o que dava
+   caixas quase vazias. Como as alturas passam a variar, a seta sai da linha
+   dos ícones (padding do nó + meia caixa do ícone), que é a mesma em todos. */
+@media(min-width:1101px){
+  .architecture-diagram{--dg-gap:1.75rem}
+  .diagram-track--topo .diagram-zone:not(.diagram-zone--stack) .diagram-node{align-self:start}
+  .diagram-track--topo .diagram-link{top:calc(.85rem + 1.125rem)}
+  /* Seta que sai da zona empilhada: soma o título da zona e o vão abaixo dele. */
+  .diagram-track--topo .diagram-link--zone{top:calc(.91rem + .6rem + .85rem + 1.125rem)}
+  /* Os nós ficam do tamanho do conteúdo, inclusive nas zonas empilhadas, e o
+     resto da altura da zona é do pontilhado, que emenda no da faixa de
+     governança logo abaixo. */
+  .diagram-track--topo .diagram-zone__nodes{flex:0 0 auto}
+  .diagram-track--topo .diagram-zone--stack .diagram-node{flex:0 0 auto}
+  .diagram-track--topo .diagram-zone__tie{position:relative;display:block;flex:1 1 auto;margin-top:-.6rem}
+  .diagram-track--topo .diagram-zone__tie::before{content:"";position:absolute;top:0;bottom:0;left:50%;border-left:2px dotted var(--serie-2)}
 }
+
+/* ---------- Tablet e celular: a trilha empilha na ordem do fluxo ----------
+   Até 1100px (antes 900px): entre 900 e 1100 o grupo do dbt ficava com as
+   etapas espremidas, com o texto encostando na borda. */
+@media(max-width:1100px){
+  .diagram-track,.diagram-zone__nodes,.diagram-return__nodes{flex-direction:column}
+  .diagram-link,.diagram-link--reverse{top:100%;right:auto;left:50%;width:0;height:calc(var(--dg-gap) + 1px);margin:-1px 0 0 -1px;border-top:0;border-left:2px solid var(--diagram-link)}
+  .diagram-link::after,.diagram-link--reverse::after{top:auto;right:auto;bottom:1px;left:-5px;border:0;border-right:2px solid var(--diagram-link);border-bottom:2px solid var(--diagram-link)}
+  .diagram-link--both::before{top:1px;left:-5px;border:0;border-top:2px solid var(--diagram-link);border-left:2px solid var(--diagram-link)}
+  .diagram-link--dashed{border-left-style:dashed}
+  .diagram-link i{top:0;left:-3px;width:4px;height:100%}
+  .diagram-link i::before{right:0;bottom:auto;width:auto;height:60%}
+  .diagram-link--zone{top:100%}
+  .diagram-ties{display:none}
+  .diagram-control{grid-template-columns:auto minmax(0,1fr)}
+  .diagram-control small{grid-column:2;max-width:none;text-align:left}
+  .diagram-calls{grid-template-columns:1fr}
+}
+/* Celular: etapas internas em coluna e tudo mais compacto — os diagramas
+   somavam mais de 3 mil px de altura. O nó põe o ícone à esquerda do bloco
+   rótulo/título/nota (em vez de numa linha própria acima); o rótulo continua
+   acima do título. Pisos mantidos: texto >= 11,2px (corrido a 12,8px) e
+   caixas de ícone >= 28px (marcas de fabricante >= 20px). */
 @media(max-width:560px){
-  .architecture-diagram--dataflow .diagram-header{align-items:flex-start;flex-direction:column;gap:.4rem}.architecture-diagram--dataflow .diagram-header b{font-size:.7rem}
-  .dataflow-intro{align-items:flex-start;flex-direction:column;gap:.35rem}
-  .dataflow-node{grid-template-columns:auto minmax(0,1fr);gap:.55rem}.dataflow-node>span{grid-column:2}.dataflow-node>i{grid-row:1;grid-column:2}
-  .dataflow-dbt{grid-template-columns:1fr;gap:.7rem}.dataflow-dbt__stages{grid-column:1;grid-template-columns:1fr;gap:.9rem}.dataflow-dbt__stages li:not(:last-child)::after{content:"↓";top:auto;right:auto;bottom:-.2rem;left:50%;translate:-50% 50%}
-  .dataflow-control-plane{grid-template-columns:1.7rem minmax(0,1fr);gap:.6rem;padding:.75rem}.dataflow-control-plane small{grid-column:2;max-width:none;text-align:left}
-  .dataflow-foundation ul{grid-template-columns:1fr;gap:.75rem}
-  .architecture-diagram--lakehouse .diagram-header{align-items:flex-start;flex-direction:column;gap:.4rem}.architecture-diagram--lakehouse .diagram-header b{font-size:.7rem}.lakehouse-intro{align-items:flex-start;flex-direction:column;gap:.35rem}.lakehouse-node{grid-template-columns:1fr;gap:.4rem}.lakehouse-node__head,.lakehouse-node>b,.lakehouse-node>span{grid-column:1}.lakehouse-medallion{grid-template-columns:1fr;gap:.65rem}.lakehouse-medallion ol{grid-template-columns:1fr}.lakehouse-environments ul,.lakehouse-controls ul{grid-template-columns:1fr;gap:.75rem}.lakehouse-environments li{grid-template-columns:1fr;gap:.35rem}.lakehouse-environments li>div{grid-template-columns:1fr;gap:.12rem}.lakehouse-environments b{white-space:normal}.lakehouse-environment__product-icon{width:2.35rem}
-  .architecture-diagram--financial .diagram-header{align-items:flex-start;flex-direction:column;gap:.4rem}.architecture-diagram--financial .diagram-header b{font-size:.7rem}.financial-intro{align-items:flex-start;flex-direction:column;gap:.35rem}.financial-node{grid-template-columns:auto minmax(0,1fr);gap:.55rem}.financial-node>span{grid-column:2}.financial-controls ul{grid-template-columns:1fr;gap:.75rem}
-  .architecture-diagram--rpa .diagram-header{align-items:flex-start;flex-direction:column;gap:.4rem}.architecture-diagram--rpa .diagram-header b{font-size:.7rem}.rpa-intro{align-items:flex-start;flex-direction:column;gap:.35rem}.rpa-node{grid-template-columns:auto minmax(0,1fr);gap:.55rem}.rpa-node>span{grid-column:2}.rpa-controls ul{grid-template-columns:1fr;gap:.75rem}
-  .architecture-diagram--rpa-detailed .diagram-header{align-items:flex-start;flex-direction:column;gap:.4rem}.architecture-diagram--rpa-detailed .diagram-header b{font-size:.7rem}.rpa-detailed-intro{align-items:flex-start;flex-direction:column;gap:.35rem}.rpa-detailed-calls ol,.rpa-detailed-restrictions ul,.rpa-detailed-clocks ul{grid-template-columns:1fr}.rpa-detailed-legend{gap:.45rem}.rpa-detailed-zone,.rpa-detailed-robot,.rpa-detailed-calls>div,.rpa-detailed-restrictions,.rpa-detailed-clocks{padding:.68rem}
-  .async-intro{align-items:flex-start;flex-direction:column;gap:.35rem}.async-job-node{grid-template-columns:auto minmax(0,1fr);gap:.55rem}.async-job-node>span{grid-column:2}.async-control-plane{gap:.55rem;padding:.75rem}.async-guardrails ul{grid-template-columns:1fr;gap:.75rem}
+  .architecture-diagram{--dg-vao:.75rem;padding:.85rem .75rem}
+  .diagram-zone{gap:.4rem}
+  .diagram-node{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:start;gap:.2rem .6rem;padding:.6rem .65rem}
+  .diagram-node__head{display:contents}
+  .diagram-node>.diagram-node__head>.diagram-node__icon{grid-row:1/span 3;grid-column:1;width:2rem;height:2rem;padding:.25rem}
+  .diagram-node>.diagram-node__head>.diagram-node__mark{grid-row:1;grid-column:3}
+  .diagram-node>.diagram-node__kind{grid-row:1;grid-column:2;margin-top:0}
+  .diagram-node>.diagram-node__title{grid-row:2;grid-column:2/-1}
+  .diagram-node>.diagram-node__note{grid-row:3;grid-column:2/-1}
+  .diagram-node>:not(.diagram-node__head,.diagram-node__kind,.diagram-node__title,.diagram-node__note,.diagram-link){grid-column:1/-1}
+  .diagram-steps{flex-direction:column;gap:.85rem;margin-top:.35rem}
+  .diagram-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.1rem .55rem;padding:.45rem .55rem}
+  .diagram-step__head{display:contents}
+  .diagram-step__head .diagram-node__icon{grid-row:1/span 3;grid-column:1;width:1.75rem;height:1.75rem;padding:.15rem}
+  .diagram-step__head .diagram-node__mark{grid-row:1;grid-column:2;justify-self:start;margin-left:0}
+  .diagram-step>b{grid-row:2;grid-column:2}
+  .diagram-step>small{grid-row:3;grid-column:2}
+  .diagram-step>.diagram-tag{grid-row:4;grid-column:2}
+  .diagram-node>.diagram-tag{grid-column:2/-1}
+  .diagram-step:not(:last-child)::after{top:auto;right:auto;bottom:calc(-.425rem - 4px);left:50%;border:0;border-right:2px solid var(--diagram-link);border-bottom:2px solid var(--diagram-link);translate:-50% 0}
+  .diagram-calls ol,.diagram-node__subflows{grid-template-columns:1fr}
+  .diagram-calls ol{gap:.2rem}
+  .diagram-call{padding:.3rem}
+  .diagram-calls__lane{gap:.45rem;padding:.65rem}
+  .diagram-band{gap:.55rem;padding:.7rem .75rem}
+  .diagram-band__items{grid-template-columns:1fr;gap:.5rem}
+  .diagram-node__list{gap:.35rem;margin-top:.25rem;padding-top:.45rem}
+  :is(.diagram-band__items,.diagram-node__list) .diagram-node__icon{width:1.75rem;height:1.75rem;padding:.15rem}
+  .diagram-node__subflows{gap:.15rem}
+  p.diagram-node__subtitle{padding-top:.2rem}
+  .diagram-control{gap:.35rem .7rem;padding:.6rem .7rem}
+  .diagram-control__sep{display:none}
+  .diagram-control__label>span:not(.diagram-control__sep){display:block}
+  /* Rótulo ao lado do ícone; o texto do controle ocupa a largura toda abaixo. */
+  .diagram-control>div{display:contents}
+  .diagram-control__label{grid-column:2;align-self:center;margin-bottom:0}
+  .diagram-control>div>:not(.diagram-control__label),.diagram-control>small{grid-column:1/-1}
+  .diagram-control .diagram-tag{margin-top:0}
+  /* Texto corrido sobe para 12.8px quando os diagramas empilham. Piso geral
+     de 11.2px nas regras acima. */
+  .architecture-diagram :is(.diagram-node__note,.diagram-step b,.diagram-step small,.diagram-band__items small,.diagram-node__list b,.diagram-node__list small,.diagram-node__subflows li,.diagram-node__foot,.diagram-call b,.diagram-call small,.diagram-control b,.diagram-control small,.diagram-legend,.diagram-caption){font-size:.8rem;line-height:1.35}
 }
-@media(prefers-reduced-motion:reduce){.dataflow-node,.async-job-node{transition:none}.dataflow-node:hover,.async-job-node:hover{transform:none}}
+
+/* =========================================================
+   ANIMAÇÃO DE ENTRADA
+
+   Conta o fluxo: as etapas acendem na ordem do dado (--dg-seq, 50ms entre
+   elas) com um contorno na cor da própria zona; um traço, também na cor da
+   zona, atravessa cada conexão no sentido da seta; e o destaque do case --
+   o único lime -- é marcado uma vez. Dispara quando o script põe
+   .is-visible na figura (.diagram-anima), depois do fade do cartão. Anima
+   só transform e opacity; nenhum texto depende dela para aparecer.
+   Orçamento: 16 posições (0-15) x 50ms + 450-600ms <= 1,5s. O build falha
+   se um diagrama passar de 16 (SEQ_MAX em scripts/cases.mjs).
+
+   Três estados, todos completos:
+   - com JS e movimento: anima uma vez;
+   - prefers-reduced-motion: reduce: nada aqui se aplica — parado;
+   - sem JS (ou trava js-anima caída): nada aqui se aplica — parado.
+   ========================================================= */
+.diagram-seq-1{--dg-seq:1}
+.diagram-seq-2{--dg-seq:2}
+.diagram-seq-3{--dg-seq:3}
+.diagram-seq-4{--dg-seq:4}
+.diagram-seq-5{--dg-seq:5}
+.diagram-seq-6{--dg-seq:6}
+.diagram-seq-7{--dg-seq:7}
+.diagram-seq-8{--dg-seq:8}
+.diagram-seq-9{--dg-seq:9}
+.diagram-seq-10{--dg-seq:10}
+.diagram-seq-11{--dg-seq:11}
+.diagram-seq-12{--dg-seq:12}
+.diagram-seq-13{--dg-seq:13}
+.diagram-seq-14{--dg-seq:14}
+.diagram-seq-15{--dg-seq:15}
+:is(.diagram-node,.diagram-step,.diagram-call,.diagram-control,.diagram-band)::before{content:"";position:absolute;inset:-1px;z-index:1;border:2px solid var(--dg-cor,var(--diagram-link));border-radius:inherit;opacity:0;pointer-events:none}
+:is(.diagram-control,.diagram-band){position:relative}
+@media(prefers-reduced-motion:no-preference){
+  .js-anima .architecture-diagram.is-visible :is(.diagram-node,.diagram-step,.diagram-call,.diagram-control,.diagram-band){animation:dg-entra .45s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--dg-seq,0) * 50ms)}
+  .js-anima .architecture-diagram.is-visible :is(.diagram-node,.diagram-step,.diagram-call,.diagram-control,.diagram-band)::before{animation:dg-acende .5s ease-out both;animation-delay:calc(var(--dg-seq,0) * 50ms)}
+  .js-anima .architecture-diagram.is-visible :is(.diagram-node--accent,.diagram-step--accent,.diagram-call--accent)::before{inset:-4px;border-color:var(--accent);border-radius:14px;animation:dg-destaque .6s ease-out both;animation-delay:calc(var(--dg-seq,0) * 50ms + 300ms)}
+  .js-anima .architecture-diagram.is-visible .diagram-link i::before{animation:dg-pulso .6s cubic-bezier(.4,0,.6,1) both;animation-delay:calc(var(--dg-seq,0) * 50ms + 200ms)}
+  .js-anima .architecture-diagram.is-visible .diagram-link--reverse i::before{animation-name:dg-pulso-volta}
+  .js-anima .architecture-diagram.is-visible .diagram-link--down i::before{animation-name:dg-pulso-desce}
+}
+@media(prefers-reduced-motion:no-preference) and (max-width:1100px){
+  .js-anima .architecture-diagram.is-visible :is(.diagram-link,.diagram-link--reverse) i::before{animation-name:dg-pulso-desce}
+}
+@keyframes dg-entra{from{transform:translateY(8px)}to{transform:none}}
+@keyframes dg-acende{0%{opacity:0}35%{opacity:1}100%{opacity:0}}
+@keyframes dg-destaque{0%{opacity:0;transform:scale(.98)}40%{opacity:1;transform:scale(1.01)}100%{opacity:0;transform:scale(1.03)}}
+/* O traço (60% do vão) sai inteiro de trás da origem e some inteiro além da
+   ponta: de -100% a +170% da própria largura, cobre o vão de ponta a ponta. */
+@keyframes dg-pulso{from{opacity:1;transform:translateX(-100%)}to{opacity:1;transform:translateX(170%)}}
+@keyframes dg-pulso-volta{from{opacity:1;transform:translateX(170%)}to{opacity:1;transform:translateX(-100%)}}
+@keyframes dg-pulso-desce{from{opacity:1;transform:translateY(-100%)}to{opacity:1;transform:translateY(170%)}}
+
 @media(min-width:980px){
   .case-card{grid-template-columns:minmax(0,.84fr) minmax(430px,1.16fr);align-items:center}
   .case-card--feature{grid-template-columns:1fr;align-items:stretch}
-  .case-card--feature .diagram-flow:not(.diagram-flow--pipeline){padding:1.25rem 0 .85rem}
-  .case-card--feature .diagram-flow:not(.diagram-flow--pipeline) .diagram-stage{min-height:7.5rem;padding:.85rem}
-  .case-card--feature .diagram-flow:not(.diagram-flow--pipeline) .diagram-stage__title{font-size:.95rem}
-}
-@media(min-width:1100px){
-  .diagram-flow--pipeline{grid-template-columns:repeat(7,minmax(0,1fr));gap:.7rem;padding:1.5rem 0 .9rem}
-  .diagram-flow--pipeline .diagram-stage{min-height:9.5rem;padding:.8rem}
-  .diagram-flow--pipeline .diagram-stage__title{font-size:.95rem}
-  .diagram-flow--pipeline .diagram-stage:not(:last-child)::after{right:-.38rem}
-}
-@media(max-width:760px){
-  .diagram-flow{grid-template-columns:1fr;gap:.45rem}
-  .diagram-flow .diagram-stage:not(:last-child)::after{content:"↓";right:auto;top:auto;bottom:-.45rem;left:50%;translate:-50% 50%}
-  .diagram-data-layout{grid-template-columns:1fr;gap:.5rem}
-  .diagram-flow--pipeline{grid-template-columns:1fr}
-  .diagram-zone--pipeline{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .diagram-layer{grid-template-columns:1fr;text-align:center}.diagram-layer__icon,.diagram-layer__mark{justify-self:center}
-  .diagram-data-layout .diagram-zone:not(:last-child)::after{content:"↓";right:auto;top:auto;bottom:-.45rem;left:50%;translate:-50% 50%}
-}
-@media(max-width:430px){.diagram-foundation{grid-template-columns:1fr}.diagram-zone--pipeline{grid-template-columns:1fr}}
-
-/* Em telas estreitas os diagramas empilham e sobra largura: o texto
-   secundário sobe para 12.8px. Piso geral de 11.2px nas regras acima. */
-@media(max-width:560px){
-  .architecture-diagram :is(.dataflow-node>span,.dataflow-dbt__stages b,.dataflow-dbt__stages small,.lakehouse-node>span,.lakehouse-medallion li em,.lakehouse-medallion li b,.async-job-node>span,.rpa-detailed-zone li b,.rpa-detailed-zone li small,.rpa-detailed-robot li,.rpa-detailed-robot p,.rpa-call b,.rpa-call small,.rpa-detailed-restrictions li b,.rpa-detailed-restrictions li small,.rpa-detailed-clocks li b,.rpa-detailed-clocks li span,.rpa-detailed-legend,.diagram-stage__meta,.diagram-layer span,.diagram-foundation__item>span:last-child,.dataflow-foundation li small,.lakehouse-controls small,.async-guardrail small,.dataflow-control-plane span,.dataflow-control-plane small,.lakehouse-environments span,figcaption){font-size:.8rem;line-height:1.4}
 }

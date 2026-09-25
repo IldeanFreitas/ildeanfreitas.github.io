@@ -53,11 +53,33 @@
   --glow:0 0 40px rgba(162,183,0,.25);
   --grid-line:rgba(255,255,255,.028);
 
+  /* Diagramas. Cores de série da identidade (validadas para daltonismo sobre
+     fundo escuro) com papel semântico por zona: fonte azul, ingestão e
+     processamento laranja, armazenamento lime, consumo magenta, governança
+     teal. O lime brilhante (--accent) fica reservado ao destaque do case. */
+  --serie-1:#8b9e0f;
+  --serie-2:#009ba0;
+  --serie-3:#cf6e37;
+  --serie-4:#3778d7;
+  --serie-5:#c64998;
+  --surface-diagram:#071214;
+  --surface-node:#0d1c1f;
+  --surface-node-accent:#19281d;
+  --diagram-link:#6f7e7d;
+  /* Sistema de outra equipe: listra diagonal sutil no fundo do nó. Contorno
+     de 1px nas marcas AWS, cujo ladrilho roxo se perde no fundo escuro
+     (o SVG do fornecedor fica intacto; o contorno é do <img>). */
+  --diagram-stripe:rgba(255,255,255,.05);
+  --logo-contorno:rgba(255,255,255,.3);
+
   /* estados */
   --ok:#9ae86b;        --ok-bg:rgba(122,222,80,.10);
   --warn:#ffcf5c;      --warn-bg:rgba(255,207,92,.10);
   --info:#7fd8e8;      --info-bg:rgba(127,216,232,.10);
   --idle:#b9c2c2;      --idle-bg:rgba(255,255,255,.05);
+  /* Laboratório concluído: violeta, fora do verde/âmbar/ciano/cinza dos
+     outros selos e fora do vermelho reservado a status crítico. */
+  --lab:#c8b6ff;       --lab-bg:rgba(200,182,255,.10);
 
   /* espaçamento — grade de 4px
      Os valores vêm do que o site já usava em atributos style espalhados. Ao
@@ -104,6 +126,18 @@
   --glow:0 10px 30px rgba(11,15,16,.10);
   --grid-line:rgba(11,15,16,.035);
 
+  /* Três séries ficam abaixo de 3:1 sobre fundo claro; aqui escurecem até
+     passar, mantendo o matiz. Azul e magenta já passavam. */
+  --serie-1:#6b7a00;
+  --serie-2:#007c80;
+  --serie-3:#a8531f;
+  --surface-diagram:#ffffff;
+  --surface-node:#f5f7f4;
+  --surface-node-accent:#eaefd3;
+  --diagram-link:#7d8a88;
+  --diagram-stripe:rgba(11,15,16,.05);
+  --logo-contorno:transparent;
+
   /* Escurecidos em relacao a versao anterior: os selos de status usam 11px em
      peso 700 sobre um fundo de 10% de alfa, e mediam entre 3.93 e 4.37 contra
      o minimo de 4.5. Texto pequeno nao tem folga. */
@@ -111,4 +145,5 @@
   --warn:#614200;      --warn-bg:rgba(122,83,0,.10);
   --info:#094b59;      --info-bg:rgba(13,95,112,.10);
   --idle:#333f3e;      --idle-bg:rgba(11,15,16,.06);
+  --lab:#4b2a8c;       --lab-bg:rgba(75,42,140,.10);
 }

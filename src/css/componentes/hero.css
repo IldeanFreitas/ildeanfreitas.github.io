@@ -21,7 +21,18 @@
 .hero__grid{display:grid;gap:clamp(2rem,4vw,3.5rem);align-items:start;grid-template-columns:1fr}
 @media (min-width:980px){.hero__grid{grid-template-columns:1.35fr .95fr}}
 .hero__title{max-width:14ch;margin-bottom:.35em}
-.hero__title em{font-style:normal;color:var(--accent)}
+.hero__title em{
+  font-style:normal;color:var(--text);
+  text-decoration:underline;text-decoration-color:var(--accent-solid);
+  text-decoration-thickness:.06em;text-underline-offset:.12em;text-decoration-skip-ink:none
+}
+/* Um acento por vista. O protagonista do hero é o botão principal (lime
+   sólido, herdado de .btn--primary): é a ação da página. O realce do h1 fica
+   sutil -- texto na cor do título, só um sublinhado fino em lime. Etiqueta,
+   marcadores da lista e números da faixa saem do lime para texto e traço
+   neutros. Antes eram seis elementos lime acima da dobra competindo entre si,
+   e nenhum apontava para nada. */
+.hero .eyebrow{color:var(--text-muted);background:var(--surface-soft);border-color:var(--border-strong)}
 .hero__desc{max-width:52ch;color:var(--text-muted);font-size:clamp(1rem,.95rem + .35vw,1.15rem)}
 
 /* Cartão lateral do hero */
@@ -37,7 +48,7 @@
 .panel ul li:last-child{margin-bottom:0}
 .panel ul li::before{
   content:"";position:absolute;left:0;top:.55em;
-  width:.42rem;height:.42rem;border-radius:50%;background:var(--accent-solid)
+  width:.42rem;height:.42rem;border-radius:50%;border:1.5px solid var(--text-dim)
 }
 .panel strong{color:var(--text);font-weight:600}
 
@@ -52,5 +63,5 @@
   border-top:1px solid var(--border);text-align:center
 }
 .stats>div{display:flex;flex-direction:column-reverse}
-.stats dd{margin:0;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em;color:var(--accent)}
+.stats dd{margin:0;font-size:clamp(1.6rem,3vw,2.1rem);font-weight:800;letter-spacing:-.03em;color:var(--text)}
 .stats dt{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:.25rem}
