@@ -82,21 +82,21 @@ h1 em{font-style:normal;color:#c4df00}
 <div class="foot"><span>ildeanfreitas.github.io</span><div class="tags">${tags.map((t) => `<span>${t}</span>`).join('')}</div></div>
 </div></body></html>`;
 
-const TAGS = ['Power Apps', 'Power BI', 'dbt', 'Databricks'];
+const TAGS = ['Databricks', 'dbt', 'Power BI', 'Power Apps'];
 const PT = {
-  eyebrow: 'Power Platform + Engenharia de Dados + IA aplicada',
+  eyebrow: 'Engenharia de Dados + Power Platform + IA aplicada',
   linha1: 'A ponte entre o processo',
   linha2: 'e o',
   destaque: 'dado confiável',
-  sub: 'Analista de desenvolvimento de software sênior. Arquitetura, decisões técnicas e cases com status real.',
+  sub: 'Data & AI Engineer. Arquitetura, decisões técnicas e cases com status real.',
   tags: TAGS
 };
 const EN = {
-  eyebrow: 'Power Platform + Data Engineering + Applied AI',
+  eyebrow: 'Data Engineering + Power Platform + Applied AI',
   linha1: 'The bridge between the process',
   linha2: 'and',
   destaque: 'trustworthy data',
-  sub: 'Senior software development analyst. Architecture, technical decisions and cases with their real status.',
+  sub: 'Data & AI Engineer. Architecture, technical decisions and cases with real status.',
   tags: TAGS
 };
 
