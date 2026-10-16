@@ -112,47 +112,8 @@ p.diagram-zone__title .diagram-tag{margin-left:.25rem;font-weight:700;letter-spa
 .diagram-w11{flex-grow:11}
 .diagram-w12{flex-grow:12}
 
-/* Ícone de conceito (Fluent): máscara, herda a cor da zona */
-.diagram-icon{background:currentColor;mask:var(--dg-icone) no-repeat center/contain;-webkit-mask:var(--dg-icone) no-repeat center/contain}
-.diagram-icon--archive{--dg-icone:url("/assets/icons/neutral/fluent/archive.svg")}
-.diagram-icon--arrow-clockwise{--dg-icone:url("/assets/icons/neutral/fluent/arrow-clockwise.svg")}
-.diagram-icon--arrow-sync{--dg-icone:url("/assets/icons/neutral/fluent/arrow-sync.svg")}
-.diagram-icon--arrow-sync-checkmark{--dg-icone:url("/assets/icons/neutral/fluent/arrow-sync-checkmark.svg")}
-.diagram-icon--beaker{--dg-icone:url("/assets/icons/neutral/fluent/beaker.svg")}
-.diagram-icon--branch{--dg-icone:url("/assets/icons/neutral/fluent/branch.svg")}
-.diagram-icon--chart-multiple{--dg-icone:url("/assets/icons/neutral/fluent/chart-multiple.svg")}
-.diagram-icon--clock{--dg-icone:url("/assets/icons/neutral/fluent/clock.svg")}
-.diagram-icon--cloud{--dg-icone:url("/assets/icons/neutral/fluent/cloud.svg")}
-.diagram-icon--cube{--dg-icone:url("/assets/icons/neutral/fluent/cube.svg")}
-.diagram-icon--cursor-click{--dg-icone:url("/assets/icons/neutral/fluent/cursor-click.svg")}
-.diagram-icon--database{--dg-icone:url("/assets/icons/neutral/fluent/database.svg")}
-.diagram-icon--database-arrow-right{--dg-icone:url("/assets/icons/neutral/fluent/database-arrow-right.svg")}
-.diagram-icon--database-checkmark{--dg-icone:url("/assets/icons/neutral/fluent/database-checkmark.svg")}
-.diagram-icon--database-multiple{--dg-icone:url("/assets/icons/neutral/fluent/database-multiple.svg")}
-.diagram-icon--database-search{--dg-icone:url("/assets/icons/neutral/fluent/database-search.svg")}
-.diagram-icon--dialpad{--dg-icone:url("/assets/icons/neutral/fluent/dialpad.svg")}
-.diagram-icon--document-lock{--dg-icone:url("/assets/icons/neutral/fluent/document-lock.svg")}
-.diagram-icon--document-text{--dg-icone:url("/assets/icons/neutral/fluent/document-text.svg")}
-.diagram-icon--eye-off{--dg-icone:url("/assets/icons/neutral/fluent/eye-off.svg")}
-.diagram-icon--filter{--dg-icone:url("/assets/icons/neutral/fluent/filter.svg")}
-.diagram-icon--flow{--dg-icone:url("/assets/icons/neutral/fluent/flow.svg")}
-.diagram-icon--folder{--dg-icone:url("/assets/icons/neutral/fluent/folder.svg")}
-.diagram-icon--globe{--dg-icone:url("/assets/icons/neutral/fluent/globe.svg")}
-.diagram-icon--history{--dg-icone:url("/assets/icons/neutral/fluent/history.svg")}
-.diagram-icon--key{--dg-icone:url("/assets/icons/neutral/fluent/key.svg")}
-.diagram-icon--laptop{--dg-icone:url("/assets/icons/neutral/fluent/laptop.svg")}
-.diagram-icon--lock-closed{--dg-icone:url("/assets/icons/neutral/fluent/lock-closed.svg")}
-.diagram-icon--merge{--dg-icone:url("/assets/icons/neutral/fluent/merge.svg")}
-.diagram-icon--password{--dg-icone:url("/assets/icons/neutral/fluent/password.svg")}
-.diagram-icon--plug-connected{--dg-icone:url("/assets/icons/neutral/fluent/plug-connected.svg")}
-.diagram-icon--server{--dg-icone:url("/assets/icons/neutral/fluent/server.svg")}
-.diagram-icon--shield-dismiss{--dg-icone:url("/assets/icons/neutral/fluent/shield-dismiss.svg")}
-.diagram-icon--shield-lock{--dg-icone:url("/assets/icons/neutral/fluent/shield-lock.svg")}
-.diagram-icon--storage{--dg-icone:url("/assets/icons/neutral/fluent/storage.svg")}
-.diagram-icon--table{--dg-icone:url("/assets/icons/neutral/fluent/table.svg")}
-.diagram-icon--table-search{--dg-icone:url("/assets/icons/neutral/fluent/table-search.svg")}
-.diagram-icon--timer{--dg-icone:url("/assets/icons/neutral/fluent/timer.svg")}
-.diagram-icon--window{--dg-icone:url("/assets/icons/neutral/fluent/window.svg")}
+/* Ícone de conceito (Fluent): <svg><use> do sprite inline; os paths usam currentColor e herdam a cor da zona */
+.icon-sprite{display:none}
 
 /* ---------- Nó de grupo: etapas internas (dbt, medalhão) ---------- */
 .diagram-steps{display:flex;gap:1rem;margin:.25rem 0 0;padding:0;list-style:none}

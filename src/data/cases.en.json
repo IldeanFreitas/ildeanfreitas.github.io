@@ -5,10 +5,10 @@
       "variante": "lab",
       "rotulo": "Lab completed"
     },
-    "natureza": "Personal lab · private repository",
+    "natureza": "Personal lab | private repository",
     "titulo": "DataOps Lab: an end-to-end analytical pipeline",
     "descricao": "Capstone lab of a Data Engineering program: an analytical pipeline executed end to end over a transactional PostgreSQL database running in Docker. Airbyte replicates the tables into the Snowflake RAW layer; dbt standardizes them in STAGING, which also holds the intermediate views, and builds the dimensional model in DW. Airflow coordinates the cycle (source freshness, sync, reconciliation against the source and dbt build) before consumption in Power BI.",
-    "escopo": "lab executed end to end, from the source database to the dashboard, with one complete manual run of the Airflow DAG. 22 dbt models over a fact table of 16,044 rows; dbt build finishes with 114 passing tests and no warnings in both execution environments, local and containerized. Customer street address, postal code and phone stay out of the analytical model, and every layer runs with the least privilege it needs. The repository is private, so these numbers are not publicly verifiable; I demonstrate them in a conversation.",
+    "escopo": "lab executed end to end, from the source database to the dashboard, with one complete manual run of the Airflow DAG. 22 dbt models over a fact table of 16,044 rows; dbt build finishes with 114 passing tests and no warnings in both execution environments, local and containerized. Customer street address, postal code and phone stay out of the analytical model, and every layer runs with the least privilege it needs. The repository is private, so these numbers are not publicly verifiable; I can walk through them on a call.",
     "escopoRotulo": "Evidence and limits:",
     "papel": "Individual, self-directed project: capstone lab of the Data Engineering program, from the Docker infrastructure to the dashboard.",
     "decisoes": [
@@ -25,7 +25,7 @@
         "texto": "A local build used to write straight into the schemas Power BI reads. With dev and prod separated, a test never overwrites what the report consumes."
       },
       {
-        "titulo": "One service user with an RSA key per tool.",
+        "titulo": "A service user per tool, with an RSA key.",
         "texto": "Airbyte and dbt have distinct passwordless users, each with the least privilege of its layer."
       },
       {
@@ -42,7 +42,7 @@
     "destaqueVisual": true,
     "diagrama": {
       "alt": "Logical view of the DataOps lab: Airbyte replicates PostgreSQL into the Snowflake RAW layer; dbt standardizes the data in STAGING, which also holds the intermediate views, and builds the Data Warehouse; Power BI consumes the model. Airflow is the control plane, and governance, security and quality are cross-cutting capabilities.",
-      "resumo": "Data leaves PostgreSQL, enters Snowflake through Airbyte and gains quality in the dbt STAGING layer before reaching Power BI, with Airflow coordinating the cycle.",
+      "resumo": "Data leaves PostgreSQL, enters Snowflake through Airbyte and is standardized and tested in the dbt STAGING layer before reaching Power BI, with Airflow coordinating the cycle.",
       "etiqueta": "Data architecture",
       "titulo": "Local run in Docker",
       "forma": "trilha",
@@ -159,8 +159,8 @@
       "variante": "done",
       "rotulo": "Delivered"
     },
-    "natureza": "Academic project · public repository",
-    "titulo": "Brazilian Chamber of Deputies — Lakehouse Pipeline",
+    "natureza": "Academic project | public repository",
+    "titulo": "Brazilian Chamber of Deputies: Lakehouse Pipeline",
     "descricao": "A Lakehouse implemented on Databricks for the open data of the Brazilian Chamber of Deputies. A Python collector queries 17 endpoints configured in YAML, writes the raw payload with audit metadata and promotes the data through Bronze, Silver and Gold into analytical tables ready for BI and SQL consumption.",
     "escopo": "the Lakehouse runs on Databricks with Unity Catalog Volume, PySpark and Delta; the local environment supports development and testing.",
     "escopoRotulo": "Evidence:",
@@ -172,7 +172,7 @@
       },
       {
         "titulo": "Endpoint catalog in YAML.",
-        "texto": "The 17 endpoints are data, not code: adding one means adding a block, validated in a dataclass when the catalog is loaded."
+        "texto": "The 17 endpoints are declared in YAML, outside the collector code: adding one means adding a block, validated in a dataclass when the catalog is loaded."
       },
       {
         "titulo": "PySpark on Databricks, pandas in CI.",
@@ -252,7 +252,7 @@
                 {
                   "sigla": "GLD",
                   "titulo": "Gold",
-                  "nota": "6 dimensions · 3 facts + bill progress",
+                  "nota": "6 dimensions, 3 facts + bill progress",
                   "icone": "table"
                 }
               ]
@@ -321,7 +321,7 @@
       "variante": "designed",
       "rotulo": "Documented architecture"
     },
-    "natureza": "Individual study · no public repository",
+    "natureza": "Individual study | no public repository",
     "titulo": "Sales lakehouse on AWS",
     "descricao": "A study of a Medallion pipeline on AWS with two sample files: orders in CSV and customers in JSON. The files land in raw/ on Amazon S3, a Glue Crawler registers the schema in the Data Catalog, and Glue jobs in PySpark write Bronze and Silver as Parquet. Gold is an Iceberg table updated by MERGE in Athena, and consumption goes through Athena, Redshift Serverless and Power BI. Step Functions chains the Bronze and Silver Glue jobs; Lake Formation, IAM and CloudWatch handle access and monitoring.",
     "escopoRotulo": "Scope statement:",
@@ -519,7 +519,7 @@
       "variante": "done",
       "rotulo": "Delivered"
     },
-    "natureza": "Corporate project · repository with the target architecture",
+    "natureza": "Corporate project | repository with the target architecture",
     "titulo": "Tax Document Processing Orchestration",
     "descricao": "The operator imports the tax spreadsheet into a Power Apps Canvas app. A cloud flow reads the file; the app shows a preview, sets aside rows with errors and writes the valid ones to Dataverse, in batches (one per establishment), with each invoice identified by its own key. When it closes a batch, the app sets three statuses on it that mark it as ready. The orchestrator, a manually triggered cloud flow, takes a ready batch and triggers an unattended Power Automate Desktop robot, which processes the batch invoices on the national NFS-e portal. The status contract plans for the robot to report the result back to the batch. The operator follows the statuses in the app.",
     "escopo": "what is described here is the production version: one unattended robot, batches selected by three statuses and deduplication by invoice key. The public repository is the target architecture for the next step, rebuilt without client data: time-bound batch claims, workers per portal category, protected evidence and automatic release of stuck runs. Nothing in it was exported from the real environment.",
@@ -661,7 +661,7 @@
           },
           {
             "nome": "Resilience",
-            "valor": "The robot retries the failed step up to 5 attempts. A failed batch comes back on the next trigger and, since the query has no ordering, a batch that always fails can block the queue",
+            "valor": "The robot retries a failed step up to 5 times. A failed batch comes back on the next trigger and, since the query has no ordering, a batch that always fails can block the queue",
             "icone": "arrow-clockwise"
           },
           {
@@ -680,7 +680,7 @@
       "variante": "done",
       "rotulo": "Delivered"
     },
-    "natureza": "Corporate project · anonymized case",
+    "natureza": "Corporate project | anonymized case",
     "titulo": "OTP authentication RPA with OIDC token persistence",
     "descricao": "A Power Automate Desktop robot that renews OIDC tokens for multiple accounts. It uses HTTP wherever an API exists and falls back to the browser only for login, OTP and token capture; it hands the token to another team's token service, which keeps it with a TTL, and verifies the write by reading it back.",
     "escopo": "in production, after end-to-end validation in the acceptance environment, with multi-account processing, failures isolated per account and operational error classification. The public case keeps environments, portals, endpoints and credentials anonymized.",
@@ -713,7 +713,7 @@
       "Node.js + jsdom"
     ],
     "diagrama": {
-      "alt": "Three-zone diagram of the OIDC automation. On the left, another team's token service, with the OAuth2 provider, the accounts and OTP API and a cache with TTL. In the centre, the Power Automate Desktop robot, triggered manually, with a log per run and the secret in a sensitive variable. On the right, an external portal in the browser with login, OTP challenge and localStorage. Ten numbered steps alternate HTTP calls and browser interactions; three constraints explain why there is no API-only solution.",
+      "alt": "Three-zone diagram of the OIDC automation. On the left, another team's token service, with the OAuth2 provider, the accounts and OTP API and a cache with TTL. In the center, the Power Automate Desktop robot, triggered manually, with a log per run and the secret in a sensitive variable. On the right, an external portal in the browser with login, OTP challenge and localStorage. Ten numbered steps alternate HTTP calls and browser interactions; three constraints explain why there is no API-only solution.",
       "resumo": "Step 6 defines the project: the verification code only shows up in the API after the browser login has already been submitted.",
       "etiqueta": "OTP authentication RPA",
       "titulo": "Anatomy of one account",

@@ -5,7 +5,7 @@
       "variante": "lab",
       "rotulo": "Laboratório concluído"
     },
-    "natureza": "Laboratório autoral · repositório privado",
+    "natureza": "Laboratório autoral | repositório privado",
     "titulo": "Laboratório DataOps: pipeline analítico ponta a ponta",
     "descricao": "Laboratório de conclusão da formação em Engenharia de Dados: pipeline analítico executado de ponta a ponta sobre uma base transacional em PostgreSQL, containerizada em Docker. O Airbyte replica as tabelas para a camada RAW do Snowflake; o dbt padroniza os dados em STAGING, onde também ficam as views intermediárias, e monta o modelo dimensional em DW. O Airflow coordena o ciclo (frescor da fonte, sincronização, reconciliação contra a origem e dbt build) antes do consumo em Power BI.",
     "escopo": "laboratório executado de ponta a ponta, da base de origem ao painel, com uma rodada manual completa da DAG no Airflow. São 22 modelos dbt sobre uma tabela fato de 16.044 linhas, e o dbt build fecha com 114 testes aprovados e nenhum aviso nos dois ambientes de execução, local e em container. Logradouro, CEP e telefone dos clientes ficam fora do modelo analítico, e cada camada roda com o menor privilégio necessário. O repositório é privado, então esses números não são publicamente verificáveis; demonstro em uma conversa.",
@@ -25,7 +25,7 @@
         "texto": "Um build local escrevia direto nos schemas que o Power BI consome. Com dev e prod separados, um teste não sobrescreve o que o relatório lê."
       },
       {
-        "titulo": "Usuário de serviço com chave RSA por ferramenta.",
+        "titulo": "Um usuário de serviço por ferramenta, com chave RSA.",
         "texto": "Airbyte e dbt têm usuários distintos, sem senha, com o menor privilégio de cada camada."
       },
       {
@@ -42,7 +42,7 @@
     "destaqueVisual": true,
     "diagrama": {
       "alt": "Visão lógica do laboratório DataOps: o Airbyte replica o PostgreSQL para a camada RAW do Snowflake; o dbt padroniza os dados em STAGING, onde também ficam as views intermediárias, e monta o Data Warehouse; o Power BI consome o modelo. O Airflow é o plano de controle, e governança, segurança e qualidade são capacidades transversais.",
-      "resumo": "O dado sai do PostgreSQL, entra no Snowflake pelo Airbyte e ganha qualidade no STAGING do dbt antes de chegar ao Power BI, com o Airflow coordenando o ciclo.",
+      "resumo": "O dado sai do PostgreSQL, entra no Snowflake pelo Airbyte e é padronizado e testado no STAGING do dbt antes de chegar ao Power BI, com o Airflow coordenando o ciclo.",
       "etiqueta": "Arquitetura de dados",
       "titulo": "Execução local em Docker",
       "forma": "trilha",
@@ -159,8 +159,8 @@
       "variante": "done",
       "rotulo": "Entregue"
     },
-    "natureza": "Projeto acadêmico · repositório público",
-    "titulo": "Câmara dos Deputados — Pipeline Lakehouse",
+    "natureza": "Projeto acadêmico | repositório público",
+    "titulo": "Câmara dos Deputados: Pipeline Lakehouse",
     "descricao": "Lakehouse implementado no Databricks para dados abertos da Câmara dos Deputados. Um coletor Python consulta 17 endpoints configurados em YAML, grava o payload bruto com metadados de auditoria e promove os dados por Bronze, Silver e Gold até tabelas analíticas prontas para consumo em BI e SQL.",
     "escopo": "o Lakehouse opera no Databricks com Unity Catalog Volume, PySpark e Delta; o ambiente local apoia desenvolvimento e testes.",
     "escopoRotulo": "Evidências:",
@@ -172,7 +172,7 @@
       },
       {
         "titulo": "Catálogo de endpoints em YAML.",
-        "texto": "Os 17 endpoints são dado, não código: adicionar um é acrescentar um bloco, validado em dataclass quando o catálogo é carregado."
+        "texto": "Os 17 endpoints são declarados em YAML, fora do código do coletor: adicionar um é acrescentar um bloco, validado em dataclass quando o catálogo é carregado."
       },
       {
         "titulo": "PySpark no Databricks, pandas no CI.",
@@ -252,7 +252,7 @@
                 {
                   "sigla": "GLD",
                   "titulo": "Gold",
-                  "nota": "6 dimensões · 3 fatos + tramitação",
+                  "nota": "6 dimensões, 3 fatos + tramitação",
                   "icone": "table"
                 }
               ]
@@ -321,7 +321,7 @@
       "variante": "designed",
       "rotulo": "Arquitetura documentada"
     },
-    "natureza": "Estudo individual · sem repositório público",
+    "natureza": "Estudo individual | sem repositório público",
     "titulo": "Lakehouse de vendas na AWS",
     "descricao": "Estudo de um pipeline Medalhão na AWS com dois arquivos de exemplo: pedidos em CSV e clientes em JSON. Os arquivos chegam em raw/ no Amazon S3, um Glue Crawler registra o schema no Data Catalog e jobs Glue em PySpark gravam Bronze e Silver em Parquet. A Gold é uma tabela Iceberg atualizada por MERGE no Athena, e o consumo passa por Athena, Redshift Serverless e Power BI. Step Functions encadeia os jobs Glue de Bronze e Silver; Lake Formation, IAM e CloudWatch cuidam de acesso e monitoramento.",
     "escopoRotulo": "Declaração de escopo:",
@@ -519,7 +519,7 @@
       "variante": "done",
       "rotulo": "Entregue"
     },
-    "natureza": "Projeto corporativo · repositório com a arquitetura-alvo",
+    "natureza": "Projeto corporativo | repositório com a arquitetura-alvo",
     "titulo": "Orquestração de Processamento Fiscal",
     "descricao": "O operador importa a planilha fiscal num aplicativo Power Apps Canvas. Um cloud flow lê o arquivo; o app mostra a prévia, separa as linhas com erro e grava as válidas no Dataverse, em lotes (um por estabelecimento), com cada nota identificada por chave própria. Ao fechar o lote, o app deixa nele três status que o marcam como pronto. O orquestrador, um cloud flow de disparo manual, pega um lote pronto e aciona um robô Power Automate Desktop desacompanhado, que processa as notas do lote no portal nacional de NFS-e. O contrato de status prevê que o robô devolva o resultado ao lote. O operador acompanha os status no app.",
     "escopo": "o que está descrito aqui é a versão em produção: um robô desacompanhado, lotes selecionados por três status e deduplicação por chave de nota. O repositório público é a arquitetura-alvo da próxima evolução, reconstruída sem dado de cliente: reserva de lote com prazo, workers por categoria de portal, evidências protegidas e liberação automática de execução travada. Nada nele foi exportado do ambiente real.",
@@ -680,7 +680,7 @@
       "variante": "done",
       "rotulo": "Entregue"
     },
-    "natureza": "Projeto corporativo · case anonimizado",
+    "natureza": "Projeto corporativo | case anonimizado",
     "titulo": "RPA de autenticação OTP e persistência OIDC",
     "descricao": "Robô em Power Automate Desktop que renova tokens OIDC para múltiplas contas. Ele usa HTTP onde existe API e recorre ao navegador somente para login, OTP e captura do token; entrega o token ao serviço de tokens de outra equipe, que o mantém com TTL, e confere a gravação lendo-o de volta.",
     "escopo": "em produção, depois de validado ponta a ponta em homologação, com processamento multiconta, falhas isoladas por conta e classificação operacional de erros. O case público preserva a anonimização de ambientes, portais, endpoints e credenciais.",
