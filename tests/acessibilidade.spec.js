@@ -8,9 +8,21 @@ import AxeBuilder from '@axe-core/playwright';
  */
 const PADROES = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
 
+/**
+ * Desliga as transições antes de medir. O tema muda por `data-theme` e os links
+ * do cabeçalho têm `transition: color .15s`: sob carga, o axe lia a cor no meio
+ * da transição (ex.: #c1c1c1 sobre #f4f6f3, contraste 1,65) e reprovava o tema
+ * claro de forma intermitente. Precisa vir ANTES da troca de tema; o tema escuro
+ * nunca oscilava porque o atributo já é `dark` na carga.
+ */
+async function semTransicoes(page) {
+  await page.addStyleTag({ content: '*,*::before,*::after{transition:none!important}' });
+}
+
 for (const tema of ['dark', 'light']) {
   test(`index sem violações de acessibilidade — tema ${tema}`, async ({ page }) => {
     await page.goto('/');
+    await semTransicoes(page);
     await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
 
     const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
@@ -23,6 +35,7 @@ for (const tema of ['dark', 'light']) {
 
 test('versão em inglês sem violações de acessibilidade', async ({ page }) => {
   await page.goto('/en/');
+  await semTransicoes(page);
   const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
   const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
   expect(resumo, resumo.join('\n')).toEqual([]);
@@ -84,6 +97,7 @@ const AMOSTRA = [
 for (const tema of ['dark', 'light']) {
   test(`contraste sobre gradiente — tema ${tema}`, async ({ page }) => {
     await page.goto('/');
+    await semTransicoes(page);
     await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
     // O observer só revela o que entra na viewport; sem isto, metade da página
     // fica com opacity:0 e não seria medida.
@@ -208,6 +222,7 @@ test('nenhum texto abaixo de 11px em nenhuma largura', async ({ page }) => {
 
 test('404 sem violações de acessibilidade', async ({ page }) => {
   await page.goto('/404.html');
+  await semTransicoes(page);
   const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
   const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
   expect(resumo, resumo.join('\n')).toEqual([]);

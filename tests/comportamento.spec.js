@@ -531,3 +531,61 @@ test('não há rolagem horizontal', async ({ page }) => {
   );
   expect(estourou, 'a página não deve rolar na horizontal').toBe(false);
 });
+
+/**
+ * Aberto direto do disco (file://) o site precisa aparecer inteiro. Duas
+ * armadilhas já pegaram aqui: caminho /assets/ absoluto (aponta para a raiz
+ * do drive; o build agora o reescreve como relativo) e ícone por máscara CSS
+ * (o Chromium bloqueia mask: url() em file://, origem opaca). Por isso o teste
+ * confere a RENDERIZAÇÃO — <use> apontando para um <symbol> com desenho na
+ * própria página, imagem decodificada depois de rolar até cada figura — e não
+ * só se a URL existe.
+ */
+for (const [pagina, arquivo] of [
+  ['pt', 'index.html'],
+  ['en', 'en/index.html']
+]) {
+  test(`aberto do disco (file://), ${pagina}: ícones, imagens e fonte aparecem`, async ({
+    page
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'independe da largura');
+    await page.goto(new URL(`../${arquivo}`, import.meta.url).href);
+
+    const icones = await page.evaluate(() => {
+      const todos = [...document.querySelectorAll('.diagram-icon')];
+      const ruins = todos
+        .filter((icone) => {
+          const use = icone.querySelector('use');
+          const id = use?.getAttribute('href')?.replace(/^#/, '');
+          const simbolo = id && document.getElementById(id);
+          return !(simbolo?.tagName === 'symbol' && simbolo.querySelector('path'));
+        })
+        .map((icone) => icone.getAttribute('class'));
+      return { total: todos.length, ruins };
+    });
+    expect(icones.total).toBeGreaterThan(0);
+    expect(icones.ruins).toEqual([]);
+
+    // As imagens dos diagramas são lazy: rola até cada figura e espera a carga.
+    for (const figura of await page.locator('figure').all()) {
+      await figura.scrollIntoViewIfNeeded();
+      await figura.evaluate((f) =>
+        Promise.all([...f.querySelectorAll('img')].map((i) => i.decode().catch(() => {})))
+      );
+    }
+    const quebradas = await page.evaluate(() =>
+      [...document.querySelectorAll('figure img')]
+        .filter((i) => !i.complete || i.naturalWidth === 0)
+        .map((i) => i.getAttribute('src'))
+    );
+    expect(quebradas).toEqual([]);
+
+    const fonte = await page.evaluate(() =>
+      document.fonts
+        .load('600 16px "Mona Sans"')
+        .then((faces) => faces.length > 0 && faces.every((f) => f.status === 'loaded'))
+        .catch(() => false)
+    );
+    expect(fonte).toBe(true);
+  });
+}

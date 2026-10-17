@@ -181,8 +181,45 @@ português, precisa acrescentar em inglês antes de conseguir montar o site.
 As poucas frases fixas dos diagramas ("Plano de controle", "Chamadas HTTP")
 vivem num dicionário em `scripts/cases.mjs`, escolhido pelo idioma. Os rótulos
 do menu compacto vêm de `data-abrir`/`data-fechar` no botão — o mesmo
-script serve as duas páginas. Caminhos de assets são absolutos (`/assets/…`)
-porque a mesma marcação é servida em `/` e em `/en/`.
+script serve as duas páginas.
+
+### Caminhos de assets: absolutos na fonte, relativos na saída
+
+Os fontes (`src/`, `scripts/cases.mjs`) escrevem `/assets/…`: a mesma
+marcação vai para `/` e para `/en/`, e o trecho não precisa saber onde vai
+parar. O build (`relativizar()` em `scripts/build.mjs`) reescreve esses
+caminhos por página — `assets/…` em `index.html`, `../assets/…` em
+`en/index.html` — em `src`/`href` (logos, preload da fonte) e em `url(…)`
+do CSS embutido (`@font-face`); `favicon.ico` e `apple-touch-icon.png` idem.
+
+Motivo: o site precisa funcionar servido **e** aberto direto do disco
+(file://). Com caminho absoluto, `/assets/` apontava para a raiz do drive e
+logos, ícones e a fonte sumiam fora do servidor — o que pareceu "a
+refatoração quebrou os ícones" depois que os SVG inline viraram arquivos.
+URLs `https://` (og:image, JSON-LD, canonical, hreflang) e links de navegação
+(`/`, `/en/`) não são tocados. O build falha se sobrar `/assets/` absoluto.
+
+O relativo em `url(…)` só está certo porque o CSS é **embutido** no HTML e
+resolve a partir da página. Se o CSS um dia virar arquivo externo, `url()`
+relativo passa a resolver a partir do `.css` e precisa ser revisto.
+
+A **404 continua absoluta**: o GitHub Pages a serve em qualquer profundidade
+de URL (`/a/b/c`), e um caminho relativo resolveria a partir dali.
+
+### Ícones de conceito: sprite SVG inline, não máscara
+
+Os ícones Fluent dos diagramas são `<svg class="diagram-icon"><use
+href="#i-nome"></use></svg>`, e cada página carrega um `<svg class="icon-sprite">`
+com um `<symbol>` só para os ícones que usa (`spriteFluent()` em
+`scripts/cases.mjs`). O desenho é o SVG registrado no manifesto, sem
+alteração além de `fill="currentColor"` nos paths (a cor vem da zona), com o
+aviso da licença MIT ao lado do sprite.
+
+Antes eram máscara CSS (`mask: url(…)` via `--dg-icone`). Máscara obedece à
+política de mesma origem, e em file:// a origem é opaca: o Chromium bloqueava
+todas, mesmo com o arquivo no lugar e o caminho certo. `<use>` para um
+fragmento do próprio documento não tem esse limite. Custo: cerca de 32 KB a
+mais por página (sem compressão), em troca de 31 requisições a menos.
 
 ## Tema: escuro é o padrão
 

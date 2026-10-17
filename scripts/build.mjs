@@ -13,7 +13,7 @@
  *   node scripts/build.mjs --check   verifica se os artefatos estão atualizados
  */
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { renderizarCases, ErroDeCase } from './cases.mjs';
+import { renderizarCases, spriteFluent, ErroDeCase } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -129,7 +129,9 @@ if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].
  */
 function renderizar(lista, idioma, arquivo) {
   try {
-    return renderizarCases(lista, idioma);
+    // O sprite vai junto dos cases: só os ícones Fluent que esta página usa.
+    const html = renderizarCases(lista, idioma);
+    return `${spriteFluent(html)}\n${html}`;
   } catch (erro) {
     if (!(erro instanceof ErroDeCase)) throw erro;
     console.error(`Dado de case inválido em ${arquivo}: ${erro.message}`);
@@ -142,9 +144,46 @@ const css404 = [
   (await ler('src/css/base/tokens.css')).trimEnd()
 ].join('\n\n');
 
+/**
+ * Os fontes escrevem caminhos de asset absolutos (`/assets/…`), que é o que
+ * se lê melhor e não depende de onde o trecho vai parar. A saída troca esses
+ * caminhos por relativos à página: `assets/…` na raiz e `../assets/…` em
+ * `/en/`. Assim o site funciona servido (GitHub Pages, `npm run serve`) E
+ * aberto direto do disco (file://), onde `/assets/` apontaria para a raiz do
+ * drive e todas as imagens e a fonte sumiriam. (Os ícones Fluent não
+ * dependem disso: vêm do sprite inline, ver spriteFluent em cases.mjs.)
+ *
+ * Só caminhos que começam logo depois de aspa ou parêntese são trocados:
+ * `https://…/assets/…` (og:image, JSON-LD) fica intacto, e os links de
+ * navegação (`/`, `/en/`) não casam o padrão.
+ *
+ * A 404 NÃO passa por aqui: o GitHub Pages a serve em qualquer profundidade
+ * de URL (/a/b/c), e um caminho relativo resolveria errado.
+ */
+const RAIZ_DE_ARQUIVOS = ['favicon.ico', 'apple-touch-icon.png'];
+
+function relativizar(html, prefixo, arquivo) {
+  const saida = html
+    .replace(/(["'(])\/assets\//g, (_, abre) => `${abre}${prefixo}assets/`)
+    .replace(
+      new RegExp(
+        `(["'(])/(${RAIZ_DE_ARQUIVOS.map((a) => a.replaceAll('.', '\\.')).join('|')})`,
+        'g'
+      ),
+      (_, abre, nome) => `${abre}${prefixo}${nome}`
+    );
+  const sobra = saida.match(/.{0,40}(?<![\w.])\/assets\/.{0,20}/);
+  if (sobra) {
+    console.error(`Caminho /assets/ absoluto não convertido em ${arquivo}: ${sobra[0]}`);
+    process.exit(1);
+  }
+  return saida;
+}
+
 const PAGINAS = [
   {
     arquivo: 'index.html',
+    prefixo: '',
     template,
     marcadores: {
       '<!--{{ CSS }}-->': css,
@@ -155,6 +194,7 @@ const PAGINAS = [
   },
   {
     arquivo: 'en/index.html',
+    prefixo: '../',
     template: templateEn,
     marcadores: {
       '<!--{{ CSS }}-->': css,
@@ -190,6 +230,9 @@ for (const pagina of PAGINAS) {
     console.error(`Marcador não resolvido em ${pagina.arquivo}: ${restante[0]}`);
     process.exit(1);
   }
+
+  // A 404 não declara prefixo e mantém os caminhos absolutos (ver relativizar).
+  if (pagina.prefixo !== undefined) saida = relativizar(saida, pagina.prefixo, pagina.arquivo);
 
   if (conferir) {
     const atual = await ler(pagina.arquivo).catch(() => null);

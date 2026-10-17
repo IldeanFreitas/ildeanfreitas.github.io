@@ -152,8 +152,15 @@ function lista(valor, onde, min, max = min) {
  *
  * Uma família só para todos os diagramas refeitos (X3). O nome do ícone no
  * dado é o nome do arquivo em assets/icons/neutral/fluent/, e cada um precisa
- * estar registrado no manifesto (conferido ao carregar o módulo). O desenho
- * entra por máscara CSS, então herda a cor da zona pelo currentColor.
+ * estar registrado no manifesto (conferido ao carregar o módulo).
+ *
+ * O desenho entra por SPRITE SVG inline: cada ícone é um <svg><use
+ * href="#i-nome"> e o build monta, por página, um <symbol> só para os ícones
+ * que ela usa (spriteFluent, abaixo). Já foi máscara CSS (mask: url(...)), mas
+ * máscara obedece à política de mesma origem e o Chromium a bloqueia em
+ * file://, onde a origem é opaca — os ícones sumiam com o HTML aberto do
+ * disco. O <use> para um fragmento do próprio documento não tem esse limite.
+ * A cor da zona chega pelo currentColor dos paths.
  * ------------------------------------------------------------------------- */
 export const FLUENT = [
   'archive',
@@ -204,7 +211,37 @@ function iconeNeutro(nome, onde) {
     onde,
     `ícone neutro desconhecido "${nome}". Disponíveis: ${FLUENT.join(', ')}`
   );
-  return `<span class="diagram-icon diagram-icon--${nome}"></span>`;
+  return `<svg class="diagram-icon diagram-icon--${nome}" aria-hidden="true"><use href="#i-${nome}"></use></svg>`;
+}
+
+/**
+ * Sprite dos ícones Fluent usados num trecho de HTML já renderizado.
+ *
+ * Lê o SVG registrado no manifesto e o reproduz como <symbol> sem alterar o
+ * desenho: só o fill="#212121" dos paths vira currentColor, para herdar a cor
+ * da zona. Ícone citado no HTML e ausente de FLUENT falha o build.
+ */
+export function spriteFluent(html) {
+  const usados = [...new Set([...html.matchAll(/<use href="#i-([\w-]+)">/g)].map((m) => m[1]))];
+  if (!usados.length) return '';
+  const simbolos = usados.sort().map((nome) => {
+    exigir(FLUENT.includes(nome), 'spriteFluent', `ícone neutro desconhecido "${nome}"`);
+    const svg = readFileSync(
+      fileURLToPath(new URL(`../assets/icons/neutral/fluent/${nome}.svg`, import.meta.url)),
+      'utf8'
+    );
+    const viewBox = svg.match(/viewBox="([^"]+)"/)?.[1];
+    const paths = svg.match(/<path\b[^>]*\/>/g);
+    exigir(viewBox && paths, 'spriteFluent', `SVG sem viewBox ou sem path: ${nome}`);
+    const corpo = paths.map((p) => p.replace(/fill="#212121"/g, 'fill="currentColor"'));
+    return `<symbol id="i-${nome}" viewBox="${viewBox}">${corpo.join('')}</symbol>`;
+  });
+  return [
+    '<!-- Fluent System Icons (c) Microsoft Corporation, licença MIT: assets/icons/neutral/fluent/LICENSE -->',
+    '<svg class="icon-sprite" aria-hidden="true">',
+    ...simbolos,
+    '</svg>'
+  ].join('\n');
 }
 
 /* ---------------------------------------------------------------------------
@@ -218,8 +255,8 @@ function iconeNeutro(nome, onde) {
  * título traduzido ou reescrito não pode trocar o logotipo em silêncio.
  * ------------------------------------------------------------------------- */
 
-/* Caminhos absolutos: a mesma marcação é servida em / e em /en/, e um caminho
- * relativo resolveria para /en/assets/... na segunda. */
+/* A marcação sai com caminho absoluto (/assets/...), comum a / e a /en/; o
+ * build o reescreve como relativo por página (relativizar em build.mjs). */
 const VENDOR = 'assets/icons/vendor';
 
 export const MARCAS = {
