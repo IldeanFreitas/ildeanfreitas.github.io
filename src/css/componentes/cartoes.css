@@ -22,10 +22,15 @@
 
 .taglist{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto}
 .tag{
+  display:inline-flex;align-items:center;gap:.4rem;
   font-size:.75rem;font-weight:600;color:var(--text-muted);
   background:var(--surface-soft);border:1px solid var(--border);
   padding:.28rem .7rem;border-radius:var(--r-pill)
 }
+/* Ícone da tecnologia: marca do fornecedor (img) ou conceito Fluent (svg, herda
+   a cor do texto). Caixa fixa para PNG e SVG de proporções diferentes. */
+.tag__icon{width:1rem;height:1rem;flex:none;object-fit:contain}
+svg.tag__icon{fill:currentColor}
 
 /* Segmentos atendidos (seção Sobre): a mesma pílula das tecnologias, sem
    empurrar o bloco para o fim do cartão. */

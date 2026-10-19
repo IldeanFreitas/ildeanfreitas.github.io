@@ -12,8 +12,9 @@
  *   node scripts/build.mjs           monta
  *   node scripts/build.mjs --check   verifica se os artefatos estão atualizados
  */
+import { existsSync } from 'node:fs';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { renderizarCases, spriteFluent, ErroDeCase } from './cases.mjs';
+import { FLUENT, renderizarCases, spriteFluent, ErroDeCase } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -69,6 +70,40 @@ const [template, templateEn, template404, jsInicializacao, jsPrincipal] = await 
   ler('src/js/inicializacao.js'),
   ler('src/js/principal.js')
 ]);
+
+/**
+ * Todo ícone que um template cita (ícone de fornecedor ou neutro) precisa
+ * estar registrado em assets/icons/manifest.json, com fonte, termos e
+ * SHA-256. Os cases já passam por essa conferência em cases.mjs; as tags da
+ * seção Especialidades são marcação escrita à mão, então a conferência fica
+ * aqui, e o build para antes de publicar um ícone sem proveniência.
+ */
+{
+  const manifesto = JSON.parse(await ler('assets/icons/manifest.json'));
+  const registrados = new Set(
+    (manifesto.assets || []).flatMap((a) => [a.path, ...(a.files || []).map((f) => f.path)])
+  );
+  const problemas = [];
+  for (const [arquivo, texto] of [
+    ['src/index.template.html', template],
+    ['src/index.en.template.html', templateEn]
+  ]) {
+    for (const [, caminho] of texto.matchAll(/\/(assets\/icons\/(?:vendor|neutral)\/[^"')\s]+)/g)) {
+      if (!registrados.has(caminho))
+        problemas.push(`sem registro no manifesto: ${caminho} (${arquivo})`);
+      else if (!existsSync(join(RAIZ, caminho)))
+        problemas.push(`registrado, mas o arquivo não existe: ${caminho} (${arquivo})`);
+    }
+    for (const [, nome] of texto.matchAll(/<use href="#i-([\w-]+)">/g)) {
+      if (!FLUENT.includes(nome))
+        problemas.push(`ícone neutro "${nome}" não está em FLUENT, scripts/cases.mjs (${arquivo})`);
+    }
+  }
+  if (problemas.length) {
+    console.error(`Ícones dos templates com problema:\n  ${[...new Set(problemas)].join('\n  ')}`);
+    process.exit(1);
+  }
+}
 
 /**
  * As duas línguas são dois templates, não um template com dicionário: o
@@ -127,11 +162,12 @@ if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].
  * de diagrama que o renderizador não reconhece) para o build com a mensagem
  * do gerador, sem pilha: ela já diz case, bloco e valor.
  */
-function renderizar(lista, idioma, arquivo) {
+function renderizar(lista, idioma, arquivo, textoDoTemplate) {
   try {
-    // O sprite vai junto dos cases: só os ícones Fluent que esta página usa.
+    // O sprite vai junto dos cases: só os ícones Fluent que esta página usa,
+    // inclusive os das tags do próprio template (seção Especialidades).
     const html = renderizarCases(lista, idioma);
-    return `${spriteFluent(html)}\n${html}`;
+    return `${spriteFluent(`${html}\n${textoDoTemplate}`)}\n${html}`;
   } catch (erro) {
     if (!(erro instanceof ErroDeCase)) throw erro;
     console.error(`Dado de case inválido em ${arquivo}: ${erro.message}`);
@@ -187,7 +223,7 @@ const PAGINAS = [
     template,
     marcadores: {
       '<!--{{ CSS }}-->': css,
-      '<!--{{ CASES }}-->': renderizar(cases, 'pt', 'src/data/cases.json'),
+      '<!--{{ CASES }}-->': renderizar(cases, 'pt', 'src/data/cases.json', template),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }
@@ -198,7 +234,7 @@ const PAGINAS = [
     template: templateEn,
     marcadores: {
       '<!--{{ CSS }}-->': css,
-      '<!--{{ CASES }}-->': renderizar(casesEn, 'en', 'src/data/cases.en.json'),
+      '<!--{{ CASES }}-->': renderizar(casesEn, 'en', 'src/data/cases.en.json', templateEn),
       '<!--{{ JS_INICIALIZACAO }}-->': jsInicializacao.trimEnd(),
       '<!--{{ JS_PRINCIPAL }}-->': jsPrincipal.trimEnd()
     }

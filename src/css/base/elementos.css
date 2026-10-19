@@ -27,8 +27,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .section--alt{background:var(--bg-alt)}
 .lead{font-size:clamp(1rem,.95rem + .35vw,1.2rem);color:var(--text-muted);max-width:60ch;text-wrap:pretty}
 .muted{color:var(--text-muted)}
-/* Segundo parágrafo de uma abertura: mesma medida de leitura do .lead acima dele */
-.lead + .muted{max-width:60ch;text-wrap:pretty}
 .dim{color:var(--text-dim)}
 
 /* Etiqueta de seção — pílula lime, marca da identidade */
