@@ -637,6 +637,37 @@
           "sha256": "81954dcfb86d5f410f7084345e459cd5c7ca1d76032d34f771ad379c94e062b6"
         }
       ]
+    },
+    {
+      "id": "fluent-neutral-set-stacks",
+      "source": "fluent-system-icons",
+      "type": "neutral-concept-icons",
+      "retrievedOn": "2026-10-17",
+      "license": "MIT",
+      "licenseFile": "assets/icons/neutral/fluent/LICENSE",
+      "usage": "Conceitos das tags da seção Especialidades (fórmula, agente, modelo de linguagem, processamento distribuído); família única, variante 24 regular; obtidos de https://raw.githubusercontent.com/microsoft/fluentui-system-icons/main/ sem alteração.",
+      "files": [
+        {
+          "path": "assets/icons/neutral/fluent/math-formula.svg",
+          "sourcePath": "assets/Math Formula/SVG/ic_fluent_math_formula_24_regular.svg",
+          "sha256": "cfdedf5a023a1eadf6da084a5a2b0f743afb83fcf48a246f09da7a70867b9aa2"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/bot.svg",
+          "sourcePath": "assets/Bot/SVG/ic_fluent_bot_24_regular.svg",
+          "sha256": "740519a01562fb4423088bc6522f2dcf366c89ec441307179fcd13e7e4ae9704"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/brain-circuit.svg",
+          "sourcePath": "assets/Brain Circuit/SVG/ic_fluent_brain_circuit_24_regular.svg",
+          "sha256": "1c3f81dba526461f73eee67be8eb7d1c422766b26876cb67433ed92f39a5bf21"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/flash.svg",
+          "sourcePath": "assets/Flash/SVG/ic_fluent_flash_24_regular.svg",
+          "sha256": "675a6af0b74a43001de66d67c952fe0c2257fecf4bd0b19e17d4cf19f1e2591f"
+        }
+      ]
     }
   ]
 }
