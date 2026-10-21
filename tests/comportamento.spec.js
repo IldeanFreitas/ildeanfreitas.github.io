@@ -589,3 +589,55 @@ for (const [pagina, arquivo] of [
     expect(fonte).toBe(true);
   });
 }
+
+/**
+ * Toda tag de Especialidades tem um ícone, e ele aparece de fato: logotipo
+ * decodificado (naturalWidth maior que zero) ou <use> que resolve para um
+ * <symbol> com desenho. Os logotipos são lazy, então rola até cada lista antes
+ * de conferir. Sem este teste, um ícone sumido na tag passaria no CI.
+ */
+async function iconesDasTags(page) {
+  for (const lista of await page.locator('#servicos .taglist').all()) {
+    await lista.scrollIntoViewIfNeeded();
+    await lista.evaluate((l) =>
+      Promise.all([...l.querySelectorAll('img')].map((i) => i.decode().catch(() => {})))
+    );
+  }
+  return page.evaluate(() => {
+    const tags = [...document.querySelectorAll('#servicos .tag')];
+    const ruins = tags
+      .filter((tag) => {
+        const icones = tag.querySelectorAll('.tag__icon');
+        if (icones.length !== 1) return true;
+        const [icone] = icones;
+        if (icone.tagName === 'IMG') return !icone.complete || icone.naturalWidth === 0;
+        const id = icone.querySelector('use')?.getAttribute('href')?.replace(/^#/, '');
+        const simbolo = id && document.getElementById(id);
+        return !(simbolo?.tagName === 'symbol' && simbolo.querySelector('path'));
+      })
+      .map((tag) => tag.textContent.trim());
+    return { total: tags.length, ruins };
+  });
+}
+
+for (const [pagina, rota, arquivo] of [
+  ['pt', '/', 'index.html'],
+  ['en', '/en/', 'en/index.html']
+]) {
+  test(`toda tag de Especialidades tem ícone renderizado, ${pagina}`, async ({ page }) => {
+    await page.goto(rota);
+    const { total, ruins } = await iconesDasTags(page);
+    expect(total).toBeGreaterThan(0);
+    expect(ruins, 'tags sem ícone ou com ícone quebrado').toEqual([]);
+  });
+
+  test(`aberto do disco (file://), ${pagina}: toda tag tem ícone renderizado`, async ({
+    page
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'independe da largura');
+    await page.goto(new URL(`../${arquivo}`, import.meta.url).href);
+    const { total, ruins } = await iconesDasTags(page);
+    expect(total).toBeGreaterThan(0);
+    expect(ruins, 'tags sem ícone ou com ícone quebrado').toEqual([]);
+  });
+}

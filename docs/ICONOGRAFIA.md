@@ -31,6 +31,13 @@ branco no tema escuro e some no claro, então Airbyte também usa um neutro
 Terraform não entrou nas tags: não há ativo oficial registrado e a evidência é
 só o certificado do curso.
 
+Os ícones de categoria dos três cards de Especialidades não vêm do manifesto:
+são desenhados à mão em traço sobre grade de 24 (1,9 nos cards; 2 e 2,5 no
+menu, no tema e na seta), na mesma família dos ícones da interface. Um Fluent
+ali quebraria o trio, porque o Fluent é desenho preenchido. O card de IA
+aplicada usa uma faísca de quatro pontas com um "+": a estrela sozinha se leria
+como "favorito", e o cilindro anterior repetia o ícone da tag SQL.
+
 Redis permanece com ícone neutro no case público: a fonte e os termos oficiais
 estão registrados no manifesto, mas o kit de marca exige obtenção manual e
 atribuição por página. Não usamos cópias de agregadores como substituição.
