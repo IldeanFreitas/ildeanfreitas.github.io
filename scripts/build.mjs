@@ -151,6 +151,19 @@ if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].
   process.exit(1);
 }
 
+// A área decide a sessão do case; PT e EN com áreas diferentes publicariam
+// páginas com sessões diferentes, e a comparação de esqueleto não veria
+// (ela olha só os templates). A validade do valor fica em cases.mjs.
+{
+  const divergentes = cases.filter((c, i) => c.area !== casesEn[i].area);
+  if (divergentes.length) {
+    console.error(
+      `cases.json e cases.en.json com "area" diferente em: ${divergentes.map((c) => c.id).join(', ')}`
+    );
+    process.exit(1);
+  }
+}
+
 /**
  * A 404 é servida sozinha, então precisa carregar o próprio CSS. Mas recebe a
  * fonte e os tokens dos MESMOS arquivos que o index usa — sem isso ela

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Gera a galeria "Cases Power Apps" e uma página por app (pt e en).
+ * Gera a galeria "Apps de demonstração Power Apps" e uma página por app (pt e en).
  * Depende de index.html e en/index.html já gerados (reaproveita CSS, cabeçalho,
  * rodapé e scripts), então roda DEPOIS de scripts/build.mjs.
  *
- * Saída: cases/power-apps/index.html, cases/power-apps/<slug>/index.html e
- * en/cases/power-apps/... Os apps (app.html) ficam versionados ao lado.
+ * Saída: demos/power-apps/index.html, demos/power-apps/<slug>/index.html e
+ * en/demos/power-apps/... Os apps (app.html) ficam versionados ao lado.
  * `--check` só confere se os arquivos gerados estão em dia.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
@@ -15,6 +15,8 @@ import { fileURLToPath } from 'node:url';
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ler = (p) => readFileSync(join(RAIZ, p), 'utf8');
 const MODO_CHECK = process.argv.includes('--check');
+/** Caminho das páginas e dos apps, sem barra nas pontas (muda em um lugar só). */
+const DEMOS = 'demos/power-apps';
 const dados = JSON.parse(ler('src/data/mockups-power-apps.json'));
 
 const esc = (s) =>
@@ -28,28 +30,32 @@ const T = {
   pt: {
     base: '/',
     home: '/',
-    outro: '/en/cases/power-apps/',
+    outro: `/en/${DEMOS}/`,
     lang: 'pt-BR',
-    titulo: 'Cases Power Apps',
+    titulo: 'Apps de demonstração para Power Apps',
     intro:
-      'Doze apps de demonstração, navegáveis, para problemas comuns de empresas. Todos com dados fictícios e desenhados para serem construídos na Power Platform.',
+      'Doze apps de demonstração, navegáveis. Cada um parte de um cenário fictício e mostra como seria construído na Power Platform.',
     filtroTodos: 'Todos',
     filtroRot: 'Filtrar por segmento',
     selo: 'Arquitetura documentada',
-    ver: 'Ver o case',
-    voltar: '← Todos os cases Power Apps',
-    dor: 'O problema',
-    solucao: 'A solução',
+    ficticia: '(fictícia)',
+    ver: 'Ver o app de demonstração',
+    voltar: '← Todos os apps de demonstração',
+    dor: 'Cenário fictício',
+    solucao: 'O que a demonstração mostra',
     roteiro: 'Teste em 3 passos',
-    aviso: 'Dados 100% fictícios. Demonstração do que seria construído na Power Platform.',
+    aviso: 'Empresa e dados fictícios. Não é trabalho entregue nem resultado medido.',
+    notaIdioma: '',
+    escopoRot: 'Execução na Power Platform:',
+    escopo: 'nenhuma. Protótipo em HTML com dados fictícios.',
     cheia: 'Abrir em tela cheia',
     player: {
-      voltar: '← Voltar ao case',
+      voltar: '← Voltar à página do app',
       janela: 'Ajustar à janela',
       tablet: 'Tablet 16:9',
       celular: 'Celular',
       modos: 'Formato de exibição',
-      tela: 'Tela inteira',
+      tela: 'Tela cheia',
       nota: 'Simulação do app aberto no navegador. Dados fictícios.',
       dica: {
         janela: 'O app ocupa toda a janela, como um app responsivo (Scale to fit desativado).',
@@ -65,23 +71,27 @@ const T = {
   en: {
     base: '/en/',
     home: '/en/',
-    outro: '/cases/power-apps/',
+    outro: `/${DEMOS}/`,
     lang: 'en',
-    titulo: 'Power Apps cases',
+    titulo: 'Demo apps for Power Apps',
     intro:
-      'Twelve clickable demo apps for common business problems. All data is fictitious and each app is designed to be built on the Power Platform.',
+      'Twelve clickable demo apps. Each starts from a fictitious scenario and shows how it would be built on the Power Platform.',
     filtroTodos: 'All',
     filtroRot: 'Filter by segment',
     selo: 'Documented architecture',
-    ver: 'See the case',
-    voltar: '← All Power Apps cases',
-    dor: 'The problem',
-    solucao: 'The solution',
+    ficticia: '(fictitious)',
+    ver: 'See the demo app',
+    voltar: '← All demo apps',
+    dor: 'Fictitious scenario',
+    solucao: 'What the demo shows',
     roteiro: 'Try it in 3 steps',
-    aviso: '100% fictitious data. A demonstration of what would be built on the Power Platform.',
+    aviso: 'Fictitious company and data. It is not delivered work or a measured result.',
+    notaIdioma: 'The demo apps are in Portuguese.',
+    escopoRot: 'Execution on Power Platform:',
+    escopo: 'none. HTML prototype with fictional data.',
     cheia: 'Open full screen',
     player: {
-      voltar: '← Back to the case',
+      voltar: '← Back to the app page',
       janela: 'Fit to window',
       tablet: 'Tablet 16:9',
       celular: 'Phone',
@@ -111,17 +121,41 @@ function pedacos(htmlGerado) {
   return { css, header, footer, ini: scripts[0], principal: scripts[scripts.length - 1] };
 }
 
-function ajustarNav(trecho, lang, urlOutroIdioma) {
+/**
+ * Âncoras da home viram links para a home; o link de idioma (botão do cabeçalho e item
+ * do rodapé) passa a apontar para a página par no outro idioma. Se nenhum link de
+ * idioma for reescrito, o cabeçalho ou o rodapé mudou (a F2a troca o alternador por um
+ * menu de idiomas): falha alto em vez de publicar páginas que levam à home do outro idioma.
+ */
+function ajustarNav(trecho, lang, urlOutroIdioma, onde) {
   const t = T[lang];
-  return trecho
+  let idioma = 0;
+  const html = trecho
     .replace(/href="#inicio"/g, `href="${t.home}"`)
     .replace(/href="#([a-z]+)"/g, `href="${t.home}#$1"`)
-    .replace(
-      /(<a class="icon-btn icon-btn--text lang-toggle" href=")[^"]*"/,
-      `$1${urlOutroIdioma}"`
-    )
-    .replace(/(<li><a href=")\/en\/(" hreflang="en")/, `$1${urlOutroIdioma}$2`);
+    .replace(/(<a class="icon-btn icon-btn--text lang-toggle" href=")[^"]*"/, (_, a) => {
+      idioma++;
+      return `${a}${urlOutroIdioma}"`;
+    })
+    .replace(/(<li><a href=")[^"]*(" hreflang="(?:en|pt-BR)")/, (_, a, b) => {
+      idioma++;
+      return `${a}${urlOutroIdioma}${b}`;
+    });
+  if (!idioma) {
+    throw new Error(
+      `ajustarNav: nenhum link de idioma reescrito no ${onde} (${lang}). O markup do alternador mudou; adapte scripts/mockups.mjs.`
+    );
+  }
+  return html;
 }
+
+/**
+ * Sandbox único dos iframes (página do app e player). Sem allow-same-origin: os apps não
+ * usam storage, cookie, parent nem postMessage. allow-forms para o submit dos formulários;
+ * allow-popups e allow-popups-to-escape-sandbox para os links do Learn em nova aba.
+ */
+const SANDBOX =
+  'allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox';
 
 function pagina(lang, p, { titulo, descricao, canonico, alternativo, corpo, scriptExtra }) {
   const t = T[lang];
@@ -152,13 +186,13 @@ ${p.ini}
 
 <body>
 <a class="skip" href="#conteudo">${lang === 'pt' ? 'Pular para o conteúdo' : 'Skip to content'}</a>
-${ajustarNav(p.header, lang, alternativo)}
+${ajustarNav(p.header, lang, alternativo, 'cabeçalho')}
 
 <main id="conteudo">
 ${corpo}
 </main>
 
-${ajustarNav(p.footer, lang, alternativo)}
+${ajustarNav(p.footer, lang, alternativo, 'rodapé')}
 
 <script>
 ${p.principal}
@@ -168,14 +202,29 @@ ${p.principal}
 `;
 }
 
+/** Selo no mesmo pill dos projetos da home (status status--designed). */
+const selo = (t) => `<span class="status status--designed sem-margem">${esc(t.selo)}</span>`;
+/** Aviso de dados fictícios; nas páginas em inglês a nota de idioma fica dentro da caixa. */
+const aviso = (t) =>
+  `<div class="mock-aviso">
+        <p>${t.aviso}</p>${
+          t.notaIdioma
+            ? `
+        <p class="mock-nota">${t.notaIdioma}</p>`
+            : ''
+        }
+      </div>`;
+const tags = (c) => c.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join('');
+
 function cartao(lang, c) {
   const t = T[lang];
-  const href = `${t.base}cases/power-apps/${c.slug}/`;
+  const href = `${t.base}${DEMOS}/${c.slug}/`;
   return `        <article class="card mock-card" data-segmento="${esc(c.segmento[lang])}">
-          <p class="mock-card__seg sem-margem">${esc(c.segmento[lang])} · ${esc(c.empresa)}</p>
+          <p class="case-card__status">${selo(t)}</p>
+          <p class="mock-card__seg sem-margem">${esc(c.segmento[lang])} · ${esc(c.empresa)} <span class="mock-ficticia">${t.ficticia}</span></p>
           <h2>${esc(c.titulo[lang])}</h2>
           <p class="sem-margem">${esc(c.solucao[lang])}</p>
-          <p class="taglist sem-margem">${c.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join('')}<span class="tag">${esc(t.selo)}</span></p>
+          <p class="taglist sem-margem">${tags(c)}</p>
           <a class="btn btn--ghost" href="${href}">${t.ver}<span class="sr-only">: ${esc(c.titulo[lang])}</span></a>
         </article>`;
 }
@@ -188,12 +237,13 @@ function galeria(lang) {
       <p class="eyebrow">Power Apps</p>
       <h1>${t.titulo}</h1>
       <p class="lead">${t.intro}</p>
-      <p class="mock-aviso">${t.aviso}</p>
+      ${aviso(t)}
       <div class="mock-filtros" role="group" aria-label="${t.filtroRot}">
         <button type="button" aria-pressed="true" data-seg="">${t.filtroTodos}</button>
 ${segs.map((s) => `        <button type="button" aria-pressed="false" data-seg="${esc(s)}">${esc(s)}</button>`).join('\n')}
       </div>
-      <div class="grid grid--3">
+      <p class="sr-only" id="mock-contagem" aria-live="polite"></p>
+      <div class="grid grid--3 mock-grid">
 ${dados.map((c) => cartao(lang, c)).join('\n')}
       </div>
     </div>
@@ -203,10 +253,16 @@ ${dados.map((c) => cartao(lang, c)).join('\n')}
 (function () {
   var bs = document.querySelectorAll('.mock-filtros button');
   var cs = document.querySelectorAll('.mock-card');
+  var conta = document.getElementById('mock-contagem');
   bs.forEach(function (b) {
     b.addEventListener('click', function () {
+      var n = 0;
       bs.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      cs.forEach(function (c) { c.hidden = !!b.dataset.seg && c.dataset.segmento !== b.dataset.seg; });
+      cs.forEach(function (c) {
+        c.hidden = !!b.dataset.seg && c.dataset.segmento !== b.dataset.seg;
+        if (!c.hidden) n++;
+      });
+      conta.textContent = n + (n === 1 ? ' app' : ' apps');
     });
   });
 })();
@@ -216,13 +272,16 @@ ${dados.map((c) => cartao(lang, c)).join('\n')}
 
 function detalhe(lang, c) {
   const t = T[lang];
-  const app = `${t.base === '/' ? '/' : '/'}cases/power-apps/${c.slug}/app.html`;
+  const app = `/${DEMOS}/${c.slug}/app.html`;
   return `  <section class="section">
     <div class="wrap">
-      <a class="mock-voltar" href="${t.base}cases/power-apps/">${t.voltar}</a>
-      <p class="eyebrow">${esc(c.segmento[lang])} · ${esc(c.empresa)}</p>
+      <a class="mock-voltar" href="${t.base}${DEMOS}/">${t.voltar}</a>
+      <p class="eyebrow mock-kicker">${esc(c.segmento[lang])} · ${esc(c.empresa)} ${t.ficticia}</p>
       <h1>${esc(c.titulo[lang])}</h1>
-      <p class="taglist sem-margem">${c.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join('')}<span class="tag">${esc(t.selo)}</span></p>
+      ${aviso(t)}
+      <p class="case-card__status">${selo(t)}</p>
+      <p class="taglist sem-margem">${tags(c)}</p>
+      <p class="scope"><b>${t.escopoRot}</b> ${t.escopo}</p>
       <h2>${t.dor}</h2>
       <p class="lead">${esc(c.dor[lang])}</p>
       <h2>${t.solucao}</h2>
@@ -231,46 +290,77 @@ function detalhe(lang, c) {
       <ol class="mock-passos">
 ${c.passos[lang].map((s) => `        <li>${esc(s)}</li>`).join('\n')}
       </ol>
-      <p class="mock-aviso">${t.aviso}</p>
       <div class="mock-acoes">
-        <a class="btn btn--primary" href="${t.base}cases/power-apps/${c.slug}/tela-cheia/">${t.cheia}</a>
+        <a class="btn btn--primary" href="${t.base}${DEMOS}/${c.slug}/tela-cheia/">${t.cheia}</a>
       </div>
       <p class="mock-so-mobile sem-margem">${t.mobile}</p>
-      <iframe class="mock-moldura mock-so-desktop" src="${app}" title="${t.moldura} ${esc(c.empresa)}" loading="lazy" allow="fullscreen" sandbox="allow-scripts allow-modals allow-same-origin"></iframe>
+      <iframe class="mock-moldura mock-so-desktop" src="${app}" title="${t.moldura} ${esc(c.empresa)}" loading="lazy" allow="fullscreen" sandbox="${SANDBOX}"></iframe>
     </div>
   </section>`;
 }
 
+/**
+ * Player em tela cheia: página própria, sem o cabeçalho do site, mas com a mesma
+ * identidade (fonte e tokens lidos de src/css, tema salvo em localStorage 'tema').
+ * Abaixo de 700 px o modo Tablet 16:9 some (ficaria com uns 210 px de altura) e a
+ * barra compacta; a dica continua anunciada (aria-live), só sai da tela.
+ */
+const TEMA_JS = `(function () {
+  try {
+    var salvo = localStorage.getItem('tema');
+    if (salvo === 'dark' || salvo === 'light') document.documentElement.setAttribute('data-theme', salvo);
+  } catch (e) {}
+})();`;
+const PLAYER_CSS = `${ler('src/css/base/fonte.css').trim()}
+${ler('src/css/base/tokens.css').trim()}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--text);font:14px/1.4 var(--font)}
+.barra{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.5rem .9rem;background:var(--bg-alt);border-bottom:1px solid var(--border-strong)}
+.barra a,.barra button{color:var(--text);font:inherit}
+.voltar{display:inline-flex;align-items:center;min-height:40px;text-decoration:none;font-weight:600;padding:.4rem .9rem;border:1px solid var(--border-strong);border-radius:var(--r-pill)}
+.voltar:hover{border-color:var(--accent-solid)}
+.nome{font-weight:700;margin-right:auto}
+.modos{display:flex;gap:.25rem;border:0;padding:0;margin:0}
+.modos legend{position:absolute;left:-9999px}
+.modos button,.tela{background:var(--surface-soft);border:1px solid var(--border-strong);border-radius:var(--r-pill);padding:.4rem .9rem;cursor:pointer;min-height:40px}
+.modos button:hover,.tela:hover{border-color:var(--accent-solid)}
+.modos button[aria-pressed="true"]{background:var(--lime-soft);color:var(--accent);border-color:var(--border-lime);font-weight:700}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dica{margin:0;padding:.3rem .9rem;color:var(--text-muted);font-size:.8rem;background:var(--bg-alt);border-bottom:1px solid var(--border)}
+.palco{flex:1;min-height:0;display:grid;place-items:center;overflow:hidden;position:relative;background:var(--bg)}
+.caixa{position:relative;background:#fff;overflow:hidden;box-shadow:0 0 0 1px var(--border-strong)}
+iframe{border:0;display:block;background:#fff;transform-origin:0 0}
+@media (max-width:700px){
+  [data-modo="tablet"]{display:none}
+  .barra{gap:.35rem;padding:.35rem .5rem;font-size:13px}
+  .nome{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .voltar,.modos button,.tela{min-height:32px;padding:.25rem .65rem}
+  .voltar{margin-right:auto}
+  .dica{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;border:0}
+}`;
+
 function player(lang, c) {
   const t = T[lang];
   const p = t.player;
-  const app = `/cases/power-apps/${c.slug}/app.html`;
-  const voltar = `${t.base}cases/power-apps/${c.slug}/`;
+  const app = `/${DEMOS}/${c.slug}/app.html`;
+  const voltar = `${t.base}${DEMOS}/${c.slug}/`;
   const titulo = `${c.empresa} · ${t.moldura.replace(/ de$| of$/, '')}`;
   return `<!DOCTYPE html>
 <!-- ARQUIVO GERADO por scripts/mockups.mjs. Não edite. -->
-<html lang="${t.lang}">
+<html lang="${t.lang}" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>${esc(c.empresa)} | ${esc(t.titulo)}</title>
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preload" href="/assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+${TEMA_JS}
+</script>
 <style>
-*{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{display:flex;flex-direction:column;background:#1b1b1f;color:#f2f2f2;font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
-.barra{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1rem;padding:.5rem .9rem;background:#0f0f12;border-bottom:1px solid #333}
-.barra a,.barra button{color:#f2f2f2;font:inherit}
-.voltar{text-decoration:none;font-weight:600;padding:.4rem .7rem;border:1px solid #555;border-radius:6px}
-.nome{font-weight:700;margin-right:auto}
-.modos{display:flex;gap:.25rem;border:0;padding:0;margin:0}
-.modos legend{position:absolute;left:-9999px}
-.modos button,.tela{background:#26262c;border:1px solid #555;border-radius:6px;padding:.4rem .7rem;cursor:pointer;min-height:40px}
-.modos button[aria-pressed="true"]{background:#c4df00;color:#0b1200;border-color:#c4df00;font-weight:700}
-.dica{margin:0;padding:.3rem .9rem;color:#b8b8c0;font-size:.8rem;background:#16161a}
-.palco{flex:1;min-height:0;display:grid;place-items:center;overflow:hidden;position:relative}
-.caixa{position:relative;background:#fff;overflow:hidden;box-shadow:0 0 0 1px #444}
-iframe{border:0;display:block;background:#fff;transform-origin:0 0}
+${PLAYER_CSS}
 </style>
 </head>
 <body>
@@ -285,7 +375,7 @@ iframe{border:0;display:block;background:#fff;transform-origin:0 0}
   <button type="button" class="tela" id="tela">${p.tela}</button>
 </div>
 <p class="dica" id="dica" aria-live="polite">${p.nota}</p>
-<div class="palco" id="palco"><div class="caixa" id="caixa"><iframe id="app" src="${app}" title="${t.moldura} ${esc(c.empresa)}" allow="fullscreen" sandbox="allow-scripts allow-modals allow-same-origin"></iframe></div></div>
+<div class="palco" id="palco"><div class="caixa" id="caixa"><iframe id="app" src="${app}" title="${t.moldura} ${esc(c.empresa)}" allow="fullscreen" sandbox="${SANDBOX}"></iframe></div></div>
 <script>
 (function () {
   var DICAS = ${JSON.stringify(p.dica)};
@@ -294,7 +384,7 @@ iframe{border:0;display:block;background:#fff;transform-origin:0 0}
   var caixa = document.getElementById('caixa');
   var app = document.getElementById('app');
   var botoes = document.querySelectorAll('[data-modo]');
-  var modo = window.innerWidth < 700 ? 'janela' : 'tablet';
+  var modo = 'janela';
   function ajustar() {
     var w = palco.clientWidth, h = palco.clientHeight;
     if (modo === 'janela') {
@@ -320,7 +410,11 @@ iframe{border:0;display:block;background:#fff;transform-origin:0 0}
     if (document.fullscreenElement) { document.exitFullscreen(); }
     else if (el.requestFullscreen) { el.requestFullscreen().catch(function () {}); }
   });
-  window.addEventListener('resize', ajustar);
+  var estreito = window.matchMedia('(max-width: 700px)');
+  window.addEventListener('resize', function () {
+    if (modo === 'tablet' && estreito.matches) aplicar('janela');
+    else ajustar();
+  });
   aplicar(modo);
 })();
 </script>
@@ -336,10 +430,10 @@ for (const lang of ['pt', 'en']) {
   const p = pedacos(gerado);
   const pre = lang === 'pt' ? '' : 'en/';
   const g = galeria(lang);
-  const urlG = `${t.base}cases/power-apps/`;
-  const urlGOutro = T[lang === 'pt' ? 'en' : 'pt'].base + 'cases/power-apps/';
+  const urlG = `${t.base}${DEMOS}/`;
+  const urlGOutro = `${T[lang === 'pt' ? 'en' : 'pt'].base}${DEMOS}/`;
   saidas.set(
-    `${pre}cases/power-apps/index.html`,
+    `${pre}${DEMOS}/index.html`,
     pagina(lang, p, {
       titulo: t.titulo,
       descricao: t.intro,
@@ -350,11 +444,11 @@ for (const lang of ['pt', 'en']) {
     })
   );
   for (const c of dados) {
-    saidas.set(`${pre}cases/power-apps/${c.slug}/tela-cheia/index.html`, player(lang, c));
-    const u = `${t.base}cases/power-apps/${c.slug}/`;
-    const uo = `${T[lang === 'pt' ? 'en' : 'pt'].base}cases/power-apps/${c.slug}/`;
+    saidas.set(`${pre}${DEMOS}/${c.slug}/tela-cheia/index.html`, player(lang, c));
+    const u = `${t.base}${DEMOS}/${c.slug}/`;
+    const uo = `${T[lang === 'pt' ? 'en' : 'pt'].base}${DEMOS}/${c.slug}/`;
     saidas.set(
-      `${pre}cases/power-apps/${c.slug}/index.html`,
+      `${pre}${DEMOS}/${c.slug}/index.html`,
       pagina(lang, p, {
         titulo: c.titulo[lang],
         descricao: t.desc(c.solucao[lang]),
@@ -380,8 +474,8 @@ for (const [arq, html] of saidas) {
   }
 }
 for (const c of dados) {
-  if (!existsSync(join(RAIZ, `cases/power-apps/${c.slug}/app.html`))) {
-    console.error(`Falta cases/power-apps/${c.slug}/app.html`);
+  if (!existsSync(join(RAIZ, `${DEMOS}/${c.slug}/app.html`))) {
+    console.error(`Falta ${DEMOS}/${c.slug}/app.html`);
     defasados++;
   }
 }

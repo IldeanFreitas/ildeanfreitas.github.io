@@ -7,8 +7,9 @@
  * JavaScript desativado.
  *
  * O texto dos cases vem do JSON; as poucas frases fixas dos diagramas (rótulos
- * de legenda, "Plano de controle", títulos de bloco) vêm do dicionário abaixo,
- * escolhido pelo idioma que o build passa. Assim a versão em inglês usa o
+ * de legenda, "Plano de controle", títulos de bloco) e o título e a abertura
+ * de cada sessão da seção (ver AREAS) vêm do dicionário abaixo, escolhido pelo
+ * idioma que o build passa. Assim a versão em inglês usa o
  * mesmo renderizador — e qualquer divergência estrutural entre as duas
  * páginas é impossível por construção.
  */
@@ -41,6 +42,29 @@ const DICIONARIO = {
     legendaSituacao: {
       documentado: 'Documentado, sem execução',
       previsto: 'Previsto no contrato, ainda não feito'
+    },
+    /* Sessões da seção Cases (ordem em AREAS). `link` fecha a sessão. */
+    areas: {
+      'power-platform': {
+        titulo: 'Power Platform',
+        abertura: 'Aplicações e automações com Power Apps, Power Automate, Dataverse e SharePoint.',
+        link: {
+          href: '/demos/power-apps/',
+          texto: 'Ver os 12 apps de demonstração (dados fictícios)'
+        }
+      },
+      'power-bi': {
+        titulo: 'Power BI',
+        abertura: 'Em preparação: painéis interativos com dados fictícios.'
+      },
+      'engenharia-dados': {
+        titulo: 'Engenharia de Dados',
+        abertura: 'Pipelines, lakehouse e modelagem para análise.'
+      },
+      ia: {
+        titulo: 'IA aplicada',
+        abertura: 'Em preparação: casos de RAG e agentes com modelos de linguagem.'
+      }
     }
   },
   en: {
@@ -67,6 +91,28 @@ const DICIONARIO = {
     legendaSituacao: {
       documentado: 'Documented, not run',
       previsto: 'Planned in the contract, not built yet'
+    },
+    areas: {
+      'power-platform': {
+        titulo: 'Power Platform',
+        abertura: 'Apps and automation with Power Apps, Power Automate, Dataverse and SharePoint.',
+        link: {
+          href: '/en/demos/power-apps/',
+          texto: 'See the 12 demo apps (fictitious data)'
+        }
+      },
+      'power-bi': {
+        titulo: 'Power BI',
+        abertura: 'In preparation: interactive dashboards with fictitious data.'
+      },
+      'engenharia-dados': {
+        titulo: 'Data Engineering',
+        abertura: 'Pipelines, lakehouse and modeling for analytics.'
+      },
+      ia: {
+        titulo: 'Applied AI',
+        abertura: 'In preparation: RAG and agent cases with language models.'
+      }
     }
   }
 };
@@ -847,17 +893,17 @@ function diagrama(d) {
  */
 function fatos(c) {
   const blocos = [];
-  if (c.papel) blocos.push(`<div><h4>${T.papel}</h4><p>${texto(c.papel)}</p></div>`);
+  if (c.papel) blocos.push(`<div><h5>${T.papel}</h5><p>${texto(c.papel)}</p></div>`);
   if (c.decisoes && c.decisoes.length)
     blocos.push(
-      `<div><h4>${T.decisoes}</h4><ul>${c.decisoes
+      `<div><h5>${T.decisoes}</h5><ul>${c.decisoes
         .map((d) => `<li><b>${texto(d.titulo)}</b> ${texto(d.texto)}</li>`)
         .join('')}</ul></div>`
     );
-  if (c.resultado) blocos.push(`<div><h4>${T.resultado}</h4><p>${texto(c.resultado)}</p></div>`);
+  if (c.resultado) blocos.push(`<div><h5>${T.resultado}</h5><p>${texto(c.resultado)}</p></div>`);
   if (c.aprendizados && c.aprendizados.length)
     blocos.push(
-      `<div><h4>${T.aprendizados}</h4><ul>${c.aprendizados.map((a) => `<li>${texto(a)}</li>`).join('')}</ul></div>`
+      `<div><h5>${T.aprendizados}</h5><ul>${c.aprendizados.map((a) => `<li>${texto(a)}</li>`).join('')}</ul></div>`
     );
   if (!blocos.length) return [];
   return [
@@ -874,8 +920,53 @@ function fatos(c) {
  */
 export const SELOS = ['done', 'lab', 'staging', 'designed', 'evolving', 'soon'];
 
+/* ---------------------------------------------------------------------------
+ * Sessões da seção Cases, na ordem da página
+ *
+ * Cada case declara a sua em `area`; area ausente ou fora desta lista para o
+ * build. O id da sessão é `cases-<area>`, alvo dos botões dos cartões de
+ * Especialidades. Título, linha de abertura e o link opcional do fim da sessão
+ * vêm de T.areas, por idioma.
+ *
+ * Hierarquia de títulos: seção Cases em h2, sessão em h3, título do case em h4
+ * e fatos do case (papel, decisões, resultado, aprendizados) em h5. O CSS
+ * mantém o tamanho de antes (o h4 do case com o corpo de h3).
+ *
+ * Sessão sem case mostra só o título e a abertura ("Em preparação: ..."), sem
+ * selo: a legenda de selos do Sobre lista exatamente os selos dos cases.
+ * ------------------------------------------------------------------------- */
+export const AREAS = ['power-platform', 'power-bi', 'engenharia-dados', 'ia'];
+
+for (const [idioma, d] of Object.entries(DICIONARIO))
+  for (const area of AREAS)
+    if (!preenchido(d.areas?.[area]?.titulo) || !preenchido(d.areas[area].abertura))
+      throw new ErroDeCase(`dicionário "${idioma}" sem título ou abertura da área "${area}"`);
+
+function sessao(area, cards) {
+  const a = T.areas[area];
+  return [
+    `      <section class="cases-area" id="cases-${area}">`,
+    `        <h3 class="cases-area__titulo">${a.titulo}</h3>`,
+    `        <p class="cases-area__abertura">${a.abertura}</p>`,
+    ...(cards.length
+      ? [`        <div class="case-grid">`, cards.join('\n\n'), `        </div>`]
+      : []),
+    ...(a.link
+      ? [
+          `        <p class="demos-mais"><a class="btn btn--secondary" href="${attr(a.link.href)}">${a.link.texto}</a></p>`
+        ]
+      : []),
+    `      </section>`
+  ].join('\n');
+}
+
 function validarCase(c) {
-  campos(c, 'raiz', ['id', 'titulo', 'descricao', 'escopoRotulo', 'escopo', 'resultado']);
+  campos(c, 'raiz', ['id', 'area', 'titulo', 'descricao', 'escopoRotulo', 'escopo', 'resultado']);
+  exigir(
+    AREAS.includes(c.area),
+    'area',
+    `área desconhecida "${c.area}". Conhecidas: ${AREAS.join(', ')}`
+  );
   campos(c.status, 'status', ['variante', 'rotulo']);
   exigir(
     SELOS.includes(c.status.variante),
@@ -910,7 +1001,7 @@ export function renderizarCase(c) {
     `          <div class="case-card__cols">`,
     `          <div class="case-card__intro">`,
     `          <p class="case-card__status"><span class="status status--${attr(c.status.variante)} sem-margem">${texto(c.status.rotulo)}</span>${c.natureza ? `<span class="status-natureza">${texto(c.natureza)}</span>` : ''}</p>`,
-    `          <h3>${texto(c.titulo)}</h3>`,
+    `          <h4>${texto(c.titulo)}</h4>`,
     `          <p>${texto(c.descricao)}</p>`,
     `          <p class="scope"><b>${texto(c.escopoRotulo)}</b> ${texto(c.escopo)}</p>`,
     `          </div>`,
@@ -937,7 +1028,14 @@ export function renderizarCases(cases, idioma = 'pt') {
   T = DICIONARIO[idioma];
   exigir(Array.isArray(cases), 'renderizarCases', 'esperada uma lista de cases');
   try {
-    return cases.map(renderizarCase).join('\n\n');
+    /* Agrupa por área mantendo a ordem relativa do JSON dentro de cada uma.
+     * renderizarCase valida a área antes de o card entrar no grupo. */
+    const porArea = new Map(AREAS.map((a) => [a, []]));
+    for (const c of cases) {
+      const card = renderizarCase(c);
+      porArea.get(c.area).push(card);
+    }
+    return AREAS.map((a) => sessao(a, porArea.get(a))).join('\n\n');
   } finally {
     caseAtual = '(fora de um case)';
   }

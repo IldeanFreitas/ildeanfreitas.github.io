@@ -225,13 +225,37 @@
       <p class="eyebrow">Especialidades</p>
       <h2>Onde o dado vira decisão</h2>
       <p class="lead">
-        Atuo em três áreas que se complementam: engenharia de dados para organizar e modelar a
-        informação, Power Platform para criar as aplicações e automações onde o processo acontece,
-        e IA aplicada para responder perguntas e automatizar tarefas com modelos de linguagem.
-        Juntas ou em separado, o objetivo é o mesmo: informação confiável na mão de quem decide.
+        Atuo em três áreas que se complementam: Power Platform para criar as aplicações e
+        automações onde o processo acontece, engenharia de dados para organizar e modelar a
+        informação, e IA aplicada para responder perguntas e automatizar tarefas com modelos de
+        linguagem. Juntas ou em separado, o objetivo é o mesmo: informação confiável na mão de
+        quem decide.
       </p>
 
+      <!-- Ordem dos cartões = ordem das sessões da seção Cases (AREAS em
+           scripts/cases.mjs); o botão de cada um leva à sessão dele. -->
       <div class="grid grid--3 mt-12">
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
+          </div>
+          <h3>Power Platform</h3>
+          <p>
+            Aplicações corporativas e automação de processos: regras de negócio, componentes
+            reutilizáveis, conectores personalizados e integração entre sistemas via APIs REST.
+          </p>
+          <ul class="taglist">
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-apps/PowerApps_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Apps</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-automate/PowerAutomate_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Automate</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-laptop"></use></svg>Power Automate Desktop</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/dataverse/Dataverse_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Dataverse</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-math-formula"></use></svg>Power Fx</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/sharepoint/sharepoint_48x1.svg" alt="" width="16" height="16" loading="lazy" decoding="async">SharePoint</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-plug-connected"></use></svg>APIs REST</li>
+          </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-power-platform">Ver cases de Power Platform</a>
+        </article>
 
         <article class="card reveal">
           <div class="card__icon" aria-hidden="true">
@@ -254,26 +278,7 @@
             <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-math-formula"></use></svg>DAX</li>
             <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-cube"></use></svg>Modelagem dimensional</li>
           </ul>
-        </article>
-
-        <article class="card reveal">
-          <div class="card__icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
-          </div>
-          <h3>Power Platform</h3>
-          <p>
-            Aplicações corporativas e automação de processos: regras de negócio, componentes
-            reutilizáveis, conectores personalizados e integração entre sistemas via APIs REST.
-          </p>
-          <ul class="taglist">
-            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-apps/PowerApps_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Apps</li>
-            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-automate/PowerAutomate_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Automate</li>
-            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-laptop"></use></svg>Power Automate Desktop</li>
-            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/dataverse/Dataverse_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Dataverse</li>
-            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-math-formula"></use></svg>Power Fx</li>
-            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/sharepoint/sharepoint_48x1.svg" alt="" width="16" height="16" loading="lazy" decoding="async">SharePoint</li>
-            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-plug-connected"></use></svg>APIs REST</li>
-          </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-engenharia-dados">Ver cases de Engenharia de Dados</a>
         </article>
 
         <article class="card reveal">
@@ -294,6 +299,7 @@
             <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-bot"></use></svg>Agentes de IA</li>
             <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-arrow-sync"></use></svg>Automação</li>
           </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-ia">Ver cases de IA aplicada</a>
         </article>
 
       </div>
@@ -305,13 +311,11 @@
     <div class="wrap">
       <p class="eyebrow">Cases</p>
       <h2>Projetos e arquiteturas</h2>
-      <div class="case-grid">
 
+      <!-- Sessões por área (Power Platform, Power BI, Engenharia de Dados, IA
+           aplicada), geradas por scripts/cases.mjs a partir do campo "area" de
+           cada case. O botão das demonstrações fecha a sessão Power Platform. -->
 <!--{{ CASES }}-->
-
-      </div>
-
-      <p class="cases-mais"><a class="btn btn--primary" href="/cases/power-apps/">Ver os 12 cases de Power Apps</a></p>
 
       <p class="note">
         Nos cases, os números vêm do repositório ou do registro de execução; na faixa do topo,

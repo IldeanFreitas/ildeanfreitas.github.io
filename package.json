@@ -14,7 +14,7 @@
     "lint": "npm run lint:css && npm run lint:js && npm run lint:html",
     "lint:css": "stylelint \"**/*.{css,html}\"",
     "lint:js": "eslint .",
-    "lint:html": "html-validate index.html en/index.html 404.html \"cases/power-apps/**/index.html\" \"en/cases/power-apps/**/index.html\"",
+    "lint:html": "html-validate index.html en/index.html 404.html \"demos/power-apps/**/index.html\" \"en/demos/power-apps/**/index.html\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "node scripts/build.mjs && node scripts/mockups.mjs && node scripts/sitemap.mjs",

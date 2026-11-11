@@ -19,7 +19,8 @@ import {
   MARCAS,
   SELOS,
   FLUENT,
-  SEQ_MAX
+  SEQ_MAX,
+  AREAS
 } from '../../scripts/cases.mjs';
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url));
@@ -173,11 +174,78 @@ test('todos os diagramas são animados (fora do .reveal)', () => {
   const html = renderizarCases(PT, 'pt');
   const figuras = [...html.matchAll(/<figure class="([^"]+)"/g)].map((m) => m[1]);
   assert.equal(figuras.length, PT.length);
-  PT.forEach((c, i) => {
-    assert.match(figuras[i], /\bdiagram-anima\b/, c.id);
+  figuras.forEach((classes, i) => {
+    assert.match(classes, /\bdiagram-anima\b/, `figura ${i}`);
     // Dentro do fade do .reveal a sequência começava com a figura translúcida.
-    assert.doesNotMatch(figuras[i], /\breveal\b/, c.id);
+    assert.doesNotMatch(classes, /\breveal\b/, `figura ${i}`);
   });
+});
+
+test('case sem "area" falha', () => {
+  const c = doCase('case-dataops');
+  delete c.area;
+  deveFalhar(c, /case-dataops/, /campo "area" ausente/);
+});
+
+test('case com "area" desconhecida falha', () => {
+  const c = doCase('case-rpa-oidc');
+  c.area = 'automacao';
+  deveFalhar(c, /case-rpa-oidc/, /bloco area/, /área desconhecida "automacao"/);
+});
+
+test('os cases saem em sessões por área, na ordem de AREAS, com a ordem do JSON dentro', () => {
+  for (const [dados, idioma] of [
+    [PT, 'pt'],
+    [EN, 'en']
+  ]) {
+    const html = renderizarCases(dados, idioma);
+    const sessoes = [...html.matchAll(/<section class="cases-area" id="cases-([\w-]+)">/g)].map(
+      (m) => m[1]
+    );
+    assert.deepEqual(sessoes, AREAS, idioma);
+    // Cada case dentro da sessão da sua área: o trecho entre duas aberturas de
+    // sessão contém exatamente os ids daquela área, na ordem do JSON.
+    const trechos = html.split(/<section class="cases-area" id="cases-[\w-]+">/).slice(1);
+    AREAS.forEach((area, i) => {
+      const ids = [
+        ...trechos[i].matchAll(/<article class="card case-card[^"]*" id="([^"]+)"/g)
+      ].map((m) => m[1]);
+      assert.deepEqual(
+        ids,
+        dados.filter((c) => c.area === area).map((c) => c.id),
+        `${idioma}, ${area}`
+      );
+    });
+  }
+});
+
+test('sessão vazia mostra só título e "Em preparação", sem selo nem grade', () => {
+  const html = renderizarCases(PT, 'pt');
+  const bi = html.match(/<section class="cases-area" id="cases-power-bi">([\s\S]*?)<\/section>/);
+  assert.ok(bi, 'sem a sessão Power BI');
+  assert.match(bi[1], /<h3 class="cases-area__titulo">Power BI<\/h3>/);
+  assert.match(bi[1], /<p class="cases-area__abertura">Em preparação: /);
+  assert.doesNotMatch(bi[1], /status|case-grid/);
+  const en = renderizarCases(EN, 'en');
+  assert.match(en, /id="cases-ia">\s*<h3 class="cases-area__titulo">Applied AI<\/h3>/);
+});
+
+test('níveis de título: sessão h3, case h4, fatos h5', () => {
+  const html = renderizarCases([doCase('case-dataops')], 'pt');
+  assert.match(html, /<h3 class="cases-area__titulo">Engenharia de Dados<\/h3>/);
+  assert.match(html, /<h4>Laboratório DataOps/);
+  assert.match(html, /<h5>Decisões técnicas<\/h5>/);
+  assert.doesNotMatch(html, /<h3>|<h4>(Meu papel|Decisões|Resultado|Aprendizados)/);
+});
+
+test('o link das demonstrações fecha a sessão Power Platform, no idioma da página', () => {
+  const pt = renderizarCases(PT, 'pt');
+  const en = renderizarCases(EN, 'en');
+  assert.match(
+    pt,
+    /<p class="demos-mais"><a class="btn btn--secondary" href="\/demos\/power-apps\/">[^<]+<\/a><\/p>\n {6}<\/section>\n\n {6}<section class="cases-area" id="cases-power-bi">/
+  );
+  assert.match(en, /href="\/en\/demos\/power-apps\/">See the 12 demo apps/);
 });
 
 test('bloco com "produto" e "icone" ao mesmo tempo falha', () => {

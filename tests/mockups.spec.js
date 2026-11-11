@@ -1,12 +1,20 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync } from 'node:fs';
 
-/** Galeria e páginas dos cases Power Apps (pt e en). */
+/** Fonte única: os slugs, as contagens e os segmentos vêm do JSON, não do teste. */
+const DADOS = JSON.parse(
+  readFileSync(new URL('../src/data/mockups-power-apps.json', import.meta.url), 'utf8')
+);
+const SLUGS = DADOS.map((c) => c.slug);
+const N = DADOS.length;
+
+/** Galeria e páginas dos apps de demonstração Power Apps (pt e en). */
 const PAGINAS = [
-  '/cases/power-apps/',
-  '/cases/power-apps/obra/',
-  '/en/cases/power-apps/',
-  '/en/cases/power-apps/ouvidoria/'
+  '/demos/power-apps/',
+  '/demos/power-apps/obra/',
+  '/en/demos/power-apps/',
+  '/en/demos/power-apps/ouvidoria/'
 ];
 
 for (const url of PAGINAS) {
@@ -24,17 +32,22 @@ for (const url of PAGINAS) {
   });
 }
 
-test('galeria lista os 12 apps e o filtro por segmento funciona', async ({ page }) => {
-  await page.goto('/cases/power-apps/');
-  await expect(page.locator('.mock-card')).toHaveCount(12);
+test('galeria lista todos os apps e o filtro por segmento funciona', async ({ page }) => {
+  await page.goto('/demos/power-apps/');
+  await expect(page.locator('.mock-card')).toHaveCount(N);
+  const saude = DADOS.filter((c) => c.segmento.pt === 'Saúde').length;
+  expect(saude).toBeGreaterThan(0);
   await page.click('.mock-filtros button[data-seg="Saúde"]');
-  await expect(page.locator('.mock-card:not([hidden])')).toHaveCount(1);
+  await expect(page.locator('.mock-card:not([hidden])')).toHaveCount(saude);
+  await expect(page.locator('#mock-contagem')).toHaveText(
+    `${saude} ${saude === 1 ? 'app' : 'apps'}`
+  );
 });
 
 test('toda página de app aponta para um app.html existente', async ({ page, request }) => {
-  await page.goto('/cases/power-apps/');
+  await page.goto('/demos/power-apps/');
   const links = await page.locator('.mock-card a').evaluateAll((as) => as.map((a) => a.href));
-  expect(links).toHaveLength(12);
+  expect(links).toHaveLength(N);
   for (const l of links) {
     const r = await request.get(l + 'app.html');
     expect(r.status(), l).toBe(200);
@@ -42,8 +55,15 @@ test('toda página de app aponta para um app.html existente', async ({ page, req
 });
 
 test('player em tela cheia carrega o app e troca o formato', async ({ page }) => {
-  await page.goto('/cases/power-apps/obra/tela-cheia/');
+  await page.goto('/demos/power-apps/obra/tela-cheia/');
   await expect(page.frameLocator('#app').locator('body')).toBeVisible();
+  // padrão: abre ajustado à janela em qualquer largura
+  await expect(page.locator('[data-modo="janela"]')).toHaveAttribute('aria-pressed', 'true');
+  const [caixa0, palco0] = await Promise.all([
+    page.locator('#caixa').boundingBox(),
+    page.locator('#palco').boundingBox()
+  ]);
+  expect(Math.round(caixa0.width)).toBe(Math.round(palco0.width));
   await page.click('[data-modo="celular"]');
   await expect(page.locator('[data-modo="celular"]')).toHaveAttribute('aria-pressed', 'true');
   await page.click('[data-modo="janela"]');
@@ -52,4 +72,243 @@ test('player em tela cheia carrega o app e troca o formato', async ({ page }) =>
     page.locator('#palco').boundingBox()
   ]);
   expect(Math.round(caixa.width)).toBe(Math.round(palco.width));
+});
+
+const TEXTOS = {
+  pt: {
+    raiz: '/demos/power-apps/',
+    h1: 'Apps de demonstração para Power Apps',
+    ficticia: '(fictícia)',
+    cenario: 'Cenário fictício',
+    mostra: 'O que a demonstração mostra',
+    aviso: 'Não é trabalho entregue nem resultado medido.',
+    escopo: 'Execução na Power Platform: nenhuma. Protótipo em HTML com dados fictícios.'
+  },
+  en: {
+    raiz: '/en/demos/power-apps/',
+    h1: 'Demo apps for Power Apps',
+    ficticia: '(fictitious)',
+    cenario: 'Fictitious scenario',
+    mostra: 'What the demo shows',
+    aviso: 'It is not delivered work or a measured result.',
+    escopo: 'Execution on Power Platform: none. HTML prototype with fictional data.'
+  }
+};
+
+for (const [lang, t] of Object.entries(TEXTOS)) {
+  test(`${lang}: galeria com título, selo em pill, empresa fictícia e aviso`, async ({ page }) => {
+    await page.goto(t.raiz);
+    await expect(page.locator('h1')).toHaveText(t.h1);
+    await expect(page).toHaveTitle(new RegExp(`^${t.h1}`));
+    await expect(page.locator('.mock-card .status.status--designed')).toHaveCount(N);
+    await expect(page.locator('.mock-card .mock-ficticia')).toHaveCount(N);
+    await expect(page.locator('.mock-card .mock-ficticia').first()).toHaveText(t.ficticia);
+    await expect(page.locator('.mock-aviso')).toContainText(t.aviso);
+  });
+
+  test(`${lang}: página do app mostra o aviso antes do cenário, o escopo e a empresa fictícia`, async ({
+    page
+  }) => {
+    await page.goto(`${t.raiz}clinica/`);
+    await expect(page.locator('.eyebrow')).toContainText(t.ficticia);
+    await expect(page.locator('.status.status--designed')).toHaveCount(1);
+    await expect(page.locator('.scope')).toHaveText(t.escopo);
+    const [aviso, cenario, mostra] = await Promise.all([
+      page.locator('.mock-aviso').boundingBox(),
+      page.getByRole('heading', { level: 2, name: t.cenario }).boundingBox(),
+      page.getByRole('heading', { level: 2, name: t.mostra }).boundingBox()
+    ]);
+    const h1 = await page.locator('h1').boundingBox();
+    expect(h1.y).toBeLessThan(aviso.y);
+    expect(aviso.y).toBeLessThan(cenario.y);
+    expect(cenario.y).toBeLessThan(mostra.y);
+  });
+}
+
+test('a nota de idioma aparece só nas páginas em inglês, dentro do aviso', async ({ page }) => {
+  const nota = 'The demo apps are in Portuguese.';
+  for (const url of ['/en/demos/power-apps/', '/en/demos/power-apps/ordens-servico/']) {
+    await page.goto(url);
+    await expect(page.locator('.mock-aviso .mock-nota')).toHaveText(nota);
+  }
+  for (const url of ['/demos/power-apps/', '/demos/power-apps/ordens-servico/']) {
+    await page.goto(url);
+    await expect(page.locator('.mock-nota')).toHaveCount(0);
+  }
+});
+
+test('o texto da galeria e das páginas não usa a palavra "case"', async ({ page }) => {
+  for (const url of [
+    '/demos/power-apps/',
+    '/en/demos/power-apps/',
+    ...SLUGS.flatMap((s) => [`/demos/power-apps/${s}/`, `/en/demos/power-apps/${s}/`])
+  ]) {
+    await page.goto(url);
+    // o menu do site leva "Cases" para a seção da home; o miolo da página não.
+    await expect(page.locator('main'), url).not.toContainText(/\bcases?\b/i);
+    expect(
+      await page.locator('head meta[name="description"]').getAttribute('content'),
+      url
+    ).not.toMatch(/\bcases?\b/i);
+    expect(await page.title(), url).not.toMatch(/\bcases?\b/i);
+  }
+});
+
+test('nenhum dos apps faz requisição para fora do próprio site', async ({ page, baseURL }) => {
+  const externas = [];
+  page.on('request', (r) => {
+    if (
+      !r.url().startsWith(baseURL) &&
+      !r.url().startsWith('data:') &&
+      !r.url().startsWith('blob:')
+    ) {
+      externas.push(r.url());
+    }
+  });
+  for (const slug of SLUGS) {
+    await page.goto(`/demos/power-apps/${slug}/app.html`);
+    await page.waitForLoadState('load');
+  }
+  expect(externas).toEqual([]);
+});
+
+test('o botão da home leva à galeria, em PT e em EN', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.demos-mais a')).toHaveText(
+    'Ver os 12 apps de demonstração (dados fictícios)'
+  );
+  await expect(page.locator('.demos-mais a')).toHaveAttribute('href', '/demos/power-apps/');
+  await page.goto('/en/');
+  await expect(page.locator('.demos-mais a')).toHaveText('See the 12 demo apps (fictitious data)');
+  await expect(page.locator('.demos-mais a')).toHaveAttribute('href', '/en/demos/power-apps/');
+});
+
+test('todo app.html e todo player têm noindex', async ({ request }) => {
+  for (const slug of SLUGS) {
+    for (const url of [
+      `/demos/power-apps/${slug}/app.html`,
+      `/demos/power-apps/${slug}/tela-cheia/`,
+      `/en/demos/power-apps/${slug}/tela-cheia/`
+    ]) {
+      const html = await (await request.get(url)).text();
+      const head = html.slice(0, html.indexOf('</head>'));
+      expect(head, url).toContain('<meta name="robots" content="noindex">');
+    }
+  }
+});
+
+test('o link de idioma das páginas de demos leva à página par', async ({ page }) => {
+  const pares = [
+    ['/demos/power-apps/', '/en/demos/power-apps/'],
+    ['/demos/power-apps/obra/', '/en/demos/power-apps/obra/']
+  ];
+  for (const [pt, en] of pares) {
+    for (const [de, para] of [
+      [pt, en],
+      [en, pt]
+    ]) {
+      await page.goto(de);
+      await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
+      await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
+    }
+  }
+});
+
+test.describe('sandbox do iframe', () => {
+  test.skip(({ viewport }) => viewport.width < 1024, 'o iframe da página só aparece no desktop');
+
+  test('o formulário do app envia dentro do iframe (obra: nova ocorrência)', async ({ page }) => {
+    await page.goto('/demos/power-apps/obra/');
+    const app = page.frameLocator('iframe.mock-moldura');
+    await app.getByRole('button', { name: /Márcio Nunes/ }).click();
+    await app.locator('#entrar').click();
+    await app.getByRole('button', { name: 'Abrir diário deste dia' }).click();
+    await app.getByRole('button', { name: 'Nova ocorrência' }).click();
+    const form = app.locator('#modal form');
+    await expect(form).toBeVisible();
+    await form.locator('#f_t').selectOption('Material');
+    await form.locator('#f_x').fill('Entrega de cimento atrasada em dois dias.');
+    await form.getByRole('button', { name: 'Adicionar' }).click();
+    // sem allow-forms o submit não dispara e o modal continua aberto
+    await expect(app.locator('#modal form')).toHaveCount(0);
+    await expect(app.getByText('Entrega de cimento atrasada em dois dias.')).toBeVisible();
+  });
+
+  test('o link do Learn abre nova aba a partir do iframe', async ({ page, context }) => {
+    await context.route('https://learn.microsoft.com/**', (r) =>
+      r.fulfill({ status: 200, contentType: 'text/html', body: '<title>Learn</title>' })
+    );
+    await page.goto('/demos/power-apps/obra/');
+    const app = page.frameLocator('iframe.mock-moldura');
+    await app.getByRole('button', { name: /Márcio Nunes/ }).click();
+    await app.locator('#entrar').click();
+    // no iframe da página o painel não cabe acoplado: abre pelo botão, em modal
+    await app.locator('#ppbtn').click();
+    const link = app.locator('#modal .src a').first();
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link.locator('.sr')).toHaveText(' (abre em nova aba)');
+    // pelo teclado: o link pode estar fora da área visível do modal dentro do iframe
+    await link.focus();
+    const [aba] = await Promise.all([context.waitForEvent('page'), link.press('Enter')]);
+    expect(aba.url()).toMatch(/^https:\/\/learn\.microsoft\.com\//);
+    await aba.close();
+  });
+});
+
+test('os links do Learn mostram o título da página, avisam a nova aba e têm alvo de 24 px', async ({
+  page
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  for (const slug of ['inspecao-via', 'obra', 'ordens-servico', 'rebanho']) {
+    await page.goto(`/demos/power-apps/${slug}/app.html`);
+    const html = await page.content();
+    // cada URL citada no app tem título no mapa TL
+    const faltam = await page.evaluate(() => {
+      /* global TL, LB0 */
+      const src = document.documentElement.outerHTML;
+      const urls = [
+        ...src.matchAll(/https:\/\/learn\.microsoft\.com\/([^"'`\s]+)/g),
+        ...src.matchAll(/LB\+"([^"]+)"/g)
+      ].map((m) => m[1]);
+      return [...new Set(urls)].filter((u) => !TL[u] && u !== LB0);
+    });
+    expect(faltam, slug).toEqual([]);
+    expect(html, slug).not.toContain('word-break:break-all');
+  }
+  // rótulo e tamanho de um link renderizado (obra, painel acoplado a 1440 px)
+  await page.goto('/demos/power-apps/obra/app.html?fast');
+  await page.getByRole('button', { name: /Márcio Nunes/ }).click();
+  await page.locator('#entrar').click();
+  const a = page.locator('#pp .src a').first();
+  await expect(a).toBeVisible();
+  expect(await a.innerText()).not.toMatch(/learn\.microsoft\.com|^power-/);
+  expect((await a.boundingBox()).height).toBeGreaterThanOrEqual(24);
+});
+
+test('player em 375 px: sem modo Tablet, barra compacta, tema salvo', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 740 });
+  await page.addInitScript("localStorage.setItem('tema', 'light')");
+  await page.goto('/demos/power-apps/obra/tela-cheia/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('[data-modo="tablet"]')).toBeHidden();
+  await expect(page.locator('[data-modo="janela"]')).toHaveAttribute('aria-pressed', 'true');
+  const palco = await page.locator('#palco').boundingBox();
+  // tudo acima do palco (barra e dica) ocupa no máximo 12% da altura
+  expect(palco.y).toBeLessThanOrEqual(740 * 0.12);
+  expect(await page.evaluate(() => getComputedStyle(document.body).fontFamily)).toContain(
+    'Mona Sans'
+  );
+});
+
+test('o aviso do app não cobre o painel aberto em tela estreita (inspecao-via)', async ({
+  page
+}) => {
+  await page.setViewportSize({ width: 375, height: 740 });
+  await page.goto('/demos/power-apps/inspecao-via/app.html?fast');
+  await page.locator('#entrar').click();
+  await expect(page.locator('.toast').first()).toBeVisible();
+  await page.locator('#ppbtn').click();
+  await expect(page.locator('#modal .pp')).toBeVisible();
+  const toast = await page.locator('#toasts').boundingBox();
+  expect(toast.y + toast.height).toBeLessThan(740 / 2);
 });

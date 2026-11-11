@@ -134,16 +134,116 @@ test('a legenda de selos cobre exatamente os selos usados nos cases', async ({ p
   expect(usados.sort()).toEqual(legenda.sort());
 });
 
-test('os cases seguem a ordem editorial: dados primeiro', async ({ page }) => {
+test('os cases seguem a ordem editorial: por área, Power Platform primeiro', async ({ page }) => {
+  // Desde 11/11/2026 a seção Cases é dividida em sessões por área, na ordem
+  // dos cartões de Especialidades; dentro da sessão vale a ordem do JSON.
   const ids = await page.locator('.case-card').evaluateAll((els) => els.map((e) => e.id));
   expect(ids).toEqual([
+    'case-fiscal-orchestration',
+    'case-rpa-oidc',
     'case-dataops',
     'case-camara-lakehouse',
-    'plataforma-dados-aws',
-    'case-fiscal-orchestration',
-    'case-rpa-oidc'
+    'plataforma-dados-aws'
   ]);
 });
+
+/** Ordem das sessões da seção Cases (AREAS em scripts/cases.mjs). */
+const AREAS = ['power-platform', 'power-bi', 'engenharia-dados', 'ia'];
+
+for (const [pagina, rota, botoes, emPreparacao] of [
+  [
+    'pt',
+    '/',
+    ['Ver cases de Power Platform', 'Ver cases de Engenharia de Dados', 'Ver cases de IA aplicada'],
+    /^Em preparação: /
+  ],
+  [
+    'en',
+    '/en/',
+    ['See Power Platform cases', 'See Data Engineering cases', 'See applied AI cases'],
+    /^In preparation: /
+  ]
+]) {
+  test(`${pagina}: a seção Cases tem as quatro sessões, cada case na da sua área`, async ({
+    page
+  }) => {
+    await page.goto(rota);
+    const sessoes = page.locator('#cases .cases-area');
+    await expect(sessoes).toHaveCount(AREAS.length);
+    for (const [i, area] of AREAS.entries()) {
+      const sessao = sessoes.nth(i);
+      await expect(sessao).toHaveAttribute('id', `cases-${area}`);
+      // O título da sessão é o primeiro filho e é h3; o do case desce para h4.
+      await expect(sessao.locator(':scope > :first-child')).toHaveJSProperty('tagName', 'H3');
+      const ids = await sessao.locator('.case-card').evaluateAll((els) => els.map((e) => e.id));
+      expect(ids, area).toEqual(cases.filter((c) => c.area === area).map((c) => c.id));
+      if (!ids.length) {
+        // Sessão vazia: só título e a linha "Em preparação", sem selo (a
+        // legenda de selos do Sobre lista só os selos dos cases).
+        await expect(sessao.locator('.cases-area__abertura')).toHaveText(emPreparacao);
+        await expect(sessao.locator('.status')).toHaveCount(0);
+      }
+    }
+    // O botão das demonstrações fecha a sessão Power Platform.
+    await expect(page.locator('#cases-power-platform > :last-child')).toHaveClass('demos-mais');
+    await expect(page.locator('.demos-mais')).toHaveCount(1);
+  });
+
+  test(`${pagina}: cada cartão de Especialidades leva à sua sessão de Cases`, async ({ page }) => {
+    await page.goto(rota);
+    const cartoes = page.locator('#servicos .card');
+    await expect(cartoes).toHaveCount(3);
+    const alvos = ['#cases-power-platform', '#cases-engenharia-dados', '#cases-ia'];
+    for (const [i, alvo] of alvos.entries()) {
+      const botao = cartoes.nth(i).locator('a.card__acao');
+      await expect(botao).toHaveText(botoes[i]);
+      await expect(botao).toHaveAttribute('href', alvo);
+      await expect(page.locator(alvo)).toHaveCount(1);
+      // Discreto (secundário, não o lima cheio do primário) e com alvo de 24 px.
+      await expect(botao).toHaveClass(/\bbtn--secondary\b/);
+      await expect(botao).not.toHaveClass(/\bbtn--primary\b/);
+      const caixa = await botao.boundingBox();
+      expect(caixa.height, botoes[i]).toBeGreaterThanOrEqual(24);
+      expect(caixa.width, botoes[i]).toBeGreaterThanOrEqual(24);
+    }
+  });
+}
+
+test('o botão de Especialidades rola até a sessão e o menu marca Cases', async ({ page }) => {
+  // A âncora é de uma sessão dentro de #cases: o scroll-spy (que só observa as
+  // seções do menu) continua marcando "Cases", e o foco vai para a sessão.
+  const botao = page.locator('#servicos a[href="#cases-engenharia-dados"]');
+  await botao.click();
+  const sessao = page.locator('#cases-engenharia-dados');
+  await expect(sessao).toBeInViewport();
+  await expect(sessao).toBeFocused();
+  // O título da sessão fica abaixo do cabeçalho fixo, não atrás dele.
+  const cabecalho = await page.locator('.site-header').boundingBox();
+  const titulo = await sessao.locator('h3').boundingBox();
+  expect(titulo.y).toBeGreaterThanOrEqual(cabecalho.y + cabecalho.height);
+  await expect(page.locator('.nav__link[href="#cases"]')).toHaveAttribute(
+    'aria-current',
+    'location'
+  );
+});
+
+for (const [pagina, rota] of [
+  ['pt', '/'],
+  ['en', '/en/']
+]) {
+  test(`${pagina}: a hierarquia de títulos não salta nível`, async ({ page }) => {
+    // h1 → h2 (seção) → h3 (cartão; sessão de Cases) → h4 (case) → h5 (fatos).
+    await page.goto(rota);
+    const niveis = await page
+      .locator('h1, h2, h3, h4, h5, h6')
+      .evaluateAll((els) => els.map((e) => [Number(e.tagName[1]), e.textContent.trim()]));
+    const saltos = niveis
+      .filter(([nivel], i) => i > 0 && nivel > niveis[i - 1][0] + 1)
+      .map(([nivel, texto]) => `h${nivel} "${texto.slice(0, 40)}"`);
+    expect(niveis[0][0]).toBe(1);
+    expect(saltos).toEqual([]);
+  });
+}
 
 test('todo diagrama é figure com aria-label, figcaption de uma frase e um único destaque', async ({
   page
@@ -438,8 +538,9 @@ test('cada case traz decisões técnicas e resultado', async ({ page }) => {
   for (let i = 0; i < total; i++) {
     const fatos = cards.nth(i).locator('.case-facts');
     await expect(fatos, `case ${i} sem bloco de fatos`).toHaveCount(1);
-    await expect(fatos.locator('h4', { hasText: 'Decisões técnicas' })).toHaveCount(1);
-    await expect(fatos.locator('h4', { hasText: 'Resultado' })).toHaveCount(1);
+    // Fatos em h5: a sessão é h3 e o título do case, h4.
+    await expect(fatos.locator('h5', { hasText: 'Decisões técnicas' })).toHaveCount(1);
+    await expect(fatos.locator('h5', { hasText: 'Resultado' })).toHaveCount(1);
   }
 });
 

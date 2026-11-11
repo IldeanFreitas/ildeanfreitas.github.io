@@ -1,6 +1,7 @@
 [
   {
     "id": "case-dataops",
+    "area": "engenharia-dados",
     "status": {
       "variante": "lab",
       "rotulo": "Lab completed"
@@ -155,6 +156,7 @@
   },
   {
     "id": "case-camara-lakehouse",
+    "area": "engenharia-dados",
     "status": {
       "variante": "done",
       "rotulo": "Delivered"
@@ -317,6 +319,7 @@
   },
   {
     "id": "plataforma-dados-aws",
+    "area": "engenharia-dados",
     "status": {
       "variante": "designed",
       "rotulo": "Documented architecture"
@@ -515,6 +518,7 @@
   },
   {
     "id": "case-fiscal-orchestration",
+    "area": "power-platform",
     "status": {
       "variante": "done",
       "rotulo": "Delivered"
@@ -676,6 +680,7 @@
   },
   {
     "id": "case-rpa-oidc",
+    "area": "power-platform",
     "status": {
       "variante": "done",
       "rotulo": "Delivered"

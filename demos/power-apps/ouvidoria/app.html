@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mockup · Quarzana Ouve · Ouvidoria e protocolos</title>
+<style>
+:root{--pri:#be185d;--pri2:#9d174d;--dark:#3b0a24;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#fff7fa;--bd:#efd3df;--tx:#1f1018;--tx2:#5b4250;--w:#fff;--r:12px;--acc:#0e7490;--tint:#fce7f3}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#f3e3ea;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}.sm{font-size:13px}
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;min-height:40px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx);max-width:min(330px,70vw)}
+.banner label{display:flex;gap:6px;align-items:center;min-height:40px}
+.ppbtn{display:inline-flex;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center;min-height:40px}
+@media(min-width:1280px){body.lg .ppbtn{display:none}}
+/* capa */
+#cover{flex:1;overflow:auto;background:radial-gradient(circle at 12% 10%,#db2777 0,#831843 45%,#2a0618 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:1060px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:820px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.steps{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px}
+.cv ul.fl{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv ul.fl li{display:flex;gap:10px;align-items:flex-start}
+.login{background:#fff;color:var(--tx);border-radius:18px;padding:24px;box-shadow:0 20px 50px #00000066}
+.login h2{margin:0 0 4px;font-size:20px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.persons{display:grid;gap:8px;margin:12px 0;max-height:46dvh;overflow:auto}
+.prs{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:56px;width:100%}
+.prs small{display:block;color:var(--tx2);font-size:12px}
+.prs[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.pgr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:8px 0 2px}
+.hint{background:#ffffff14;border:1px dashed #ffffff66;border-radius:12px;padding:10px 12px;margin-top:16px;font-size:14px}
+.hint code{background:#ffffff26;padding:1px 6px;border-radius:6px;font-weight:700}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1600px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:flex;flex-direction:column;background:var(--bg);border-radius:16px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #3b0a242b}
+@media(max-width:700px){#app{border-radius:0;border:0}}
+.hdr{background:var(--dark);color:#fff;position:relative}
+.hr1{display:flex;align-items:center;gap:6px;padding:6px 10px}
+#app{container-type:inline-size}
+h1[tabindex="-1"]:focus{outline:none}
+@container (max-width:1180px){.usr .nm{display:none}.clk span{display:none}}
+@container (max-width:900px){.hdr .bn span{display:none}.tm button span.lb{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.tm button{padding:6px 9px}}
+.hdr .bn{display:flex;gap:8px;align-items:center;font-weight:700;white-space:nowrap;margin-right:6px}
+.tm{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.tm::-webkit-scrollbar{display:none}
+.tm button{display:inline-flex;gap:6px;align-items:center;border:0;background:none;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;min-height:44px;white-space:nowrap;font-size:14px;opacity:.9;position:relative}
+.tm button:hover{background:#ffffff1f;opacity:1}
+.tm button[aria-current=page]{background:#ffffff2e;opacity:1;font-weight:700;box-shadow:inset 0 -3px 0 #f9a8d4}
+.tm .cnt{background:#f9a8d4;color:#3b0a24;border-radius:999px;font-size:11px;font-weight:800;padding:0 6px;min-width:18px;text-align:center}
+.hr2{padding:0 10px 8px;display:flex;gap:8px;align-items:center}
+.gs{position:relative;flex:1;max-width:760px}
+.gs .ic{position:absolute;left:12px;top:12px;color:#f9a8d4}
+.gs input{width:100%;min-height:44px;border-radius:12px;border:1px solid #ffffff44;background:#ffffff14;color:#fff;padding:8px 46px 8px 40px}
+.gs input::placeholder{color:#f5d0e0}
+.gs input:focus{background:#fff;color:var(--tx)}
+.gs input:focus::placeholder{color:#6b5560}
+.gs kbd{position:absolute;right:10px;top:11px;font:12px system-ui;border:1px solid #ffffff55;border-radius:6px;padding:1px 6px;color:#f5d0e0}
+.gs input:focus~kbd{display:none}
+@media(max-width:520px){.gs kbd{display:none}}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:inherit;flex:none}
+.ib:hover{background:#ffffff22}
+main .ib:hover,.mbox .ib:hover,.toast .ib:hover{background:#0000000f}
+.badge{position:absolute;top:4px;right:4px;background:#9f1239;color:#fff;border:1px solid #fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1;white-space:nowrap}
+.clk{display:inline-flex;gap:6px;align-items:center;background:#ffffff1f;color:#fff;border:1px solid #fff4;border-radius:10px;min-height:44px;padding:4px 10px;cursor:pointer;font-size:13px;white-space:nowrap}
+#screen{flex:1;overflow:auto;padding:16px;min-height:0;min-width:0}
+@media(min-width:1100px){#screen{padding:20px 26px}}
+h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px}h3{font-size:15px;margin:16px 0 8px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;gap:10px;align-items:center;text-align:left}
+.kpi b{font-size:24px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:40px;height:40px;border-radius:10px;background:var(--tint);color:var(--pri);display:grid;place-items:center;flex:none}
+.kpi.bad .kic{background:#fde4e2;color:var(--bad)}.kpi.warn .kic{background:#fdf0d0;color:var(--warn)}
+button.kpi{cursor:pointer;font:inherit;color:inherit}button.kpi:hover{border-color:var(--pri)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:10px 12px;border:1px solid #8f7180;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:96px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#6b5560}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px;text-align:center}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri2)}.btn.sec:hover{background:var(--tint)}
+.btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.bad.sec{background:#fff;color:#b3261e;border-color:#b3261e}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e7e5e4;color:#3f3f46}.t-pri{background:var(--tint);color:#831843}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px;display:inline-flex;gap:6px;align-items:center}
+.pill b{font-size:12px;background:var(--tint);color:#831843;border-radius:999px;padding:0 7px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}.pill[aria-pressed=true] b{background:#fff;color:var(--pri2)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri2);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.empty{text-align:center;color:var(--tx2);padding:26px 10px}.empty .ic{width:34px;height:34px;margin-bottom:6px}
+.tw{overflow-x:auto}
+table.tb{border-collapse:collapse;width:100%;min-width:640px;background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.tb th,.tb td{border-bottom:1px solid var(--bd);padding:9px 10px;text-align:left;vertical-align:middle;font-size:14px}
+.tb th{background:#fbeef4;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--tx2)}
+.tb td.act{white-space:nowrap;text-align:right}
+.hbar{display:grid;grid-template-columns:minmax(90px,44%) 1fr 40px;gap:8px;align-items:center;margin:4px 0;font-size:14px;width:100%;background:none;border:0;padding:2px 0;text-align:left}
+button.hbar{cursor:pointer;min-height:40px}button.hbar:hover .nm2{text-decoration:underline}
+.hbar b{text-align:right}
+.bar{display:block;height:12px;background:#f3dfe8;border-radius:6px;overflow:hidden;position:relative}.bar>i{display:block;height:100%;background:var(--pri)}.bar>i.v{position:absolute;left:0;top:0;background:var(--bad)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+svg.cs{width:100%;height:auto;display:block}
+svg.cs text{font:11px system-ui,sans-serif;fill:#3f2a34}
+details.dt{margin-top:8px;font-size:13px}details.dt summary{cursor:pointer;color:var(--pri2);min-height:40px;display:flex;align-items:center}
+details.dt table{border-collapse:collapse;margin-top:4px}details.dt th,details.dt td{border:1px solid var(--bd);padding:3px 8px;text-align:left}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:var(--tint)}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri2);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+.pp .src{display:block;font-size:12px;color:var(--tx2);overflow-wrap:anywhere;margin-top:2px}.pp .src code{font-size:11px}.pp .warn .src{color:#5c3b00}
+#npop{position:absolute;right:8px;top:56px;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #3b0a244d;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:var(--tint)}
+/* modal */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#3b0a24cc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:16px;max-width:580px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:780px}.mbox.big{max-width:900px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal{align-items:flex-end;padding:0}.modal .mbox{border-radius:16px 16px 0 0;max-height:94dvh}}
+.dl2{display:grid;grid-template-columns:140px 1fr;gap:6px 10px;margin:8px 0;font-size:14px}.dl2 dt{color:var(--tx2)}.dl2 dd{margin:0;overflow-wrap:anywhere}
+@media(max-width:420px){.dl2{grid-template-columns:1fr}.dl2 dd{margin-bottom:4px}}
+#busy{position:fixed;inset:0;z-index:80;background:#3b0a2466;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0006}
+.spin{width:24px;height:24px;border:3px solid #f6c4da;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-right-color:var(--pri)}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:22px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(max-width:560px){#toasts{top:8px;bottom:auto}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0006}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast.warn{background:#5c3d00}.toast .ib{color:#fff;width:40px;height:40px}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body>*{display:none!important}
+ body>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}.doc{border:0;padding:0}
+}
+.seg{display:inline-flex;border:1px solid #8f7180;border-radius:10px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed=true]{background:var(--pri);color:#fff}
+.tabsa{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tabsa button{border:1px solid var(--bd);background:#fff;border-radius:10px;padding:8px 14px;cursor:pointer;min-height:44px}
+.tabsa button[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.note{background:var(--tint);border:1px solid #f3b7d0;border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px}
+.note.bad{background:#fde4e2;border-color:#f3a09a}.note.ok{background:#dcf5e6;border-color:#9fd9b6}
+/* busca */
+.hero{background:linear-gradient(135deg,#fff 0,#fce7f3 100%);border:1px solid var(--bd);border-radius:16px;padding:18px;margin-bottom:14px}
+.hero h1{font-size:24px}
+.bigs{position:relative;margin-top:10px}
+.bigs .ic{position:absolute;left:14px;top:15px;color:var(--pri)}
+.bigs input{width:100%;min-height:52px;border-radius:14px;border:2px solid var(--pri);padding:10px 14px 10px 44px;font-size:17px;background:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:6px 12px;cursor:pointer;min-height:40px;font-size:14px}
+.chip:hover{border-color:var(--pri)}
+/* lista de protocolos */
+.pl{display:grid;gap:8px}
+.pr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;background:#fff;border:1px solid var(--bd);border-left:5px solid var(--bd);border-radius:12px;padding:10px 12px;width:100%;text-align:left;cursor:pointer}
+.pr:hover{border-color:var(--pri);border-left-color:var(--pri)}
+.pr.pz-Vencido{border-left-color:var(--bad)}.pr.pz-risco{border-left-color:#d97706}.pr.pz-ok{border-left-color:var(--ok)}.pr.pz-pausa{border-left-color:var(--acc)}
+.pr .t1{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.pr .t1 b{font-family:ui-monospace,Consolas,monospace;font-size:14px}
+.pr .t2{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;grid-column:1}
+.pr .t3{font-size:13px;color:var(--tx2);grid-column:1}
+.pr .rt{grid-row:1/4;grid-column:2;display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right;font-size:13px}
+@media(max-width:520px){.pr{grid-template-columns:1fr}.pr .rt{grid-row:auto;grid-column:1;flex-direction:row;align-items:center;flex-wrap:wrap}}
+mark{background:#fde68a;color:inherit;border-radius:3px;padding:0 1px}
+.grp{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:14px 0 6px;display:flex;gap:8px;align-items:center}
+/* protocolo */
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+@media(min-width:1000px){.pgrid{grid-template-columns:minmax(0,1fr) 320px;grid-template-areas:"a b" "c b";align-items:start}.pgrid .pa{grid-area:a}.pgrid .pb{grid-area:b}.pgrid .pc{grid-area:c}}
+.pgrid{gap:0 14px}
+@media(max-width:999px){.pgrid .pb{order:1}.pgrid .pc{order:2}}
+.phd{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.num{font-family:ui-monospace,Consolas,monospace;font-weight:800;letter-spacing:.02em}
+.backb{display:inline-flex;gap:6px;align-items:center;border:0;background:none;color:var(--pri2);cursor:pointer;min-height:40px;padding:0 6px 0 0;font-weight:600}
+.meter{height:12px;border-radius:6px;background:#f3dfe8;overflow:hidden;margin:8px 0 4px}
+.meter i{display:block;height:100%;background:var(--ok)}
+.meter.risco i{background:#d97706}.meter.Vencido i{background:var(--bad)}.meter.pausa i{background:var(--acc)}
+.big{font-size:28px;font-weight:800;line-height:1}
+.acts{display:grid;gap:8px}
+.acts .btn{width:100%;justify-content:flex-start}
+.prot{display:flex;gap:8px;align-items:center;background:#f6f1f3;border:1px dashed #b59aa7;border-radius:10px;padding:10px;font-size:14px}
+/* linha do tempo */
+ol.tl{list-style:none;margin:6px 0 0;padding:0 0 0 6px;position:relative}
+ol.tl::before{content:"";position:absolute;left:23px;top:6px;bottom:6px;width:2px;background:var(--bd)}
+.tl li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:10px;padding:6px 0;position:relative}
+.tl .dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid var(--pri);color:var(--pri);z-index:1}
+.tl .dot .ic{width:18px;height:18px}
+.tl .k-enc .dot,.tl .k-par .dot{border-color:var(--acc);color:var(--acc)}
+.tl .k-dev .dot,.tl .k-arq .dot,.tl .k-prorneg .dot{border-color:var(--bad);color:var(--bad)}
+.tl .k-resp .dot,.tl .k-aval .dot,.tl .k-encf .dot{border-color:var(--ok);color:var(--ok);background:#dcf5e6}
+.tl .k-comp .dot,.tl .k-pror .dot,.tl .k-prorpend .dot{border-color:#b45309;color:#b45309}
+.tl .bx{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:8px 12px;min-width:0}
+.tl .int .bx{background:#f6f1f3;border-style:dashed}
+.tl .bx .h{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.tl .bx .h b{font-size:15px}
+.tl .bx .w{font-size:12px;color:var(--tx2)}
+.tl .bx p{margin:4px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}
+.stars{display:inline-flex;gap:2px;color:#d97706}.stars .ic{width:16px;height:16px}.stars .on{fill:#f59e0b}
+.rate{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.rate button{min-width:52px;min-height:48px;border:2px solid var(--bd);border-radius:12px;background:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px}
+.rate button[aria-pressed=true]{border-color:#d97706;background:#fef3c7}
+.rate button .ic{width:20px;height:20px;color:#d97706}
+.rate button[aria-pressed=true] .ic{fill:#f59e0b}
+.okbox{text-align:center;padding:12px}.okbox .ic{width:44px;height:44px;color:var(--ok)}
+.codebox{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
+.codebox div{background:#fff;border:2px solid var(--pri);border-radius:14px;padding:12px;text-align:center}
+.codebox small{display:block;color:var(--tx2)}.codebox b{font:800 22px ui-monospace,Consolas,monospace;letter-spacing:.06em}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:12px 0 0;min-height:44px}
+.chk input{width:40px;height:40px;margin:0;flex:none;accent-color:var(--pri2)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 14px}
+@media print{.hdr,.banner{display:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 3h-4l-.4 2.4a7 7 0 0 0-2.2 1.3l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 21h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h13M16 3l4 4-4 4M17 17H4M8 13l-4 4 4 4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4L14 7"/></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/><path d="M19 20a4 4 0 0 1-4 2h-2"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></symbol>
+<symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15 8a5 5 0 0 1 0 8M18 5a9 9 0 0 1 0 14"/></symbol>
+<symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13l3-8h12l3 8v6H3z"/><path d="M3 13h5l1 2h6l1-2h5"/></symbol>
+<symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></symbol>
+<symbol id="i-archive" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v12h14V8M10 12h4"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5l8-3v19M12 9h8v12M7 8h2M7 12h2M7 16h2M15 13h2M15 17h2M2 21h20"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></symbol>
+</svg>
+
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Órgão e município fictícios: Ouvidoria do Município de Quarzana.</span>
+  <div class="sim">
+    <label>Usuário <select id="perfil" aria-label="Usuário simulado"></select></label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Ouvidoria com protocolo, prazo e resposta rastreável</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">O cidadão registra a manifestação e acompanha pelo número e código. A Ouvidoria encaminha aos setores, controla o prazo em dias e responde. Quem é do setor nunca vê quem fez a manifestação.</p>
+      <ul class="fl" id="cvlist"></ul>
+      <ol class="steps" id="cvsteps" aria-label="Etapas do protocolo"></ol>
+      <div class="hint" id="cvhint"></div>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Escolha quem está entrando. Nenhum dado é enviado.</p>
+      <div class="persons" id="cvp" role="group" aria-label="Pessoa de acesso"></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted sm" style="margin:12px 0 0">Depois de entrar, o seletor Usuário no topo da página troca de pessoa.</p>
+    </div>
+  </div>
+</section>
+
+<div id="stage" hidden>
+  <div id="app">
+    <header class="hdr" id="hdr"></header>
+    <main id="screen" tabindex="-1"></main>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const p2=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const addTo=(s,n)=>{const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const dia0=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime()};
+const difDias=(a,b)=>Math.round((dia0(a)-dia0(b))/DAY);
+const dias=n=>n+(n===1?" dia":" dias");
+const fmt=s=>s?s.slice(0,10).split("-").reverse().join("/"):"—";
+const fmtH=s=>s?s.slice(11,16):"";
+const fmtDT=s=>s?s.slice(8,10)+"/"+s.slice(5,7)+" "+s.slice(11,16):"—";
+const fmtDTL=s=>s?fmt(s)+" "+fmtH(s):"—";
+const TD=s=>new Date(s.length===10?s+"T00:00":s);
+const tiso=d=>iso(d)+"T"+p2(d.getHours())+":"+p2(d.getMinutes());
+const addMin=(s,m)=>tiso(new Date(TD(s).getTime()+m*6e4));
+const minDiff=(a,b)=>Math.round((TD(b)-TD(a))/6e4);
+const overlap=(a1,a2,b1,b2)=>a1<b2&&a2>b1;
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const ini=n=>esc(String(n||"").split(/\s+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase());
+const num=v=>String(v).replace(".",",");
+const durTxt=m=>{const h=Math.floor(m/60),mm=m%60;return h>=24?Math.floor(h/24)+" d "+(h%24?(h%24)+" h":""):h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const wkStart=s=>{const d=new Date(s+"T12:00:00");const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d)};
+const DSEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const DSEML=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+const MESN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const wdOf=s=>new Date(s.slice(0,10)+"T12:00:00").getDay();
+const fmtDia=s=>DSEM[wdOf(s)]+" "+s.slice(8,10)+"/"+s.slice(5,7);
+const fmtDiaL=s=>DSEML[wdOf(s)]+", "+s.slice(8,10)+"/"+s.slice(5,7)+"/"+s.slice(0,4);
+const toMin=h=>{const m=/^(\d{1,2}):(\d{2})$/.exec(h||"");return m?(+m[1])*60+(+m[2]):NaN};
+const hm=n=>p2(Math.floor(n/60))+":"+p2(n%60);
+const minDia=s=>toMin(s.slice(11,16));
+const idade=(nasc,ref)=>{const a=new Date(nasc+"T12:00:00"),b=new Date(ref.slice(0,10)+"T12:00:00");let n=b.getFullYear()-a.getFullYear();if(b.getMonth()<a.getMonth()||(b.getMonth()===a.getMonth()&&b.getDate()<a.getDate()))n--;return n};
+const brl=v=>"R$ "+Number(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(a,b)=>b?Math.round(a*100/b):0;
+let _s=90417;const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+/* ===== Dados fictícios ===== */
+const DAY=864e5;
+const TIPOS=["Reclamação","Denúncia","Sugestão","Elogio","Pedido de informação"];
+const TIPOI={"Reclamação":"alert","Denúncia":"shield","Sugestão":"megaphone","Elogio":"star","Pedido de informação":"info"};
+const CANAIS=["Portal","Telefone","Presencial","E-mail"];
+const PERFIS=["Cidadão","Visitante","Ouvidoria","Setor","Ouvidor-geral"];
+const PDESC={"Cidadão":"portal com login","Visitante":"portal sem login","Ouvidoria":"atendimento e triagem","Setor":"responde pelo setor","Ouvidor-geral":"gestão e cadastros"};
+const ABERTOS=["Nova","Em análise","No setor","Aguardando cidadão"];
+const STPUB={"Nova":"Recebida","Em análise":"Em análise","No setor":"Em análise","Aguardando cidadão":"Aguardando seu complemento","Respondida":"Respondida","Encerrada":"Encerrada","Arquivada":"Arquivada"};
+const STCLS={"Nova":"t-pri","Em análise":"t-info","No setor":"t-info","Aguardando cidadão":"t-warn","Respondida":"t-ok","Encerrada":"t-na","Arquivada":"t-na"};
+const S={uid:null,perfil:null,logged:false,tela:"inicio",notifs:[],busy:false,ppc:false,ppk:null,cv:null,q:"",sel:null,cx:"triagem",cf:{setor:"",tipo:"",pz:""},rel:90,rd:"",adm:"setores",vis:[],tent:0,nv:null,lim:30,ini0:"2026-11-05T09:00",now:"2026-11-05T09:00",minhaF:"abertas"};
+const agora=()=>S.now;
+let SETORES=[],ASSUNTOS=[],USERS=[],PROTOS=[],SEQ=0;
+const CFG={reabDias:10,prazo:{"Reclamação":30,"Denúncia":30,"Sugestão":30,"Elogio":30,"Pedido de informação":20},prorrog:15,setorDias:10,risco:5,arqCompl:15,encAuto:10};
+const SE=id=>SETORES.find(s=>s.id===id);
+const AS=id=>ASSUNTOS.find(a=>a.id===id);
+const U=id=>USERS.find(u=>u.id===id);
+const P=id=>PROTOS.find(p=>p.id===id);
+const user=()=>U(S.uid);
+const isOuv=()=>S.perfil==="Ouvidoria"||S.perfil==="Ouvidor-geral";
+const isCid=()=>S.perfil==="Cidadão"||S.perfil==="Visitante";
+function setUser(id){const u=U(id);S.uid=id;S.perfil=u.perfil}
+const dt=ms=>{const d=new Date(ms);return tiso(d)};
+const ms=s=>TD(s).getTime();
+const addD=(s,n)=>dt(ms(s)+n*DAY);
+const COD="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+const novoCod=()=>Array.from({length:6},()=>COD[Math.floor(rnd()*COD.length)]).join("");
+const numFmt=n=>"OUV-2026-"+String(n).padStart(6,"0");
+const NOMES=["Ana Paula Ribeiro","Bruno Teles","Carla Nogueira","Diego Faria","Elisa Moura","Fábio Rezende","Gabriela Assis","Heitor Campos","Irene Castro","João Pedro Lins","Karina Duarte","Luís Barreto","Márcia Toledo","Nilton Souza","Olívia Prates","Pedro Almeida","Quitéria Bastos","Renato Siqueira","Sandra Viana","Túlio Matos","Úrsula Pena","Vera Lúcia Dias","Wesley Rocha","Yara Nunes"];
+const BAIRROS=["Jardim das Acácias","Vila Esperança","Centro","Morada Nova","Parque Ipê","Bela Vista","Alto do Cedro","Residencial Lagoa","Vila Operária","São Cristóvão"];
+const DESC={
+ a1:["Há um buraco grande na rua que já danificou dois carros esta semana.","O asfalto cedeu depois da chuva e a via está perigosa à noite."],
+ a2:["Os postes da rua estão apagados há mais de dez dias.","A lâmpada da praça pisca a noite toda e depois apaga."],
+ a3:["Esperei mais de quatro horas para ser atendido na unidade de saúde do bairro.","A recepção da unidade não informou a previsão de atendimento."],
+ a4:["O medicamento de uso contínuo está em falta na farmácia municipal há um mês.","Não havia o remédio indicado na receita na unidade do bairro."],
+ a5:["Inscrevi meu filho para vaga em creche e não recebi retorno sobre a lista.","Gostaria de saber em que posição estou na fila da creche."],
+ a6:["O ônibus escolar não passou na nossa rua nos últimos três dias.","O transporte escolar chega sempre depois do horário de entrada."],
+ a7:["Uma árvore está com galhos sobre a fiação e ameaça cair.","Pedimos a poda da árvore em frente à escola."],
+ a8:["Estão descartando entulho em terreno baldio toda madrugada.","Há despejo de lixo no córrego próximo à ponte."],
+ a9:["A placa de pare da esquina foi derrubada e não foi reposta.","Falta faixa de pedestres na saída da escola."],
+ a10:["Carros estacionam em cima da calçada e bloqueiam a passagem de cadeirantes.","Veículos param na vaga de idoso sem credencial todos os dias."],
+ a11:["Recebi o carnê do IPTU com valor diferente do ano passado e quero entender o cálculo.","Como faço para pedir a segunda via da taxa?"],
+ a12:["A coleta de lixo não passa na rua há uma semana.","O caminhão de coleta passa em horário diferente do informado."],
+ a13:["Um servidor tratou mal os moradores durante o atendimento.","Suspeita de uso de veículo oficial para fins particulares."],
+ a14:["Quero elogiar a equipe da unidade de saúde pelo atendimento atencioso.","A professora da escola municipal fez um trabalho excelente com a turma."],
+ a16:["Preciso de cópia de um documento antigo sobre o loteamento do bairro.","Como consultar as fotografias antigas do acervo municipal?"],
+ a15:["Sugiro um aplicativo para agendar atendimentos nas secretarias.","Seria bom ampliar o horário da biblioteca municipal aos sábados."]};
+function seedBase(){
+ SETORES=[{id:"s1",nome:"Secretaria de Obras e Vias",sigla:"SOV",email:"obras@quarzana.example",ativo:true},{id:"s2",nome:"Secretaria de Saúde",sigla:"SSA",email:"saude@quarzana.example",ativo:true},{id:"s3",nome:"Secretaria de Educação",sigla:"SED",email:"educacao@quarzana.example",ativo:true},{id:"s4",nome:"Secretaria de Meio Ambiente",sigla:"SMA",email:"ambiente@quarzana.example",ativo:true},{id:"s5",nome:"Departamento de Trânsito Municipal",sigla:"DTM",email:"transito@quarzana.example",ativo:true},{id:"s6",nome:"Secretaria de Fazenda",sigla:"SFZ",email:"fazenda@quarzana.example",ativo:true},{id:"s7",nome:"Serviço de Limpeza Urbana",sigla:"SLU",email:"limpeza@quarzana.example",ativo:true},{id:"s8",nome:"Arquivo Histórico",sigla:"AHM",email:"arquivo@quarzana.example",ativo:true}];
+ ASSUNTOS=[["a1","Buraco ou dano na via","s1"],["a2","Iluminação pública","s1"],["a3","Atendimento em unidade de saúde","s2"],["a4","Falta de medicamento","s2"],["a5","Vaga em creche","s3"],["a6","Transporte escolar","s3"],["a7","Poda ou remoção de árvore","s4"],["a8","Descarte irregular de resíduos","s4"],["a9","Sinalização de trânsito","s5"],["a10","Estacionamento irregular","s5"],["a11","IPTU e taxas","s6"],["a12","Coleta de lixo","s7"],["a13","Conduta de servidor",""],["a14","Elogio a serviço ou servidor",""],["a15","Sugestão geral",""],["a16","Acervo e documentos históricos","s8"]].map(([id,nome,setor])=>({id,nome,setor,ativo:true}));
+ USERS=[{id:"u1",nome:"Marina Quaresma",email:"marina.quaresma@quarzana.example",perfil:"Ouvidor-geral",ativo:true},{id:"u2",nome:"Tales Arruda",email:"tales.arruda@quarzana.example",perfil:"Ouvidoria",ativo:true},{id:"u3",nome:"Bianca Lemos",email:"bianca.lemos@quarzana.example",perfil:"Ouvidoria",ativo:true},{id:"u4",nome:"Rogério Pimentel",email:"rogerio.pimentel@quarzana.example",perfil:"Setor",setor:"s1",ativo:true},{id:"u5",nome:"Lívia Carmo",email:"livia.carmo@quarzana.example",perfil:"Setor",setor:"s2",ativo:true},{id:"u6",nome:"Davi Sarmento",email:"davi.sarmento@quarzana.example",perfil:"Setor",setor:"s5",ativo:true},{id:"u7",nome:"Helena Vasques",email:"helena.vasques@quarzana.example",perfil:"Setor",setor:"s7",ativo:true},{id:"u11",nome:"Sílvio Prado",email:"silvio.prado@quarzana.example",perfil:"Setor",setor:"s3",ativo:false},{id:"u8",nome:"Joana Beltrão",email:"joana.beltrao@email.example",tel:"(00) 90000-1234",perfil:"Cidadão",ativo:true},{id:"u9",nome:"Caio Fontana",email:"caio.fontana@email.example",tel:"(00) 90000-5678",perfil:"Cidadão",ativo:true},{id:"u10",nome:"Visitante sem cadastro",email:"",perfil:"Visitante",ativo:true}];
+}
+const SETOR_USERS=sid=>USERS.filter(u=>u.ativo&&u.perfil==="Setor"&&u.setor===sid);
+const OUV_USERS=()=>USERS.filter(u=>u.ativo&&(u.perfil==="Ouvidoria"||u.perfil==="Ouvidor-geral"));
+function ev(p,t,em,por,vis,txt,extra){p.ev.push(Object.assign({t,em,por,vis,txt:txt||""},extra||{}))}
+function pick(a){return a[Math.floor(rnd()*a.length)]}
+/* Monta a vida de um protocolo até o relógio atual */
+function seedLife(p,opt){
+ const now=ms(S.now),o=opt||{};let t=ms(p.abertura);const at=x=>x<=now;const ouv=pick(["u2","u3","u2","u1"]);
+ const stp=(x,fn)=>{if(!at(x))return false;fn(dt(x));return true};
+ ev(p,"reg",p.abertura,"cid","pub","Manifestação registrada pelo canal "+p.canal+".");
+ const semSetor=(p.tipo==="Elogio"||p.tipo==="Sugestão")&&rnd()<.5;
+ t+=(rnd()<.15?ri(30,90):ri(2,30))*36e5;if(!stp(t,d=>{ev(p,"clas",d,ouv,"int","Triagem concluída: tipo e assunto conferidos.");p.st="Em análise"}))return;
+ if(!o.nocompl&&(o.compl||rnd()<.2)){t+=ri(4,30)*36e5;if(!stp(t,d=>{ev(p,"comp",d,ouv,"pub","Por favor, informe o endereço completo e um ponto de referência.");p.st="Aguardando cidadão";p.pausas.push({ini:d,fim:null})}))return;
+  if(o.semResp||rnd()<.25){const lim=t+CFG.arqCompl*DAY;if(!stp(lim,d=>{const pa=p.pausas[p.pausas.length-1];pa.fim=d;ev(p,"arq",d,"sys","pub","Arquivada por falta do complemento no prazo de "+CFG.arqCompl+" dias.");p.st="Arquivada";p.fim=d}))return;return}
+  t+=ri(1,6)*DAY;if(!stp(t,d=>{const pa=p.pausas[p.pausas.length-1];pa.fim=d;ev(p,"rcomp",d,"cid","pub","Complemento: rua e número informados, próximo ao ponto de ônibus.");p.st="Em análise"}))return}
+ let parecer="";
+ if(!semSetor){const correto=AS(p.assunto).setor||pick(["s1","s2","s4","s7"]);const vaiDev=!o.nodev&&(o.dev||rnd()<.12);let sid=vaiDev?pick(["s1","s2","s3","s4","s5","s6","s7"].filter(x=>x!==correto)):correto;
+  t+=ri(2,20)*36e5;if(!stp(t,d=>{p.setor=sid;p.setorPrazo=addD(d,CFG.setorDias);p.sh.push(sid);ev(p,"enc",d,ouv,"pub","Encaminhada para "+SE(sid).nome+".",{setor:sid,instr:"Verificar no local e responder com previsão de solução."});p.st="No setor"}))return;
+  if(vaiDev){t+=ri(1,4)*DAY;if(!stp(t,d=>{ev(p,"dev",d,SETOR_USERS(p.setor)[0]?SETOR_USERS(p.setor)[0].id:"sys","int","O assunto não é deste setor; sugerimos encaminhar à secretaria responsável.",{setor:p.setor});p.setor=null;p.setorPrazo=null;p.st="Em análise"}))return;
+   sid=correto;t+=ri(3,20)*36e5;if(!stp(t,d=>{p.setor=sid;p.setorPrazo=addD(d,CFG.setorDias);p.sh.push(sid);ev(p,"enc",d,ouv,"pub","Encaminhada para "+SE(sid).nome+".",{setor:sid,instr:"Reencaminhada após devolução."});p.st="No setor"}))return}
+  if(o.pend){t+=ri(2,4)*DAY;stp(t,d=>{p.prorrogPend={just:"Depende de vistoria técnica agendada para a próxima semana.",por:(SETOR_USERS(p.setor)[0]||{}).id,em:d};ev(p,"prorpend",d,p.prorrogPend.por,"int","Pedido de prorrogação: "+p.prorrogPend.just,{setor:p.setor})});return}
+  const slow=o.slow||(!o.nodev&&rnd()<.2);
+  if(!o.slow&&slow&&rnd()<.5){t+=ri(8,14)*DAY;if(!stp(t,d=>{p.prorrog={dias:CFG.prorrog,just:"A solução depende de contratação de serviço já em andamento.",por:"u1",em:d};ev(p,"pror",d,"u1","pub","Prazo prorrogado por "+CFG.prorrog+" dias. Justificativa: "+p.prorrog.just)}))return}
+  t+=(slow?ri(24,55):ri(2,18))*DAY;const su=SETOR_USERS(sid)[0];
+  parecer=pick(["Equipe vistoriou o local e o reparo foi programado para os próximos dias.","O serviço foi executado e a situação está normalizada.","Verificamos a situação e adotamos as providências cabíveis com a equipe responsável."]);
+  if(!stp(t,d=>{p.parecer={txt:parecer,setor:sid,em:d,por:su?su.id:"sys"};ev(p,"par",d,su?su.id:"sys","int","Parecer do setor: "+parecer,{setor:sid});p.setor=null;p.setorPrazo=null;p.st="Em análise"}))return}
+ if(o.parar)return;
+ t+=ri(4,60)*36e5;const resp=semSetor?(p.tipo==="Elogio"?"Agradecemos o elogio. Ele foi registrado e repassado à equipe e à chefia.":"Agradecemos a sugestão. Ela foi registrada e enviada para avaliação da gestão."):"Prezado(a), "+parecer+" Agradecemos a manifestação.";
+ if(!stp(t,d=>{p.resposta={txt:resp,em:d,por:ouv};ev(p,"resp",d,ouv,"pub",resp);p.st="Respondida"}))return;
+ if(rnd()<.65){t+=ri(1,8)*DAY;if(!stp(t,d=>{const n=pick([5,5,4,4,4,3,3,2,1]);p.aval={nota:n,coment:n>=4?"Fui bem atendido.":n===3?"Resolveu, mas demorou.":"A resposta não resolveu o problema.",em:d};ev(p,"aval",d,"cid","pub","Avaliação: "+n+" de 5. "+p.aval.coment);p.st="Encerrada";p.fim=d}))return}
+ else{const lim=t+CFG.encAuto*DAY;stp(lim,d=>{ev(p,"encf",d,"sys","pub","Encerrada automaticamente "+CFG.encAuto+" dias após a resposta, sem avaliação.");p.st="Encerrada";p.fim=d})}
+}
+function novoProto(o){SEQ++;return Object.assign({id:"p"+SEQ,num:numFmt(SEQ),cod:novoCod(),tipo:"Reclamação",assunto:"a1",desc:"",local:"",canal:"Portal",anon:false,man:null,cid:null,st:"Nova",setor:null,setorPrazo:null,sh:[],abertura:S.now,prazoDias:CFG.prazo["Reclamação"],prorrog:null,prorrogPend:null,pausas:[],parecer:null,resposta:null,aval:null,ev:[],flags:{},fim:null},o)}
+function seedAll(){seedBase();PROTOS=[];SEQ=200;_s=90417;
+ const now=ms(S.now);const L=[];
+ for(let i=0;i<170;i++){const tipo=pick(["Reclamação","Reclamação","Reclamação","Reclamação","Denúncia","Sugestão","Elogio","Pedido de informação","Pedido de informação"]);
+  const as=tipo==="Elogio"?"a14":tipo==="Sugestão"?pick(["a15","a15","a6","a2"]):tipo==="Denúncia"?pick(["a13","a8","a10"]):tipo==="Pedido de informação"?pick(["a5","a11","a11","a16"]):pick(["a1","a1","a2","a3","a4","a6","a7","a9","a12","a12","a3"]);
+  const ab=now-Math.floor(Math.pow(rnd(),1.7)*170*DAY)-ri(1,10)*36e5;L.push({tipo,as,ab})}
+ L.sort((a,b)=>a.ab-b.ab);
+ L.forEach(x=>{const anon=x.tipo==="Denúncia"&&rnd()<.5;const nm=pick(NOMES);const p=novoProto({tipo:x.tipo,assunto:x.as,abertura:dt(x.ab),prazoDias:CFG.prazo[x.tipo],canal:pick(["Portal","Portal","Portal","Telefone","Presencial","E-mail"]),anon,man:anon?null:{nome:nm,email:nm.toLowerCase().normalize("NFD").replace(/[^a-z ]/g,"").replace(/ /g,".")+"@email.example",tel:"(00) 9"+ri(1000,9999)+"-"+ri(1000,9999)},desc:pick(DESC[x.as]),local:x.as==="a14"||x.as==="a15"||x.as==="a11"||x.as==="a5"?"":pick(BAIRROS)});
+  seedLife(p);PROTOS.push(p)});
+ /* casos de demonstração */
+ const J=U("u8"),C=U("u9"),manOf=u=>({nome:u.nome,email:u.email,tel:u.tel});
+ const demo=(o,opt,diasAtras)=>{const p=novoProto(Object.assign({abertura:dt(now-diasAtras*DAY)},o));p.prazoDias=CFG.prazo[p.tipo];seedLife(p,opt);PROTOS.push(p);return p};
+ demo({tipo:"Reclamação",assunto:"a1",cid:"u8",man:manOf(J),desc:"Buraco grande na Rua das Palmeiras, em frente ao número 120. Já furou pneus de dois carros.",local:"Jardim das Acácias"},{parar:true,nocompl:true,nodev:true},6);
+ demo({tipo:"Reclamação",assunto:"a2",cid:"u8",man:manOf(J),desc:"Três postes apagados na Travessa do Sol desde o fim do mês passado.",local:"Vila Esperança"},{compl:true,semResp:true,nodev:true},3);
+ demo({tipo:"Sugestão",assunto:"a15",cid:"u8",man:manOf(J),desc:"Sugiro instalar bancos e sombra no ponto de ônibus da avenida principal.",local:"Centro"},{nocompl:true,nodev:true},14);
+ demo({tipo:"Pedido de informação",assunto:"a11",cid:"u9",man:manOf(C),desc:"Gostaria de saber como foi calculado o aumento do IPTU deste ano para o meu imóvel.",local:""},{parar:true,nocompl:true,nodev:true},2);
+ demo({tipo:"Reclamação",assunto:"a1",cid:"u9",man:manOf(C),desc:"A calçada da escola está quebrada e uma criança tropeçou.",local:"Parque Ipê"},{pend:true,nocompl:true,nodev:true},9);
+ demo({tipo:"Reclamação",assunto:"a9",man:{nome:"Renata Aguiar",email:"renata.aguiar@email.example",tel:"(00) 90000-4321"},desc:"O semáforo do cruzamento está desligado há semanas e houve acidentes.",local:"Bela Vista"},{parar:true,nocompl:true,nodev:true},40);
+ const va=demo({tipo:"Denúncia",assunto:"a8",anon:true,man:null,canal:"Portal",desc:"Um caminhão despeja entulho no terreno ao lado do córrego toda madrugada, por volta das 2h.",local:"Residencial Lagoa"},{parar:true,nocompl:true,nodev:true},5);
+ va.cod="K7P2QX";S.demoAnon=va.id;
+ /* ajusta casos: o de 40 dias fica no setor (vencido) */
+ fixDemo();
+ S.notifs=[];
+}
+function fixDemo(){/* garante estados didáticos estáveis */
+ const byDesc=s=>PROTOS.find(p=>p.desc.startsWith(s));
+ const a=byDesc("Buraco grande na Rua das Palmeiras");if(a){a.ev=a.ev.filter(e=>e.t!=="par"&&e.t!=="dev");a.parecer=null;const e=a.ev.filter(e=>e.t==="enc").pop();if(e){a.setor=e.setor;a.setorPrazo=addD(e.em,CFG.setorDias);a.st="No setor"}}
+ const v=byDesc("O semáforo");if(v){v.ev=v.ev.filter(e=>e.t!=="par"&&e.t!=="pror");v.parecer=null;v.prorrog=null;const e=v.ev.filter(e=>e.t==="enc").pop();if(e){v.setor="s5";e.setor="s5";e.txt="Encaminhada para "+SE("s5").nome+".";v.sh=["s5"];v.setorPrazo=addD(e.em,CFG.setorDias);v.st="No setor"}}
+ const d=byDesc("Um caminhão despeja");if(d){d.ev=d.ev.filter(e=>e.t==="reg"||e.t==="clas");d.st="Em análise";d.setor=null;d.parecer=null}
+ const i=byDesc("Gostaria de saber como foi calculado");if(i){i.ev=i.ev.filter(e=>e.t==="reg");i.st="Nova";i.setor=null}
+}
+/* ===== Notificações, avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"||t==="warn"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),t==="err"?9000:5500)}
+function pushTo(uid,m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true,u:uid})}
+function notifyTo(uid,m,t="info"){pushTo(uid,m,t);if(uid===S.uid)renderHdr()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){lastFocus=lastFocus&&document.contains(lastFocus)?lastFocus:document.activeElement;$("#modal").innerHTML=html;const m=$("#modal");const f=m.querySelector("[autofocus]")||m.querySelector(".mbox .in:not([disabled])")||m.querySelector("button");["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=true});if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";S.ppk=null;["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=false});if(S.logged)$("#pp").innerHTML=ppPanel();if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else{const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}lastFocus=null}
+function cancelModal(){closeModal()}
+function confirmar(msg,okLabel,fn,backLabel){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions"><button class="btn sec" data-act="closemodal" autofocus>${esc(backLabel||"Cancelar")}</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{closeModal();fn()}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}" aria-describedby="ferr">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}" aria-describedby="ferr">${esc(v)}</textarea>`;
+ else c=`<input class="in" aria-describedby="ferr" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.step?`step="${f.step}"`:""} ${f.min!=null?`min="${f.min}"`:""} ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}${f.hint?`<div class="muted sm">${esc(f.hint)}</div>`:""}`}
+function collect(fields){const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});return v}
+function missing(fields,v){const miss=fields.filter(f=>f.req&&!v[f.id]);if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return true}return false}
+function formModal({title,fields,validate,save,msg,ok="Salvar",done,extra="",sheet}){
+ openModal(`<div class="modal ${sheet?"sheet":""}"><form class="mbox ${sheet?"sheet":""}" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}${extra}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v=collect(fields);if(missing(fields,v))return;
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  const trig=lastFocus,sel=trig&&trig.dataset&&trig.dataset.act?`[data-act="${trig.dataset.act}"]`+(trig.dataset.id?`[data-id="${trig.dataset.id}"]`:"")+(trig.dataset.v?`[data-v="${trig.dataset.v}"]`:""):"";
+  busy("Gravando…",()=>{save(v);closeModal();toast(typeof msg==="function"?msg(v):(msg||"Salvo com sucesso."));if(done)done(v);render(false);const n=sel&&document.querySelector(sel);if(n)n.focus()})})}
+/* ===== Regras: prazo, permissões, ações ===== */
+const norm=s=>String(s??"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const aberto=p=>ABERTOS.includes(p.st);
+function pausaMs(p,ate){return p.pausas.reduce((s,x)=>s+Math.max(0,ms(x.fim||ate)-ms(x.ini)),0)}
+function vencMs(p,ref){const b=ms(p.abertura)+(p.prazoDias+(p.prorrog?p.prorrog.dias:0))*DAY+pausaMs(p,ref||p.fim||agora());return p.reabLim?Math.max(b,ms(p.reabLim)):b}
+const restDias=p=>difDias(vencMs(p),ms(agora()));
+const pendAtiva=p=>!!p.prorrogPend&&p.st==="No setor"&&!!p.setor;
+const limpaPend=p=>{p.prorrogPend=null};
+const vencISO=p=>dt(vencMs(p));
+function noPrazo(p){if(!p.resposta)return null;return dia0(ms(p.resposta.em))<=dia0(vencMs(p,p.resposta.em))}
+function pz(p){
+ if(!aberto(p)){if(p.resposta){const ok=noPrazo(p);return{k:"fim",ok,txt:ok?"Respondida no prazo":"Respondida com atraso",cls:ok?"t-ok":"t-bad"}}return{k:"fim",ok:null,txt:p.st,cls:"t-na"}}
+ const rest=restDias(p);
+ if(p.st==="Aguardando cidadão")return{k:"pausa",rest,txt:"Prazo pausado ("+Math.max(rest,0)+" d restantes)",cls:"t-info"};
+ if(rest<0)return{k:"Vencido",rest,txt:"Vencido há "+(-rest)+" d",cls:"t-bad"};
+ if(rest<=CFG.risco)return{k:"risco",rest,txt:rest===0?"Vence hoje":"Vence em "+rest+" d",cls:"t-warn"};
+ return{k:"ok",rest,txt:rest+" d restantes",cls:"t-ok"};
+}
+function pzSetor(p){if(!p.setorPrazo||p.st!=="No setor")return null;const r=difDias(ms(p.setorPrazo),ms(agora()));return{rest:r,txt:r<0?"Setor atrasado "+(-r)+" d":r===0?"Setor: vence hoje":"Setor: "+r+" d",cls:r<0?"t-bad":r<=2?"t-warn":"t-na"}}
+function diasUsados(p){const tot=p.prazoDias+(p.prorrog?p.prorrog.dias:0);const ref=p.resposta?p.resposta.em:(p.fim||agora());return Math.max(0,Math.ceil((ms(ref)-ms(p.abertura)-pausaMs(p,ref))/DAY))}
+function podeVer(p){if(!p)return false;const u=user();
+ if(isOuv())return true;
+ if(S.perfil==="Setor")return p.setor===u.setor||p.sh.includes(u.setor);
+ if(S.perfil==="Cidadão")return p.cid===u.id||S.vis.includes(p.id);
+ if(S.perfil==="Visitante")return S.vis.includes(p.id);return false}
+const verMan=()=>isOuv();
+const meuSetor=p=>S.perfil==="Setor"&&p.setor===user().setor&&p.st==="No setor";
+function acoes(p){const a={};const st=p.st,og=S.perfil==="Ouvidor-geral";
+ if(isOuv()){
+  if(st==="Nova"||st==="Em análise"){a.classificar=true;a.encaminhar=true;a.complemento=true;
+   a.responder=(p.tipo==="Reclamação"||p.tipo==="Denúncia")&&!p.parecer?"Reclamação e denúncia precisam do parecer de um setor antes da resposta. Encaminhe primeiro.":true}
+  if(st==="Nova"||st==="Em análise"||st==="Aguardando cidadão")a.arquivar=true;
+  if(st==="Respondida")a.encerrar=true;
+  if(aberto(p)){a.nota=true;a.prorrogar=!og?"Só o Ouvidor-geral prorroga o prazo.":p.prorrog?"O prazo já foi prorrogado uma vez.":true}
+  if(pendAtiva(p)&&og){a.aprovar=true;a.negar=true}
+  if(og&&(st==="Encerrada"||st==="Arquivada"))a.reabrir=true;
+ }
+ if(S.perfil==="Setor"&&podeVer(p)){if(meuSetor(p)){a.parecer=true;a.devolver=true;a.nota=true;a.pedirpror=p.prorrog?"O prazo já foi prorrogado uma vez.":p.prorrogPend?"Já existe um pedido de prorrogação aguardando o Ouvidor-geral.":true}}
+ if(isCid()&&podeVer(p)){if(st==="Aguardando cidadão")a.rcomp=true;if(p.resposta&&!p.aval&&st!=="Arquivada")a.avaliar=true}
+ if(p.resposta&&podeVer(p))a.imprimir=true;
+ return a}
+const guard=(id,k)=>{const p=P(id);if(!p||!podeVer(p)){toast("Protocolo indisponível para o seu perfil.","err");return false}const r=acoes(p)[k];if(r===true)return true;toast(typeof r==="string"?r:"Ação indisponível para o seu perfil e a situação do protocolo.","err");return false};
+const nmU=id=>id==="sys"?"Fluxo agendado":id==="cid"?"Manifestante":(U(id)||{nome:"—"}).nome;
+function notOuv(m,t,ex){OUV_USERS().forEach(u=>{if(u.id!==ex)notifyTo(u.id,m,t)})}
+function notSetor(sid,m,t){SETOR_USERS(sid).forEach(u=>notifyTo(u.id,m,t))}
+function notCid(p,m,t){if(p.cid)notifyTo(p.cid,m,t)}
+/* ===== Busca global ===== */
+function buscar(q){const n=norm(q).trim();if(!n)return[];const toks=n.split(/\s+/).filter(Boolean);
+ return PROTOS.filter(p=>{if(!podeVer(p))return false;const a=AS(p.assunto),s=SE(p.setor||p.sh[p.sh.length-1]);
+  const hay=norm([p.num,p.num.replace(/\D/g,"").replace(/^2026/,""),p.tipo,a?a.nome:"",p.desc,p.local,s?s.nome+" "+s.sigla:"",p.st,verMan()&&p.man?p.man.nome+" "+p.man.email:""].join(" "));
+  return toks.every(t=>hay.includes(t))}).sort((x,y)=>{const ex=norm(x.num).includes(n)?0:1,ey=norm(y.num).includes(n)?0:1;return ex-ey||(x.abertura<y.abertura?1:-1)})}
+function hl(txt,q){let h=esc(txt);const toks=norm(q).trim().split(/\s+/).filter(t=>t.length>1);if(!toks.length)return h;
+ const raw=String(txt??""),nr=norm(raw);const marks=new Array(raw.length).fill(false);toks.forEach(t=>{let i=nr.indexOf(t);while(i>=0){for(let k=i;k<i+t.length;k++)marks[k]=true;i=nr.indexOf(t,i+t.length)}});
+ if(!marks.some(Boolean))return h;let out="",on=false;for(let i=0;i<raw.length;i++){if(marks[i]&&!on){out+="<mark>";on=true}if(!marks[i]&&on){out+="</mark>";on=false}out+=esc(raw[i])}if(on)out+="</mark>";return out}
+/* ===== Criar manifestação ===== */
+function criar(v){const anon=v.anon==="1";const u=user();
+ const p=novoProto({tipo:v.tipo,assunto:v.assunto,desc:v.desc,local:v.local||"",canal:isCid()?"Portal":v.canal,anon,man:anon?null:{nome:v.nome,email:v.email||"",tel:v.tel||""},cid:S.perfil==="Cidadão"&&!anon?u.id:null,abertura:agora(),prazoDias:CFG.prazo[v.tipo]});
+ ev(p,"reg",agora(),isCid()?"cid":u.id,"pub","Manifestação registrada pelo canal "+p.canal+(isCid()?".":" por "+u.nome+"."));
+ PROTOS.push(p);if(isCid())S.vis.push(p.id);
+ notOuv("Nova manifestação "+p.num+" ("+p.tipo+") aguardando triagem.","info",u.id);
+ if(p.cid&&p.cid!==u.id)notCid(p,"Sua manifestação "+p.num+" foi registrada.");return p}
+function validarNova(v){
+ if(!TIPOS.includes(v.tipo))return"Escolha o tipo da manifestação.";
+ const a=AS(v.assunto);if(!a||!a.ativo)return"Escolha um assunto ativo.";
+ if(v.desc.trim().length<20)return"Descreva a manifestação com pelo menos 20 caracteres.";
+ if(v.desc.length>2000)return"A descrição pode ter no máximo 2.000 caracteres.";
+ if(v.anon==="1"&&v.tipo!=="Denúncia")return"Só a denúncia pode ser anônima. Para os outros tipos, identifique-se (a Ouvidoria mantém seus dados protegidos).";
+ if(v.anon!=="1"){if(!v.nome||v.nome.trim().length<3)return"Informe seu nome ou marque a denúncia como anônima.";if(!v.email&&!v.tel)return"Informe e-mail ou telefone para receber a resposta.";if(v.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email))return"E-mail em formato inválido.";if(v.tel&&v.tel.replace(/\D/g,"").length<10)return"Telefone com DDD, pelo menos 10 dígitos."}
+ if(!isCid()&&!CANAIS.includes(v.canal))return"Escolha o canal de entrada.";
+ return""}
+/* ===== Ações da Ouvidoria ===== */
+function classificarForm(id){const p=P(id);
+ formModal({title:"Classificar "+p.num,fields:[{id:"tipo",label:"Tipo",type:"select",value:p.tipo,options:TIPOS.map(t=>[t,t]),req:true},{id:"assunto",label:"Assunto",type:"select",value:p.assunto,options:ASSUNTOS.filter(a=>a.ativo||a.id===p.assunto).map(a=>[a.id,a.nome]),req:true}],
+  validate:v=>{if(p.anon&&v.tipo!=="Denúncia")return"Manifestação anônima só pode ser denúncia.";const a=AS(v.assunto);if(!a.ativo&&v.assunto!==p.assunto)return"Assunto inativo.";if(v.tipo===p.tipo&&v.assunto===p.assunto)return"Nada mudou.";return""},
+  save:v=>{const mudou=v.tipo!==p.tipo;const old=p.tipo+" / "+AS(p.assunto).nome;p.tipo=v.tipo;p.assunto=v.assunto;if(mudou)p.prazoDias=CFG.prazo[v.tipo];if(p.st==="Nova")p.st="Em análise";ev(p,"clas",agora(),S.uid,"int","Reclassificada de "+old+" para "+p.tipo+" / "+AS(p.assunto).nome+(mudou?". Prazo recalculado para "+p.prazoDias+" dias.":"."))},msg:"Classificação salva."})}
+function encaminharForm(id){const p=P(id);const a=AS(p.assunto);const z=pz(p);const rest=Math.max(1,z.rest);
+ const semUser=sid=>!SETOR_USERS(sid).length;
+ const hint=z.rest>1?"Restam "+dias(z.rest)+" do prazo da manifestação.":z.rest===1?"Resta 1 dia do prazo da manifestação.":z.rest===0?"O prazo da manifestação vence hoje: o setor terá o mínimo de 1 dia.":"O prazo da manifestação venceu há "+dias(-z.rest)+": o setor terá o mínimo de 1 dia.";
+ formModal({title:"Encaminhar "+p.num+" a um setor",fields:[{id:"setor",label:"Setor responsável",type:"select",opt:true,value:a&&a.setor&&SE(a.setor).ativo?a.setor:"",options:SETORES.filter(s=>s.ativo).map(s=>[s.id,s.sigla+" · "+s.nome+(semUser(s.id)?" (sem usuário ativo)":"")]),req:true},{id:"dias",label:"Prazo para o setor (dias)",type:"number",min:1,value:String(Math.min(CFG.setorDias,rest)),req:true,hint},{id:"instr",label:"Orientação interna ao setor",type:"textarea",value:"",hint:"Não aparece para o cidadão."}],
+  validate:v=>{const d=+v.dias;if(!Number.isInteger(d)||d<1)return"Prazo do setor: número inteiro de dias, a partir de 1.";if(d>rest)return z.rest>=1?"O prazo do setor não pode passar do prazo da manifestação ("+dias(rest)+").":"Com o prazo da manifestação "+(z.rest===0?"vencendo hoje":"vencido")+", o prazo do setor é de 1 dia.";const ult=p.ev.filter(e=>e.t==="dev").pop();if(ult&&ult.setor===v.setor&&p.ev.lastIndexOf(ult)>p.ev.map(e=>e.t).lastIndexOf("enc"))return"Este setor acabou de devolver a manifestação. Escolha outro ou ajuste a classificação.";return""},
+  save:v=>{limpaPend(p);p.setor=v.setor;p.setorPrazo=addD(agora(),+v.dias);if(!p.sh.includes(v.setor))p.sh.push(v.setor);p.st="No setor";ev(p,"enc",agora(),S.uid,"pub","Encaminhada para "+SE(v.setor).nome+".",{setor:v.setor,instr:v.instr});notSetor(v.setor,"Nova manifestação "+p.num+" na caixa do setor. Prazo do setor: "+fmt(p.setorPrazo)+".","info");notCid(p,"Sua manifestação "+p.num+" foi encaminhada ao setor responsável.");if(semUser(v.setor))notOuv("Atenção: "+SE(v.setor).sigla+" não tem usuário ativo; "+p.num+" não será vista por ninguém no setor.","warn")},
+  done:v=>{if(semUser(v.setor))toast(SE(v.setor).sigla+" não tem nenhum usuário ativo: a manifestação ficou na caixa do setor, mas ninguém vai vê-la. Cadastre ou reative um usuário do setor.","warn")},msg:"Encaminhada ao setor."})}
+function complementoForm(id){const p=P(id);
+ formModal({title:"Pedir complemento ao cidadão",fields:[{id:"txt",label:"O que falta informar",type:"textarea",req:true,hint:"Aparece para o cidadão. O prazo fica pausado até a resposta; sem resposta em "+CFG.arqCompl+" dias, o fluxo agendado arquiva."}],
+  validate:v=>v.txt.length<10?"Escreva o pedido com pelo menos 10 caracteres.":"",
+  save:v=>{p.st="Aguardando cidadão";p.pausas.push({ini:agora(),fim:null});ev(p,"comp",agora(),S.uid,"pub",v.txt);notCid(p,"A Ouvidoria pediu um complemento na manifestação "+p.num+".","warn")},msg:"Pedido enviado. Prazo pausado."})}
+function responderForm(id){const p=P(id);
+ formModal({title:"Responder ao cidadão",fields:[{id:"txt",label:"Resposta oficial",type:"textarea",req:true,value:""}],extra:p.parecer?`<div class="note"><b>Parecer interno de ${esc(SE(p.parecer.setor).sigla)} (não vai ao cidadão):</b> ${esc(p.parecer.txt)}</div>`:"",
+  validate:v=>v.txt.length<30?"A resposta precisa de pelo menos 30 caracteres.":"",
+  save:v=>{limpaPend(p);p.resposta={txt:v.txt,em:agora(),por:S.uid};p.st="Respondida";ev(p,"resp",agora(),S.uid,"pub",v.txt);notCid(p,"A manifestação "+p.num+" foi respondida. Avalie o atendimento.","info")},msg:"Resposta enviada ao cidadão.",ok:"Enviar resposta"})}
+function arquivarForm(id){const p=P(id);
+ formModal({title:"Arquivar "+p.num,fields:[{id:"mot",label:"Motivo (aparece para o cidadão)",type:"select",opt:true,options:[["Manifestação duplicada","Manifestação duplicada"],["Sem elementos mínimos para análise","Sem elementos mínimos para análise"],["Fora da competência do município","Fora da competência do município"],["Desistência do manifestante","Desistência do manifestante"]],req:true},{id:"obs",label:"Observação ao cidadão",type:"textarea"}],
+  save:v=>{limpaPend(p);const pa=p.pausas.find(x=>!x.fim);if(pa)pa.fim=agora();p.st="Arquivada";p.fim=agora();p.setor=null;p.setorPrazo=null;ev(p,"arq",agora(),S.uid,"pub","Arquivada: "+v.mot+"."+(v.obs?" "+v.obs:""));notCid(p,"A manifestação "+p.num+" foi arquivada.","warn")},msg:"Manifestação arquivada."})}
+function encerrar(id){const p=P(id);confirmar("Encerrar "+p.num+"? O cidadão ainda poderá avaliar a resposta.","Encerrar",()=>busy("Encerrando…",()=>{limpaPend(p);p.st="Encerrada";p.fim=agora();ev(p,"encf",agora(),S.uid,"pub","Encerrada pela Ouvidoria.");toast("Manifestação encerrada.");render(false)}),"Voltar")}
+function notaForm(id){const p=P(id);formModal({title:"Nota interna",fields:[{id:"txt",label:"Nota (não aparece para o cidadão)",type:"textarea",req:true}],validate:v=>v.txt.length<3?"Escreva a nota.":"",save:v=>{ev(p,"nota",agora(),S.uid,"int",v.txt,S.perfil==="Setor"?{setor:user().setor}:{})},msg:"Nota registrada."})}
+function prorrogarForm(id,aprovar){const p=P(id);const pend=p.prorrogPend;
+ formModal({title:(aprovar?"Aprovar prorrogação de ":"Prorrogar ")+p.num,fields:[{id:"just",label:"Justificativa (aparece para o cidadão)",type:"textarea",req:true,value:pend?pend.just:""}],extra:`<p class="muted sm">O prazo ganha ${CFG.prorrog} dias, uma única vez. Novo vencimento: <b>${fmt(dt(vencMs(p)+CFG.prorrog*DAY))}</b>.</p>`,
+  validate:v=>v.just.length<15?"A justificativa precisa de pelo menos 15 caracteres.":p.prorrog?"O prazo já foi prorrogado uma vez.":"",
+  save:v=>{p.prorrog={dias:CFG.prorrog,just:v.just,por:S.uid,em:agora()};const pd=p.prorrogPend;p.prorrogPend=null;ev(p,"pror",agora(),S.uid,"pub","Prazo prorrogado por "+CFG.prorrog+" dias. Justificativa: "+v.just);notCid(p,"O prazo da manifestação "+p.num+" foi prorrogado por "+CFG.prorrog+" dias.","info");if(pd)notifyTo(pd.por,"Prorrogação aprovada para "+p.num+".","info");if(p.setor)notSetor(p.setor,"Prazo de "+p.num+" prorrogado.","info")},msg:"Prazo prorrogado.",ok:aprovar?"Aprovar":"Prorrogar"})}
+function negarForm(id){const p=P(id);formModal({title:"Negar prorrogação de "+p.num,fields:[{id:"mot",label:"Motivo (interno, vai para o setor)",type:"textarea",req:true}],validate:v=>v.mot.length<5?"Informe o motivo.":"",save:v=>{const pd=p.prorrogPend;p.prorrogPend=null;ev(p,"prorneg",agora(),S.uid,"int","Pedido de prorrogação negado: "+v.mot,{setor:p.setor});notifyTo(pd.por,"Prorrogação negada para "+p.num+": "+v.mot,"warn")},msg:"Pedido negado.",ok:"Negar"})}
+function reabrirForm(id){const p=P(id);formModal({title:"Reabrir "+p.num,fields:[{id:"mot",label:"Motivo da reabertura (aparece para o cidadão)",type:"textarea",req:true}],extra:`<p class="muted sm">A resposta e a avaliação anteriores ficam no histórico. ${restDias(p)<CFG.reabDias?"Como o prazo restante seria menor que "+CFG.reabDias+" dias, a reabertura ganha um novo prazo de "+CFG.reabDias+" dias corridos: vencimento em <b>"+fmt(dt(Math.max(vencMs(p,p.fim||agora()),ms(agora())+CFG.reabDias*DAY)))+"</b>.":"O prazo original continua valendo."}</p>`,validate:v=>v.mot.length<10?"Informe o motivo com pelo menos 10 caracteres.":"",save:v=>{(p.hist=p.hist||[]).push({resposta:p.resposta,aval:p.aval,fim:p.fim,st:p.st});limpaPend(p);p.st="Em análise";p.fim=null;p.resposta=null;p.aval=null;p.flags={};if(restDias(p)<CFG.reabDias)p.reabLim=addD(agora(),CFG.reabDias);ev(p,"reab",agora(),S.uid,"pub","Reaberta: "+v.mot+" Novo vencimento: "+fmt(vencISO(p))+".");notCid(p,"A manifestação "+p.num+" foi reaberta.","info")},msg:"Manifestação reaberta."})}
+/* ===== Ações do setor ===== */
+function parecerForm(id){const p=P(id);formModal({title:"Enviar parecer à Ouvidoria",fields:[{id:"txt",label:"Parecer técnico",type:"textarea",req:true,hint:"A Ouvidoria usa o parecer para responder ao cidadão. O parecer em si é interno."}],validate:v=>v.txt.length<20?"O parecer precisa de pelo menos 20 caracteres.":"",
+  save:v=>{const sid=p.setor;limpaPend(p);p.parecer={txt:v.txt,setor:sid,em:agora(),por:S.uid};ev(p,"par",agora(),S.uid,"int","Parecer do setor: "+v.txt,{setor:sid});p.setor=null;p.setorPrazo=null;p.st="Em análise";notOuv("Parecer de "+SE(sid).sigla+" recebido em "+p.num+". Pronto para responder.","info")},msg:"Parecer enviado à Ouvidoria.",ok:"Enviar parecer"})}
+function devolverForm(id){const p=P(id);formModal({title:"Devolver à Ouvidoria",fields:[{id:"mot",label:"Motivo da devolução (interno)",type:"textarea",req:true}],validate:v=>v.mot.length<10?"Explique o motivo com pelo menos 10 caracteres.":"",
+  save:v=>{const sid=p.setor;limpaPend(p);ev(p,"dev",agora(),S.uid,"int","Devolvida: "+v.mot,{setor:sid});p.setor=null;p.setorPrazo=null;p.st="Em análise";notOuv(SE(sid).sigla+" devolveu "+p.num+": "+v.mot,"warn")},msg:"Devolvida à Ouvidoria.",ok:"Devolver"})}
+function pedirProrForm(id){const p=P(id);formModal({title:"Pedir prorrogação ao Ouvidor-geral",fields:[{id:"just",label:"Justificativa",type:"textarea",req:true}],validate:v=>v.just.length<15?"A justificativa precisa de pelo menos 15 caracteres.":"",
+  save:v=>{p.prorrogPend={just:v.just,por:S.uid,em:agora()};ev(p,"prorpend",agora(),S.uid,"int","Pedido de prorrogação: "+v.just,{setor:p.setor});USERS.filter(u=>u.ativo&&u.perfil==="Ouvidor-geral").forEach(u=>notifyTo(u.id,"Pedido de prorrogação em "+p.num+" ("+SE(p.setor).sigla+").","warn"))},msg:"Pedido enviado ao Ouvidor-geral."})}
+/* ===== Ações do cidadão ===== */
+function rcompForm(id){const p=P(id);const ped=p.ev.filter(e=>e.t==="comp").pop();formModal({title:"Enviar complemento",fields:[{id:"txt",label:"Complemento",type:"textarea",req:true}],extra:ped?`<div class="note"><b>Pedido da Ouvidoria:</b> ${esc(ped.txt)}</div>`:"",validate:v=>v.txt.length<5?"Escreva o complemento.":"",
+  save:v=>{const pa=p.pausas.find(x=>!x.fim);if(pa)pa.fim=agora();p.st="Em análise";ev(p,"rcomp",agora(),"cid","pub",v.txt);notOuv("Complemento recebido em "+p.num+". O prazo voltou a contar.","info")},msg:"Complemento enviado. O prazo voltou a contar.",ok:"Enviar"})}
+function avaliarForm(id){const p=P(id);S.nota=0;
+ openModal(`<div class="modal"><form class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">Avaliar o atendimento</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><p class="muted" style="margin:0">Manifestação ${esc(p.num)}. A avaliação encerra o protocolo.</p><fieldset style="border:0;padding:0;margin:10px 0 0"><legend class="f" style="font-weight:700;font-size:13px;color:var(--tx2)">Nota de 1 a 5 (obrigatório)</legend><div class="rate" id="rate">${[1,2,3,4,5].map(n=>`<button type="button" data-act="rnota" data-v="${n}" aria-pressed="false" aria-label="${n} de 5">${ic("star")}<span aria-hidden="true">${n}</span></button>`).join("")}</div></fieldset><label class="f" for="f_com">Comentário (opcional)</label><textarea class="in" id="f_com"></textarea><div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">Enviar avaliação</button></div></form></div>`);
+ $("#rate button").focus();
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();if(!S.nota){$("#ferr").textContent="Escolha uma nota de 1 a 5.";$("#rate button").focus();return}const c=$("#f_com").value.trim();
+  busy("Gravando…",()=>{p.aval={nota:S.nota,coment:c,em:agora()};ev(p,"aval",agora(),"cid","pub","Avaliação: "+S.nota+" de 5."+(c?" "+c:""));if(p.st==="Respondida"){p.st="Encerrada";p.fim=agora()}notOuv("Avaliação "+S.nota+"/5 recebida em "+p.num+".",S.nota<=2?"warn":"info");closeModal();toast("Obrigado pela avaliação.");render(false)})})}
+/* ===== Acompanhar por número e código ===== */
+const BLOQ_MIN=15;
+const msgBloq=()=>"Muitas tentativas. A consulta fica bloqueada por "+BLOQ_MIN+" minutos do relógio simulado: avance o relógio (botão com a data, no topo) para liberar.";
+function acompanhar(num,cod){
+ if(S.tent>=5){if(S.bloq&&minDiff(S.bloq,agora())>=BLOQ_MIN){S.tent=0;S.bloq=null}else return msgBloq()}
+ const n=norm(num).replace(/[^0-9a-z]/g,""),c=String(cod||"").trim().toUpperCase();
+ const p=PROTOS.find(x=>norm(x.num).replace(/[^0-9a-z]/g,"")===n||(n.length>=3&&/^\d+$/.test(n)&&x.num.endsWith(n.padStart(6,"0"))));
+ if(!p||p.cod!==c){S.tent++;if(S.tent>=5){S.bloq=agora();return msgBloq()}return"Número ou código não conferem. Confira os dados do comprovante."+(S.tent>=3?" Tentativas restantes: "+(5-S.tent)+".":"")}
+ S.tent=0;if(!S.vis.includes(p.id))S.vis.push(p.id);return p}
+/* ===== Fluxo agendado e relógio ===== */
+function executarFluxo(){const r={arq:0,risco:0,venc:0,enc:0,setor:0};
+ PROTOS.forEach(p=>{
+  if(p.st==="Aguardando cidadão"){const pa=p.pausas.find(x=>!x.fim);if(pa&&ms(agora())-ms(pa.ini)>=CFG.arqCompl*DAY){const d=addD(pa.ini,CFG.arqCompl);pa.fim=d;p.st="Arquivada";p.fim=d;limpaPend(p);ev(p,"arq",d,"sys","pub","Arquivada por falta do complemento no prazo de "+CFG.arqCompl+" dias.");notCid(p,"A manifestação "+p.num+" foi arquivada por falta de complemento.","warn");r.arq++;return}}
+  if(p.st==="Respondida"&&!p.aval&&ms(agora())-ms(p.resposta.em)>=CFG.encAuto*DAY){const d=addD(p.resposta.em,CFG.encAuto);p.st="Encerrada";p.fim=d;limpaPend(p);ev(p,"encf",d,"sys","pub","Encerrada automaticamente "+CFG.encAuto+" dias após a resposta, sem avaliação.");r.enc++;return}
+  if(aberto(p)&&p.st!=="Aguardando cidadão"){const z=pz(p);
+   if(z.k==="Vencido"&&!p.flags.venc){p.flags.venc=true;notOuv("Prazo vencido: "+p.num+".","warn");if(p.setor)notSetor(p.setor,"Prazo vencido: "+p.num+".","warn");r.venc++}
+   else if(z.k==="risco"&&!p.flags.risco){p.flags.risco=true;notOuv("Prazo em risco: "+p.num+" ("+z.txt+").","warn");if(p.setor)notSetor(p.setor,"Prazo em risco: "+p.num+" ("+z.txt+").","warn");r.risco++}
+   const zs=pzSetor(p);if(zs&&zs.rest<0&&!p.flags.setor){p.flags.setor=true;notSetor(p.setor,"Prazo do setor vencido em "+p.num+".","warn");notOuv(SE(p.setor).sigla+" passou do prazo interno em "+p.num+".","warn");r.setor++}}});
+ return r}
+function avancar(n){busy("Rodando o fluxo agendado…",()=>{S.now=addD(S.now,n);const r=executarFluxo();closeModal();toast("Relógio: +"+n+" dia(s). Fluxo agendado: "+r.arq+" arquivada(s), "+r.enc+" encerrada(s), "+r.risco+" aviso(s) de risco, "+r.venc+" vencida(s), "+r.setor+" atraso(s) de setor.","info");render(false)})}
+function relogioForm(){openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Relógio simulado</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><p>Agora no mockup: <b>${esc(fmtDTL(agora()))}</b>. Avançar o tempo roda o fluxo agendado: arquiva quem não mandou complemento em ${CFG.arqCompl} dias, encerra respondidas sem avaliação após ${CFG.encAuto} dias e avisa prazos em risco (${CFG.risco} dias ou menos) e vencidos.</p><div class="actions" style="justify-content:flex-start">${[1,3,7,15].map(n=>`<button class="btn sec" data-act="avanca" data-v="${n}">+${n} dia${n>1?"s":""}</button>`).join("")}</div></div></div>`)}
+/* ===== Cadastros ===== */
+const emUsoSetor=id=>PROTOS.some(p=>p.setor===id||p.sh.includes(id))||ASSUNTOS.some(a=>a.setor===id)||USERS.some(u=>u.setor===id);
+const abertosSetor=id=>PROTOS.filter(p=>p.setor===id&&aberto(p)).length;
+const emUsoAssunto=id=>PROTOS.some(p=>p.assunto===id);
+const emUsoUser=id=>PROTOS.some(p=>p.ev.some(e=>e.por===id)||(p.resposta&&p.resposta.por===id)||(p.parecer&&p.parecer.por===id));
+const ogAtivos=()=>USERS.filter(u=>u.ativo&&u.perfil==="Ouvidor-geral");
+/* ===== Telas: busca (início) e caixas ===== */
+const V={};
+const tagSt=p=>`<span class="tag ${STCLS[p.st]}">${esc(isCid()?STPUB[p.st]:p.st)}</span>`;
+const tagTipo=p=>`<span class="tag t-pri">${ic(TIPOI[p.tipo])}${esc(p.tipo)}</span>`;
+function manTxt(p,q){if(p.anon)return`<span class="tag t-na">${ic("shield")}Anônima</span>`;if(!verMan())return`<span class="tag t-na">${ic("lock")}Identidade protegida</span>`;return p.man?ic("user")+" "+hl(p.man.nome,q||""):"—"}
+function prRow(p,q){q=q||"";const z=pz(p),zs=pzSetor(p),a=AS(p.assunto),s=SE(p.setor);
+ const k=z.k==="Vencido"?"Vencido":z.k==="risco"?"risco":z.k==="pausa"?"pausa":z.k==="ok"?"ok":"fim";
+ return `<button class="pr pz-${k}" data-act="abrir" data-id="${p.id}"><span class="t1"><b>${hl(p.num,q)}</b>${tagTipo(p)}${tagSt(p)}</span><span class="t2">${hl(a?a.nome:"—",q)}</span><span class="t3">${hl(p.desc.length>110?p.desc.slice(0,110)+"…":p.desc,q)}${p.local?" · "+hl(p.local,q):""}${s&&!isCid()?" · "+esc(s.sigla):""}</span><span class="rt"><span class="tag ${z.cls}">${esc(z.txt)}</span>${zs&&!isCid()?`<span class="tag ${zs.cls}">${esc(zs.txt)}</span>`:""}<span class="muted">Aberta em ${fmt(p.abertura)}</span>${isCid()?"":`<span class="sm">${manTxt(p,q)}</span>`}</span></button>`}
+const ordVenc=(a,b)=>{const ra=aberto(a)?vencMs(a):9e15,rb=aberto(b)?vencMs(b):9e15;return ra-rb||(a.abertura<b.abertura?1:-1)};
+function kpiBtn(icn,n,l,act,v,cls=""){return `<button class="kpi ${cls}" data-act="${act}" data-v="${v}"><span class="kic">${ic(icn)}</span><span><b>${n}</b><small>${esc(l)}</small></span></button>`}
+V.inicio=()=>{const u=user(),q=S.q;const sv=S.perfil==="Setor";
+ let h=`<section class="hero" aria-labelledby="h1"><h1 id="h1">${sv?"Buscar na caixa de "+esc(SE(u.setor).sigla):"Buscar protocolo"}</h1><p class="muted" style="margin:0">Número (OUV-2026-000123 ou só 123), assunto, tipo, bairro, texto da manifestação${verMan()?" ou nome do manifestante":""}.</p>
+ <div class="bigs">${ic("search")}<label class="sr" for="bq">Buscar protocolo</label><input id="bq" type="search" data-live="q" value="${esc(q)}" placeholder="Ex.: 000214, iluminação, Vila Esperança" autocomplete="off"></div>
+ <div class="chips" role="group" aria-label="Buscas rápidas">${(sv?["No setor","Buraco","Iluminação","Semáforo"]:["No setor","Aguardando cidadão","Denúncia","Iluminação","Coleta"]).map(c=>`<button class="chip" data-act="qchip" data-v="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+ ${sv?`<p class="note" style="margin-bottom:0">${ic("lock")} A busca do setor não procura pelo nome do manifestante: esse dado é protegido e só a Ouvidoria vê.</p>`:""}</section>`;
+ if(q.trim()){const R=buscar(q);h+=`<h2 id="rh" aria-live="polite">${R.length} resultado${R.length===1?"":"s"} para “${esc(q.trim())}”</h2>`;
+  h+=R.length?`<div class="pl">${R.slice(0,S.lim).map(p=>prRow(p,q)).join("")}</div>${R.length>S.lim?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="mais">Mostrar mais ${Math.min(30,R.length-S.lim)}</button></div>`:""}`:`<div class="empty">${ic("search")}<div>Nada encontrado. Tente o número sem o prefixo ou outra palavra.</div></div>`;return h}
+ const vis=PROTOS.filter(podeVer);
+ if(sv){const mine=vis.filter(p=>meuSetor(p));const atras=mine.filter(p=>{const z=pzSetor(p);return z&&z.rest<0}).length,venc=mine.filter(p=>{const z=pzSetor(p);return z&&z.rest>=0&&z.rest<=2}).length,fin=mine.filter(p=>pz(p).k==="Vencido").length;
+  h+=`<div class="kpis">${kpiBtn("inbox",mine.length,"Na caixa do setor","gocx","sminha")}${kpiBtn("clock",venc,"Vencem em até 2 dias (setor)","gocx","sminha","warn")}${kpiBtn("alert",atras,"Atrasadas no prazo do setor","gocx","sminha","bad")}${kpiBtn("flag",fin,"Prazo final vencido","gocx","sminha","bad")}</div>`}
+ else{const ab=vis.filter(aberto);const c=k=>ab.filter(p=>pz(p).k===k).length;
+  h+=`<div class="kpis">${kpiBtn("inbox",ab.filter(p=>p.st==="Nova").length,"Aguardando triagem","gocx","triagem")}${kpiBtn("msg",ab.filter(p=>p.st==="Em análise").length,"Em análise na Ouvidoria","gocx","analise")}${kpiBtn("building",ab.filter(p=>p.st==="No setor").length,"Nos setores","gocx","setores")}${kpiBtn("hourglass",ab.filter(p=>p.st==="Aguardando cidadão").length,"Aguardando cidadão","gocx","cidadao")}${kpiBtn("clock",c("risco"),"Prazo em risco","gopz","risco","warn")}${kpiBtn("alert",c("Vencido"),"Prazo vencido","gopz","Vencido","bad")}${kpiBtn("swap",vis.filter(pendAtiva).length,"Prorrogações pendentes","gocx","pror","warn")}</div>`}
+ const last=e=>e.ev.length?e.ev[e.ev.length-1].em:e.abertura;
+ const rec=vis.filter(p=>!sv||p.setor===u.setor).sort((a,b)=>last(a)<last(b)?1:-1).slice(0,8);
+ h+=`<h2>Movimentados recentemente</h2>${rec.length?`<div class="pl">${rec.map(p=>prRow(p)).join("")}</div>`:`<div class="empty">${ic("inbox")}<div>Nenhum protocolo na caixa do setor agora.</div></div>`}`;
+ return h};
+const CXT=[["triagem","Triagem",p=>p.st==="Nova"],["analise","Em análise",p=>p.st==="Em análise"],["setores","Nos setores",p=>p.st==="No setor"],["cidadao","Aguardando cidadão",p=>p.st==="Aguardando cidadão"],["respondidas","Respondidas",p=>p.st==="Respondida"],["pror","Prorrogação pendente",pendAtiva],["abertas","Todas abertas",p=>aberto(p)],["fechadas","Encerradas e arquivadas",p=>p.st==="Encerrada"||p.st==="Arquivada"]];
+const SXT=[["sminha","Na caixa do setor",p=>meuSetor(p)],["shist","Já passaram pelo setor",p=>!meuSetor(p)]];
+V.caixa=()=>{const sv=S.perfil==="Setor",T=sv?SXT:CXT;if(!T.some(t=>t[0]===S.cx))S.cx=T[0][0];
+ const tab=T.find(t=>t[0]===S.cx);const base=PROTOS.filter(podeVer);
+ let L=base.filter(tab[2]);const f=S.cf;
+ if(f.tipo)L=L.filter(p=>p.tipo===f.tipo);if(f.pz)L=L.filter(p=>pz(p).k===f.pz);if(f.setor&&!sv)L=L.filter(p=>(p.setor||p.sh[p.sh.length-1])===f.setor);
+ L.sort(sv&&S.cx==="sminha"?(a,b)=>(a.setorPrazo||"")<(b.setorPrazo||"")?-1:1:ordVenc);
+ let h=`<div class="row"><div><h1>${sv?"Caixa de "+esc(SE(user().setor).nome):"Caixa da Ouvidoria"}</h1><p class="muted" style="margin:0">${sv?"Manifestações encaminhadas ao seu setor, ordenadas pelo prazo do setor.":"Ordenadas pelo vencimento do prazo. O prazo conta em dias corridos e fica pausado enquanto se espera o cidadão."}</p></div>${!sv?`<button class="btn" data-nav="nova">${ic("plus")}Registrar manifestação</button>`:""}</div>
+ <div class="pills" role="group" aria-label="Situação">${T.map(t=>`<button class="pill" data-act="cxt" data-v="${t[0]}" aria-pressed="${S.cx===t[0]}">${esc(t[1])}<b>${base.filter(t[2]).length}</b></button>`).join("")}</div>
+ <div class="grid2" style="max-width:820px"><div><label class="f" for="cft">Tipo</label><select class="in" id="cft" data-cf="tipo"><option value="">Todos</option>${TIPOS.map(t=>`<option ${f.tipo===t?"selected":""}>${esc(t)}</option>`).join("")}</select></div><div><label class="f" for="cfp">Prazo</label><select class="in" id="cfp" data-cf="pz"><option value="">Todos</option>${[["ok","No prazo"],["risco","Em risco"],["Vencido","Vencido"],["pausa","Pausado"],["fim","Concluído"]].map(([v,l])=>`<option value="${v}" ${f.pz===v?"selected":""}>${l}</option>`).join("")}</select></div>${!sv?`<div><label class="f" for="cfs">Setor</label><select class="in" id="cfs" data-cf="setor"><option value="">Todos</option>${SETORES.map(s=>`<option value="${s.id}" ${f.setor===s.id?"selected":""}>${esc(s.sigla)} · ${esc(s.nome)}</option>`).join("")}</select></div>`:""}</div>`;
+ h+=`<p class="muted sm" aria-live="polite">${L.length} protocolo${L.length===1?"":"s"}${f.tipo||f.pz||f.setor?` com filtro · <button class="linkbtn" data-act="cflimpa">Limpar filtros</button>`:""}</p>`;
+ if(!L.length)return h+`<div class="empty">${ic("inbox")}<div>Nada nesta caixa${f.tipo||f.pz||f.setor?" com os filtros escolhidos":""}.</div></div>`;
+ if(S.cx==="setores"&&!sv){const g={};L.forEach(p=>{(g[p.setor]=g[p.setor]||[]).push(p)});h+=Object.keys(g).sort((a,b)=>g[b].length-g[a].length).map(sid=>`<div class="grp">${ic("building")}${esc(SE(sid).sigla)} · ${esc(SE(sid).nome)} <span class="tag t-pri">${g[sid].length}</span></div><div class="pl">${g[sid].map(p=>prRow(p)).join("")}</div>`).join("");return h}
+ return h+`<div class="pl">${L.slice(0,S.lim).map(p=>prRow(p)).join("")}</div>${L.length>S.lim?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="mais">Mostrar mais ${Math.min(30,L.length-S.lim)}</button></div>`:""}`};
+/* ===== Tela do protocolo: resumo, linha do tempo vertical, prazo e ações ===== */
+const EVT={reg:["Registrada","plus"],clas:["Triagem e classificação","tag"],enc:["Encaminhada","send"],dev:["Devolvida pelo setor","undo"],par:["Parecer do setor","file"],comp:["Complemento solicitado","msg"],rcomp:["Complemento enviado","clip"],pror:["Prazo prorrogado","clock"],prorpend:["Pedido de prorrogação","clock"],prorneg:["Prorrogação negada","x"],resp:["Resposta enviada","check"],aval:["Avaliação do cidadão","star"],encf:["Encerrada","check"],arq:["Arquivada","archive"],reab:["Reaberta","redo"],nota:["Nota interna","pen"]};
+const ehMan=(e,p)=>e.por==="cid"||(!!p.cid&&e.por===p.cid);
+function quem(e,p){if(e.por==="sys")return"Fluxo agendado";
+ if(ehMan(e,p)){if(S.perfil==="Cidadão"&&p.cid===S.uid)return"Você";return"Manifestante"}
+ if(isCid()){const u=U(e.por);if(u&&u.perfil==="Setor")return"Setor responsável";return"Ouvidoria Municipal"}
+ const u=U(e.por);if(!u)return"—";return u.nome+(u.perfil==="Setor"?" · "+(SE(u.setor)||{sigla:""}).sigla:u.perfil==="Ouvidor-geral"?" · Ouvidor-geral":" · Ouvidoria")}
+function evTitulo(e){let t=EVT[e.t][0];if(e.t==="enc"&&e.setor)t="Encaminhada a "+(isCid()?SE(e.setor).nome:SE(e.setor).sigla);if((e.t==="dev"||e.t==="par")&&e.setor&&!isCid())t+=" · "+SE(e.setor).sigla;return t}
+const evVisivel=(e,p)=>{if(isOuv())return true;if(isCid())return e.vis==="pub";if(S.perfil==="Setor")return e.vis==="pub"||e.setor===user().setor;return false};
+function timeline(p){let L=p.ev.filter(e=>evVisivel(e,p));if(S.tlr)L.reverse();
+ return `<ol class="tl" aria-label="Linha do tempo da tramitação">${L.map(e=>{const [_,i]=EVT[e.t];return `<li class="k-${e.t} ${e.vis==="int"?"int":""}"><span class="dot" aria-hidden="true">${ic(i)}</span><div class="bx"><div class="h"><b>${esc(evTitulo(e))}</b><span class="w">${esc(fmtDTL(e.em))}</span></div><div class="w">${esc(quem(e,p))}${e.vis==="int"&&!isCid()?` · <span class="tag t-na">${ic("lock")}Interno</span>`:""}</div>${e.t==="aval"?`<p>${stars(+e.txt.match(/\d/)[0])} ${esc(e.txt.replace(/^Avaliação: \d de 5\.\s?/,""))}</p>`:e.txt?`<p>${esc(e.txt)}</p>`:""}${e.instr&&evVisivel({vis:"int",setor:e.setor},p)&&!isCid()?`<p class="sm muted"><b>Orientação interna:</b> ${esc(e.instr)}</p>`:""}</div></li>`}).join("")}</ol>`}
+const stars=n=>`<span class="stars" role="img" aria-label="${n} de 5">${[1,2,3,4,5].map(i=>ic("star",i<=n?"on":"")).join("")}</span>`;
+function prazoCard(p){const z=pz(p),tot=p.prazoDias+(p.prorrog?p.prorrog.dias:0),us=Math.min(tot,diasUsados(p)),pa=Math.round(pausaMs(p,p.fim||agora())/DAY),zs=pzSetor(p);
+ if(isCid()){return `<section class="card" aria-labelledby="pzh"><h2 id="pzh" style="margin:0 0 6px">Prazo de resposta</h2>${aberto(p)?(z.k==="pausa"?`<p style="margin:0"><b>Pausado</b> até você enviar o complemento.</p>`:`<p style="margin:0">Resposta prevista até <b>${fmt(vencISO(p))}</b>.</p>`):`<p style="margin:0">${p.resposta?"Respondida em "+fmt(p.resposta.em)+".":esc(STPUB[p.st])+"."}</p>`}${p.prorrog?`<p class="sm muted">Prazo prorrogado por ${p.prorrog.dias} dias: ${esc(p.prorrog.just)}</p>`:""}</section>`}
+ return `<section class="card" aria-labelledby="pzh"><h2 id="pzh" style="margin:0 0 6px">Prazo</h2><div class="big">${aberto(p)?(z.rest<0?(-z.rest)+" d":z.rest+" d"):(p.resposta?us+" d":"—")}</div><div class="muted sm">${aberto(p)?(z.rest<0?"de atraso":z.k==="pausa"?"restantes, contagem pausada":"restantes"):"usados até a resposta"}</div>
+ <div class="meter ${z.k}" role="meter" aria-label="Dias usados do prazo" aria-valuemin="0" aria-valuemax="${tot}" aria-valuenow="${us}"><i style="width:${Math.min(100,Math.round(us*100/tot))}%"></i></div>
+ <div class="sm"><span class="tag ${z.cls}">${esc(z.txt)}</span></div>
+ <dl class="dl2 sm"><dt>Prazo</dt><dd>${p.prazoDias} dias corridos${p.prorrog?" + "+p.prorrog.dias+" de prorrogação":""}</dd><dt>Vencimento</dt><dd>${fmt(vencISO(p))}</dd><dt>Pausas</dt><dd>${pa?pa+" dia(s) aguardando o cidadão":"nenhuma"}</dd>${zs?`<dt>Prazo do setor</dt><dd>${fmt(p.setorPrazo)} · <span class="tag ${zs.cls}">${esc(zs.txt)}</span></dd>`:""}</dl>
+ ${pendAtiva(p)&&!isCid()?`<div class="note"><b>Prorrogação pedida por ${esc(nmU(p.prorrogPend.por))}:</b> ${esc(p.prorrogPend.just)}</div>`:""}</section>`}
+const ACT=[["classificar","Classificar","tag"],["encaminhar","Encaminhar a um setor","send"],["complemento","Pedir complemento ao cidadão","msg"],["responder","Responder ao cidadão","check"],["parecer","Enviar parecer à Ouvidoria","file"],["devolver","Devolver à Ouvidoria","undo"],["pedirpror","Pedir prorrogação","clock"],["aprovar","Aprovar prorrogação","check"],["negar","Negar prorrogação","x"],["prorrogar","Prorrogar prazo","clock"],["rcomp","Enviar complemento","clip"],["avaliar","Avaliar o atendimento","star"],["nota","Nota interna","pen"],["encerrar","Encerrar","check"],["arquivar","Arquivar","archive"],["reabrir","Reabrir","redo"],["imprimir","Imprimir resposta","print"]];
+function acoesCard(p){const a=acoes(p);const L=ACT.filter(([k])=>k in a);if(!L.length)return `<section class="card"><h2 style="margin:0 0 6px">Ações</h2><p class="muted sm" style="margin:0">${S.perfil==="Setor"?"Este protocolo não está na caixa do seu setor agora: somente leitura.":"Nenhuma ação disponível nesta situação."}</p></section>`;
+ return `<section class="card" aria-labelledby="ach"><h2 id="ach" style="margin:0 0 8px">Ações</h2><div class="acts">${L.map(([k,l,i])=>{const ok=a[k]===true;return `<div><button class="btn ${k==="arquivar"||k==="negar"?"bad sec":ok&&(k==="encaminhar"||k==="responder"||k==="parecer"||k==="rcomp"||k==="avaliar"||k==="aprovar")?"":"sec"}" data-act="${k}" data-id="${p.id}" ${ok?"":`aria-disabled="true" aria-describedby="ad_${k}"`}>${ic(i)}${esc(l)}</button>${ok?"":`<div class="muted sm" id="ad_${k}">${esc(a[k])}</div>`}</div>`}).join("")}</div></section>`}
+function manCard(p){let b;
+ if(p.anon)b=`<p class="prot">${ic("shield")}<span>Denúncia anônima: não há dados de identificação.</span></p>`;
+ else if(verMan())b=`<dl class="dl2"><dt>Nome</dt><dd>${esc(p.man.nome)}</dd><dt>E-mail</dt><dd>${esc(p.man.email||"—")}</dd><dt>Telefone</dt><dd>${esc(p.man.tel||"—")}</dd></dl><p class="muted sm" style="margin:0">${ic("lock")} Só a Ouvidoria vê estes dados.</p>`;
+ else if(S.perfil==="Cidadão"&&p.cid===S.uid)b=`<dl class="dl2"><dt>Nome</dt><dd>${esc(p.man.nome)}</dd><dt>Contato</dt><dd>${esc(p.man.email||p.man.tel)}</dd></dl><p class="muted sm" style="margin:0">Seus dados ficam protegidos: os setores da prefeitura não os veem.</p>`;
+ else b=`<p class="prot">${ic("lock")}<span>${isCid()?"Os dados de identificação não aparecem na consulta por número e código.":"Identidade protegida. Só a Ouvidoria vê quem fez a manifestação."}</span></p>`;
+ return `<section class="card" aria-labelledby="mnh"><h2 id="mnh" style="margin:0 0 6px">Manifestante</h2>${b}</section>`}
+V.protocolo=()=>{const p=P(S.sel);if(!p||!podeVer(p)){S.sel=null;return `<h1>Protocolo indisponível</h1><p>Este protocolo não existe ou não está disponível para o seu perfil.</p><button class="btn sec" data-act="voltar">${ic("back")}Voltar</button>`}
+ const a=AS(p.assunto),s=SE(p.setor);
+ return `<button class="backb" data-act="voltar">${ic("back")}Voltar</button>
+ <div class="phd"><div><h1>Protocolo <span class="num">${esc(p.num)}</span></h1><div class="row" style="justify-content:flex-start;gap:6px">${tagTipo(p)}${tagSt(p)}${s&&!isCid()?`<span class="tag t-info">${ic("building")}${esc(s.sigla)}</span>`:""}</div></div></div>
+ <div class="pgrid"><div class="pa" style="min-width:0">
+  <section class="card" aria-labelledby="mfh"><h2 id="mfh" style="margin:0 0 6px">Manifestação</h2><dl class="dl2"><dt>Assunto</dt><dd>${esc(a?a.nome:"—")}</dd><dt>Canal</dt><dd>${esc(p.canal)}</dd><dt>Aberta em</dt><dd>${esc(fmtDTL(p.abertura))}</dd><dt>Local</dt><dd>${esc(p.local||"Não informado")}</dd></dl><p style="white-space:pre-wrap;margin:8px 0 0">${esc(p.desc)}</p></section>
+  ${p.resposta?`<section class="card" aria-labelledby="rsh" style="border-color:#9fd9b6"><h2 id="rsh" style="margin:0 0 6px">${ic("check")} Resposta oficial</h2><p class="muted sm" style="margin:0">Enviada em ${esc(fmtDTL(p.resposta.em))}</p><p style="white-space:pre-wrap">${esc(p.resposta.txt)}</p>${p.aval?`<p class="sm" style="margin:0">Avaliação: ${stars(p.aval.nota)} ${esc(p.aval.coment)}</p>`:""}</section>`:""}
+  </div><div class="pc" style="min-width:0"><section class="card" aria-labelledby="tlh"><div class="row"><h2 id="tlh" style="margin:0">Tramitação</h2><button class="btn sec sm" data-act="tlr" aria-pressed="${!!S.tlr}">${ic("swap")}${S.tlr?"Mais recentes primeiro":"Mais antigos primeiro"}</button></div>${isCid()?"":`<p class="muted sm" style="margin:4px 0 0">${S.perfil==="Setor"?"Você vê os itens públicos e os do seu setor; notas e devoluções da Ouvidoria ou de outros setores não aparecem. Itens marcados como Interno não aparecem para o cidadão.":"Itens marcados como Interno não aparecem para o cidadão."}</p>`}${timeline(p)}</section>
+ </div><div class="pb" style="min-width:0">${prazoCard(p)}${acoesCard(p)}${manCard(p)}</div></div>`};
+function respostaDoc(id){const p=P(id);if(!p||!p.resposta)return;const a=AS(p.assunto);const pub=p.ev.filter(e=>e.vis==="pub");const verDados=verMan()||(S.perfil==="Cidadão"&&p.cid===S.uid);
+ openModal(`<div class="modal"><div class="mbox big" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Resposta oficial</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="doc"><div class="hd"><div><h2>Município de Quarzana · Ouvidoria</h2><div>Documento fictício gerado pelo mockup</div></div><div><b>${esc(p.num)}</b><br>${esc(fmtDTL(p.resposta.em))}</div></div>
+ <table><tr><th>Tipo</th><td>${esc(p.tipo)}</td><th>Assunto</th><td>${esc(a.nome)}</td></tr><tr><th>Aberta em</th><td>${esc(fmtDTL(p.abertura))}</td><th>Situação</th><td>${esc(STPUB[p.st])}</td></tr><tr><th>Manifestante</th><td colspan="3">${p.anon?"Anônima":verDados?esc(p.man.nome):"Identificação preservada"}</td></tr></table>
+ <h3>Manifestação</h3><p style="white-space:pre-wrap">${esc(p.desc)}</p><h3>Resposta</h3><p style="white-space:pre-wrap">${esc(p.resposta.txt)}</p>
+ <h3>Tramitação pública</h3><table><thead><tr><th>Data</th><th>Etapa</th><th>Detalhe</th></tr></thead><tbody>${pub.map(e=>`<tr><td>${esc(fmtDTL(e.em))}</td><td>${esc(EVT[e.t][0])}</td><td>${esc(e.txt)}</td></tr>`).join("")}</tbody></table></div>
+ <div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+/* ===== Registrar, acompanhar, minhas, indicadores e cadastros ===== */
+function nvNovo(){const u=user();return{tipo:"",assunto:"",desc:"",local:"",anon:"0",nome:S.perfil==="Cidadão"?u.nome:"",email:S.perfil==="Cidadão"?u.email:"",tel:S.perfil==="Cidadão"?(u.tel||""):"",canal:isCid()?"Portal":"Telefone",err:"",feito:null}}
+V.nova=()=>{if(!S.nv)S.nv=nvNovo();const n=S.nv;
+ if(n.feito){const p=P(n.feito);return `<div class="card okbox" role="status">${ic("check")}<h1>Manifestação registrada</h1><p>Guarde o número e o código de acesso. ${p.anon?"<b>Como a denúncia é anônima, eles são a única forma de acompanhar e de ler a resposta.</b>":"Você também recebe os avisos pelo contato informado."}</p><div class="codebox"><div><small>Número do protocolo</small><b>${esc(p.num)}</b></div><div><small>Código de acesso</small><b>${esc(p.cod)}</b></div></div>${p.anon&&S.perfil==="Cidadão"?`<p class="note">${ic("info")} Por ser anônima, esta denúncia não fica ligada à sua conta e não aparece em Minhas manifestações.</p>`:""}<p class="muted sm">Prazo de resposta: ${p.prazoDias} dias corridos, até ${fmt(vencISO(p))}. O prazo fica pausado se a Ouvidoria pedir complemento.</p><div class="actions" style="justify-content:center"><button class="btn" data-act="abrir" data-id="${p.id}">${ic("eye")}Ver protocolo</button><button class="btn sec" data-act="nvnovo">${ic("plus")}Registrar outra</button></div></div>`}
+ const at=ASSUNTOS.filter(a=>a.ativo);const den=n.tipo==="Denúncia";const anon=den&&n.anon==="1";
+ return `<h1>Registrar manifestação</h1><p class="muted" style="margin:0 0 6px">${isCid()?"Portal do cidadão. Campos com (obrigatório) precisam ser preenchidos.":"Registro feito pela Ouvidoria a partir de telefone, atendimento presencial ou e-mail."}</p>
+ <form class="card" id="nvf" novalidate style="max-width:860px">
+ <fieldset style="border:0;padding:0;margin:0"><legend class="f" style="font-weight:700;font-size:13px;color:var(--tx2)">Tipo (obrigatório)</legend><div class="pills" role="group" aria-label="Tipo da manifestação">${TIPOS.map(t=>`<button type="button" class="pill" data-act="nvtipo" data-v="${esc(t)}" aria-pressed="${n.tipo===t}">${ic(TIPOI[t])}${esc(t)}</button>`).join("")}</div></fieldset>
+ <div class="grid2"><div><label class="f" for="nv_assunto">Assunto (obrigatório)</label><select class="in" id="nv_assunto" data-nv="assunto"><option value="">Selecione</option>${at.map(a=>`<option value="${a.id}" ${n.assunto===a.id?"selected":""}>${esc(a.nome)}</option>`).join("")}</select></div>
+ <div><label class="f" for="nv_local">Local da ocorrência (bairro, rua, referência)</label><input class="in" id="nv_local" data-nv="local" value="${esc(n.local)}"></div></div>
+ <label class="f" for="nv_desc">Descrição (obrigatório, de 20 a 2.000 caracteres)</label><textarea class="in" id="nv_desc" data-nv="desc" aria-describedby="nv_cnt">${esc(n.desc)}</textarea><div class="muted sm" id="nv_cnt">${n.desc.length} de 2.000 caracteres</div>
+ ${den?`<label class="chk"><input type="checkbox" id="nv_anon" ${anon?"checked":""}><span><b>Fazer a denúncia de forma anônima</b><br><span class="muted sm">Nenhum dado seu é gravado. Você acompanha só pelo número e código, e a Ouvidoria não consegue falar com você fora do portal.</span></span></label>`:""}
+ ${anon?"":`<h2 style="font-size:15px;margin:16px 0 8px">Identificação</h2><p class="muted sm" style="margin:0">Os dados ficam protegidos: só a Ouvidoria vê. Os setores que analisam a manifestação não sabem quem a fez.</p><div class="grid2"><div><label class="f" for="nv_nome">Nome (obrigatório)</label><input class="in" id="nv_nome" data-nv="nome" value="${esc(n.nome)}" autocomplete="name"></div><div><label class="f" for="nv_email">E-mail</label><input class="in" id="nv_email" type="email" data-nv="email" value="${esc(n.email)}" autocomplete="email"></div><div><label class="f" for="nv_tel">Telefone com DDD</label><input class="in" id="nv_tel" type="tel" data-nv="tel" value="${esc(n.tel)}" autocomplete="tel"></div></div><p class="muted sm">Informe e-mail ou telefone.</p>`}
+ ${isCid()?"":`<div class="grid2"><div><label class="f" for="nv_canal">Canal de entrada (obrigatório)</label><select class="in" id="nv_canal" data-nv="canal">${CANAIS.filter(c=>c!=="Portal").map(c=>`<option ${n.canal===c?"selected":""}>${c}</option>`).join("")}</select></div></div>`}
+ <div class="err" id="nverr" role="alert">${esc(n.err)}</div>
+ <div class="actions"><button type="button" class="btn sec" data-act="nvlimpar">Limpar</button><button class="btn" type="submit">${ic("send")}Registrar</button></div></form>`};
+function nvEnviar(){const n=S.nv;const v=Object.assign({},n,{desc:n.desc.trim(),nome:(n.nome||"").trim(),email:(n.email||"").trim(),tel:(n.tel||"").trim(),anon:n.tipo==="Denúncia"?n.anon:"0"});
+ const er=validarNova(v);if(er){n.err=er;render(false);const map=[["tipo","Escolha o tipo","[data-act=nvtipo]"],["assunto","assunto","#nv_assunto"],["desc","Descreva","#nv_desc"],["desc","descrição","#nv_desc"],["anon","anônima","#nv_anon"],["nome","nome","#nv_nome"],["email","e-mail","#nv_email"],["tel","Telefone","#nv_tel"],["canal","canal","#nv_canal"]];const m=map.find(x=>er.includes(x[1]));const el=m&&$(m[2]);if(el){if(el.tagName!=="BUTTON")el.setAttribute("aria-invalid","true");el.focus()}else $("#nverr").focus();return}
+ busy("Registrando…",()=>{const p=criar(v);S.nv={feito:p.id};toast("Manifestação "+p.num+" registrada.");render(true)})}
+V.acompanhar=()=>`<section class="hero" aria-labelledby="h1"><h1 id="h1">Acompanhar manifestação</h1><p class="muted" style="margin:0">Use o número do protocolo e o código de acesso que aparecem no comprovante.</p>
+ <form id="acf" novalidate style="max-width:720px"><div class="grid2"><div><label class="f" for="ac_num">Número do protocolo</label><input class="in" id="ac_num" placeholder="OUV-2026-000123" autocomplete="off"></div><div><label class="f" for="ac_cod">Código de acesso</label><input class="in" id="ac_cod" placeholder="6 letras e números" autocomplete="off" style="text-transform:uppercase"></div></div><div class="err" id="acerr" role="alert"></div><div class="actions" style="justify-content:flex-start"><button class="btn" type="submit">${ic("search")}Consultar</button></div></form></section>
+ <p class="note">${ic("info")} <b>Dica do mockup:</b> a denúncia anônima de demonstração é <b>${esc(P(S.demoAnon).num)}</b> com o código <b>${esc(P(S.demoAnon).cod)}</b>. Depois de cinco tentativas erradas a consulta fica bloqueada por 15 minutos do relógio simulado, mesmo que você troque de usuário.</p>
+ ${S.vis.length?`<h2>Consultados nesta sessão</h2><div class="pl">${S.vis.map(P).filter(Boolean).map(p=>prRow(p)).join("")}</div>`:""}`;
+V.minhas=()=>{const L=PROTOS.filter(p=>p.cid===S.uid).sort((a,b)=>a.abertura<b.abertura?1:-1);const f=S.minhaF;const M=f==="abertas"?L.filter(p=>aberto(p)||p.st==="Respondida"):L;
+ return `<div class="row"><h1>Minhas manifestações</h1><button class="btn" data-nav="nova">${ic("plus")}Registrar</button></div><div class="pills" role="group" aria-label="Filtro">${[["abertas","Em andamento"],["todas","Todas"]].map(([k,l])=>`<button class="pill" data-act="mf" data-v="${k}" aria-pressed="${f===k}">${l}<b>${(k==="abertas"?L.filter(p=>aberto(p)||p.st==="Respondida"):L).length}</b></button>`).join("")}</div>${M.length?`<div class="pl">${M.map(p=>prRow(p)).join("")}</div>`:`<div class="empty">${ic("inbox")}<div>Nenhuma manifestação ${f==="abertas"?"em andamento":"registrada"}.</div><button class="btn sec" data-nav="nova">Registrar a primeira</button></div>`}`};
+/* ===== Indicadores ===== */
+const mesK=s=>s.slice(0,7);
+function relBase(){const per=S.rel;return PROTOS.filter(p=>!per||ms(p.abertura)>=ms(agora())-per*DAY)}
+function relCalc(){const B=relBase();const resp=B.filter(p=>p.resposta);const noP=resp.filter(noPrazo);const avs=B.filter(p=>p.aval);
+ const tm=resp.length?resp.reduce((s,p)=>s+diasUsados(p),0)/resp.length:0;
+ return{B,abertas:B.filter(aberto),venc:B.filter(p=>aberto(p)&&pz(p).k==="Vencido"),resp,noP,atraso:resp.filter(p=>!noPrazo(p)),tm,avs,sat:avs.length?avs.reduce((s,p)=>s+p.aval.nota,0)/avs.length:0}}
+function colChart(data,lab,act,cap){const W=360,H=200,M=26,max=Math.max(1,...data.map(d=>d.v));const bw=(W-M*2)/data.length;
+ return `<figure class="ch"><figcaption>${esc(cap)}</figcaption><svg class="cs" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(cap)}: ${data.map(d=>d.l+" "+d.v).join(", ")}">${[0,.5,1].map(f=>`<line x1="${M}" x2="${W-6}" y1="${H-M-(H-M*2)*f}" y2="${H-M-(H-M*2)*f}" stroke="#efd3df"/><text x="${M-4}" y="${H-M-(H-M*2)*f+4}" text-anchor="end">${Math.round(max*f)}</text>`).join("")}${data.map((d,i)=>{const h=(H-M*2)*d.v/max,x=M+i*bw+bw*.18,y=H-M-h;return `<rect x="${x}" y="${y}" width="${bw*.64}" height="${Math.max(h,0)}" rx="4" fill="${d.c||"#be185d"}"/><text x="${x+bw*.32}" y="${y-4}" text-anchor="middle" font-weight="700">${d.v}</text><text x="${x+bw*.32}" y="${H-M+14}" text-anchor="middle">${esc(d.l)}</text>`}).join("")}</svg>
+ <div class="pills" role="group" aria-label="Abrir lista de ${esc(cap)}">${data.map(d=>`<button class="pill" data-act="rdrill" data-v="${act}:${d.k}">${esc(d.l)}<b>${d.v}</b></button>`).join("")}</div>
+ <details class="dt"><summary>Tabela de dados</summary><table><thead><tr><th>${esc(lab)}</th><th>Quantidade</th></tr></thead><tbody>${data.map(d=>`<tr><td>${esc(d.l)}</td><td>${d.v}</td></tr>`).join("")}</tbody></table></details></figure>`}
+function hbars(rows,cap,act,lab,extra){const max=Math.max(1,...rows.map(r=>r.v));return `<figure class="ch"><figcaption>${esc(cap)}</figcaption>${rows.length?rows.map(r=>`<button class="hbar" data-act="rdrill" data-v="${act}:${r.k}" aria-label="${esc(r.l)}: ${r.v}${r.v2!=null?", "+r.v2+" vencidas":""}. Abrir lista"><span class="nm2">${esc(r.l)}</span><span class="bar"><i style="width:${r.v*100/max}%"></i>${r.v2?`<i class="v" style="width:${r.v2*100/max}%"></i>`:""}</span><b>${r.v}</b></button>`).join(""):`<p class="muted">Sem dados no período.</p>`}${extra||""}
+ <details class="dt"><summary>Tabela de dados</summary><table><thead><tr><th>${esc(lab)}</th><th>Quantidade</th>${rows.some(r=>r.v2!=null)?"<th>Vencidas</th>":""}</tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.l)}</td><td>${r.v}</td>${r.v2!=null?`<td>${r.v2}</td>`:""}</tr>`).join("")}</tbody></table></details></figure>`}
+function drillList(k){const R=relCalc();const [t,v]=k.split(":");let L=[],l="";
+ if(t==="kpi"){L={todas:R.B,abertas:R.abertas,venc:R.venc,atraso:R.atraso,noprazo:R.noP,resp:R.resp,baixa:R.avs.filter(p=>p.aval.nota<=2),aval:R.avs}[v]||[];l={todas:"Recebidas no período",abertas:"Abertas",venc:"Abertas com prazo vencido",atraso:"Respondidas com atraso",noprazo:"Respondidas no prazo",resp:"Respondidas",baixa:"Avaliações 1 ou 2",aval:"Avaliadas"}[v]}
+ else if(t==="assunto"){L=R.B.filter(p=>p.assunto===v);l="Assunto: "+AS(v).nome}
+ else if(t==="tipo"){L=R.B.filter(p=>p.tipo===v);l="Tipo: "+v}
+ else if(t==="setor"){L=PROTOS.filter(p=>p.st==="No setor"&&p.setor===v);l="Abertas agora em "+SE(v).sigla}
+ else if(t==="mes"){L=PROTOS.filter(p=>mesK(p.abertura)===v);l="Entradas em "+MESN[+v.slice(5)-1]+"/"+v.slice(0,4)}
+ else if(t==="nota"){L=R.avs.filter(p=>p.aval.nota===+v);l="Avaliações com nota "+v}
+ return{L:L.slice().sort(ordVenc),l}}
+V.relat=()=>{const R=relCalc();const pct=(a,b)=>b?Math.round(a*100/b):0;
+ const meses=[];{const d=new Date(agora().slice(0,7)+"-15T12:00");for(let i=5;i>=0;i--){const x=new Date(d);x.setMonth(d.getMonth()-i);const k=x.getFullYear()+"-"+p2(x.getMonth()+1);meses.push({k,l:MESN[x.getMonth()],v:PROTOS.filter(p=>mesK(p.abertura)===k).length})}}
+ const cA={};R.B.forEach(p=>cA[p.assunto]=(cA[p.assunto]||0)+1);const ra=Object.keys(cA).map(k=>({k,l:AS(k).nome,v:cA[k]})).sort((a,b)=>b.v-a.v).slice(0,8);
+ const rs=SETORES.map(s=>{const L=PROTOS.filter(p=>p.st==="No setor"&&p.setor===s.id);return{k:s.id,l:s.sigla+" · "+s.nome,v:L.length,v2:L.filter(p=>pz(p).k==="Vencido").length}}).filter(r=>r.v).sort((a,b)=>b.v-a.v);
+ const rt=TIPOS.map(t=>({k:t,l:t,v:R.B.filter(p=>p.tipo===t).length})).filter(r=>r.v);
+ const notas=[1,2,3,4,5].map(n=>({k:n,l:n+"★",v:R.avs.filter(p=>p.aval.nota===n).length,c:n<=2?"#b3261e":n===3?"#b45309":"#1a7a4a"}));
+ let h=`<div class="row"><div><h1>Indicadores</h1><p class="muted" style="margin:0">Período pela data de abertura. Clique em um número ou barra para ver a lista.</p></div><div class="row"><div class="seg" role="group" aria-label="Período">${[[30,"30 dias"],[90,"90 dias"],[180,"180 dias"],[0,"Tudo"]].map(([v,l])=>`<button data-act="rper" data-v="${v}" aria-pressed="${S.rel===v}">${l}</button>`).join("")}</div><button class="btn sec" data-act="relprint">${ic("print")}Relatório</button></div></div>
+ <div class="kpis">${kpiBtn("inbox",R.B.length,"Recebidas","rdrill","kpi:todas")}${kpiBtn("msg",R.abertas.length,"Abertas","rdrill","kpi:abertas")}${kpiBtn("alert",R.venc.length,"Abertas com prazo vencido","rdrill","kpi:venc","bad")}${kpiBtn("check",pct(R.noP.length,R.resp.length)+"%","Respondidas no prazo ("+R.noP.length+" de "+R.resp.length+")","rdrill","kpi:noprazo")}${kpiBtn("clock",num(R.tm.toFixed(1))+" d","Tempo médio até a resposta, sem pausas","rdrill","kpi:resp")}${kpiBtn("star",R.avs.length?num(R.sat.toFixed(1)):"—","Satisfação média ("+R.avs.length+" avaliações)","rdrill","kpi:aval")}</div>
+ <div class="cg"><div class="card">${colChart(meses,"Mês","mes","Entradas nos últimos 6 meses")}</div><div class="card">${hbars(ra,"Assuntos mais frequentes no período","assunto","Assunto")}</div><div class="card">${hbars(rs,"Abertas agora por setor (vermelho: prazo vencido)","setor","Setor")}</div><div class="card">${hbars(rt,"Por tipo no período","tipo","Tipo")}</div><div class="card">${colChart(notas,"Nota","nota","Distribuição das notas de satisfação")}</div></div>`;
+ if(S.rd){const D=drillList(S.rd);h+=`<section class="card" aria-labelledby="drh"><div class="row"><h2 id="drh" tabindex="-1" style="margin:0">${esc(D.l)} (${D.L.length})</h2><button class="btn sec sm" data-act="rdlimpa">${ic("x")}Fechar lista</button></div>${D.L.length?`<div class="pl" style="margin-top:8px">${D.L.slice(0,S.lim).map(p=>prRow(p)).join("")}</div>${D.L.length>S.lim?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="mais">Mostrar mais</button></div>`:""}`:`<div class="empty">Nenhum protocolo.</div>`}</section>`}
+ return h};
+function relatorioDoc(){const R=relCalc();const pct=(a,b)=>b?Math.round(a*100/b):0;const cA={};R.B.forEach(p=>cA[p.assunto]=(cA[p.assunto]||0)+1);
+ openModal(`<div class="modal"><div class="mbox big" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Relatório da Ouvidoria</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="doc"><div class="hd"><div><h2>Município de Quarzana · Ouvidoria</h2><div>Relatório de manifestações · ${S.rel?"últimos "+S.rel+" dias":"todo o histórico"}</div></div><div>Gerado em ${esc(fmtDTL(agora()))}<br>Dados fictícios</div></div>
+ <table><tr><th>Recebidas</th><td>${R.B.length}</td><th>Abertas</th><td>${R.abertas.length}</td></tr><tr><th>Vencidas abertas</th><td>${R.venc.length}</td><th>Respondidas no prazo</th><td>${pct(R.noP.length,R.resp.length)}% (${R.noP.length} de ${R.resp.length})</td></tr><tr><th>Tempo médio até a resposta</th><td>${num(R.tm.toFixed(1))} dias</td><th>Satisfação média</th><td>${R.avs.length?num(R.sat.toFixed(1))+" de 5 ("+R.avs.length+")":"—"}</td></tr></table>
+ <h3>Por tipo</h3><table><tbody>${TIPOS.map(t=>`<tr><td>${esc(t)}</td><td>${R.B.filter(p=>p.tipo===t).length}</td></tr>`).join("")}</tbody></table>
+ <h3>Por assunto</h3><table><tbody>${Object.keys(cA).sort((a,b)=>cA[b]-cA[a]).map(k=>`<tr><td>${esc(AS(k).nome)}</td><td>${cA[k]}</td></tr>`).join("")}</tbody></table>
+ <h3>Abertas por setor</h3><table><thead><tr><th>Setor</th><th>Abertas</th><th>Vencidas</th></tr></thead><tbody>${SETORES.map(s=>{const L=PROTOS.filter(p=>p.st==="No setor"&&p.setor===s.id);return `<tr><td>${esc(s.sigla)} · ${esc(s.nome)}</td><td>${L.length}</td><td>${L.filter(p=>pz(p).k==="Vencido").length}</td></tr>`}).join("")}</tbody></table></div>
+ <div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+/* ===== Cadastros ===== */
+const ADT=[["setores","Setores"],["assuntos","Assuntos"],["prazos","Prazos e regras"],["usuarios","Usuários"]];
+V.admin=()=>{const t=S.adm;let h=`<h1>Cadastros</h1><div class="tabsa" role="group" aria-label="Cadastro">${ADT.map(([k,l])=>`<button data-act="adm" data-v="${k}" aria-pressed="${t===k}">${l}</button>`).join("")}</div>`;
+ if(t==="setores")h+=`<div class="row"><p class="muted" style="margin:0">Renomear um setor atualiza o histórico: os registros guardam o código, não o nome.</p><button class="btn" data-act="setnew">${ic("plus")}Novo setor</button></div><div class="tw" style="margin-top:8px"><table class="tb"><thead><tr><th>Sigla</th><th>Nome</th><th>E-mail</th><th>Abertas</th><th>Situação</th><th class="act">Ações</th></tr></thead><tbody>${SETORES.map(s=>`<tr><td><b>${esc(s.sigla)}</b></td><td>${esc(s.nome)}</td><td>${esc(s.email)}</td><td>${abertosSetor(s.id)}</td><td>${s.ativo?'<span class="tag t-ok">Ativo</span>':'<span class="tag t-na">Inativo</span>'}</td><td class="act"><button class="ib" data-act="setedit" data-id="${s.id}" aria-label="Editar ${esc(s.sigla)}">${ic("pen")}</button><button class="ib" data-act="settog" data-id="${s.id}" aria-label="${s.ativo?"Desativar":"Reativar"} ${esc(s.sigla)}">${ic(s.ativo?"x":"redo")}</button><button class="ib" data-act="setdel" data-id="${s.id}" aria-label="Excluir ${esc(s.sigla)}">${ic("trash")}</button></td></tr>`).join("")}</tbody></table></div>`;
+ if(t==="assuntos")h+=`<div class="row"><p class="muted" style="margin:0">O setor padrão é sugerido no encaminhamento. Assunto inativo some do formulário de registro.</p><button class="btn" data-act="asnew">${ic("plus")}Novo assunto</button></div><div class="tw" style="margin-top:8px"><table class="tb"><thead><tr><th>Assunto</th><th>Setor padrão</th><th>Usos</th><th>Situação</th><th class="act">Ações</th></tr></thead><tbody>${ASSUNTOS.map(a=>`<tr><td>${esc(a.nome)}</td><td>${a.setor?esc(SE(a.setor).sigla):"<span class='muted'>A Ouvidoria decide</span>"}</td><td>${PROTOS.filter(p=>p.assunto===a.id).length}</td><td>${a.ativo?'<span class="tag t-ok">Ativo</span>':'<span class="tag t-na">Inativo</span>'}</td><td class="act"><button class="ib" data-act="asedit" data-id="${a.id}" aria-label="Editar ${esc(a.nome)}">${ic("pen")}</button><button class="ib" data-act="astog" data-id="${a.id}" aria-label="${a.ativo?"Desativar":"Reativar"} ${esc(a.nome)}">${ic(a.ativo?"x":"redo")}</button><button class="ib" data-act="asdel" data-id="${a.id}" aria-label="Excluir ${esc(a.nome)}">${ic("trash")}</button></td></tr>`).join("")}</tbody></table></div>`;
+ if(t==="prazos")h+=`<div class="card" style="max-width:760px"><p class="muted" style="margin-top:0">Valores de exemplo, configuráveis. Confira a norma que vale para o seu órgão antes de definir os prazos reais. Mudanças valem para manifestações novas; as abertas mantêm o prazo com que nasceram.</p><dl class="dl2">${TIPOS.map(t=>`<dt>${esc(t)}</dt><dd>${CFG.prazo[t]} dias corridos</dd>`).join("")}<dt>Prorrogação</dt><dd>${CFG.prorrog} dias, uma vez, com justificativa</dd><dt>Prazo padrão do setor</dt><dd>${CFG.setorDias} dias</dd><dt>Aviso de risco</dt><dd>${CFG.risco} dias antes do vencimento</dd><dt>Arquivar sem complemento</dt><dd>${CFG.arqCompl} dias</dd><dt>Encerrar sem avaliação</dt><dd>${CFG.encAuto} dias após a resposta</dd></dl><div class="actions"><button class="btn" data-act="cfgedit">${ic("pen")}Editar regras</button></div></div>`;
+ if(t==="usuarios")h+=`<div class="row"><p class="muted" style="margin:0">Equipe interna. Cidadãos entram pelo portal (contatos do Power Pages) e não aparecem aqui.</p><button class="btn" data-act="usnew">${ic("plus")}Novo usuário</button></div><div class="tw" style="margin-top:8px"><table class="tb"><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Setor</th><th>Situação</th><th class="act">Ações</th></tr></thead><tbody>${USERS.filter(u=>!["Cidadão","Visitante"].includes(u.perfil)).map(u=>`<tr><td>${esc(u.nome)}${u.id===S.uid?" <span class='tag t-pri'>Você</span>":""}</td><td>${esc(u.email)}</td><td>${esc(u.perfil)}</td><td>${u.setor?esc(SE(u.setor).sigla):"—"}</td><td>${u.ativo?'<span class="tag t-ok">Ativo</span>':'<span class="tag t-na">Inativo</span>'}</td><td class="act"><button class="ib" data-act="usedit" data-id="${u.id}" aria-label="Editar ${esc(u.nome)}">${ic("pen")}</button><button class="ib" data-act="ustog" data-id="${u.id}" aria-label="${u.ativo?"Desativar":"Reativar"} ${esc(u.nome)}">${ic(u.ativo?"x":"redo")}</button><button class="ib" data-act="usdel" data-id="${u.id}" aria-label="Excluir ${esc(u.nome)}">${ic("trash")}</button></td></tr>`).join("")}</tbody></table></div>`;
+ return h};
+const uniq=(L,k,v,id)=>L.some(x=>x.id!==id&&norm(x[k])===norm(v));
+function setForm(s){formModal({title:s?"Editar setor":"Novo setor",fields:[{id:"sigla",label:"Sigla (2 a 6 letras)",value:s?s.sigla:"",req:true},{id:"nome",label:"Nome",value:s?s.nome:"",req:true},{id:"email",label:"E-mail da caixa do setor",type:"email",value:s?s.email:"",req:true}],
+ validate:v=>{v.sigla=v.sigla.toUpperCase();if(!/^[A-Z]{2,6}$/.test(v.sigla))return"Sigla: de 2 a 6 letras, sem acento.";if(uniq(SETORES,"sigla",v.sigla,s&&s.id))return"Já existe um setor com essa sigla.";if(uniq(SETORES,"nome",v.nome,s&&s.id))return"Já existe um setor com esse nome.";if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email))return"E-mail em formato inválido.";if(uniq(SETORES,"email",v.email,s&&s.id))return"Já existe um setor com esse e-mail.";return""},
+ save:v=>{if(s)Object.assign(s,{sigla:v.sigla.toUpperCase(),nome:v.nome,email:v.email});else SETORES.push({id:"s"+(SETORES.length+1)+"x"+Date.now()%1000,sigla:v.sigla.toUpperCase(),nome:v.nome,email:v.email,ativo:true})},msg:s?"Setor atualizado. O histórico já mostra o novo nome.":"Setor criado."})}
+function setTog(id){const s=SE(id);if(s.ativo){const n=abertosSetor(id);if(n){toast("Não é possível desativar: há "+n+" manifestação(ões) aberta(s) neste setor. Reencaminhe-as antes.","err");return}const nu=SETOR_USERS(id).length;if(nu){toast("Não é possível desativar "+s.sigla+": o setor tem "+nu+" usuário(s) ativo(s). Desative os usuários ou troque o setor deles antes.","err");return}confirmar("Desativar "+s.sigla+"? Ele deixa de aparecer no encaminhamento.","Desativar",()=>busy("Gravando…",()=>{s.ativo=false;toast("Setor desativado.");render(false)}))}else busy("Gravando…",()=>{s.ativo=true;toast("Setor reativado.");render(false)})}
+function setDel(id){const s=SE(id);if(emUsoSetor(id)){toast("Não é possível excluir: "+s.sigla+" já foi usado em manifestações, assuntos ou usuários. Desative o setor no lugar.","err");return}confirmar("Excluir o setor "+s.sigla+"? Esta ação não pode ser desfeita.","Excluir",()=>busy("Excluindo…",()=>{SETORES=SETORES.filter(x=>x.id!==id);toast("Setor excluído.");render(false)}))}
+function asForm(a){formModal({title:a?"Editar assunto":"Novo assunto",fields:[{id:"nome",label:"Nome",value:a?a.nome:"",req:true},{id:"setor",label:"Setor padrão",type:"select",value:a?a.setor:"",options:[["","A Ouvidoria decide"]].concat(SETORES.filter(s=>s.ativo||(a&&a.setor===s.id)).map(s=>[s.id,s.sigla+" · "+s.nome]))}],
+ validate:v=>uniq(ASSUNTOS,"nome",v.nome,a&&a.id)?"Já existe um assunto com esse nome.":v.nome.length<4?"Nome muito curto.":"",
+ save:v=>{if(a)Object.assign(a,{nome:v.nome,setor:v.setor});else ASSUNTOS.push({id:"a"+(ASSUNTOS.length+1)+"x"+Date.now()%1000,nome:v.nome,setor:v.setor,ativo:true})},msg:a?"Assunto atualizado.":"Assunto criado."})}
+function asTog(id){const a=AS(id);busy("Gravando…",()=>{a.ativo=!a.ativo;toast(a.ativo?"Assunto reativado.":"Assunto desativado: não aparece mais no registro.");render(false)})}
+function asDel(id){const a=AS(id);if(emUsoAssunto(id)){toast("Não é possível excluir: o assunto já foi usado em manifestações. Desative no lugar.","err");return}confirmar("Excluir o assunto "+a.nome+"?","Excluir",()=>busy("Excluindo…",()=>{ASSUNTOS=ASSUNTOS.filter(x=>x.id!==id);toast("Assunto excluído.");render(false)}))}
+function cfgForm(){const F=TIPOS.map((t,i)=>({id:"t"+i,label:"Prazo de "+t+" (dias)",type:"number",min:1,value:String(CFG.prazo[t]),req:true})).concat([{id:"prorrog",label:"Prorrogação (dias)",type:"number",min:1,value:String(CFG.prorrog),req:true},{id:"setorDias",label:"Prazo padrão do setor (dias)",type:"number",min:1,value:String(CFG.setorDias),req:true},{id:"risco",label:"Aviso de risco (dias antes)",type:"number",min:1,value:String(CFG.risco),req:true},{id:"arqCompl",label:"Arquivar sem complemento após (dias)",type:"number",min:1,value:String(CFG.arqCompl),req:true},{id:"encAuto",label:"Encerrar sem avaliação após (dias)",type:"number",min:1,value:String(CFG.encAuto),req:true}]);
+ formModal({title:"Prazos e regras",fields:F,validate:v=>{for(const f of F){const n=+v[f.id];if(!Number.isInteger(n)||n<1||n>365)return f.label+": número inteiro de 1 a 365."}const min=Math.min(...TIPOS.map((t,i)=>+v["t"+i]));if(+v.setorDias>=min)return"O prazo do setor precisa ser menor que o menor prazo de tipo ("+min+" dias).";if(+v.risco>=min)return"O aviso de risco precisa ser menor que o menor prazo de tipo.";return""},
+  save:v=>{TIPOS.forEach((t,i)=>CFG.prazo[t]=+v["t"+i]);["prorrog","setorDias","risco","arqCompl","encAuto"].forEach(k=>CFG[k]=+v[k])},msg:"Regras salvas. Valem para as manifestações novas."})}
+function usForm(u){formModal({title:u?"Editar usuário":"Novo usuário",fields:[{id:"nome",label:"Nome",value:u?u.nome:"",req:true},{id:"email",label:"E-mail",type:"email",value:u?u.email:"",req:true},{id:"perfil",label:"Perfil",type:"select",value:u?u.perfil:"Ouvidoria",options:[["Ouvidoria","Ouvidoria"],["Setor","Setor"],["Ouvidor-geral","Ouvidor-geral"]],req:true},{id:"setor",label:"Setor (para o perfil Setor)",type:"select",opt:true,value:u&&u.setor?u.setor:"",options:SETORES.filter(s=>s.ativo||(u&&u.setor===s.id)).map(s=>[s.id,s.sigla+" · "+s.nome])}],
+ validate:v=>{if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.email))return"E-mail em formato inválido.";if(USERS.some(x=>x.id!==(u&&u.id)&&norm(x.email)===norm(v.email)))return"Já existe um usuário com esse e-mail.";if(v.perfil==="Setor"&&!v.setor)return"Escolha o setor do usuário.";if(u&&u.id===S.uid&&v.perfil!==u.perfil)return"Você não pode mudar o seu próprio perfil.";if(u&&u.perfil==="Ouvidor-geral"&&v.perfil!=="Ouvidor-geral"&&u.ativo&&ogAtivos().length<=1)return"Mantenha pelo menos um Ouvidor-geral ativo.";return""},
+ save:v=>{const d={nome:v.nome,email:v.email,perfil:v.perfil,setor:v.perfil==="Setor"?v.setor:undefined};if(u)Object.assign(u,d);else USERS.push(Object.assign({id:"u"+(USERS.length+1)+"x"+Date.now()%1000,ativo:true},d));renderCover()},msg:u?"Usuário atualizado. O histórico já mostra o novo nome.":"Usuário criado."})}
+function usTog(id){const u=U(id);if(u.ativo){if(id===S.uid){toast("Você não pode desativar a si mesmo.","err");return}if(u.perfil==="Ouvidor-geral"&&ogAtivos().length<=1){toast("Mantenha pelo menos um Ouvidor-geral ativo.","err");return}confirmar("Desativar "+u.nome+"? A pessoa perde o acesso, e o histórico fica.","Desativar",()=>busy("Gravando…",()=>{u.ativo=false;renderCover();toast("Usuário desativado.");render(false)}))}else{if(u.perfil==="Setor"&&!(SE(u.setor)||{}).ativo){toast("O setor deste usuário está inativo. Reative o setor ou troque o setor do usuário antes.","err");return}busy("Gravando…",()=>{u.ativo=true;renderCover();toast("Usuário reativado.");render(false)})}}
+function usDel(id){const u=U(id);if(id===S.uid){toast("Você não pode excluir a si mesmo.","err");return}if(u.perfil==="Ouvidor-geral"&&u.ativo&&ogAtivos().length<=1){toast("Mantenha pelo menos um Ouvidor-geral ativo.","err");return}if(emUsoUser(id)){toast("Não é possível excluir: "+u.nome+" aparece no histórico de manifestações. Desative no lugar.","err");return}confirmar("Excluir "+u.nome+"?","Excluir",()=>busy("Excluindo…",()=>{USERS=USERS.filter(x=>x.id!==id);renderCover();toast("Usuário excluído.");render(false)}))}
+/* ===== Painel "Como seria na Power Platform" ===== */
+/* Cada bloco traz as URLs do Microsoft Learn de onde a afirmação saiu (conferido em 11/11/2026).
+   c: [texto, caminho(s) no Learn, aConfirmar?]; d: [texto, caminho(s)]; w: [texto, caminho(s), aConfirmar?] ou lista deles.
+   Caminho vazio = decisão do mockup, sem afirmação sobre produto. */
+const LN="https://learn.microsoft.com/";
+const LU={
+ user:"power-platform/power-fx/reference/function-user",
+ guests:"power-apps/maker/canvas-apps/share-app-guests",
+ licfaq:"power-platform/admin/powerapps-flow-licensing-faq",
+ share:"power-apps/maker/canvas-apps/share-app",
+ psec:"power-pages/security/power-pages-security",
+ webroles:"power-pages/security/create-web-roles",
+ tperm:"power-pages/security/table-permissions",
+ ptable:"power-pages/security/assign-table-permissions",
+ lists:"power-pages/configure/securing-lists",
+ deprec:"power-pages/important-changes-deprecations",
+ addform:"power-pages/getting-started/add-form",
+ sl:"power-pages/configure/server-logic-overview",
+ slop:"power-pages/configure/server-logic-operations",
+ webapi:"power-pages/configure/web-api-overview",
+ wild:"troubleshoot/power-platform/power-pages/migrate-web-api-wildcard",
+ cloud:"power-pages/configure/cloud-flow-integration",
+ wpsec:"power-platform/admin/wp-security-cds",
+ fls:"power-platform/admin/field-level-security",
+ cdv:"power-apps/maker/canvas-apps/connections/connection-common-data-service",
+ cnt:"power-platform/power-fx/reference/function-table-counts",
+ deleg:"power-apps/maker/canvas-apps/delegation-overview",
+ autonum:"power-apps/maker/data-platform/autonumber-fields",
+ autonumdev:"power-apps/developer/data-platform/create-auto-number-attributes",
+ formcol:"power-apps/maker/data-platform/formula-columns",
+ sched:"power-automate/run-scheduled-tasks",
+ datediff:"power-platform/power-fx/reference/function-dateadd-datediff",
+ iferr:"power-platform/power-fx/reference/function-iferror",
+ patch:"power-platform/power-fx/reference/function-patch",
+ rating:"power-apps/maker/canvas-apps/controls/control-rating",
+ chart:"power-apps/maker/canvas-apps/controls/control-column-line-chart",
+ pie:"power-apps/maker/canvas-apps/controls/control-pie-chart",
+ pbitile:"power-apps/maker/canvas-apps/controls/control-power-bi-tile",
+ pdf:"power-platform/power-fx/reference/function-pdf",
+ rel:"power-apps/maker/data-platform/data-platform-entity-lookup",
+ appf:"power-apps/maker/canvas-apps/working-with-large-apps"
+};
+const PP={
+ cover:{c:[["A equipe (Ouvidoria, setores e Ouvidor-geral) usa um app Canvas com conta Microsoft Entra ID; User().Email localiza a pessoa numa tabela de usuários do app. Atenção: User().Email devolve o UPN, não o e-mail SMTP; guarde o UPN na tabela",LU.user],["O cidadão é público externo. App Canvas para quem é de fora exige conta no Entra ID (convidado B2B) e, no app que usa Dataverse, licença com direito de uso do Power Apps; por isso o cidadão entra por um portal Power Pages, com acesso anônimo ou autenticado e dados no Dataverse",[LU.guests,LU.licfaq,LU.psec]],["No Power Pages o visitante com login é um registro de contato (contact) do Dataverse; o acesso dele vem de funções web (web roles) e permissões de tabela",[LU.psec,LU.webroles]],["A lista de pessoas da capa existe só no mockup",""]],d:["Dataverse: Manifestação, Evento de tramitação, Pausa, Setor, Assunto, Configuração e Usuário; contato do Power Pages para o cidadão com login",LU.psec],w:["Esconder tela ou botão não é segurança. Na equipe, quem protege são os papéis de segurança e a segurança de coluna do Dataverse; no portal, as funções web e as permissões de tabela.",[LU.wpsec,LU.fls,LU.psec]]},
+ inicio:{c:[["Busca única: Search e StartsWith sobre colunas de texto (número, assunto, descrição, bairro) delegam no Dataverse; Search não delega em colunas de escolha, número e data",LU.cdv],["A busca do setor não inclui o nome do manifestante: as colunas de identificação têm segurança de coluna e o perfil do setor não lê essas colunas",LU.fls],["Número do protocolo: coluna de numeração automática do Dataverse, com formato como OUV-{DATETIMEUTC:yyyy}-{SEQNUM:6}. O número é reservado quando o registro começa; se não for salvo, fica uma falha na sequência",[LU.autonumdev,LU.autonum]],["Cartões de contagem: o Learn diz que CountRows no Dataverse usa um valor em cache do tamanho da tabela (pode não ser exato); para contagem exata abaixo de 50.000 linhas use CountIf(tabela; True), e com filtro vale o limite de 50.000 do delegado",[LU.cnt,LU.cdv]],["Filtro de data com Now() ou Today(): a página do conector Dataverse diz que DateTime delega, exceto Now() e Today(), e a página geral de delegação trata Today() como constante enviada à origem. A confirmar no Studio; o mockup assume que não delega e guarda a situação do prazo numa coluna atualizada por fluxo agendado",[LU.cdv,LU.deleg],1],["Limite de linhas do app (Data row limit): de 1 a 10.000, padrão 500",LU.deleg]],d:["Dataverse: Manifestação com colunas de texto pesquisáveis e exibições por situação",""],w:["Segurança de coluna não vale para quem tem o papel de administrador de sistema: o Learn diz que os dados nunca ficam ocultos para ele. Teste sempre com uma conta sem esse papel.",LU.fls]},
+ caixa:{c:[["Abas por situação: Galeria com Filter na coluna de escolha Situação (= e <> delegam em escolha)",LU.cdv],["Prazo em dias corridos: DateDiff(Hoje; Vencimento; TimeUnit.Days)",LU.datediff],["Dias úteis exigem tabela de feriados e regra própria",""],["Situação do prazo (no prazo, em risco, vencido) gravada por fluxo agendado (gatilho Recurrence): comparação com Now() não delega e coluna de fórmula não dispara fluxo",[LU.sched,LU.formcol,LU.cdv]],["Pausa enquanto se espera o cidadão: tabela Pausa com início e fim; o vencimento soma os dias pausados",""],["Agrupar por setor: Galeria aninhada, uma seção por setor, a partir da exibição ordenada",""]],d:["Dataverse: Manifestação (situação, setor atual, vencimento, prazo do setor) e Pausa",""],w:["O Learn confirma que o papel de segurança do Dataverse limita as linhas pelo nível de acesso da permissão (usuário, unidade de negócio, organização) e que uma equipe proprietária dá acesso direto às linhas dela. Usar uma equipe por setor como proprietária da linha encaminhada é desenho do mockup, a confirmar em teste com um usuário de setor. Filtrar a Galeria pelo setor não é segurança.",LU.wpsec,1]},
+ protocolo:{c:[["Linha do tempo vertical: Galeria da tabela Evento de tramitação ordenada pela data. O tipo do evento escolhe ícone e cor; a coluna Visibilidade (pública ou interna) decide o que o cidadão vê",""],["Cada ação (encaminhar, devolver, parecer, pedir complemento, responder, encerrar) atualiza a manifestação e cria um evento. São duas tabelas, então grave as duas juntas num fluxo ou numa ação no servidor",""],["Prorrogação única: coluna Sim/Não e justificativa; o botão fica desabilitado depois da primeira, e o servidor repete a regra",""],["Identidade do manifestante: nome, e-mail e telefone em colunas de texto com segurança de coluna. Um perfil de segurança de coluna dá Leitura só à equipe da Ouvidoria",[LU.fls,LU.wpsec]],["Colunas de pesquisa (lookup), nome primário, colunas de fórmula e de sistema não aceitam segurança de coluna (Learn). Por isso o mockup guarda a identidade em colunas de texto da própria manifestação, e não num lookup para o contato",LU.fls],["Coluna calculada que usa coluna protegida também precisa ser protegida",LU.fls]],d:["Dataverse: Manifestação, Evento de tramitação e Pausa; perfil de segurança de coluna da Ouvidoria",LU.fls],w:["Sem perfil de segurança de coluna associado, só o administrador de sistema acessa a coluna protegida. O Learn descreve o valor travado com asteriscos em formulários e exibições; como isso aparece num app Canvas não consta nessa página: a confirmar em teste com uma conta sem papel de administrador. Segundo o Learn, em clientes como o app model-driven o usuário precisa atualizar o navegador depois de uma mudança na segurança de coluna.",LU.fls,1]},
+ cprot:{c:[["A página do protocolo no portal mostra só os eventos públicos e a resposta oficial",""],["Consulta por número e código sem login: o server logic do Power Pages roda JavaScript no servidor e, segundo o Learn, o acesso dele é governado por funções web e permissões de tabela, que também definem quais tabelas ele alcança. Ou seja, ele não dispensa permissão: para um visitante anônimo ler a manifestação, a função Anonymous Users teria de ter permissão de tabela, e o Learn diz que isso deixa os dados da tabela visíveis a qualquer visitante. Consulta anônima sem expor a tabela (server logic ou fluxo com identidade de serviço): a confirmar",[LU.sl,LU.slop,LU.ptable],1],["A função Anonymous Users respeita só permissões de tabela; qualquer acesso anônimo a dados passa por elas",LU.webroles],["Cidadão com login: permissão de tabela do tipo Contato, ligada à função Authenticated Users, mostra só as manifestações ligadas ao contato",[LU.tperm,LU.lists]],["Enviar complemento e avaliar: formulário do portal ou chamada ao server logic. Um fluxo do Power Automate pode ser chamado do portal pelo gatilho When Power Pages calls a flow (fluxo em solução e licença do Power Automate; o Learn recomenda a licença Process em produção; site na versão 9.5.4 ou superior)",[LU.cloud,LU.sl]],["Avaliação no app Canvas: controle Rating, em que Max define o número de estrelas",LU.rating]],d:["Power Pages com Dataverse; código de acesso conferido no servidor",LU.psec],w:[["O Learn avisa que permissão de tabela para Anonymous Users deixa os dados visíveis a qualquer visitante. Não dê leitura anônima à tabela de manifestações.",LU.ptable],["Server logic: nas páginas do Learn conferidas em 11/11/2026 o menu do design studio aparece como Server logic (preview), então trate como preview; GA a confirmar.",LU.slop,1],["O bloqueio após cinco tentativas é regra do mockup; no portal ele precisa ser implementado por você.",""]]},
+ nova:{c:[["Portal: formulário do Power Pages com permissão de tabela para Criar. Na denúncia anônima a criação vem da função Anonymous Users, que o Learn manda tratar como acesso público: libere só Criar, nunca Ler",[LU.addform,LU.ptable,LU.webroles]],["Equipe (telefone, presencial, e-mail): Form do Canvas, gravação com Patch dentro de IfError",[LU.patch,LU.iferr]],["Número por coluna de numeração automática; código de acesso gerado no servidor (server logic ou fluxo) e mostrado uma vez",[LU.autonum,LU.sl]],["Validações: tipo, assunto ativo, descrição de 20 a 2.000 caracteres, anonimato só na denúncia, e-mail ou telefone quando identificado",""],["Prazo lido da tabela Configuração pelo tipo, no momento do registro",""]],d:["Dataverse: Manifestação e Configuração",""],w:["Validação só na tela não basta no portal: o Learn diz que o acesso do portal aos dados (formulários, listas, Liquid e Web API) passa por permissões de tabela ligadas a funções web e que o server logic roda no servidor, escondido do navegador. Repita as regras no servidor (server logic, plug-in ou fluxo).",[LU.psec,LU.sl]]},
+ acompanhar:{c:[["Consulta por número e código: a conferência dos dois valores precisa rodar no servidor, mas como o visitante anônimo lê a tabela sem expô-la a todos é ponto a confirmar (server logic obedece a funções web e permissões de tabela; fluxo ou server logic com identidade de serviço: a confirmar)",[LU.sl,LU.slop],1],["Mensagem de erro única (número ou código não conferem), para não revelar qual dos dois está errado",""],["Dica do mockup: há uma denúncia anônima de demonstração para testar",""]],d:["Power Pages e Dataverse",LU.psec],w:["Não exponha a tabela de manifestações pela Web API do portal para visitantes anônimos: o Learn mostra que a Web API vem desligada em cada tabela (Webapi/<tabela>/enabled, padrão False), pede lista explícita de colunas (Webapi/<tabela>/fields) e que o curinga * deixou de funcionar em 14/09/2026.",[LU.webapi,LU.wild]]},
+ minhas:{c:[["Lista do portal com permissão de tabela do tipo Contato: a tabela tem relação com o contato e cada pessoa vê só os próprios registros",[LU.lists,LU.tperm]],["Rótulo público da situação (Recebida, Em análise, Aguardando seu complemento, Respondida, Encerrada)",""],["Detalhes internos (setor que devolveu, parecer, notas) ficam em eventos internos que o portal não lê",""]],d:["Power Pages: lista sobre a tabela Manifestação",LU.lists],w:["Segundo o Learn, sites novos, criados a partir da versão 9.3.7.x, aplicam permissões de tabela em todas as listas, com ou sem a opção Enable Table Permissions; o Learn anuncia que, a partir de junho de 2026, isso vale para listas e formulários de todos os sites, e listas com feed OData sempre exigem essas permissões.",[LU.deprec,LU.lists]]},
+ relat:{c:[["Indicadores: CountRows e CountIf sobre o período; no Dataverse as agregações trabalham até 50.000 linhas e CountRows usa valor em cache",[LU.cdv,LU.cnt]],["Gráficos nativos do Canvas: Coluna, Linha e Pizza. O gráfico fica oculto a leitores de tela, que recebem a tabela de dados no lugar; mantenha também uma tabela ou um resumo em texto",[LU.chart,LU.pie]],["As barras horizontais do mockup saem de Galeria com rótulo de largura proporcional",""],["Para cruzar setor, assunto e tempo, o controle Bloco do Power BI (Power BI tile) mostra um bloco de painel (dashboard) dentro do app; quem abre precisa de acesso ao painel, e o Learn não recomenda mais de três blocos carregados ao mesmo tempo",LU.pbitile],["Respondidas no prazo: compare a data da resposta com o vencimento gravado (com pausas e prorrogação)",""],["Clique no número abre a lista filtrada: UpdateContext e Navigate",""],["Relatório: a função PDF do Power Fx é experimental, vem desligada e não serve para produção; o Learn lista gráficos, Bloco do Power BI e Mapa entre o que ela não suporta, então um PDF da tela de indicadores não traria os gráficos",LU.pdf],["Para documento formal, use relatório paginado do Power BI ou modelo do Word gerado por fluxo (alternativa sugerida pelo mockup)",""]],d:["Dataverse como origem; Power BI para o histórico",""],w:["Funções de agregação não são suportadas em exibições do Dataverse. Para histórico grande, use uma tabela resumo ou o Power BI.",LU.cdv]},
+ admin:{c:[["Setores, assuntos, regras e usuários: Galeria e Form de edição",""],["Excluir é bloqueado pela relação Referencial com Restringir exclusão quando já há manifestações; desativar usa a situação do registro (Ativo e Inativo)",LU.rel],["Renomear o setor atualiza o histórico porque os registros apontam para o setor por relação, não por texto",""],["Regras: tabela Configuração lida por fórmula nomeada em App.Formulas, que a Microsoft recomenda no lugar de variáveis no OnStart",LU.appf],["Usuários: compartilhe o app com grupos do Entra ID e atribua os papéis do Dataverse no mesmo painel",[LU.share,LU.wpsec]]],d:["Dataverse: Setor, Assunto, Configuração e Usuário",""],w:[["Manter um Ouvidor-geral ativo e impedir que alguém mude o próprio perfil são regras do app; repita no servidor.",""],["Cadastros devem ficar atrás de papel de segurança.",LU.wpsec]]}
+};
+const NM={cover:"Capa e acesso",inicio:"Busca global",caixa:"Caixa",protocolo:"Protocolo (equipe)",cprot:"Protocolo (portal do cidadão)",nova:"Registrar manifestação",acompanhar:"Acompanhar por número e código",minhas:"Minhas manifestações",relat:"Indicadores",admin:"Cadastros"};
+const NAVI={inicio:["Início","search"],caixa:["Caixa","inbox"],nova:["Registrar","plus"],acompanhar:["Acompanhar","eye"],minhas:["Minhas","list"],relat:["Indicadores","chart"],admin:["Cadastros","gear"],protocolo:["Protocolo","file"]};
+const ROLES={"Cidadão":["minhas","nova","acompanhar"],"Visitante":["acompanhar","nova"],"Ouvidoria":["inicio","caixa","nova","relat"],"Setor":["inicio","caixa"],"Ouvidor-geral":["inicio","caixa","nova","relat","admin"]};
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>${ppHTML()}`}
+function ppKey(){if(S.ppk)return S.ppk;if(!S.logged)return"cover";if(S.tela==="protocolo")return isCid()?"cprot":"protocolo";return S.tela}
+const srcTxt=u=>{const L=(Array.isArray(u)?u:[u]).filter(Boolean);return L.length?`<span class="src">Fonte (Microsoft Learn, conferido em 11/11/2026):${L.map(x=>`<br><code>${esc(LN+x)}</code>`).join("")}</span>`:`<span class="src">Decisão do mockup, sem afirmação sobre produto.</span>`};
+const flagTxt=f=>f?` <span class="tag t-warn">a confirmar</span>`:"";
+function ppHTML(){const k=ppKey(),p=PP[k]||PP.cover,W=typeof p.w[0]==="string"?[p.w]:p.w;
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(NM[k]||NM.cover)}</b> · ${k==="cprot"||k==="acompanhar"||k==="minhas"||(k==="nova"&&isCid())?"portal Power Pages":"app Canvas da equipe"}</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x[0])}${flagTxt(x[2])} ${srcTxt(x[1])}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d[0])} ${srcTxt(p.d[1])}</dd></dl>${W.map(w=>`<div class="warn"><b>Atenção:</b> ${esc(w[0])}${flagTxt(w[2])} ${srcTxt(w[1])}</div>`).join("")}<p class="muted sm" style="margin-top:10px">Conferido no Microsoft Learn em 11/11/2026; o que o Learn não confirma está marcado como a confirmar, e o que é decisão do mockup diz isso. Os endereços estão em texto, sem links. Este é um mockup HTML: não é um app Power Apps nem um portal Power Pages. O relógio e o fluxo agendado são simulados.</p>`}
+/* ===== Cabeçalho, capa e tela ===== */
+const telaInicial=()=>({"Cidadão":"minhas","Visitante":"acompanhar","Ouvidoria":"inicio","Setor":"inicio","Ouvidor-geral":"inicio"})[S.perfil];
+function menuCnt(k){if(k!=="caixa")return 0;if(S.perfil==="Setor")return PROTOS.filter(meuSetor).length;if(isOuv())return PROTOS.filter(p=>p.st==="Nova").length;return 0}
+function renderHdr(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un&&n.u===S.uid).length;const staff=!isCid();
+ const lbl=k=>k==="caixa"&&S.perfil==="Setor"?"Caixa do setor":NAVI[k][0];
+ $("#hdr").innerHTML=`<div class="hr1"><div class="bn">${ic("megaphone")}<span>Quarzana Ouve</span></div><nav class="tm" aria-label="Menu principal">${ROLES[S.perfil].map(k=>{const c=menuCnt(k);return `<button data-nav="${k}" ${S.tela===k?'aria-current="page"':""}>${ic(NAVI[k][1])}<span class="lb">${esc(lbl(k))}</span>${c?`<span class="cnt" aria-label="${c} ${S.perfil==="Setor"?"na caixa":"aguardando triagem"}">${c}</span>`:""}</button>`}).join("")}</nav><span style="flex:1"></span>
+ <button class="clk" data-act="relogio" aria-label="Relógio simulado: ${esc(fmtDTL(agora()))}. Avançar o tempo">${ic("clock")}<span>${esc(fmtDTL(agora()))}</span></button>
+ ${S.perfil==="Visitante"?"":`<button class="ib" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>`}
+ <div class="usr"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small style="opacity:.85">${esc(S.perfil)}${S.perfil==="Setor"?" · "+esc(SE(u.setor).sigla):""}</small></div><button class="ib" data-act="sair" aria-label="Sair">${ic("logout")}</button></div></div>
+ ${staff&&S.tela!=="inicio"?`<div class="hr2" role="search"><div class="gs">${ic("search")}<label class="sr" for="gq">Busca global de protocolos</label><input id="gq" type="search" value="${esc(S.q)}" placeholder="Buscar protocolo, assunto, bairro…" autocomplete="off"><kbd aria-hidden="true">/</kbd></div></div>`:""}<div id="npop" hidden></div>`}
+function render(focus){
+ if(!$("#modal").innerHTML)S.ppk=null;
+ document.body.classList.toggle("lg",S.logged);
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ if(S.tela!=="protocolo"&&!ROLES[S.perfil].includes(S.tela))S.tela=telaInicial();
+ if(S.tela==="protocolo"&&!podeVer(P(S.sel))){S.tela=telaInicial();S.sel=null}
+ $("#screen").innerHTML=V[S.tela]();
+ renderHdr();$("#pp").innerHTML=ppPanel();$("#perfil").value=S.uid;
+ if(!focus&&!$("#modal").innerHTML&&(!document.activeElement||document.activeElement===document.body)){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}}
+function go(t,focus=true){if(t!=="protocolo")S.back=null;S.tela=t;S.lim=30;render(focus)}
+function abrir(id){const p=P(id);if(!p||!podeVer(p)){toast("Protocolo indisponível para o seu perfil.","err");return}if(S.tela!=="protocolo")S.back=S.tela;S.sel=id;S.tela="protocolo";if($("#modal").innerHTML)closeModal();render(true)}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("megaphone")+"<span>Quarzana Ouve · Ouvidoria fictícia</span>";
+ $("#cvlist").innerHTML=[["search","Busca global por número, assunto, bairro ou texto"],["send","Tramitação entre setores em linha do tempo vertical"],["clock","Prazo em dias, pausado quando se espera o cidadão, com uma prorrogação"],["lock","Setor nunca vê quem fez a manifestação; denúncia pode ser anônima"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ $("#cvsteps").innerHTML=["Registrada","Triagem","No setor","Parecer","Resposta","Avaliação"].map(s=>`<li>${esc(s)}</li>`).join("");
+ const da=P(S.demoAnon);$("#cvhint").innerHTML=da?`Teste sem login: entre como <b>Visitante sem cadastro</b> e acompanhe <code>${esc(da.num)}</code> com o código <code>${esc(da.cod)}</code>.`:"";
+ if(!U(S.cv)||!U(S.cv).ativo)S.cv=(USERS.find(u=>u.ativo)||{}).id;
+ $("#cvp").innerHTML=["Ouvidor-geral","Ouvidoria","Setor","Cidadão","Visitante"].map(p=>{const L=USERS.filter(u=>u.ativo&&u.perfil===p);return L.length?`<div class="pgr">${esc(p)} · ${esc(PDESC[p])}</div>`+L.map(u=>`<button class="prs" data-act="cvsel" data-v="${u.id}" aria-pressed="${S.cv===u.id}"><span class="avatar" aria-hidden="true">${ini(u.nome)}</span><span><b>${esc(u.nome)}</b><small>${esc(u.perfil)}${u.setor?" · "+esc(SE(u.setor).nome):""}</small></span></button>`).join(""):""}).join("");
+ $("#entrar").innerHTML=ic("logout")+"Entrar como "+esc((U(S.cv)||{nome:""}).nome);$("#ppbtn").innerHTML=ic("layers")+"Como seria na Power Platform";
+ $("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("")}
+function zerarTela(){S.sel=null;S.back=null;S.q="";S.nv=null;S.rd="";S.lim=30;S.cx="";S.cf={setor:"",tipo:"",pz:""};S.vis=[];S.tlr=false;S.minhaF="abertas"}
+function liveFocus(id){const n=$("#"+id);if(n){n.focus();const L=n.value.length;try{n.setSelectionRange(L,L)}catch(x){}}}
+/* ===== Eventos ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const bb=$("#hdr [data-act=bell]");if(bb)bb.setAttribute("aria-expanded","false")}}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML)closeModal();const k=t.dataset.nav;if(k==="nova"&&S.nv&&S.nv.feito)S.nv=null;if(k==="caixa")S.lim=30;go(k);return}
+ if(t.getAttribute("aria-disabled")==="true"&&t.dataset.id){guard(t.dataset.id,t.dataset.act);return}
+ const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v;
+ switch(a){
+  case"cvsel":S.cv=v;renderCover();$("#cvp [aria-pressed=true]").focus();break;
+  case"entrar":{const alvo=U(S.cv);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;zerarTela();S.tela=telaInicial();render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair?","Sair",()=>{S.logged=false;render(false);$("#entrar").focus()});break;
+  case"closemodal":cancelModal();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt" class="sr">Como seria na Power Platform</h2><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="pp">${ppHTML()}</div></div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){const mine=S.notifs.filter(n=>n.u===S.uid);mine.forEach(n=>n.un=false);{const bb=$("#hdr .badge");if(bb)bb.remove();t.setAttribute("aria-label","Notificações")}p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${mine.length?mine.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div>${esc(n.m)}<div class="muted sm">${esc(n.h)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}`}p.hidden=!open;t.setAttribute("aria-expanded",String(open));break}
+  case"clearn":S.notifs=S.notifs.filter(n=>n.u!==S.uid);renderHdr();$("#hdr [data-act=bell]").focus();break;
+  case"relogio":relogioForm();break;
+  case"avanca":avancar(+v);break;
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  /* busca e caixas */
+  case"qchip":S.q=v;S.lim=30;render(false);liveFocus("bq");break;
+  case"mais":S.lim+=30;render(false);break;
+  case"gocx":S.cx=v;S.cf={setor:"",tipo:"",pz:""};go("caixa");break;
+  case"gopz":S.cx="abertas";S.cf={setor:"",tipo:"",pz:v};go("caixa");break;
+  case"cxt":S.cx=v;S.lim=30;render(false);$(`[data-act=cxt][data-v="${v}"]`).focus();break;
+  case"cflimpa":S.cf={setor:"",tipo:"",pz:""};render(false);$("#cft").focus();break;
+  case"abrir":abrir(id);break;
+  case"voltar":{const b=S.back&&ROLES[S.perfil].includes(S.back)?S.back:telaInicial();S.sel=null;go(b);break}
+  case"tlr":S.tlr=!S.tlr;render(false);$("[data-act=tlr]").focus();break;
+  /* ações do protocolo */
+  case"classificar":if(guard(id,a))classificarForm(id);break;
+  case"encaminhar":if(guard(id,a))encaminharForm(id);break;
+  case"complemento":if(guard(id,a))complementoForm(id);break;
+  case"responder":if(guard(id,a))responderForm(id);break;
+  case"arquivar":if(guard(id,a))arquivarForm(id);break;
+  case"encerrar":if(guard(id,a))encerrar(id);break;
+  case"rnota":S.nota=+v;$("#rate").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.v===S.nota)));$("#ferr").textContent="";break;
+  case"nota":if(guard(id,a))notaForm(id);break;
+  case"prorrogar":if(guard(id,a))prorrogarForm(id,false);break;
+  case"aprovar":if(guard(id,a))prorrogarForm(id,true);break;
+  case"negar":if(guard(id,a))negarForm(id);break;
+  case"reabrir":if(guard(id,a))reabrirForm(id);break;
+  case"parecer":if(guard(id,a))parecerForm(id);break;
+  case"devolver":if(guard(id,a))devolverForm(id);break;
+  case"pedirpror":if(guard(id,a))pedirProrForm(id);break;
+  case"rcomp":if(guard(id,a))rcompForm(id);break;
+  case"avaliar":if(guard(id,a))avaliarForm(id);break;
+  case"imprimir":if(guard(id,a))respostaDoc(id);break;
+  /* registrar */
+  case"nvtipo":S.nv.tipo=v;if(v!=="Denúncia")S.nv.anon="0";S.nv.err="";render(false);$(`[data-act=nvtipo][data-v="${v}"]`).focus();break;
+  case"nvlimpar":S.nv=nvNovo();render(false);$("[data-act=nvtipo]").focus();break;
+  case"nvnovo":S.nv=nvNovo();render(true);break;
+  /* minhas */
+  case"mf":S.minhaF=v;render(false);$(`[data-act=mf][data-v="${v}"]`).focus();break;
+  /* indicadores */
+  case"rper":S.rel=+v;S.rd="";render(false);$(`[data-act=rper][data-v="${v}"]`).focus();break;
+  case"rdrill":S.rd=v;S.lim=30;render(false);{const h=$("#drh");if(h){h.focus();h.scrollIntoView({block:"start"})}}break;
+  case"rdlimpa":S.rd="";render(false);break;
+  case"relprint":relatorioDoc();break;
+  /* cadastros */
+  case"adm":S.adm=v;render(false);$(`[data-act=adm][data-v="${v}"]`).focus();break;
+  case"setnew":setForm(null);break;case"setedit":setForm(SE(id));break;case"settog":setTog(id);break;case"setdel":setDel(id);break;
+  case"asnew":asForm(null);break;case"asedit":asForm(AS(id));break;case"astog":asTog(id);break;case"asdel":asDel(id);break;
+  case"cfgedit":cfgForm();break;
+  case"usnew":usForm(null);break;case"usedit":usForm(U(id));break;case"ustog":usTog(id);break;case"usdel":usDel(id);break;
+ }});
+document.addEventListener("submit",e=>{
+ if(e.target.id==="nvf"){e.preventDefault();nvEnviar();return}
+ if(e.target.id==="acf"){e.preventDefault();const r=acompanhar($("#ac_num").value,$("#ac_cod").value);if(typeof r==="string"){$("#acerr").textContent=r;$("#ac_num").setAttribute("aria-invalid","true");$("#ac_cod").setAttribute("aria-invalid","true");$("#ac_num").focus();return}busy("Consultando…",()=>abrir(r.id))}});
+document.addEventListener("input",e=>{const el=e.target;
+ if(el.id==="gq"){S.q=el.value;S.lim=30;S.back=null;S.tela="inicio";render(false);liveFocus("bq");return}
+ if(el.dataset.live){S[el.dataset.live]=el.value;S.lim=30;const id=el.id;render(false);liveFocus(id);return}
+ if(el.dataset.nv&&S.nv){S.nv[el.dataset.nv]=el.value;el.removeAttribute("aria-invalid");if(el.id==="nv_desc"){const c=$("#nv_cnt");if(c)c.textContent=el.value.length+" de 2.000 caracteres"}}});
+document.addEventListener("change",e=>{
+ const el=e.target;
+ if(el.id==="perfil"){const id=el.value;if(S.busy){el.value=S.uid;toast("Aguarde a ação em andamento terminar antes de trocar de usuário.","err");return}if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");el.value=S.uid;return}if($("#modal").innerHTML)closeModal();setUser(id);zerarTela();S.tela=telaInicial();render(true);toast("Agora você é "+alvo.nome+" ("+alvo.perfil+").","info");return}
+ if(el.id==="nv_anon"&&S.nv){S.nv.anon=el.checked?"1":"0";S.nv.err="";render(false);$("#nv_anon").focus();return}
+ if(el.dataset.nv&&S.nv&&el.tagName==="SELECT"){S.nv[el.dataset.nv]=el.value;return}
+ if(el.dataset.cf){S.cf[el.dataset.cf]=el.value;S.lim=30;render(false);const n=$("#"+el.id);if(n)n.focus()}});
+document.addEventListener("keydown",e=>{
+ if(e.key==="/"&&S.logged&&!isCid()&&!$("#modal").innerHTML&&!/^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement||{}).tagName||"")){const n=$("#gq")||$("#bq");if(n){e.preventDefault();n.focus()}return}
+ if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const b=$("#hdr [data-act=bell]");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}if($("#modal").innerHTML&&!S.busy)cancelModal()});
+seedAll();renderCover();render(false);
+</script>
+</body>
+</html>
