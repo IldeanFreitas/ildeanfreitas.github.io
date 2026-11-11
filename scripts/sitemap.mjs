@@ -26,10 +26,10 @@ const mockups = JSON.parse(
   )
 );
 
-/** Par pt/en de uma página dos cases Power Apps (galeria quando o slug é vazio). */
+/** Par pt/en de uma página dos apps de demonstração Power Apps (galeria quando o slug é vazio). */
 function urlPar(slug) {
-  const pt = `${BASE}cases/power-apps/${slug}`;
-  const en = `${BASE}en/cases/power-apps/${slug}`;
+  const pt = `${BASE}demos/power-apps/${slug}`;
+  const en = `${BASE}en/demos/power-apps/${slug}`;
   const alt = `    <xhtml:link rel="alternate" hreflang="pt-BR" href="${pt}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`;
   return [pt, en]
     .map(
@@ -45,7 +45,7 @@ const BASE = 'https://ildeanfreitas.github.io/';
 
 // Só arquivos que o visitante recebe. Mudança em src/ que não altere a saída
 // não deveria mexer no lastmod.
-const RASTREADOS = ['index.html', 'en/index.html', 'assets', 'cases', 'en/cases'];
+const RASTREADOS = ['index.html', 'en/index.html', 'assets', 'demos', 'en/demos'];
 
 const hoje = () => new Date().toISOString().slice(0, 10);
 

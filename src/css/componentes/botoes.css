@@ -12,4 +12,9 @@
 .btn--primary:hover{background:var(--lime-bright);color:var(--lime-ink)}
 .btn--ghost{background:var(--lime-soft);border-color:var(--border-lime);color:var(--text)}
 .btn--ghost:hover{border-color:var(--accent-solid);color:var(--text)}
+/* Secundário (contorno, sem brilho): ação que não deve competir com o conteúdo ao lado */
+.btn--secondary{background:transparent;border-color:var(--border-strong);color:var(--text)}
+.btn--secondary:hover{border-color:var(--accent-solid);color:var(--text)}
+/* Pequeno: ação dentro de um cartão (Especialidades); alvo continua acima de 24 px */
+.btn--sm{padding:.5rem 1rem;font-size:.85rem}
 .actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:2.25rem}

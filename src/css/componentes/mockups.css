@@ -1,18 +1,38 @@
-/* Cases Power Apps: galeria e página de cada mockup */
+/* Apps de demonstração Power Apps: galeria e página de cada app */
 .mock-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;padding:0;list-style:none}
 .mock-filtros button{font:inherit;font-size:.8rem;font-weight:600;color:var(--text-muted);background:var(--surface-soft);border:1px solid var(--border);padding:.4rem .9rem;border-radius:var(--r-pill);cursor:pointer}
 .mock-filtros button[aria-pressed="true"]{color:var(--accent);border-color:var(--border-lime);background:var(--lime-soft)}
 .mock-card{gap:.75rem}
 .mock-card h2,.mock-card h3{font-size:1.05rem;margin:0}
 .mock-card__seg{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+/* "(empresa fictícia)" junto ao nome: legível, sem herdar a caixa alta do rótulo */
+.mock-ficticia{text-transform:none;letter-spacing:0;font-weight:600;white-space:nowrap}
+.mock-card p.case-card__status{margin:0}
+/* Colunas de pelo menos 320px: o selo "Arquitetura documentada" cabe numa linha */
+.mock-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.mock-card .status{white-space:nowrap}
 .mock-card .btn{align-self:flex-start;margin-top:auto}
 .mock-card[hidden]{display:none}
-.mock-aviso{border:1px solid var(--border-lime);background:var(--lime-soft);border-radius:var(--r-sm);padding:.75rem 1rem;font-size:.9rem;margin:1.25rem 0}
+/* Aviso em teal: o lima fica para o destaque único da tela (o eyebrow) */
+.mock-aviso{border:1px solid color-mix(in srgb,var(--serie-2) 60%,transparent);background:var(--surface-card);border-radius:var(--r-sm);padding:.75rem 1rem;font-size:.9rem;margin:1.25rem 0}
+.mock-aviso p{margin:0}
+/* Nota de idioma (só nas páginas em inglês): segunda linha dentro do aviso */
+.mock-aviso .mock-nota{margin-top:.3rem;color:var(--text-muted)}
 .mock-passos{padding-left:1.25rem;color:var(--text-muted)}
 .mock-passos li{margin:.35rem 0}
 .mock-moldura{width:100%;height:min(80vh,820px);border:1px solid var(--border);border-radius:var(--r-card);background:#fff;display:block}
 .mock-acoes{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 1.5rem}
-.mock-voltar{display:inline-block;margin:0 0 1rem;font-size:.9rem}
-.cases-mais{margin-top:1.75rem}
+.mock-voltar{display:flex;align-items:center;width:fit-content;min-height:24px;margin:0 0 1rem;font-size:.9rem;color:var(--text-muted)}
+.mock-voltar:hover{color:var(--text)}
+.taglist+.scope{margin-top:1.25rem}
+/* Botão da home: secundário, abaixo da nota dos cases reais */
+.demos-mais{margin:1.75rem 0 0}
 @media (max-width:700px){.mock-moldura{display:none}.mock-so-desktop{display:none}}
+/* Em telas estreitas os filtros viram uma faixa rolável (o foco do teclado rola junto)
+   e o kicker longo, que quebra em duas linhas, perde a forma de pílula */
+@media (max-width:560px){
+  .mock-filtros{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:.25rem;padding:.25rem .25rem .5rem;margin-inline:-.25rem;scrollbar-width:thin}
+  .mock-filtros button{flex:none;scroll-snap-align:start}
+  .mock-kicker{border-radius:var(--r-sm)}
+}
 @media (min-width:701px){.mock-so-mobile{display:none}}

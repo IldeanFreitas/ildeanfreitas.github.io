@@ -60,6 +60,10 @@ test.describe('sem JavaScript', () => {
       'sobre',
       'servicos',
       'cases',
+      'cases-power-platform',
+      'cases-power-bi',
+      'cases-engenharia-dados',
+      'cases-ia',
       'trajetoria',
       'formacao',
       'contato'

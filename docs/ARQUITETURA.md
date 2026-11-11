@@ -118,6 +118,22 @@ lakehouse na AWS e foi redesenhado como `trilha`.
 Case novo é um objeto no JSON. Mudança na anatomia do cartão é uma edição em
 `cases.mjs`, não seis.
 
+### Sessões por área
+
+Desde 11/11/2026 a seção Cases é dividida em sessões, na ordem de `AREAS` em
+`cases.mjs`: Power Platform, Power BI, Engenharia de Dados e IA aplicada, a
+mesma ordem dos cartões de Especialidades, cujo botão leva a `#cases-<area>`.
+Todo case declara `area` (`power-platform`, `power-bi`, `engenharia-dados` ou
+`ia`); ausente, desconhecida ou diferente entre PT e EN, o build para. Dentro
+da sessão vale a ordem do JSON. Título, linha de abertura e o link que fecha a
+sessão (o das demonstrações, em Power Platform) vêm de `DICIONARIO.<idioma>.areas`.
+Sessão sem case mostra só o título e a linha "Em preparação", sem selo, para a
+legenda de selos continuar igual aos selos usados.
+
+Títulos: seção em `h2`, sessão em `h3`, título do case em `h4` (com o corpo de
+`h3`) e blocos de fatos em `h5`. Um teste percorre a página e falha se algum
+título saltar nível.
+
 ### O rótulo do escopo é dado, não constante
 
 Cinco cases abrem o parágrafo com **Declaração de escopo:** e o da Câmara com

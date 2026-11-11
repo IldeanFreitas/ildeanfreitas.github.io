@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mockup · Tessera Atendimento · Central de chamados de TI</title>
+<style>
+:root{--pri:#a3134f;--pri2:#7f0f3d;--dark:#2b1022;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#fbf6f8;--bd:#e6d9df;--tx:#1c1417;--tx2:#58494f;--w:#fff;--r:12px;--acc:#0e7490;--tint:#fbe4ee}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#efe6ea;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}.sm{font-size:13px}
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;min-height:40px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx)}
+.banner label{display:flex;gap:6px;align-items:center}
+.ppbtn{display:inline-flex;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center}
+@media(min-width:1280px){body.lg .ppbtn{display:none}}
+/* capa */
+#cover{flex:1;overflow:auto;background:radial-gradient(circle at 20% 10%,#8f1d57 0,#4a1233 55%,#220a18 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:1040px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:820px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.steps{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px}
+.cv ul.fl{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv ul.fl li{display:flex;gap:10px;align-items:flex-start}
+.login{background:#fff;color:var(--tx);border-radius:18px;padding:24px;box-shadow:0 20px 50px #00000066}
+.login h2{margin:0 0 4px;font-size:20px}
+.pcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+@media(max-width:420px){.pcs{grid-template-columns:1fr}}
+.pc{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:10px;cursor:pointer;min-height:64px}
+.pc small{display:block;color:var(--tx2);font-size:12px;line-height:1.25}
+.pc[aria-pressed=true]{border-color:var(--pri);background:#fbe4ee}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.avatar.sm2{width:26px;height:26px;font-size:11px}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1600px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:flex;flex-direction:column;background:var(--bg);border-radius:16px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #18181b2b}
+@media(max-width:700px){#app{border-radius:0;border:0}}
+.hdr{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--dark);color:#fff;position:relative}
+.hdr .bn{display:flex;gap:8px;align-items:center;font-weight:700;flex:1;min-width:0;white-space:nowrap}
+.hdr .bn small{font-weight:400;opacity:.8;margin-left:4px}
+@media(max-width:520px){.hdr .bn small{display:none}}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:inherit}
+.ib:hover{background:#ffffff22}
+main .ib:hover,.mbox .ib:hover,.toast .ib:hover{background:#0000000f}
+.badge{position:absolute;top:4px;right:4px;background:#dc2626;color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1}
+@media(max-width:700px){.usr .nm{display:none}}
+#screen{flex:1;overflow:auto;padding:16px;min-height:0}
+@media(min-width:1100px){#screen{padding:20px 26px}}
+h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px}h3{font-size:15px;margin:16px 0 8px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;gap:10px;align-items:center}
+.kpi b{font-size:24px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:40px;height:40px;border-radius:10px;background:#fbe4ee;color:var(--pri);display:grid;place-items:center;flex:none}
+.kpi.bad .kic{background:#fde4e2;color:var(--bad)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:10px 12px;border:1px solid #8a8577;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:84px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#6b7280}
+.sb{position:relative}.sb .ic{position:absolute;left:12px;top:auto;bottom:13px;color:var(--tx2)}.sb .in{padding-left:40px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri)}.btn.sec:hover{background:#fbe4ee}
+.btn.bad{background:var(--bad);border-color:var(--bad)}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e7e5e4;color:#3f3f46}.t-pri{background:#e0e0fb;color:#312e81}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.empty{text-align:center;color:var(--tx2);padding:26px 10px}.empty .ic{width:34px;height:34px;margin-bottom:6px}
+.tools{display:grid;grid-template-columns:minmax(180px,2fr) repeat(2,minmax(130px,1fr)) auto;gap:8px;align-items:end;margin:10px 0}
+@media(max-width:700px){.tools{grid-template-columns:1fr 1fr}.tools .sb{grid-column:1/-1}}
+.tools label.f{margin:0 0 3px}.tools .sb .ic{top:34px}
+@media(max-width:759px){.hn{display:none!important}#screen{padding-bottom:84px}}
+/* quadro */
+@media(max-width:700px){.col .lst{max-height:none}}
+.late{color:var(--bad);font-weight:700}
+/* lista */
+.tw{overflow-x:auto}
+table.tb{border-collapse:collapse;width:100%;min-width:720px;background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.tb th,.tb td{border-bottom:1px solid var(--bd);padding:9px 10px;text-align:left;vertical-align:middle;font-size:14px}
+.tb th{background:#f4e9ee;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--tx2)}
+.tb td.act{white-space:nowrap;text-align:right}
+.lcards{display:none}
+@media(max-width:700px){.tw.t2{display:none}.lcards{display:grid;gap:8px}}
+/* barras / gráficos */
+.hbar{display:grid;grid-template-columns:minmax(90px,150px) 1fr 40px;gap:8px;align-items:center;margin:4px 0;font-size:14px;width:100%;background:none;border:0;padding:2px 0;text-align:left}
+button.hbar{cursor:pointer;min-height:40px}button.hbar:hover .nm2{text-decoration:underline}
+.hbar b{text-align:right}
+.bar{display:block;height:12px;background:#e2e2ef;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}.bar.w>i{background:var(--acc)}.bar.r>i{background:var(--bad)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+svg.cs{width:100%;height:auto;display:block}
+svg.cs text{font:11px system-ui,sans-serif;fill:#3f3f46}
+.lgd{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:6px}.lgd i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+details.dt{margin-top:8px;font-size:13px}details.dt summary{cursor:pointer;color:var(--pri);min-height:40px;display:flex;align-items:center}
+details.dt table{border-collapse:collapse;margin-top:4px}details.dt th,details.dt td{border:1px solid var(--bd);padding:3px 8px;text-align:left}
+.stk{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+/* FAB */
+.fab{display:none;position:absolute;right:14px;bottom:84px;z-index:5;width:56px;height:56px;border-radius:50%;background:var(--acc);color:#fff;border:0;box-shadow:0 6px 18px #0004;cursor:pointer;place-items:center}
+@media(max-width:759px){.fab{display:grid}}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:#fbe4ee}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+#npop{position:absolute;right:8px;top:100%;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #18181b4d;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:#fbe4ee}
+/* modal e gaveta */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#18181bcc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:780px}
+.modal.dr{justify-content:flex-end;align-items:stretch;padding:0}
+.mbox.dr{max-width:540px;height:100%;max-height:100dvh;border-radius:16px 0 0 16px}
+@media(max-width:600px){.mbox.dr{border-radius:0;max-width:none}}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal:not(.dr){align-items:flex-end;padding:0}.modal:not(.dr) .mbox{border-radius:16px 16px 0 0;max-height:94dvh}}
+.dl2{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;margin:8px 0;font-size:14px}.dl2 dt{color:var(--tx2)}.dl2 dd{margin:0}
+.sec{border-top:1px solid var(--bd);margin-top:14px;padding-top:10px}
+.sec h3{margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.li{display:flex;gap:8px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding:6px 0;font-size:14px}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--bd)}
+.tl li{position:relative;padding:0 0 10px 10px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--pri)}
+#busy{position:fixed;inset:0;z-index:80;background:#18181b66;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0006}
+.spin{width:24px;height:24px;border:3px solid #f3c6d8;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-right-color:var(--pri)}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:84px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(min-width:701px){#toasts{bottom:22px}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0006}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast .ib{color:#fff;width:40px;height:40px}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* relatório */
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+.doc .sg{border-top:1px solid #000;margin-top:34px;padding-top:4px;max-width:320px}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body>*{display:none!important}
+ body>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}.doc{border:0;padding:0}
+}
+
+/* shell com trilho */
+.shell{flex:1;min-height:0;display:flex}
+.rail{flex:none;width:76px;background:#fff;border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:4px;padding:8px 6px;overflow-y:auto}
+.rail button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;border-radius:12px;padding:8px 2px;cursor:pointer;color:var(--tx2);font-size:11px;min-height:56px;line-height:1.1}
+.rail button:hover{background:#f4e9ee}
+.rail button[aria-current=page]{background:#fbe4ee;color:var(--pri);font-weight:700}
+#screen{flex:1;min-width:0}
+@media(max-width:759px){.shell{flex-direction:column-reverse}.rail{width:auto;flex-direction:row;border-right:0;border-top:1px solid var(--bd);padding:4px;justify-content:space-around;overflow-x:auto}.rail button{flex:1;min-width:58px}.hn{display:none!important}#screen{padding-bottom:16px}}
+.late{color:var(--bad);font-weight:700}
+/* agenda */
+.agbar{display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0}
+.agbar .nav{display:flex;gap:6px;align-items:center}
+.agbar .dt{font-weight:700;min-width:170px;text-align:center}
+.seg{display:inline-flex;border:1px solid #8a87a0;border-radius:10px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed=true]{background:var(--pri);color:#fff}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin:6px 0}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px}
+.tlw{overflow-x:auto;background:#fff;border:1px solid var(--bd);border-radius:12px}
+.tl2{min-width:880px;position:relative}
+.tlh,.tlr{display:grid;grid-template-columns:190px 1fr}
+.tlh{background:#f4e9ee;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2);position:sticky;top:0;z-index:3}
+.tlh .lab,.tlr .lab{position:sticky;left:0;z-index:2;background:inherit;padding:8px 10px;border-right:1px solid var(--bd)}
+.tlr{border-bottom:1px solid var(--bd);min-height:62px}
+.tlr .lab{background:#fff;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.tlr .lab b{font-size:14px}
+.tlr.off{opacity:.55}
+.ticks{position:relative;height:30px}
+.ticks span{position:absolute;top:6px;transform:translateX(-50%);white-space:nowrap}
+.ticks span.l{transform:none}
+.track{position:relative;min-height:62px;background-image:linear-gradient(to right,#e6e6f2 1px,transparent 1px);background-size:var(--cell,5.5555%) 100%}
+.slot{position:absolute;top:0;bottom:0;border:0;background:none;cursor:pointer;padding:0}
+.slot:hover{background:#a3134f12}
+.blk{position:absolute;top:8px;bottom:8px;border-radius:8px;border:2px solid transparent;color:#fff;font-size:12px;padding:3px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:left;cursor:pointer;z-index:1;line-height:1.2;min-width:6px}
+.blk.sol{background:repeating-linear-gradient(45deg,#fff3c4,#fff3c4 6px,#fde08a 6px,#fde08a 12px);color:#4a3300;border-color:#c98a00}
+.blk.apr{background:#0f766e}
+.blk.uso{background:#4338ca}
+.blk.dev{background:#71717a}
+.blk.bq{background:repeating-linear-gradient(135deg,#d4d4d8,#d4d4d8 6px,#e4e4e7 6px,#e4e4e7 12px);color:#27272a;border-color:#71717a}
+.blk.mine{outline:3px solid #be123c;outline-offset:1px}
+.blk.msk{background:#a1a1aa;color:#fff;cursor:default}.blk.lt{border-color:#be123c;border-style:dashed}.blk.sel{box-shadow:0 0 0 3px #f59e0b}
+.nowl{position:absolute;top:0;bottom:0;width:2px;background:#be123c;z-index:2;pointer-events:none}
+.nowl::before{content:"agora";position:absolute;top:-1px;left:3px;font-size:10px;color:#be123c;font-weight:700;background:#fff;padding:0 2px}
+.dtab{margin-top:10px}
+/* folha inferior */
+.modal.sheet{align-items:flex-end;padding:0}
+.mbox.sheet{max-width:760px;border-radius:18px 18px 0 0;max-height:90dvh}
+.mbox.sheet::before{content:"";display:block;width:44px;height:5px;border-radius:3px;background:#c4c4d6;margin:-6px auto 10px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0}
+.sum div{background:#f4f4fb;border-radius:10px;padding:8px 10px;font-size:13px}.sum b{display:block;font-size:15px}
+.chk{display:grid;gap:4px;margin:8px 0;font-size:14px}
+.chk div{display:flex;gap:8px;align-items:flex-start}
+.chk .ok{color:var(--ok)}.chk .no{color:var(--bad)}.chk .wr{color:var(--warn)}
+.fuel{display:inline-flex;gap:3px;vertical-align:middle}.fuel i{width:10px;height:14px;border-radius:2px;background:#d4d4d8}.fuel i.on{background:var(--pri)}
+.pplist{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
+.pplist li{display:flex;gap:10px;align-items:center;border:1px solid var(--bd);border-radius:12px;padding:8px 10px;background:#fff}
+.persons{display:grid;gap:8px;margin:12px 0;max-height:46dvh;overflow:auto}
+.prs{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:56px;width:100%}
+.prs small{display:block;color:var(--tx2);font-size:12px}
+.prs[aria-pressed=true]{border-color:var(--pri);background:#fbe4ee}
+.pgr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:8px 0 2px}
+
+.hubg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:14px}
+.tile{display:flex;flex-direction:column;gap:6px;text-align:left;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;cursor:pointer;min-height:130px;position:relative;box-shadow:0 1px 0 #0000000d}
+.tile:hover{border-color:var(--pri);box-shadow:0 4px 14px #a3134f22}
+.tile .tic{width:44px;height:44px;border-radius:12px;background:#fbe4ee;color:var(--pri);display:grid;place-items:center}
+.tile b{font-size:17px}.tile small{color:var(--tx2)}
+.tile .cnt{position:absolute;top:12px;right:14px;background:var(--pri);color:#fff;border-radius:999px;min-width:28px;height:28px;display:grid;place-items:center;font-weight:700;padding:0 8px}
+.tile.ac .tic{background:#cffafe;color:var(--acc)}
+.hdr .home{display:inline-flex;gap:6px;align-items:center;background:#ffffff1f;color:#fff;border:1px solid #fff4;border-radius:10px;min-height:40px;padding:4px 12px;cursor:pointer}
+.hdr .home[aria-current=page]{background:#fff;color:var(--dark)}
+.split{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr);gap:14px;align-items:start}
+.lst{display:flex;flex-direction:column;gap:8px}
+.li{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:10px 12px;cursor:pointer}
+.li:hover{border-color:var(--pri)}.li[aria-current=true]{border:2px solid var(--pri);background:#fff5f9;padding:9px 11px}
+.li .r1{display:flex;justify-content:space-between;gap:8px;align-items:center}.li .r2{color:var(--tx2);font-size:13px;margin-top:2px}
+.dpane{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;min-width:0}
+.back{display:none}
+@media(max-width:899px){.split{grid-template-columns:1fr}.split.hasd .lst,.split.hasd .lfil{display:none}.split:not(.hasd) .dpane{display:none}.back{display:inline-flex}}
+.lines{width:100%;border-collapse:collapse;font-size:14px}
+.lines th,.lines td{padding:6px 8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:middle}
+.lines td.n,.lines th.n{text-align:right;white-space:nowrap}
+.lines tfoot td{font-weight:700;border-top:2px solid var(--bd)}
+.lines .in{padding:6px 8px;min-width:70px}
+.tlv{list-style:none;margin:8px 0;padding:0;display:flex;flex-direction:column;gap:0}
+.tlv li{display:grid;grid-template-columns:30px 1fr;gap:10px;position:relative;padding-bottom:12px}
+.tlv li::before{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--bd)}
+.tlv li:last-child::before{display:none}
+.tlv .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#f3ecef;color:var(--tx2);border:2px solid var(--bd)}
+.tlv .ok .dot{background:#dcf5e6;color:#0f5a33;border-color:#7ee2a8}.tlv .no .dot{background:#fde4e2;color:#8c1d1a;border-color:#f3a09a}
+.tlv .cur .dot{background:#fff5f9;color:var(--pri);border-color:var(--pri)}
+.tlv .tt{font-weight:700}.tlv .sub{font-size:13px;color:var(--tx2)}
+.bud{height:12px;background:#f3ecef;border-radius:99px;overflow:hidden;display:flex}
+.bud i{display:block;height:100%}.bud .g{background:#0f766e}.bud .p{background:#f59e0b}.bud .o{background:#b3261e}
+.cc{display:grid;gap:6px}
+.sumbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}
+.sumbox div{background:#fbf6f8;border:1px solid var(--bd);border-radius:10px;padding:8px 10px}.sumbox small{display:block;color:var(--tx2)}
+.lfil{margin-bottom:8px}
+.tag.t-pri{background:#fbe4ee;color:#7c2d12}.tag.t-info{background:#cffafe;color:#155e75}
+.mbox.big{max-width:900px}
+.lnk{display:inline-flex;gap:6px;align-items:center}
+@media print{.hdr,.banner,#pp,.noprint{display:none!important}}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 14px}.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}.neg{color:var(--bad);font-weight:700}.print-doc{padding:6px 2px}@media(max-width:560px){.hdr .bn small{display:none}.hdr .home span{display:none}.hdr .home{padding:4px 10px}#toasts{top:8px!important;bottom:auto!important}}.lines.acts td:last-child,.lines.acts th:last-child{position:sticky;right:0;background:#fff}summary{min-height:40px;display:flex;align-items:center;cursor:pointer}.ppbtn{min-height:40px}
+/* ===== mockup 6 ===== */
+.hdr{flex-wrap:wrap;row-gap:0}
+.hdr .clk{display:inline-flex;gap:6px;align-items:center;background:#ffffff1f;color:#fff;border:1px solid #fff4;border-radius:10px;min-height:40px;padding:4px 10px;cursor:pointer;font-size:13px}
+.tabsx{order:9;flex-basis:100%;display:flex;gap:2px;overflow-x:auto;margin:6px -14px -8px;padding:0 10px;background:#00000026}
+.tabsx button{display:inline-flex;gap:6px;align-items:center;border:0;background:none;color:#fff;opacity:.85;padding:0 14px;min-height:44px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tabsx button[aria-current=page]{opacity:1;font-weight:700;border-bottom-color:#fff}
+.tabsx button:hover{background:#ffffff1a}
+@media(max-width:520px){.hdr .bn span{display:none}.hdr .clk{padding:4px 8px}.tabsx button{padding:0 10px}.tabsx button span.lb{font-size:13px}}
+.pr{display:inline-flex;gap:4px;align-items:center;border-radius:6px;padding:1px 8px;font-size:12px;font-weight:700}
+.pr-Crítica{background:#7f1d1d;color:#fff}.pr-Alta{background:#fde4e2;color:#8c1d18}.pr-Média{background:#fdf0d0;color:#6b4500}.pr-Baixa{background:#e4e7ec;color:#344054}
+.sla{display:grid;gap:3px;font-size:12px}
+.sla .bar{height:8px}.sla.ok .bar>i{background:#1a7a4a}.sla.risco .bar>i{background:#d97706}.sla.violado .bar>i,.sla.estourado .bar>i{background:#b3261e}.sla.cumprido .bar>i{background:#1a7a4a}
+.sla b.ok,.sla b.cumprido{color:#0f5a33}.sla b.risco{color:#8a4b00}.sla b.violado,.sla b.estourado{color:#8c1d18}
+.thr{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.msg{max-width:min(640px,92%);border-radius:14px;padding:10px 12px;border:1px solid var(--bd);background:#fff}
+.msg.me{align-self:flex-end;background:#fbe4ee;border-color:#f1bcd2}
+.msg.int{background:#fff8dc;border-color:#ecd682;border-style:dashed}
+.msg.sys{align-self:center;max-width:100%;background:none;border:0;color:var(--tx2);font-size:13px;text-align:center;padding:2px}
+.msg .mh2{display:flex;gap:8px;justify-content:space-between;font-size:12px;color:var(--tx2);margin-bottom:4px}
+.msg .tx{white-space:pre-wrap;overflow-wrap:anywhere}
+.att{display:inline-flex;gap:4px;align-items:center;background:#f3ecef;border-radius:8px;padding:2px 8px;font-size:12px;margin:4px 4px 0 0}
+.comp{border:1px solid var(--bd);border-radius:14px;background:#fff;padding:10px;margin-top:8px}
+.comp textarea{min-height:90px}
+.comp .tabs2{display:flex;gap:6px;margin-bottom:6px}
+.comp .tabs2 button{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:6px 14px;min-height:40px;cursor:pointer}
+.comp .tabs2 button[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.comp.intn{background:#fffdf0;border-color:#ecd682}
+.dh2{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}
+.dh2 div{background:#fbf6f8;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;font-size:13px}.dh2 small{display:block;color:var(--tx2)}
+.sug{background:#ecfeff;border:1px solid #a5e3ec;border-radius:12px;padding:8px 12px;margin:8px 0}
+.sug a,.sug button.linkbtn{display:block;text-align:left}
+.art h2{margin-top:0}.art p{margin:8px 0}.art ol{padding-left:22px}
+.vote{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.flt{display:grid;grid-template-columns:minmax(160px,2fr) repeat(2,minmax(120px,1fr));gap:8px;align-items:end;margin:8px 0}
+@media(max-width:700px){.flt{grid-template-columns:1fr 1fr}.flt .sb{grid-column:1/-1}}
+.flt .sb .ic{bottom:13px}
+.subt{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.stars{display:inline-flex;gap:2px}.stars .ic{width:16px;height:16px;fill:#d97706;stroke:#d97706}.stars .ic.off{fill:none;stroke:#a8a29e}
+.rate{display:flex;gap:6px;margin:6px 0}.rate button{width:48px;height:48px;border-radius:12px;border:1px solid var(--bd);background:#fff;cursor:pointer;font-size:18px}.rate button[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.kpi.btn2{cursor:pointer;text-align:left}.kpi.btn2:hover{border-color:var(--pri)}
+.mbox.dr{max-width:620px}
+.chs{list-style:none;margin:6px 0;padding:0;display:grid;gap:4px}
+.chs li{display:flex;gap:8px;justify-content:space-between;align-items:center;border:1px solid var(--bd);border-radius:10px;padding:4px 8px;font-size:14px}
+.btn.bad.sec{background:#fff;color:#b3261e;border-color:#b3261e}.hdr .bn small{display:none}.hdr .bn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.split .flt{grid-template-columns:1fr 1fr}.split .flt .sb{grid-column:1/-1}
+@media print{.tabsx,.hdr,.banner{display:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+<symbol id="i-headset" viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/><path d="M19 20a4 4 0 0 1-4 2h-2"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4L14 7"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h13M16 3l4 4-4 4M17 17H4M8 13l-4 4 4 4"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 3h-4l-.4 2.4a7 7 0 0 0-2.2 1.3l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 21h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
+
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3zM7 19v2M17 19v2"/><circle cx="8" cy="13.5" r=".6"/><circle cx="16" cy="13.5" r=".6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14 6a4 4 0 0 0 5 5l-9 9a2.1 2.1 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/></symbol>
+<symbol id="i-fuel" viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M4 21h12M15 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M8 8h4"/></symbol>
+</svg>
+
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Empresa fictícia “Tessera Atendimento”.</span>
+  <div class="sim">
+    <label>Usuário <select id="perfil" aria-label="Usuário simulado"></select></label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Central de chamados de TI com prazo de atendimento</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">Abra um chamado, acompanhe a conversa com a equipe e veja o prazo de cada atendimento. Quem atende enxerga a fila ordenada pelo risco de vencer o prazo.</p>
+      <ul class="fl" id="cvlist"></ul>
+      <ol class="steps" id="cvsteps" aria-label="Fluxo da solicitação"></ol>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso ao aplicativo</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Escolha quem está entrando. Nenhum dado é enviado.</p>
+      <div class="persons" id="cvp" role="group" aria-label="Usuário de acesso"></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted sm" style="margin:12px 0 0">Depois de entrar, o seletor Usuário no topo da página troca de pessoa.</p>
+    </div>
+  </div>
+</section>
+
+<div id="stage" hidden>
+  <div id="app">
+    <header class="hdr" id="hdr"></header>
+    <div class="shell"><main id="screen" tabindex="-1"></main></div>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const p2=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const addDias=n=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return iso(d)};
+const addTo=(s,n)=>{const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const fmt=s=>s?s.slice(0,10).split("-").reverse().join("/"):"—";
+const fmtH=s=>s?s.slice(11,16):"";
+const fmtDT=s=>s?s.slice(8,10)+"/"+s.slice(5,7)+" "+s.slice(11,16):"—";
+const fmtDTL=s=>s?fmt(s)+" "+fmtH(s):"—";
+const TD=s=>new Date(s.length===10?s+"T00:00":s);
+const tiso=d=>iso(d)+"T"+p2(d.getHours())+":"+p2(d.getMinutes());
+const nowS=()=>tiso(new Date());
+const addMin=(s,m)=>tiso(new Date(TD(s).getTime()+m*6e4));
+const minDiff=(a,b)=>Math.round((TD(b)-TD(a))/6e4);
+const overlap=(a1,a2,b1,b2)=>a1<b2&&a2>b1;
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const ini=n=>esc(n.split(/\s+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase());
+const num=v=>String(v).replace(".",",");
+const nf=v=>Number(v).toLocaleString("pt-BR");
+const durTxt=m=>{const h=Math.floor(m/60),mm=m%60;return h>=24?Math.floor(h/24)+" d "+(h%24?(h%24)+" h":""):h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const wkStart=s=>{const d=new Date(s+"T12:00:00");const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d)};
+const DSEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const brl=v=>"R$ "+Number(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const mes0=()=>iso(new Date()).slice(0,7);
+const MESN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+let _s=77123;const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+/* ===== Dados fictícios · Tessera Atendimento ===== */
+const PERFIS=["Solicitante","Agente","Líder","Administrador"];
+const PDESC={Solicitante:"abre e acompanha os próprios chamados",Agente:"atende os chamados da equipe",Líder:"acompanha prazos, atribui e vê relatórios",Administrador:"cadastros, prazos e usuários"};
+const ROLES={Solicitante:["chamados","kb"],Agente:["painel","chamados","kb"],Líder:["painel","chamados","kb","relat","admin"],Administrador:["painel","chamados","kb","relat","admin"]};
+const NAVI={painel:["Painel","chart"],chamados:["Chamados","headset"],kb:["Conhecimento","book"],relat:["Relatórios","list"],admin:["Cadastros","gear"]};
+const STS=["Novo","Em atendimento","Aguardando solicitante","Resolvido","Fechado","Cancelado"];
+const ABERTO=["Novo","Em atendimento","Aguardando solicitante"];
+const PRIOS=["Crítica","Alta","Média","Baixa"];
+const IMP=[["1","Só eu"],["2","Meu setor"],["3","A empresa toda"]];
+const URG=[["1","Consigo trabalhar"],["2","Trabalho prejudicado"],["3","Estou parado"]];
+const CAUSAS=["Orientação ao usuário","Configuração","Troca de equipamento","Falha de software","Acesso ou permissão","Sem causa identificada"];
+const EXTOK=["png","jpg","jpeg","pdf","txt","log","docx","xlsx"];
+const MAXANX=3,MAXMB=5,MAXABERTOS_AG=8,MAXABERTOS_SOL=10;
+const prioDe=(i,u)=>{const s=+i+ +u;return s>=6?"Crítica":s===5?"Alta":s===4?"Média":"Baixa"};
+
+let USERS=[
+ {id:"u1",nome:"Sérgio Valadares",email:"sergio.valadares@tessera.example",perfil:"Administrador",setor:"TI",eq:"e3",ativo:true},
+ {id:"u2",nome:"Renata Guedes",email:"renata.guedes@tessera.example",perfil:"Líder",setor:"TI",eq:"e1",ativo:true},
+ {id:"u3",nome:"Fábio Lacerda",email:"fabio.lacerda@tessera.example",perfil:"Líder",setor:"TI",eq:"e2",ativo:true},
+ {id:"u4",nome:"Bruno Salles",email:"bruno.salles@tessera.example",perfil:"Agente",setor:"TI",eq:"e1",ativo:true},
+ {id:"u5",nome:"Larissa Fontes",email:"larissa.fontes@tessera.example",perfil:"Agente",setor:"TI",eq:"e1",ativo:true},
+ {id:"u6",nome:"Diego Aranha",email:"diego.aranha@tessera.example",perfil:"Agente",setor:"TI",eq:"e2",ativo:true},
+ {id:"u7",nome:"Otávio Brandão",email:"otavio.brandao@tessera.example",perfil:"Agente",setor:"TI",eq:"e2",ativo:true},
+ {id:"u8",nome:"Yasmin Cordeiro",email:"yasmin.cordeiro@tessera.example",perfil:"Agente",setor:"TI",eq:"e3",ativo:true},
+ {id:"u9",nome:"Gustavo Paiva",email:"gustavo.paiva@tessera.example",perfil:"Agente",setor:"TI",eq:"e3",ativo:true},
+ {id:"u10",nome:"Marcela Prado",email:"marcela.prado@tessera.example",perfil:"Solicitante",setor:"Financeiro",eq:"",ativo:true},
+ {id:"u11",nome:"Rogério Tavares",email:"rogerio.tavares@tessera.example",perfil:"Solicitante",setor:"Comercial",eq:"",ativo:true},
+ {id:"u12",nome:"Isadora Leal",email:"isadora.leal@tessera.example",perfil:"Solicitante",setor:"Recursos Humanos",eq:"",ativo:true},
+ {id:"u13",nome:"Caio Mendonça",email:"caio.mendonca@tessera.example",perfil:"Solicitante",setor:"Jurídico",eq:"",ativo:true},
+ {id:"u14",nome:"Patrícia Nunes",email:"patricia.nunes@tessera.example",perfil:"Solicitante",setor:"Operações",eq:"",ativo:true},
+ {id:"u15",nome:"Heitor Bastos",email:"heitor.bastos@tessera.example",perfil:"Solicitante",setor:"Marketing",eq:"",ativo:true}];
+let TEAMS=[{id:"e1",nome:"Atendimento N1",ativo:true},{id:"e2",nome:"Infraestrutura",ativo:true},{id:"e3",nome:"Sistemas",ativo:true}];
+let CATS=[
+ {id:"c1",nome:"Acesso e senha",eq:"e1",ativo:true},{id:"c2",nome:"Computador e periféricos",eq:"e1",ativo:true},
+ {id:"c3",nome:"E-mail e agenda",eq:"e1",ativo:true},{id:"c4",nome:"Solicitação de software",eq:"e1",ativo:true},
+ {id:"c5",nome:"Rede e Wi-Fi",eq:"e2",ativo:true},{id:"c6",nome:"Servidores e backup",eq:"e2",ativo:true},
+ {id:"c7",nome:"Sistema de gestão (ERP)",eq:"e3",ativo:true},{id:"c8",nome:"Relatórios e dados",eq:"e3",ativo:true}];
+const U=id=>USERS.find(u=>u.id===id),TM=id=>TEAMS.find(t=>t.id===id),CA=id=>CATS.find(c=>c.id===id);
+const nome=id=>U(id)?U(id).nome:"—";
+const user=()=>U(S.uid);
+const agentes=eq=>USERS.filter(u=>u.ativo&&["Agente","Líder"].includes(u.perfil)&&(!eq||u.eq===eq));
+const admins=()=>USERS.filter(u=>u.ativo&&u.perfil==="Administrador");
+const lideres=()=>USERS.filter(u=>u.ativo&&u.perfil==="Líder");
+
+/* ===== Estado ===== */
+const clock0=()=>{const d=new Date();while(d.getDay()%6===0)d.setDate(d.getDate()-1);return iso(d)+"T14:00"};
+const S={logged:false,uid:"u10",perfil:"Solicitante",cv:"u10",tela:"chamados",sel:null,ppk:null,ppc:false,busy:false,
+ clock:clock0(),h:{ini:8,fim:18},pol:{"Crítica":{r:15,p:240},"Alta":{r:60,p:480},"Média":{r:240,p:1200},"Baixa":{r:480,p:2400}},
+ tk:[],kb:[],canned:[],notifs:[],nt:1000,nm:0,nk:100,ncn:10,defl:7,
+ fv:"",fq:"",fc:"",fp:"",lim:25,kq:"",kc:"",ksel:null,adm:"us",rp:30,draft:{},tab:{},votos:{}};
+const setUser=id=>{const u=U(id);S.uid=id;S.perfil=u.perfil;S.draft={};S.tab={};S.anx=[]};
+const agora=()=>S.clock;
+const T=id=>S.tk.find(t=>t.id===id);
+const KB=id=>S.kb.find(k=>k.id===id);
+
+/* ===== Calendário útil ===== */
+const isUtil=d=>d.getDay()>=1&&d.getDay()<=5;
+function minUteis(a,b){if(b<=a)return 0;let t=TD(a);const e=TD(b);let m=0,g=0;
+ while(t<e&&g++<800){const ws=new Date(t),we=new Date(t);ws.setHours(S.h.ini,0,0,0);we.setHours(S.h.fim,0,0,0);
+  if(isUtil(t)){const s=Math.max(t,ws),f=Math.min(e,we);if(f>s)m+=(f-s)/6e4}
+  t=new Date(t);t.setDate(t.getDate()+1);t.setHours(0,0,0,0)}
+ return Math.round(m)}
+function addUteis(a,m){let t=TD(a),g=0;
+ while(m>0&&g++<800){const ws=new Date(t),we=new Date(t);ws.setHours(S.h.ini,0,0,0);we.setHours(S.h.fim,0,0,0);
+  if(isUtil(t)&&t<we){if(t<ws)t=ws;const av=(we-t)/6e4;if(m<=av)return tiso(new Date(t.getTime()+m*6e4));m-=av}
+  t=new Date(t);t.setDate(t.getDate()+1);t.setHours(0,0,0,0)}
+ return tiso(t)}
+function backU(m){let t=TD(S.clock),g=0;
+ while(m>0&&g++<800){const ws=new Date(t),we=new Date(t);ws.setHours(S.h.ini,0,0,0);we.setHours(S.h.fim,0,0,0);
+  if(isUtil(t)){const end=t>we?we:t;if(end>ws){const av=(end-ws)/6e4;if(m<=av)return tiso(new Date(end.getTime()-m*6e4));m-=av}}
+  t=new Date(t);t.setDate(t.getDate()-1);t.setHours(S.h.fim,0,0,0)}
+ return tiso(t)}
+function snap(ts){let t=TD(ts);for(let g=0;g<14;g++){const ws=new Date(t),we=new Date(t);ws.setHours(S.h.ini,0,0,0);we.setHours(S.h.fim,0,0,0);
+ if(isUtil(t)){if(t>=ws&&t<=we)return tiso(t);if(t>we)return tiso(we)}
+ t=new Date(t);t.setDate(t.getDate()-1);t.setHours(S.h.fim,0,0,0)}return tiso(t)}
+
+/* ===== SLA ===== */
+function sla(t,k){ // k: "r" resposta, "p" resolução
+ if(t.st==="Cancelado")return null;
+ const lim=S.pol[t.prio][k];let fim,feito=false;
+ if(k==="r"){feito=!!t.pr;fim=t.pr||agora()}
+ else{if(t.res){feito=true;fim=t.res}else if(t.pauseIni)fim=t.pauseIni;else fim=agora()}
+ let el=minUteis(t.criado,fim);if(k==="p")el=Math.max(0,el-t.pausedMin);
+ const pct=el/lim;const st=feito?(pct<=1?"cumprido":"estourado"):(pct>1?"violado":pct>=.75?"risco":"ok");
+ return{pct,el,lim,st,feito,pausado:k==="p"&&!!t.pauseIni&&!t.res}}
+function venc(t,k){const lim=S.pol[t.prio][k];return addUteis(t.criado,lim+(k==="p"?t.pausedMin:0))}
+const SLAT={ok:"No prazo",risco:"Em risco",violado:"Violado",cumprido:"Cumprido",estourado:"Fora do prazo"};
+function worst(t){const a=sla(t,"r"),b=sla(t,"p");if(!a)return null;const o=["violado","risco","ok"];
+ const ab=[a,b].filter(x=>x&&!x.feito);if(!ab.length)return{st:"cumprido",pct:0};ab.sort((x,y)=>y.pct-x.pct);return{st:ab[0].st,pct:ab[0].pct}}
+const aberto=t=>ABERTO.includes(t.st);
+const abertosDe=uid=>S.tk.filter(t=>t.ag===uid&&aberto(t));
+
+/* ===== Semente ===== */
+(function seed(){
+ const cl=S.clock;
+ const sols=USERS.filter(u=>u.perfil==="Solicitante");
+ const BANK={c1:[["Esqueci a senha da rede","Não consigo entrar com a minha senha depois da troca obrigatória."],["Conta bloqueada após tentativas","Digitei a senha errada algumas vezes e a conta foi bloqueada."],["Preciso de acesso à pasta do setor","Fui transferido de área e preciso do mesmo acesso da equipe nova."]],
+ c2:[["Notebook não liga","O notebook não liga nem com o carregador. A luz não acende."],["Monitor piscando","O monitor pisca a cada poucos segundos e dói a vista."],["Teclado com teclas falhando","Várias teclas não respondem e atrapalham a digitação."]],
+ c3:[["Caixa de e-mail cheia","Recebo aviso de caixa cheia e não consigo mais enviar mensagens."],["Convite de reunião não chega","Os convites enviados pela equipe não aparecem na minha agenda."],["Assinatura de e-mail desatualizada","Preciso atualizar o cargo na assinatura padrão."]],
+ c4:[["Instalar leitor de PDF avançado","Preciso de um programa para editar PDF para o trabalho do setor."],["Licença de editor de planilhas","A licença do programa expirou e ele abre em modo limitado."],["Atualizar o navegador","O navegador está desatualizado e alguns sistemas não abrem."]],
+ c5:[["Wi-Fi caindo na sala de reunião","A conexão cai a cada poucos minutos durante as reuniões."],["Sem acesso à internet na mesa","O cabo está conectado mas não há internet na minha mesa."],["VPN não conecta em casa","A VPN pede senha e depois fica girando sem conectar."]],
+ c6:[["Pasta compartilhada lenta","Abrir arquivos na pasta de rede está demorando muito."],["Pedido de restauração de arquivo","Apaguei um arquivo importante da pasta do setor ontem."],["Espaço do servidor de arquivos","Aviso de pouco espaço ao salvar arquivos grandes."]],
+ c7:[["Erro ao emitir pedido no ERP","Ao emitir um pedido aparece erro e a tela fecha."],["Perfil sem acesso ao módulo financeiro","Preciso lançar contas a pagar e o menu não aparece para mim."],["Cadastro de cliente duplicado","Encontrei o mesmo cliente cadastrado duas vezes."]],
+ c8:[["Relatório de vendas divergente","O total do relatório de vendas não bate com o fechamento do mês."],["Exportação para planilha em branco","Ao exportar o relatório a planilha abre vazia."],["Novo filtro no relatório de estoque","Gostaria de filtrar o relatório de estoque por depósito."]]};
+ const RESP=["Olá! Já estamos analisando o seu chamado e retornamos em breve.","Recebi o chamado. Vou verificar e te aviso por aqui.","Entendi o problema. Pode me informar desde quando acontece?"];
+ const RES=["Orientei o procedimento e confirmei que voltou a funcionar.","Ajustei a configuração e testei com você.","Substituí o equipamento e conferi o funcionamento.","Corrigi o acesso e validei a entrada no sistema."];
+ let n=0;const mk=o=>{const t=Object.assign({id:"CH-"+(++S.nt),tit:"",desc:"",cat:"c1",sol:"u10",eq:"e1",ag:null,st:"Novo",imp:"1",urg:"1",prio:"Baixa",criado:cl,pr:null,res:null,fech:null,pausedMin:0,pauseIni:null,msgs:[],csat:null,reab:0,fl:{},causa:"",manual:false},o);t.prio=o.prio||prioDe(t.imp,t.urg);S.tk.push(t);return t};
+ const M=(t,tp,uid,ts,txt,anx)=>t.msgs.push({id:"m"+(++S.nm),tp,uid,ts,txt,anx:anx||[]});
+ for(let i=0;i<58;i++){
+  const cat=CATS[ri(0,7)],s=sols[ri(0,sols.length-1)],b=BANK[cat.id][ri(0,2)];
+  const imp=String(ri(1,3)===3&&rnd()<.5?3:ri(1,2)),urg=String(ri(1,3));
+  const prio=prioDe(imp,urg),lim=S.pol[prio];
+  const criado=snap(addMin(cl,-ri(90,60*24*58)));
+  const resMin=Math.round(lim.p*(.2+rnd()*1.05)),respMin=Math.round(lim.r*(.1+rnd()*1.15));
+  const ag=agentes(cat.eq).filter(u=>u.perfil==="Agente")[0]?agentes(cat.eq).filter(u=>u.perfil==="Agente")[ri(0,agentes(cat.eq).filter(u=>u.perfil==="Agente").length-1)].id:null;
+  const t=mk({tit:b[0],desc:b[1],cat:cat.id,sol:s.id,eq:cat.eq,imp,urg,prio,criado});
+  M(t,"pub",s.id,criado,b[1]);
+  const resTs=addUteis(criado,resMin);
+  if(resTs<=cl){
+   t.ag=ag;const prTs=addUteis(criado,respMin);t.pr=prTs<resTs?prTs:addUteis(criado,Math.max(1,Math.floor(resMin/2)));
+   M(t,"sys",ag,addUteis(criado,Math.max(1,Math.floor(respMin/2))),"Chamado assumido por "+nome(ag));
+   M(t,"pub",ag,t.pr,RESP[ri(0,2)]);
+   t.causa=CAUSAS[ri(0,5)];M(t,"pub",ag,resTs,"Solução: "+RES[ri(0,3)]);
+   const idade=(TD(cl)-TD(resTs))/864e5;
+   if(idade>3){t.st="Fechado";t.res=resTs;t.fech=addMin(resTs,ri(120,1800));if(t.fech>cl)t.fech=cl;M(t,"sys",null,t.fech,"Chamado fechado");
+    if(rnd()<.66)t.csat={nota:[5,5,5,4,4,4,3,3,2,1][ri(0,9)],com:"",ts:addMin(t.fech,ri(30,600))}}
+   else{t.st="Resolvido";t.res=resTs;M(t,"sys",null,resTs,"Chamado resolvido, aguardando confirmação")}
+  }else{
+   const r=rnd();
+   if(r<.22){t.st="Novo"}
+   else{t.ag=ag;t.st=r<.8?"Em atendimento":"Aguardando solicitante";const asm=addUteis(criado,Math.max(1,Math.floor(respMin/2)));if(asm<=cl){M(t,"sys",ag,asm,"Chamado assumido por "+nome(ag));const prTs=addUteis(criado,respMin);if(prTs<=cl){t.pr=prTs;M(t,"pub",ag,prTs,RESP[ri(0,2)]);if(t.st==="Aguardando solicitante"){t.pauseIni=addUteis(prTs,5);if(t.pauseIni>cl)t.pauseIni=cl}}}else{t.ag=null;t.st="Novo"}
+    if(t.st==="Aguardando solicitante"&&!t.pauseIni){t.st="Em atendimento"}}
+  }
+ }
+ /* chamados de demonstração */
+ const D=(o,msgs)=>{const t=mk(o);M(t,"pub",o.sol,o.criado,o.desc);(msgs||[]).forEach(m=>M(t,m[0],m[1],m[2],m[3]));return t};
+ D({tit:"ERP fora do ar para o time de pedidos",desc:"Ninguém do setor consegue abrir o sistema de gestão. Os pedidos estão parados.",cat:"c7",sol:"u11",eq:"e3",ag:"u8",st:"Em atendimento",imp:"3",urg:"3",criado:backU(210),pr:backU(200)},[["sys","u8",backU(205),"Chamado assumido por Yasmin Cordeiro"],["pub","u8",backU(200),"Estamos com o time de infraestrutura verificando o servidor de aplicação."],["int","u8",backU(150),"Serviço do ERP parou após atualização de ontem. Vou reiniciar e acompanhar o log."]]);
+ D({tit:"VPN não conecta para o time comercial remoto",desc:"Quatro vendedores em campo não conseguem conectar na VPN desde cedo.",cat:"c5",sol:"u11",eq:"e2",ag:"u6",st:"Em atendimento",imp:"2",urg:"3",criado:backU(500),pr:backU(470)},[["sys","u6",backU(480),"Chamado assumido por Diego Aranha"],["pub","u6",backU(470),"Recebi. Estou verificando o concentrador de VPN."]]);
+ D({tit:"Impressora do financeiro não imprime",desc:"A impressora do andar mostra erro de papel mas está cheia. Preciso imprimir cheques hoje.",cat:"c2",sol:"u10",eq:"e1",st:"Novo",imp:"2",urg:"2",criado:backU(230)});
+ D({tit:"Instalação de software de diagramas",desc:"Preciso de um programa para desenhar fluxos de processo. Pode ser o que a TI homologar.",cat:"c4",sol:"u12",eq:"e1",ag:"u5",st:"Aguardando solicitante",imp:"1",urg:"1",criado:backU(1500),pr:backU(1480),pauseIni:backU(900)},[["sys","u5",backU(1490),"Chamado assumido por Larissa Fontes"],["pub","u5",backU(900),"Para aprovar a licença preciso do centro de custo do setor. Pode me informar?"]]);
+ D({tit:"Mouse com defeito",desc:"O botão direito do mouse não clica mais.",cat:"c2",sol:"u15",eq:"e1",st:"Novo",imp:"1",urg:"1",criado:backU(60)});
+ D({tit:"Sem acesso à pasta do jurídico",desc:"Preciso abrir os contratos na pasta do jurídico e aparece acesso negado.",cat:"c1",sol:"u13",eq:"e1",ag:"u5",st:"Em atendimento",imp:"1",urg:"2",criado:backU(300),pr:backU(280)},[["sys","u5",backU(290),"Chamado assumido por Larissa Fontes"],["pub","u5",backU(280),"Vou validar com o gestor da pasta e libero o acesso."]]);
+ D({tit:"Relatório de vendas com valores diferentes",desc:"O relatório de vendas da semana mostra total menor que o do fechamento no ERP.",cat:"c8",sol:"u11",eq:"e3",st:"Novo",imp:"2",urg:"2",criado:backU(2600)});
+ const rs=D({tit:"Trocar monitor com linhas na tela",desc:"O monitor da minha mesa tem linhas verticais e cansa a vista.",cat:"c2",sol:"u14",eq:"e1",ag:"u4",st:"Resolvido",imp:"1",urg:"2",criado:backU(900),pr:backU(880),res:backU(120),causa:"Troca de equipamento"},[["sys","u4",backU(890),"Chamado assumido por Bruno Salles"],["pub","u4",backU(880),"Vou separar um monitor para troca."],["pub","u4",backU(120),"Solução: troquei o monitor por um novo e testei com você."],["sys",null,backU(120),"Chamado resolvido, aguardando confirmação"]]);
+ D({tit:"Servidor de arquivos sem espaço",desc:"A área do setor de operações chegou a 98% e não conseguimos salvar relatórios.",cat:"c6",sol:"u14",eq:"e2",ag:"u7",st:"Em atendimento",imp:"2",urg:"2",criado:backU(1250),pr:backU(1200)},[["sys","u7",backU(1220),"Chamado assumido por Otávio Brandão"],["pub","u7",backU(1200),"Vou ampliar a cota e limpar arquivos temporários."]]);
+ /* Base de conhecimento */
+ const KA=(id,tit,cat,tags,corpo,st,au,u,nu)=>S.kb.push({id,tit,cat,tags,corpo,st,au,up:addDias(-ri(2,40))+"T10:00",util:u,nao:nu});
+ KA("a1","Como redefinir a senha da rede","c1","senha,rede,bloqueio,acesso","1. Acesse o portal de senhas pelo atalho da área de trabalho.\n2. Escolha “Esqueci minha senha” e confirme o código enviado ao celular cadastrado.\n3. Crie uma senha com 12 caracteres ou mais, sem repetir as três últimas.\nSe a conta continuar bloqueada depois de 15 minutos, abra um chamado.","Publicado","u4",18,2);
+ KA("a2","Wi-Fi caindo: o que testar antes de abrir chamado","c5","wifi,internet,rede,caindo","1. Esqueça a rede Wi-Fi e conecte de novo.\n2. Desligue e ligue o Wi-Fi do notebook.\n3. Teste em outro ponto do andar para saber se é local.\nSe o problema for na mesma sala, informe o número da sala no chamado.","Publicado","u6",11,1);
+ KA("a3","Configurar a VPN em casa","c5","vpn,remoto,home office","1. Instale o cliente de VPN pelo portal de software.\n2. Entre com o e-mail corporativo e a senha da rede.\n3. Aprove o aviso no aplicativo autenticador.\nSem aprovação em 60 segundos a conexão é encerrada.","Publicado","u6",24,3);
+ KA("a4","Caixa de e-mail cheia: como liberar espaço","c3","email,caixa cheia,limpar","1. Esvazie a pasta Itens excluídos.\n2. Ordene por tamanho e remova anexos grandes antigos.\n3. Arquive mensagens com mais de um ano.\nO espaço atualiza em até uma hora.","Publicado","u5",9,0);
+ KA("a5","Impressora não imprime: checklist rápido","c2","impressora,papel,fila","1. Confira papel, toner e portas fechadas.\n2. Cancele documentos travados na fila de impressão.\n3. Reinicie a impressora e imprima uma página de teste.\nSe o painel mostrar erro com código, anote o código no chamado.","Publicado","u4",14,1);
+ KA("a6","Pedir acesso a uma pasta compartilhada","c1","acesso,pasta,permissão","O acesso é liberado pelo gestor da pasta. No chamado, informe o caminho da pasta, o nível (leitura ou edição) e o nome do gestor.","Publicado","u5",7,0);
+ KA("a7","Exportar relatório para planilha sem erro","c8","relatório,exportar,planilha","Use o formato .xlsx e filtre o período antes de exportar. Relatórios com mais de 50 mil linhas devem ser divididos por mês.","Publicado","u8",5,1);
+ KA("a8","Procedimento de restauração de arquivos (rascunho)","c6","backup,restaurar","Rascunho em revisão: prazos de retenção e formulário de solicitação.","Rascunho","u7",0,0);
+ S.canned=[{id:"r1",tit:"Pedido de mais informações",txt:"Olá! Para avançar preciso de mais detalhes: desde quando acontece, qual a mensagem exibida e se algo mudou antes do problema."},
+  {id:"r2",tit:"Acesso liberado",txt:"O acesso foi liberado. Saia e entre de novo no sistema para aplicar. Se aparecer algo diferente, me avise por aqui."},
+  {id:"r3",tit:"Reinício orientado",txt:"Pode reiniciar o equipamento e testar novamente? Em muitos casos isso resolve. Me avise o resultado."},
+  {id:"r4",tit:"Aguardando peça",txt:"Identifiquei a causa e solicitei a peça. Assim que chegar eu agendo a troca com você."},
+  {id:"r5",tit:"Encerramento amigável",txt:"Estou considerando o chamado resolvido. Se o problema voltar, você pode reabrir em até 3 dias."}];
+ S.nk=100;S.ncn=10;
+ S.tk.forEach(t=>t.msgs.forEach(m=>{if(m.tp==="sys"){USERS.forEach(u=>{m.txt=m.txt.split(u.nome).join("@@"+u.id+"@@")});TEAMS.forEach(e=>{m.txt=m.txt.split(e.nome).join("@@"+e.id+"@@")})}}));
+ S.notifs=[{m:"Chamado "+rs.id+" resolvido: confirme a solução ou reabra em até 3 dias.",t:"info",h:"09:12",un:true,u:"u14"}];
+})();
+/* ===== Notificações, avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),t==="err"?9000:5500)}
+function pushTo(uid,m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true,u:uid})}
+function notifyTo(uid,m,t="info"){pushTo(uid,m,t);if(uid===S.uid)renderHdr()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){lastFocus=lastFocus&&document.contains(lastFocus)?lastFocus:document.activeElement;$("#modal").innerHTML=html;const m=$("#modal");const f=m.querySelector("[autofocus]")||m.querySelector(".mbox .in:not([disabled])")||m.querySelector("button");["#cover","#app","#pp",".banner"].forEach(s=>{const e=$(s);if(e)e.inert=true});if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";S.ppk=null;["#cover","#app","#pp",".banner"].forEach(s=>{const e=$(s);if(e)e.inert=false});if(S.logged)$("#pp").innerHTML=ppPanel();if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else{const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}lastFocus=null}
+function cancelModal(){closeModal()}
+function confirmar(msg,okLabel,fn,backLabel){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions"><button class="btn sec" data-act="closemodal" autofocus>${esc(backLabel||"Cancelar")}</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{closeModal();fn()}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}" aria-describedby="ferr">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}" aria-describedby="ferr">${esc(v)}</textarea>`;
+ else c=`<input class="in" aria-describedby="ferr" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.step?`step="${f.step}"`:""} ${f.min!=null?`min="${f.min}"`:""} ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}${f.hint?`<div class="muted sm">${esc(f.hint)}</div>`:""}`}
+function collect(fields){const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});return v}
+function missing(fields,v){const miss=fields.filter(f=>f.req&&!v[f.id]);if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return true}return false}
+function formModal({title,fields,validate,save,msg,ok="Salvar",done,extra="",sheet}){
+ openModal(`<div class="modal ${sheet?"sheet":""}"><form class="mbox ${sheet?"sheet":""}" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}${extra}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v=collect(fields);if(missing(fields,v))return;
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  busy("Gravando…",()=>{save(v);closeModal();toast(msg||"Salvo com sucesso.");if(done)done(v);render(false)})})}
+/* ===== Regras de negócio ===== */
+const isAt=()=>["Agente","Líder","Administrador"].includes(S.perfil);
+const isGest=()=>["Líder","Administrador"].includes(S.perfil);
+const visiveis=()=>{if(S.perfil==="Solicitante")return S.tk.filter(t=>t.sol===S.uid);if(S.perfil==="Agente"){const u=user();return S.tk.filter(t=>t.eq===u.eq||t.ag===u.id)}return S.tk.slice()};
+const podeAgir=t=>isAt()&&t.ag===S.uid;
+const podeGestao=t=>isGest()||podeAgir(t);
+const mk=id=>"@@"+id+"@@";
+const durU=m=>{m=Math.round(m);const h=Math.floor(m/60),mm=m%60;return h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const donoTk=t=>t.sol===S.uid;
+const sysMsg=(t,txt,int)=>t.msgs.push({id:"m"+(++S.nm),tp:"sys",uid:null,ts:agora(),txt,anx:[],int:!!int});
+const addMsg=(t,tp,txt,anx)=>t.msgs.push({id:"m"+(++S.nm),tp,uid:S.uid,ts:agora(),txt,anx:anx||[]});
+const notifyEq=(eq,m,t="info")=>agentes(eq).forEach(u=>{if(u.id!==S.uid)notifyTo(u.id,m,t)});
+const dest=t=>t.ag?[t.ag]:agentes(t.eq).map(u=>u.id);
+function validaAnx(list){if(list.length>MAXANX)return "No máximo "+MAXANX+" anexos por mensagem.";
+ for(const a of list){const ext=a.nome.lastIndexOf(".")>0?a.nome.split(".").pop().toLowerCase():"";if(!EXTOK.includes(ext))return a.nome+": tipo não aceito. Use "+EXTOK.join(", ")+".";if(a.tam>MAXMB*1048576)return a.nome+": acima de "+MAXMB+" MB."}return ""}
+const lerArquivos=inp=>[...(inp.files||[])].map(f=>({nome:f.name,tam:f.size}));
+const tamTxt=n=>n>=1e6?(n/1e6).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(n/1e3))+" KB";
+
+/* ===== Base de conhecimento: busca para desviar chamado ===== */
+const STOP=["não","para","com","uma","que","consigo","preciso","esta","está","meu","minha","por","mais","isso","aos","dos","das","nos","nas","quando","como","fora","ainda","tenho","fazer","estou","desde"];
+function kbBusca(q){const toks=q.toLowerCase().split(/[^a-zà-ú0-9]+/).filter(x=>x.length>=3&&!STOP.includes(x));if(!toks.length)return[];
+ return S.kb.filter(a=>a.st==="Publicado").map(a=>{const ti=a.tit.toLowerCase(),tg=a.tags.toLowerCase(),h=a.corpo.toLowerCase();let s=0;toks.forEach(k=>{if(ti.includes(k))s+=3;else if(tg.includes(k))s+=2;else if(h.includes(k))s+=1});return{a,s}}).filter(x=>x.s>0).sort((x,y)=>y.s-x.s).slice(0,3).map(x=>x.a)}
+
+/* ===== Novo chamado ===== */
+let NF={anx:[]};
+function validaNovo(v,anx){
+ const sol=isAt()?v.sol:S.uid;const su=U(sol);if(!su||!su.ativo||su.perfil!=="Solicitante")return "Escolha uma pessoa solicitante ativa.";
+ const c=CA(v.cat);if(!c||!c.ativo)return "Escolha uma categoria ativa.";if(!TM(c.eq)||!TM(c.eq).ativo)return "A equipe responsável por esta categoria está inativa. Fale com o administrador.";
+ if(v.tit.length<8||v.tit.length>100)return "O título precisa ter de 8 a 100 caracteres.";
+ if(v.desc.length<20)return "Descreva o problema com pelo menos 20 caracteres.";if(v.desc.length>2000)return "A descrição passou de 2.000 caracteres.";
+ const e=validaAnx(anx);if(e)return e;
+ const ab=S.tk.filter(t=>t.sol===sol&&aberto(t));
+ const dup=ab.find(t=>t.tit.replace(/\s+/g," ").trim().toLowerCase()===v.tit.replace(/\s+/g," ").trim().toLowerCase());if(dup)return "Já existe o chamado aberto "+dup.id+" com este título. Responda nele em vez de abrir outro.";
+ if(ab.length>=MAXABERTOS_SOL)return "Há "+MAXABERTOS_SOL+" chamados abertos para este solicitante. Aguarde a conclusão de algum antes de abrir outro.";
+ return ""}
+function criarChamado(v,anx){
+ const sol=isAt()?v.sol:S.uid,c=CA(v.cat),prio=prioDe(v.imp,v.urg);
+ const t={id:"CH-"+(++S.nt),tit:v.tit,desc:v.desc,cat:c.id,sol,eq:c.eq,ag:null,st:"Novo",imp:v.imp,urg:v.urg,prio,criado:agora(),pr:null,res:null,fech:null,pausedMin:0,pauseIni:null,msgs:[],csat:null,reab:0,fl:{},causa:"",manual:false};
+ t.msgs.push({id:"m"+(++S.nm),tp:"pub",uid:sol,ts:agora(),txt:v.desc,anx});
+ if(sol!==S.uid){sysMsg(t,"Aberto por "+mk(S.uid)+" em nome de "+mk(sol));notifyTo(sol,"O chamado "+t.id+" foi aberto em seu nome por "+nome(S.uid)+".","info")}
+ S.tk.push(t);
+ notifyEq(c.eq,"Novo chamado "+t.id+" ("+prio+"): "+t.tit,prio==="Crítica"?"warn":"info");
+ if(prio==="Crítica")lideres().forEach(u=>{if(u.eq!==c.eq)notifyTo(u.id,"Chamado crítico "+t.id+": "+t.tit,"warn")});
+ return t}
+function novoForm(){
+ NF={anx:[]};
+ const f1=[...(isAt()?[{id:"sol",label:"Em nome de",type:"select",opt:1,req:1,options:USERS.filter(u=>u.ativo&&u.perfil==="Solicitante").map(u=>[u.id,u.nome+" · "+u.setor])}]:[]),
+  {id:"cat",label:"Categoria",type:"select",opt:1,req:1,options:CATS.filter(c=>c.ativo).map(c=>[c.id,c.nome])},
+  {id:"tit",label:"Título",req:1,hint:"Resuma em uma frase (8 a 100 caracteres).",ph:"Ex.: Não consigo entrar no ERP"}];
+ const f2=[{id:"imp",label:"Quantas pessoas são afetadas?",type:"select",opt:1,req:1,options:IMP},{id:"urg",label:"Quanto isso atrapalha o trabalho?",type:"select",opt:1,req:1,options:URG},
+  {id:"desc",label:"Descrição",type:"textarea",req:1,hint:"O que aconteceu, o que já tentou e a mensagem de erro, se houver (mínimo de 20 caracteres)."}];
+ const all=[...f1,...f2];
+ openModal(`<div class="modal dr"><form class="mbox dr" id="nform" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">Novo chamado</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${f1.map(fieldHTML).join("")}<div id="sug" class="sug" hidden></div><div id="sugart" class="sug" hidden></div>${f2.map(fieldHTML).join("")}<p class="muted sm" id="prv" aria-live="polite"></p><div class="sec"><h3>Anexos</h3><input type="file" id="f_anx" multiple aria-label="Anexar arquivos" aria-describedby="anxh"><div class="muted sm" id="anxh">Até ${MAXANX} arquivos de ${MAXMB} MB (${EXTOK.join(", ")}). O mockup lê só o nome e o tamanho.</div><ul class="chs" id="anxl"></ul></div><div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">Abrir chamado</button></div></form></div>`);
+ const fm=$("#nform");
+ const live=()=>{const q=$("#f_tit").value+" "+((CA($("#f_cat").value)||{}).nome||"");const r=$("#f_tit").value.trim().length>=4?kbBusca(q):[];const sg=$("#sug");
+  const key=r.map(a=>a.id).join();if(sg.dataset.k!==key){sg.dataset.k=key;$("#sugart").hidden=true;sg.hidden=!r.length;sg.innerHTML=r.length?`<b>Talvez isto resolva agora:</b>${r.map(a=>`<button type="button" class="linkbtn" data-act="kbpeek" data-id="${a.id}">${ic("book")} ${esc(a.tit)}</button>`).join("")}<button type="button" class="btn sm sec" data-act="defl">Resolvi com o artigo, não precisa abrir chamado</button>`:"";}
+  const i=$("#f_imp").value,u=$("#f_urg").value;$("#prv").textContent=(i&&u)?"Prioridade calculada: "+prioDe(i,u)+". Primeira resposta até "+fmtDT(addUteis(agora(),S.pol[prioDe(i,u)].r))+" e solução até "+fmtDT(addUteis(agora(),S.pol[prioDe(i,u)].p))+" (horário útil).":"Prioridade: depende de quantas pessoas são afetadas e do quanto atrapalha."};
+ fm.addEventListener("input",live);fm.addEventListener("change",live);
+ $("#f_anx").addEventListener("change",e=>{NF.anx=lerArquivos(e.target);$("#anxl").innerHTML=NF.anx.map(a=>`<li><span>${ic("clip")} ${esc(a.nome)} · ${tamTxt(a.tam)}</span></li>`).join("")});
+ fm.addEventListener("submit",e=>{e.preventDefault();const v=collect(all);if(missing(all,v))return;const er=validaNovo(v,NF.anx);if(er){$("#ferr").textContent=er;return}
+  busy("Abrindo chamado…",()=>{const t=criarChamado(v,NF.anx);closeModal();S.sel=t.id;S.fv="";S.fq="";S.fc="";S.fp="";S.tela="chamados";toast("Chamado "+t.id+" aberto. Prioridade "+t.prio+".");render(false)})})
+}
+
+/* ===== Ações no chamado ===== */
+function assumir(id){const t=T(id);if(!t||!isAt())return;
+ if(t.ag){toast("Este chamado já tem responsável. Use Reatribuir.","err");return}
+ if(!["Novo"].includes(t.st)){toast("Só chamados novos podem ser assumidos.","err");return}
+ const u=user();if(!isGest()&&t.eq!==u.eq){toast("Este chamado é de outra equipe. Peça a um Líder para reatribuir.","err");return}
+ if(abertosDe(S.uid).length>=MAXABERTOS_AG){toast("Você já tem "+MAXABERTOS_AG+" chamados em aberto. Resolva algum antes de assumir outro.","err");return}
+ busy("Assumindo…",()=>{t.ag=S.uid;t.st="Em atendimento";sysMsg(t,"Chamado assumido por "+mk(u.id));notifyTo(t.sol,"Seu chamado "+t.id+" foi assumido por "+u.nome+".","info");toast("Chamado assumido.");render(false)})}
+function enviarMsg(id){const t=T(id);if(!t)return;const ta=$("#cmp");const txt=(ta?ta.value:"").trim();const tab=S.perfil==="Solicitante"?"pub":(S.tab[id]||"pub");const anx=S.anx||[];
+ if(txt.length<2){toast("Escreva a mensagem antes de enviar.","err");return}
+ if(txt.length>2000){toast("A mensagem passou de 2.000 caracteres.","err");return}
+ const e=validaAnx(anx);if(e){toast(e,"err");return}
+ if(["Fechado","Cancelado"].includes(t.st)){toast("Este chamado está encerrado. Abra um novo chamado.","err");return}
+ if(S.perfil==="Solicitante"){
+  if(!donoTk(t)){toast("Você só responde aos seus chamados.","err");return}
+  if(t.st==="Resolvido"){toast("O chamado está resolvido. Confirme a solução ou reabra o chamado.","err");return}
+  busy("Enviando…",()=>{addMsg(t,"pub",txt,anx);if(t.st==="Aguardando solicitante"){t.pausedMin+=minUteis(t.pauseIni,agora());t.pauseIni=null;t.st="Em atendimento";sysMsg(t,"Resposta recebida. O prazo de solução voltou a contar.")}
+   dest(t).forEach(u=>notifyTo(u,"Nova mensagem de "+nome(S.uid)+" em "+t.id+".","info"));S.draft[id]="";S.anx=[];toast("Mensagem enviada.");render(false)});return}
+ if(!isAt())return;
+ if(tab==="int"){busy("Salvando nota…",()=>{addMsg(t,"int",txt,anx);S.draft[id]="";S.anx=[];toast("Nota interna salva. O solicitante não vê esta nota.","info");render(false)});return}
+ if(!t.ag){toast("Assuma o chamado antes de responder ao solicitante.","err");return}
+ if(!podeAgir(t)){toast("Só quem é responsável pelo chamado responde ao solicitante. Use uma nota interna.","err");return}
+ busy("Enviando…",()=>{addMsg(t,"pub",txt,anx);if(!t.pr)t.pr=agora();notifyTo(t.sol,"Nova resposta no chamado "+t.id+".","info");S.draft[id]="";S.anx=[];toast("Resposta enviada ao solicitante.");render(false)})}
+function aguardar(id){const t=T(id);if(!t||!podeAgir(t)||t.st!=="Em atendimento")return;
+ const pubs=t.msgs.filter(m=>m.tp==="pub");const ult=pubs[pubs.length-1];if(!ult||ult.uid===t.sol){toast("Envie uma mensagem ao solicitante antes de aguardar o retorno dele.","err");return}
+ busy("Atualizando…",()=>{t.st="Aguardando solicitante";t.pauseIni=agora();sysMsg(t,"Aguardando retorno do solicitante. O prazo de solução fica pausado.");notifyTo(t.sol,"O chamado "+t.id+" aguarda a sua resposta.","warn");toast("Chamado aguardando o solicitante. Prazo pausado.","info");render(false)})}
+function resolverForm(id){const t=T(id);if(!t||!podeAgir(t))return;
+ if(!["Em atendimento","Aguardando solicitante"].includes(t.st)||!t.ag){toast("Assuma o chamado antes de resolver.","err");return}
+ formModal({title:"Resolver "+t.id,fields:[{id:"causa",label:"Causa",type:"select",opt:1,req:1,options:CAUSAS.map(c=>[c,c])},{id:"nota",label:"Como foi resolvido",type:"textarea",req:1,hint:"Mínimo de 20 caracteres. O solicitante lê este texto."}],ok:"Resolver chamado",
+  validate:v=>v.nota.length<20?"Descreva a solução com pelo menos 20 caracteres.":"",
+  save:v=>{if(t.st==="Aguardando solicitante"){t.pausedMin+=minUteis(t.pauseIni,agora());t.pauseIni=null}if(!t.pr)t.pr=agora();t.res=agora();t.causa=v.causa;t.st="Resolvido";addMsg(t,"pub","Solução: "+v.nota);sysMsg(t,"Chamado resolvido, aguardando confirmação. Fecha sozinho em 3 dias sem resposta.");notifyTo(t.sol,"Chamado "+t.id+" resolvido: confirme ou reabra em até 3 dias.","info")},msg:"Chamado resolvido."})}
+function confirmarSol(id){const t=T(id);if(!t||!donoTk(t)||t.st!=="Resolvido")return;
+ confirmar("Confirmar que o problema foi resolvido e fechar o chamado "+t.id+"?","Confirmar e fechar",()=>busy("Fechando…",()=>{t.st="Fechado";t.fech=agora();sysMsg(t,"Solução confirmada por "+mk(S.uid)+". Chamado fechado.");if(t.ag)notifyTo(t.ag,"Chamado "+t.id+" fechado pelo solicitante.","info");toast("Chamado fechado. Obrigado!");render(false);avaliarForm(id)}))}
+const podeReabrir=t=>t.st==="Resolvido"&&t.res&&(TD(agora())-TD(t.res))/864e5<=3;
+function reabrirForm(id){const t=T(id);if(!t||!donoTk(t))return;if(!podeReabrir(t)){toast("O prazo de 3 dias para reabrir terminou. Abra um novo chamado.","err");return}
+ formModal({title:"Reabrir "+t.id,fields:[{id:"mot",label:"O que ainda não funciona",type:"textarea",req:1,hint:"Mínimo de 10 caracteres."}],ok:"Reabrir chamado",validate:v=>{if(S.tk.filter(x=>x.sol===t.sol&&aberto(x)).length>=MAXABERTOS_SOL)return "Há "+MAXABERTOS_SOL+" chamados abertos. Aguarde a conclusão de algum antes de reabrir este.";return v.mot.length<10?"Explique o motivo com pelo menos 10 caracteres.":""},
+  save:v=>{t.pausedMin+=minUteis(t.res,agora());t.res=null;t.reab++;t.fl={};const ok=t.ag&&U(t.ag)&&U(t.ag).ativo&&abertosDe(t.ag).length<MAXABERTOS_AG;if(!ok)t.ag=null;t.st=ok?"Em atendimento":"Novo";addMsg(t,"pub","Reaberto: "+v.mot);sysMsg(t,"Chamado reaberto pelo solicitante.");dest(t).forEach(u=>notifyTo(u,"Chamado "+t.id+" foi reaberto.","warn"))},msg:"Chamado reaberto."})}
+function cancelarForm(id){const t=T(id);if(!t||!aberto(t))return;
+ if(S.perfil==="Solicitante"){if(!donoTk(t)){return}if(t.st!=="Novo"||t.msgs.some(m=>m.tp==="pub"&&m.uid!==t.sol)){toast("Só dá para cancelar enquanto ninguém respondeu. Escreva uma mensagem pedindo o cancelamento.","err");return}
+  confirmar("Cancelar o chamado "+t.id+"?","Cancelar chamado",()=>busy("Cancelando…",()=>{t.st="Cancelado";sysMsg(t,"Cancelado pelo solicitante.");notifyEq(t.eq,"Chamado "+t.id+" cancelado pelo solicitante.","info");toast("Chamado cancelado.","info");render(false)}),"Voltar");return}
+ if(!isGest()){toast("Só Líder ou Administrador cancela chamados de outras pessoas.","err");return}
+ formModal({title:"Cancelar "+t.id,fields:[{id:"mot",label:"Motivo",type:"textarea",req:1,hint:"Mínimo de 10 caracteres. O solicitante será avisado."}],ok:"Cancelar chamado",validate:v=>v.mot.length<10?"Explique o motivo com pelo menos 10 caracteres.":"",
+  save:v=>{if(t.st==="Aguardando solicitante"){t.pausedMin+=minUteis(t.pauseIni,agora());t.pauseIni=null}t.st="Cancelado";sysMsg(t,"Cancelado por "+mk(S.uid)+": "+v.mot);notifyTo(t.sol,"Chamado "+t.id+" cancelado: "+v.mot,"warn")},msg:"Chamado cancelado."})}
+function transferirForm(id){const t=T(id);if(!t||!podeGestao(t))return;if(!["Novo","Em atendimento"].includes(t.st)){toast("Só dá para transferir chamados novos ou em atendimento.","err");return}
+ formModal({title:"Transferir "+t.id,fields:[{id:"eq",label:"Equipe de destino",type:"select",opt:1,req:1,options:TEAMS.filter(e=>e.ativo&&e.id!==t.eq).map(e=>[e.id,e.nome])},{id:"mot",label:"Motivo",type:"textarea",req:1,hint:"Mínimo de 10 caracteres."}],ok:"Transferir",
+  validate:v=>{if(!TM(v.eq)||!TM(v.eq).ativo)return "Escolha uma equipe ativa.";if(v.eq===t.eq)return "Escolha uma equipe diferente da atual.";return v.mot.length<10?"Explique o motivo com pelo menos 10 caracteres.":""},
+  save:v=>{const de=t.eq;t.eq=v.eq;t.ag=null;t.st="Novo";sysMsg(t,"Chamado transferido de "+mk(de)+" para "+mk(v.eq)+".");sysMsg(t,"Motivo da transferência, por "+mk(S.uid)+": "+v.mot,true);notifyEq(v.eq,"Chamado "+t.id+" transferido para a sua equipe.","info")},msg:"Chamado transferido."})}
+function reatribuirForm(id){const t=T(id);if(!t||!isGest()||!aberto(t))return;
+ formModal({title:"Reatribuir "+t.id,fields:[{id:"ag",label:"Novo responsável",type:"select",opt:1,req:1,options:agentes().filter(u=>u.id!==t.ag).map(u=>[u.id,u.nome+" · "+TM(u.eq).nome+" · "+abertosDe(u.id).length+" em aberto"])}],ok:"Reatribuir",
+  validate:v=>{const u=U(v.ag);if(!u||!u.ativo||!["Agente","Líder"].includes(u.perfil))return "Escolha uma pessoa ativa da equipe de atendimento.";if(abertosDe(u.id).length>=MAXABERTOS_AG)return u.nome+" já tem "+MAXABERTOS_AG+" chamados em aberto.";return ""},
+  save:v=>{const u=U(v.ag);t.ag0=t.ag;t.ag=u.id;t.eq=u.eq;if(t.st==="Novo")t.st="Em atendimento";sysMsg(t,"Reatribuído de "+(t.ag0?mk(t.ag0):"sem responsável")+" para "+mk(u.id)+".");sysMsg(t,"Reatribuição feita por "+mk(S.uid),true);notifyTo(u.id,"Chamado "+t.id+" foi atribuído a você.","info")},msg:"Chamado reatribuído."})}
+function prioForm(id){const t=T(id);if(!t||!podeGestao(t)||!aberto(t))return;
+ formModal({title:"Alterar prioridade de "+t.id,fields:[{id:"p",label:"Nova prioridade",type:"select",opt:1,req:1,options:PRIOS.map(p=>[p,p+" · resposta em "+durU(S.pol[p].r)+" úteis, solução em "+durU(S.pol[p].p)+" úteis"])},{id:"mot",label:"Motivo",type:"textarea",req:1,hint:"Mínimo de 10 caracteres."}],ok:"Alterar prioridade",
+  validate:v=>{if(!PRIOS.includes(v.p))return "Escolha uma prioridade.";if(v.p===t.prio)return "A prioridade já é "+t.prio+".";return v.mot.length<10?"Explique o motivo com pelo menos 10 caracteres.":""},
+  save:v=>{const de=t.prio;t.prio=v.p;t.manual=true;t.fl={};sysMsg(t,"Prioridade alterada de "+de+" para "+v.p+". Os prazos foram recalculados.");sysMsg(t,"Motivo da alteração, por "+mk(S.uid)+": "+v.mot,true);notifyTo(t.sol,"A prioridade do chamado "+t.id+" mudou para "+v.p+".","info")},msg:"Prioridade alterada."})}
+function avaliarForm(id){const t=T(id);if(!t||!donoTk(t))return;if(t.st!=="Fechado"){toast("Avalie depois que o chamado for fechado.","err");return}if(t.csat){toast("Este chamado já foi avaliado.","info");return}
+ formModal({title:"Avaliar o atendimento de "+t.id,fields:[{id:"n",label:"Nota",type:"select",opt:1,req:1,options:[["5","5 · Excelente"],["4","4 · Bom"],["3","3 · Regular"],["2","2 · Ruim"],["1","1 · Péssimo"]]},{id:"com",label:"Comentário",type:"textarea",hint:"Obrigatório para nota 1 ou 2 (mínimo de 10 caracteres)."}],ok:"Enviar avaliação",
+  validate:v=>{if(!["1","2","3","4","5"].includes(v.n))return "Escolha uma nota de 1 a 5.";if(+v.n<=2&&v.com.length<10)return "Para nota 1 ou 2, conte o que aconteceu (mínimo de 10 caracteres).";return ""},
+  save:v=>{t.csat={nota:+v.n,com:v.com,ts:agora()};if(+v.n<=2)lideres().forEach(u=>notifyTo(u.id,"Avaliação "+v.n+" no chamado "+t.id+": "+v.com,"warn"))},msg:"Avaliação enviada. Obrigado!"})}
+
+/* ===== Fluxo agendado simulado e relógio ===== */
+function executarFluxo(){let risco=0,viol=0,fech=0;
+ S.tk.filter(aberto).forEach(t=>{[["r","primeira resposta"],["p","solução"]].forEach(([k,lb])=>{const s=sla(t,k);if(!s||s.feito||s.pausado)return;
+  if(s.st==="risco"&&!t.fl[k+"risco"]){t.fl[k+"risco"]=1;risco++;dest(t).forEach(id=>notifyTo(id,"Chamado "+t.id+" perto de vencer o prazo de "+lb+" ("+Math.round(s.pct*100)+"%).","warn"))}
+  if(s.st==="violado"&&!t.fl[k+"viol"]){t.fl[k+"viol"]=1;viol++;sysMsg(t,"Prazo de "+lb+" violado. Líderes avisados.",true);lideres().forEach(u=>notifyTo(u.id,"Prazo de "+lb+" violado no chamado "+t.id+" ("+t.prio+").","warn"))}})});
+ S.tk.filter(t=>t.st==="Resolvido"&&t.res&&(TD(agora())-TD(t.res))/864e5>=3).forEach(t=>{t.st="Fechado";t.fech=agora();sysMsg(t,"Chamado fechado automaticamente após 3 dias sem resposta.");notifyTo(t.sol,"Chamado "+t.id+" fechado. Avalie o atendimento.","info");fech++});
+ return{risco,viol,fech}}
+function avancar(min){busy("Executando o fluxo agendado…",()=>{S.clock=addMin(S.clock,min);const r=executarFluxo();closeModal();toast("Relógio avançou "+durTxt(min)+". Fluxo: "+r.risco+" aviso(s) de risco, "+r.viol+" violação(ões), "+r.fech+" fechamento(s).",r.viol?"err":"ok");render(false)})}
+function relogioForm(){openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Relógio simulado</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><p>Agora: <b>${fmtDTL(agora())}</b> (${DSEM[TD(agora()).getDay()]}). Horário útil: segunda a sexta, ${S.h.ini}h às ${S.h.fim}h.</p><p class="muted sm">Ferramenta do mockup: avança o tempo e roda o fluxo agendado que avisa prazos em risco, escala violações e fecha chamados resolvidos há 3 dias.</p><div class="actions" style="justify-content:flex-start"><button class="btn sec" data-act="avanca" data-v="60">+1 hora</button><button class="btn sec" data-act="avanca" data-v="240">+4 horas</button><button class="btn sec" data-act="avanca" data-v="1440">+1 dia</button><button class="btn sec" data-act="avanca" data-v="4320">+3 dias</button></div></div></div>`)}
+
+/* ===== Conhecimento ===== */
+const podeEditarKb=a=>isGest()||(S.perfil==="Agente"&&a.au===S.uid&&a.st==="Rascunho");
+function kbForm(a){if(!isAt())return;if(a&&!podeEditarKb(a)){toast("Artigo publicado só é editado por Líder ou Administrador.","err");return}
+ const f=[{id:"tit",label:"Título",req:1,value:a?a.tit:""},{id:"cat",label:"Categoria",type:"select",opt:1,req:1,options:CATS.map(c=>[c.id,c.nome]),value:a?a.cat:""},{id:"tags",label:"Palavras-chave",value:a?a.tags:"",hint:"Separe por vírgula. Ajudam na busca ao abrir chamado."},{id:"corpo",label:"Texto",type:"textarea",req:1,value:a?a.corpo:"",hint:"Mínimo de 40 caracteres. Use uma linha por passo."}];
+ if(isGest())f.push({id:"st",label:"Situação",type:"select",req:1,options:[["Rascunho","Rascunho"],["Publicado","Publicado"]],value:a?a.st:"Rascunho"});
+ formModal({title:a?"Editar artigo":"Novo artigo",fields:f,validate:v=>{if(v.tit.length<8||v.tit.length>120)return "O título precisa ter de 8 a 120 caracteres.";if(!CA(v.cat))return "Escolha a categoria.";if(v.corpo.length<40)return "O texto precisa ter pelo menos 40 caracteres.";
+   if(S.kb.some(x=>x!==a&&x.tit.trim().toLowerCase()===v.tit.trim().toLowerCase()))return "Já existe um artigo com este título.";return ""},
+  save:v=>{const st=isGest()?v.st:"Rascunho";if(a){Object.assign(a,{tit:v.tit,cat:v.cat,tags:v.tags,corpo:v.corpo,st,up:agora().slice(0,10)+"T"+agora().slice(11)});S.ksel=a.id}else{const n={id:"a"+(++S.nk),tit:v.tit,cat:v.cat,tags:v.tags,corpo:v.corpo,st,au:S.uid,up:agora(),util:0,nao:0};S.kb.push(n);S.ksel=n.id}},msg:a?"Artigo atualizado.":"Artigo criado."})}
+function kbDel(id){const a=KB(id);if(!a||!isGest())return; confirmar("Excluir o artigo “"+a.tit+"”?","Excluir",()=>busy("Excluindo…",()=>{S.kb.splice(S.kb.indexOf(a),1);S.ksel=null;toast("Artigo excluído.","info");render(false)}))}
+function votar(id,ok){const a=KB(id);if(!a||a.st!=="Publicado")return;const k=S.uid+":"+id;if(S.votos[k]){toast("Você já votou neste artigo.","info");return}S.votos[k]=1;if(ok)a.util++;else a.nao++;toast("Obrigado pelo retorno.");render(false)}
+
+/* ===== Cadastros ===== */
+const emUsoUser=u=>S.tk.some(t=>t.sol===u.id||t.ag===u.id||t.msgs.some(m=>m.uid===u.id))||S.kb.some(a=>a.au===u.id);
+function bloqueioUser(u,novoPerfil,novoEq){ // retorna texto ou ""
+ const aberto_=S.tk.filter(t=>aberto(t));
+ const AT=["Agente","Líder"];const perde=(novoPerfil===null)||(novoPerfil&&novoPerfil!==u.perfil&&!(AT.includes(u.perfil)&&AT.includes(novoPerfil)));
+ if(u.perfil==="Administrador"&&u.ativo&&(novoPerfil===null||(novoPerfil&&novoPerfil!==u.perfil))&&admins().length<=1)return "Mantenha ao menos um Administrador ativo.";
+ if(u.perfil==="Líder"&&u.ativo&&(novoPerfil===null||(novoPerfil&&novoPerfil!==u.perfil))&&lideres().length<=1)return "Mantenha ao menos um Líder ativo.";
+ if(["Agente","Líder","Administrador"].includes(u.perfil)&&(novoPerfil===null||perde||(novoEq&&novoEq!==u.eq&&u.perfil!=="Administrador"))){const n=abertosDe(u.id).length;if(n)return "Há "+n+" chamado(s) em aberto com "+u.nome+". Reatribua antes.";}
+ if(u.perfil==="Solicitante"&&(novoPerfil===null||perde)&&aberto_.some(t=>t.sol===u.id))return "Há chamados abertos deste solicitante. Aguarde a conclusão.";
+ return ""}
+function userForm(u){if(!isGest()||S.perfil!=="Administrador")return;
+ formModal({title:u?"Editar usuário":"Novo usuário",fields:[{id:"nome",label:"Nome",req:1,value:u?u.nome:""},{id:"email",label:"E-mail corporativo",type:"email",req:1,value:u?u.email:"",ph:"nome.sobrenome@tessera.example"},{id:"setor",label:"Setor",req:1,value:u?u.setor:""},{id:"perfil",label:"Perfil",type:"select",options:PERFIS.map(p=>[p,p]),req:1,value:u?u.perfil:"Solicitante"},{id:"eq",label:"Equipe de atendimento",type:"select",opt:1,options:TEAMS.filter(e=>e.ativo).map(e=>[e.id,e.nome]),value:u?u.eq:"",hint:"Obrigatória para Agente e Líder."}],
+  validate:v=>{if(v.nome.length<5||!/\s/.test(v.nome)||!/^[A-Za-zÀ-ÿ'’. -]+$/.test(v.nome))return "Informe nome e sobrenome, só com letras.";if(!/^[a-z0-9._-]+@tessera\.example$/.test(v.email))return "Use um e-mail @tessera.example (domínio fictício deste mockup).";
+   if(USERS.some(x=>x!==u&&x.email===v.email))return "Já existe um usuário com este e-mail.";
+   const at=["Agente","Líder"].includes(v.perfil);if(at&&(!TM(v.eq)||!TM(v.eq).ativo))return "Escolha uma equipe ativa para quem atende chamados.";
+   if(u){if(u.id===S.uid&&u.perfil!==v.perfil)return "Você não pode alterar o seu próprio perfil.";const b=bloqueioUser(u,v.perfil,at?v.eq:"");if(b)return b}return ""},
+  save:v=>{const at=["Agente","Líder"].includes(v.perfil);if(u){Object.assign(u,{nome:v.nome,email:v.email,setor:v.setor,perfil:v.perfil,eq:at?v.eq:""});if(u.id===S.uid)S.perfil=v.perfil}else USERS.push({id:"u"+(Math.max(0,...USERS.map(x=>+x.id.slice(1)))+1),nome:v.nome,email:v.email,setor:v.setor,perfil:v.perfil,eq:at?v.eq:"",ativo:true});buildPeople()},msg:u?"Usuário atualizado. O novo nome vale em todo o histórico.":"Usuário cadastrado."})}
+function userTog(id){const u=U(id);if(!u)return;if(u.id===S.uid){toast("Você não pode desativar o seu próprio usuário.","err");return}
+ if(u.ativo){const b=bloqueioUser(u,null);if(b){toast(b,"err");return}}u.ativo=!u.ativo;buildPeople();render(false);toast(u.ativo?"Usuário ativado.":"Usuário desativado.","info")}
+function userDel(id){const u=U(id);if(!u)return;if(u.id===S.uid){toast("Você não pode excluir o seu próprio usuário.","err");return}
+ if(u.ativo){const b=bloqueioUser(u,null);if(b){toast(b,"err");return}}
+ if(emUsoUser(u)){toast("Este usuário aparece em chamados, mensagens ou artigos. Desative em vez de excluir.","err");return}
+ confirmar("Excluir "+u.nome+"?","Excluir",()=>busy("Excluindo…",()=>{USERS.splice(USERS.indexOf(u),1);buildPeople();toast("Usuário excluído.","info");render(false)}))}
+function equipeForm(e){if(S.perfil!=="Administrador")return;
+ formModal({title:e?"Editar equipe":"Nova equipe",fields:[{id:"nome",label:"Nome da equipe",req:1,value:e?e.nome:""}],validate:v=>{if(v.nome.length<3)return "O nome precisa ter pelo menos 3 caracteres.";if(TEAMS.some(x=>x!==e&&x.nome.toLowerCase()===v.nome.toLowerCase()))return "Já existe uma equipe com este nome.";return ""},
+  save:v=>{if(e)e.nome=v.nome;else TEAMS.push({id:"e"+(Math.max(0,...TEAMS.map(x=>+x.id.slice(1)))+1),nome:v.nome,ativo:true})},msg:e?"Equipe atualizada.":"Equipe criada."})}
+function equipeTog(id){const e=TM(id);if(!e||S.perfil!=="Administrador")return;
+ if(e.ativo){const n=S.tk.filter(t=>t.eq===id&&aberto(t)).length;if(n){toast("Há "+n+" chamado(s) abertos nesta equipe. Transfira antes.","err");return}
+  const pe=USERS.filter(x=>x.eq===id&&x.ativo).length;if(pe){toast(pe+" pessoa(s) ativa(s) estão nesta equipe. Mude a equipe delas antes.","err");return}
+  const c=CATS.filter(x=>x.eq===id&&x.ativo).length;if(c){toast(c+" categoria(s) ativa(s) apontam para esta equipe. Mude a equipe das categorias antes.","err");return}
+  if(TEAMS.filter(x=>x.ativo).length<=1){toast("Mantenha ao menos uma equipe ativa.","err");return}}
+ e.ativo=!e.ativo;render(false);toast(e.ativo?"Equipe ativada.":"Equipe desativada.","info")}
+function equipeDel(id){const e=TM(id);if(!e||S.perfil!=="Administrador")return;
+ if(S.tk.some(t=>t.eq===id)||USERS.some(u=>u.eq===id)||CATS.some(c=>c.eq===id)){toast("Esta equipe tem chamados, pessoas ou categorias. Desative em vez de excluir.","err");return}
+ confirmar("Excluir a equipe “"+e.nome+"”?","Excluir",()=>busy("Excluindo…",()=>{TEAMS.splice(TEAMS.indexOf(e),1);toast("Equipe excluída.","info");render(false)}))}
+function catForm(c){if(S.perfil!=="Administrador")return;
+ formModal({title:c?"Editar categoria":"Nova categoria",fields:[{id:"nome",label:"Nome",req:1,value:c?c.nome:""},{id:"eq",label:"Equipe responsável",type:"select",opt:1,req:1,options:TEAMS.filter(e=>e.ativo).map(e=>[e.id,e.nome]),value:c?c.eq:""}],
+  validate:v=>{if(v.nome.length<3)return "O nome precisa ter pelo menos 3 caracteres.";if(CATS.some(x=>x!==c&&x.nome.toLowerCase()===v.nome.toLowerCase()))return "Já existe uma categoria com este nome.";if(!TM(v.eq)||!TM(v.eq).ativo)return "Escolha uma equipe ativa.";return ""},
+  save:v=>{if(c){c.nome=v.nome;c.eq=v.eq}else CATS.push({id:"c"+(Math.max(0,...CATS.map(x=>+x.id.slice(1)))+1),nome:v.nome,eq:v.eq,ativo:true})},msg:c?"Categoria atualizada. Vale para novos chamados.":"Categoria criada."})}
+function catTog(id){const c=CA(id);if(!c||S.perfil!=="Administrador")return;if(c.ativo&&CATS.filter(x=>x.ativo).length<=1){toast("Mantenha ao menos uma categoria ativa.","err");return}c.ativo=!c.ativo;render(false);toast(c.ativo?"Categoria ativada.":"Categoria desativada. Some da abertura de chamados.","info")}
+function catDel(id){const c=CA(id);if(!c||S.perfil!=="Administrador")return;if(S.tk.some(t=>t.cat===id)||S.kb.some(a=>a.cat===id)){toast("Esta categoria tem chamados ou artigos. Desative em vez de excluir.","err");return}
+ confirmar("Excluir a categoria “"+c.nome+"”?","Excluir",()=>busy("Excluindo…",()=>{CATS.splice(CATS.indexOf(c),1);toast("Categoria excluída.","info");render(false)}))}
+function polForm(){if(S.perfil!=="Administrador")return;
+ const f=[];PRIOS.forEach(p=>{f.push({id:"r_"+p,label:p+" · primeira resposta (minutos úteis)",type:"number",min:5,step:"1",req:1,value:String(S.pol[p].r)},{id:"p_"+p,label:p+" · solução (minutos úteis)",type:"number",min:30,step:"1",req:1,value:String(S.pol[p].p)})});
+ formModal({title:"Prazos de atendimento (SLA)",fields:f,extra:`<p class="muted sm">Os prazos contam só no horário útil e valem para todos os chamados abertos.</p>`,
+  validate:v=>{let ant=null;for(const p of PRIOS){const r=+v["r_"+p],q=+v["p_"+p];if(!(Number.isInteger(r)&&r>=5&&r<=2400))return p+": a primeira resposta vai de 5 a 2.400 minutos.";if(!(Number.isInteger(q)&&q>=30&&q<=9600))return p+": a solução vai de 30 a 9.600 minutos.";if(q<=r)return p+": a solução precisa ser maior que a primeira resposta.";
+    if(ant&&(r<ant.r||q<ant.q))return p+": prazo menor que o da prioridade acima. Prioridade mais baixa não pode ter prazo mais curto.";ant={r,q}}return ""},
+  save:v=>{PRIOS.forEach(p=>{S.pol[p]={r:+v["r_"+p],p:+v["p_"+p]}});S.tk.forEach(t=>{t.fl={}})},msg:"Prazos atualizados para todos os chamados abertos."})}
+function horarioForm(){if(S.perfil!=="Administrador")return;
+ formModal({title:"Horário de atendimento",fields:[{id:"ini",label:"Início (hora)",type:"number",min:5,step:"1",req:1,value:String(S.h.ini)},{id:"fim",label:"Fim (hora)",type:"number",min:14,step:"1",req:1,value:String(S.h.fim)}],extra:`<p class="muted sm">Segunda a sexta. Fora desse horário o prazo não corre.</p>`,
+  validate:v=>{const a=+v.ini,b=+v.fim;if(!Number.isInteger(a)||a<5||a>12)return "O início vai das 5h às 12h.";if(!Number.isInteger(b)||b<14||b>22)return "O fim vai das 14h às 22h.";if(b-a<6)return "O expediente precisa ter pelo menos 6 horas.";return ""},
+  save:v=>{S.h={ini:+v.ini,fim:+v.fim}},msg:"Horário atualizado. Os prazos passam a contar com o novo horário."})}
+function cannedForm(c){if(!isGest())return;
+ formModal({title:c?"Editar resposta pronta":"Nova resposta pronta",fields:[{id:"tit",label:"Título",req:1,value:c?c.tit:""},{id:"txt",label:"Texto",type:"textarea",req:1,value:c?c.txt:"",hint:"Mínimo de 20 caracteres."}],
+  validate:v=>{if(v.tit.length<5)return "O título precisa ter pelo menos 5 caracteres.";if(v.txt.length<20)return "O texto precisa ter pelo menos 20 caracteres.";if(S.canned.some(x=>x!==c&&x.tit.toLowerCase()===v.tit.toLowerCase()))return "Já existe uma resposta com este título.";return ""},
+  save:v=>{if(c){c.tit=v.tit;c.txt=v.txt}else S.canned.push({id:"r"+(++S.ncn),tit:v.tit,txt:v.txt})},msg:c?"Resposta atualizada.":"Resposta criada."})}
+function cannedDel(id){const c=S.canned.find(x=>x.id===id);if(!c||!isGest())return;confirmar("Excluir a resposta “"+c.tit+"”?","Excluir",()=>busy("Excluindo…",()=>{S.canned.splice(S.canned.indexOf(c),1);toast("Resposta excluída.","info");render(false)}))}
+
+/* ===== Relatórios ===== */
+function relat(dias){const lim=addMin(S.clock,-dias*1440);const L=S.tk.filter(t=>t.criado>=lim);
+ const porCat=CATS.map(c=>({k:c.nome,v:L.filter(t=>t.cat===c.id).length})).filter(x=>x.v).sort((a,b)=>b.v-a.v);
+ const LL=L.filter(t=>t.st!=="Cancelado"),fin=LL.filter(t=>t.res),com=LL.filter(t=>t.pr);
+ const okP=fin.filter(t=>sla(t,"p").st==="cumprido").length,okR=com.filter(t=>sla(t,"r").st==="cumprido").length;
+ const mttr=fin.length?Math.round(fin.reduce((a,t)=>a+Math.max(0,minUteis(t.criado,t.res)-t.pausedMin),0)/fin.length):null;
+ const cs=L.filter(t=>t.csat);const med=cs.length?Math.round(cs.reduce((a,t)=>a+t.csat.nota,0)/cs.length*10)/10:null;
+ const dist=[1,2,3,4,5].map(n=>cs.filter(t=>t.csat.nota===n).length);
+ const wk={};L.forEach(t=>{const w=wkStart(t.criado.slice(0,10));wk[w]=(wk[w]||0)+1});const sem=Object.keys(wk).sort().map(k=>({k:fmt(k).slice(0,5),v:wk[k]}));
+ const carga=agentes().map(u=>({k:u.nome,v:abertosDe(u.id).length})).filter(x=>x.v).sort((a,b)=>b.v-a.v);
+ const porPrio=PRIOS.map(p=>({k:p,v:L.filter(t=>t.prio===p).length}));
+ return{n:L.length,porCat,slaP:fin.length?Math.round(okP/fin.length*100):null,slaR:com.length?Math.round(okR/com.length*100):null,mttr,med,ncs:cs.length,dist,sem,carga,porPrio,abertos:L.filter(aberto).length}}
+/* ===== Ajudas de tela ===== */
+const stC=s=>({"Novo":"t-pri","Em atendimento":"t-info","Aguardando solicitante":"t-warn","Resolvido":"t-ok","Fechado":"t-na","Cancelado":"t-na"})[s]||"t-na";
+const stI={"Novo":"plus","Em atendimento":"headset","Aguardando solicitante":"clock","Resolvido":"check","Fechado":"lock","Cancelado":"x"};
+const tag=s=>`<span class="tag ${stC(s)}">${ic(stI[s])}${esc(s)}</span>`;
+const prTag=p=>`<span class="pr pr-${p}">${esc(p)}</span>`;
+const kpi=(i,v,l,c="",act,val)=>{const inner=`<span class="kic">${ic(i)}</span><div><b>${v}</b><small>${l}</small></div>`;return act?`<button class="kpi btn2 ${c}" data-act="${act}" data-v="${esc(val)}" aria-label="${esc(String(v)+" · "+l.replace(/<[^>]+>/g,""))}. Ver na lista">${inner}</button>`:`<div class="kpi ${c}">${inner}</div>`};
+const empty=(i,m)=>`<div class="card empty">${ic(i)}<div>${m}</div></div>`;
+const dtab=(h,rows)=>`<details class="dt"><summary>Ver dados do gráfico</summary><table><thead><tr>${h.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></details>`;
+function hbars(rows,act){const mx=Math.max(1,...rows.map(r=>r[1]));return rows.map(([l,v,k,fv])=>{const t=fv||String(v);const inner=`<span class="nm2">${esc(l)}</span><span class="bar"><i style="width:${v/mx*100}%"></i></span><b>${esc(t)}</b>`;return act&&k!=null?`<button class="hbar" data-act="${act}" data-v="${esc(k)}" aria-label="${esc(l)}: ${esc(t)}. Ver chamados">${inner}</button>`:`<div class="hbar">${inner}</div>`}).join("")}
+function colSvg(labels,vals,desc){const W=420,H=180,pb=26,pt=22,mx=Math.max(1,...vals),gw=W/Math.max(1,labels.length),bw=Math.min(36,gw*.6);
+ return `<svg class="cs" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(desc)}"><line x1="0" y1="${H-pb}" x2="${W}" y2="${H-pb}" stroke="#a8a29e"/>${vals.map((v,i)=>{const h=(H-pb-pt)*v/mx,x=gw*i+(gw-bw)/2;return `<rect x="${x}" y="${H-pb-h}" width="${bw}" height="${h}" rx="3" fill="#a3134f"/><text x="${x+bw/2}" y="${H-pb-h-5}" text-anchor="middle">${v}</text><text x="${x+bw/2}" y="${H-8}" text-anchor="middle">${esc(labels[i])}</text>`}).join("")}</svg>`}
+const stars=n=>`<span class="stars" role="img" aria-label="${n} de 5">${[1,2,3,4,5].map(i=>`<svg class="ic ${i<=n?"":"off"}"><use href="#i-star"/></svg>`).join("")}</span>`;
+function slaBlock(t,k){const s=sla(t,k);if(!s)return"";const lb=k==="r"?"Primeira resposta":"Solução";
+ const txt=s.feito?(s.st==="cumprido"?"Cumprido":"Fora do prazo"):s.pausado?"Pausado, aguardando o solicitante"+(s.st==="violado"?" (já violado)":""):SLAT[s.st];
+ const rest=s.feito?"":s.pausado?"":(s.pct>1?"Atrasado "+durU(s.el-s.lim)+" úteis":"Restam "+durU(s.lim-s.el)+" úteis");
+ return `<div class="sla ${s.st}" role="group" aria-label="${lb}: ${esc(txt)}"><div class="row"><span>${lb}</span><b class="${s.st}">${esc(txt)}</b></div><span class="bar" role="img" aria-label="${lb}: ${Math.min(100,Math.round(s.pct*100))}% do prazo usado"><i style="width:${Math.min(100,s.pct*100)}%"></i></span><span class="muted">${esc(rest)}${rest?" · ":""}${s.feito?"":"vence "+esc(fmtDT(venc(t,k)))}</span></div>`}
+function slaMini(t){const w=worst(t);if(!w||w.st==="cumprido")return"";const lb=w.st==="violado"?"Prazo violado":w.st==="risco"?"Prazo em risco":"No prazo";return `<span class="tag ${w.st==="violado"?"t-bad":w.st==="risco"?"t-warn":"t-ok"}">${esc(lb)}</span>`}
+const V={};
+
+/* ===== Painel (equipe de atendimento) ===== */
+V.painel=()=>{const L=visiveis(),ab=L.filter(aberto);const u=user();
+ const viol=ab.filter(t=>{const w=worst(t);return w&&w.st==="violado"}),risco=ab.filter(t=>{const w=worst(t);return w&&w.st==="risco"}),sem=ab.filter(t=>!t.ag&&t.st==="Novo"),meus=ab.filter(t=>t.ag===S.uid);
+ const fila=ab.filter(t=>t.st!=="Aguardando solicitante").sort((a,b)=>(worst(b).pct||0)-(worst(a).pct||0)).slice(0,8);
+ const por=PRIOS.map(p=>[p,ab.filter(t=>t.prio===p).length,p]);
+ const eqs=TEAMS.filter(e=>e.ativo&&(S.perfil!=="Agente"||e.id===u.eq)).map(e=>[e.nome,ab.filter(t=>t.eq===e.id).length,e.id]);
+ return `<h1>Painel de atendimento</h1><div class="muted">${esc(S.perfil)}${u.eq?" · "+esc(TM(u.eq).nome):""} · agora é ${esc(fmtDTL(agora()))}</div>
+ <div class="kpis">${kpi("list",ab.length,"Chamados abertos","","pfil","")}${kpi("alert",viol.length,"Prazo violado",viol.length?"bad":"","pfil","violado")}${kpi("clock",risco.length,"Prazo em risco",risco.length?"warn":"","pfil","risco")}${kpi("plus",sem.length,"Sem responsável","","pfil","sem")}${kpi("user",meus.length,"Comigo","","pfil","meus")}</div>
+ <div class="card"><h2 style="margin-top:0">Fila por risco de vencer o prazo</h2>${fila.length?`<ul class="lst" style="list-style:none;margin:0;padding:0">${fila.map(t=>`<li><button class="li" data-act="csel" data-id="${t.id}" aria-label="${esc(t.id+": "+t.tit)}. Abrir chamado"><div class="r1"><b>${esc(t.id)} · ${esc(t.tit)}</b>${prTag(t.prio)}</div><div class="r2">${tag(t.st)} ${slaMini(t)} · ${esc(nome(t.sol))} · ${t.ag?esc(nome(t.ag)):"sem responsável"}</div></button></li>`).join("")}</ul>`:empty("check","Nenhum chamado aberto na sua fila.")}</div>
+ <div class="grid g2"><div class="card"><h2 style="margin-top:0">Abertos por prioridade</h2>${hbars(por,"pprio")}${dtab(["Prioridade","Abertos"],por.map(r=>[r[0],r[1]]))}</div>
+ <div class="card"><h2 style="margin-top:0">Abertos por equipe</h2>${eqs.length?hbars(eqs):""}${dtab(["Equipe","Abertos"],eqs.map(r=>[r[0],r[1]]))}</div></div>`};
+
+/* ===== Chamados: lista e detalhe ===== */
+const FILS=()=>S.perfil==="Solicitante"?[["","Abertos"],["resolv","Para confirmar"],["enc","Encerrados"],["todos","Todos"]]:[["","Abertos"],["meus","Comigo"],["sem","Sem responsável"],["risco","Em risco"],["violado","Violados"],["aguard","Aguardando"],["resolv","Resolvidos"],["enc","Encerrados"],["todos","Todos"]];
+function filtrar(){let L=visiveis();const f=S.fv;
+ if(f==="")L=L.filter(aberto);else if(f==="meus")L=L.filter(t=>t.ag===S.uid&&aberto(t));else if(f==="sem")L=L.filter(t=>!t.ag&&t.st==="Novo");
+ else if(f==="risco")L=L.filter(t=>aberto(t)&&worst(t)&&worst(t).st==="risco");else if(f==="violado")L=L.filter(t=>aberto(t)&&worst(t)&&worst(t).st==="violado");
+ else if(f==="aguard")L=L.filter(t=>t.st==="Aguardando solicitante");else if(f==="resolv")L=L.filter(t=>t.st==="Resolvido");else if(f==="enc")L=L.filter(t=>["Fechado","Cancelado"].includes(t.st));
+ if(S.fc)L=L.filter(t=>t.cat===S.fc);if(S.fp)L=L.filter(t=>t.prio===S.fp);
+ const q=S.fq.trim().toLowerCase();if(q)L=L.filter(t=>(t.id+" "+t.tit+" "+nome(t.sol)).toLowerCase().includes(q));
+ return L.sort((a,b)=>{if(aberto(a)!==aberto(b))return aberto(a)?-1:1;if(aberto(a)){const x=worst(a),y=worst(b);return ((y&&y.pct)||0)-((x&&x.pct)||0)}return (b.criado>a.criado)?1:-1})}
+function msgHTML(m){if(m.tp==="sys")return `<div class="msg sys">${esc(m.txt.replace(/@@(\w+)@@/g,(x,i)=>U(i)?U(i).nome:TM(i)?TM(i).nome:i))} · ${esc(fmtDTL(m.ts))}</div>`;
+ const me=m.uid===S.uid,u=U(m.uid);const cl="msg "+(m.tp==="int"?"int":me?"me":"");
+ return `<div class="${cl}"><div class="mh2"><span><b>${esc(nome(m.uid))}</b>${u&&u.perfil!=="Solicitante"?" · atendimento":""}${m.tp==="int"?" · nota interna":""}</span><span>${esc(fmtDTL(m.ts))}</span></div><div class="tx">${esc(m.txt)}</div>${(m.anx||[]).map(a=>`<span class="att">${ic("clip")} ${esc(a.nome)} · ${tamTxt(a.tam)}</span>`).join("")}</div>`}
+function acoesHTML(t){const b=[];const at=isAt(),dono=donoTk(t),pa=podeAgir(t);
+ if(at){if(t.st==="Novo"&&!t.ag)b.push(`<button class="btn" data-act="assumir" data-id="${t.id}">${ic("user")}Assumir</button>`);
+  if(pa&&["Em atendimento","Aguardando solicitante"].includes(t.st))b.push(`<button class="btn" data-act="resolver" data-id="${t.id}">${ic("check")}Resolver</button>`);
+  if(pa&&t.st==="Em atendimento")b.push(`<button class="btn sec" data-act="aguardar" data-id="${t.id}">${ic("clock")}Aguardar solicitante</button>`);
+  if(podeGestao(t)&&["Novo","Em atendimento"].includes(t.st))b.push(`<button class="btn sec" data-act="transf" data-id="${t.id}">${ic("swap")}Transferir</button>`);
+  if(podeGestao(t)&&aberto(t))b.push(`<button class="btn sec" data-act="prio" data-id="${t.id}">${ic("flag")}Prioridade</button>`);
+  if(isGest()&&aberto(t)){b.push(`<button class="btn sec" data-act="reatr" data-id="${t.id}">${ic("users")}Reatribuir</button>`);b.push(`<button class="btn bad sec" data-act="cancel" data-id="${t.id}">${ic("x")}Cancelar</button>`)}}
+ else if(dono){if(t.st==="Resolvido"){b.push(`<button class="btn" data-act="confirmsol" data-id="${t.id}">${ic("check")}Confirmar solução</button>`);if(podeReabrir(t))b.push(`<button class="btn sec" data-act="reabrir" data-id="${t.id}">${ic("redo")}Reabrir</button>`)}
+  if(t.st==="Fechado"&&!t.csat)b.push(`<button class="btn" data-act="avaliar" data-id="${t.id}">${ic("star")}Avaliar atendimento</button>`);
+  if(t.st==="Novo"&&!t.msgs.some(m=>m.tp==="pub"&&m.uid!==t.sol))b.push(`<button class="btn bad sec" data-act="cancel" data-id="${t.id}">${ic("x")}Cancelar chamado</button>`)}
+ return b.length?`<div class="actions" style="justify-content:flex-start;flex-wrap:wrap" role="group" aria-label="Ações do chamado">${b.join("")}</div>`:""}
+function compHTML(t){if(["Fechado","Cancelado"].includes(t.st))return `<div class="muted" style="margin-top:12px">Chamado encerrado. Para tratar de outro assunto, abra um novo chamado.</div>`;
+ if(S.perfil==="Solicitante"){if(!donoTk(t))return"";if(t.st==="Resolvido")return `<div class="muted" style="margin-top:12px">O chamado está resolvido. Confirme a solução ou reabra o chamado.</div>`}
+ else if(!isAt())return"";
+ const at=isAt(),tab=at?(S.tab[t.id]||"pub"):"pub";const intn=tab==="int";
+ return `<div class="comp ${intn?"intn":""}"><div class="tabs2" role="group" aria-label="Tipo de mensagem">${at?`<button data-act="ctab" data-v="pub" aria-pressed="${!intn}">Resposta ao solicitante</button><button data-act="ctab" data-v="int" aria-pressed="${intn}">Nota interna</button>`:`<b>Responder</b>`}</div>
+ ${at&&!intn&&S.canned.length?`<label class="f" for="canned">Resposta pronta</label><select class="in" id="canned" data-act="canned"><option value="">Escolher…</option>${S.canned.map(c=>`<option value="${c.id}">${esc(c.tit)}</option>`).join("")}</select>`:""}
+ <label class="f" for="cmp">${intn?"Nota interna (o solicitante não vê)":"Mensagem"}</label><textarea class="in" id="cmp" data-draft="${t.id}" aria-describedby="cmph">${esc(S.draft[t.id]||"")}</textarea><div class="muted sm" id="cmph">Até 2.000 caracteres. Anexos: ${MAXANX} arquivos de ${MAXMB} MB.</div>
+ <div class="row" style="margin-top:6px"><div><label class="f" for="cmpf">Anexar arquivo</label><input type="file" id="cmpf" multiple></div><button class="btn" data-act="msg" data-id="${t.id}">${ic("send")}${intn?"Salvar nota":"Enviar"}</button></div><ul class="chs" id="cmpl">${(S.anx||[]).map(a=>`<li><span>${ic("clip")} ${esc(a.nome)} · ${tamTxt(a.tam)}</span></li>`).join("")}</ul></div>`}
+function detalheHTML(t){const at=isAt();const msgs=t.msgs.filter(m=>(m.tp!=="int"&&!m.int)||at);
+ return `<button class="btn sec back" data-act="back">${ic("back")}Voltar à lista</button>
+ <div class="row" style="margin-top:6px"><h2 id="dh" style="margin:0" tabindex="-1">${esc(t.id)} · ${esc(t.tit)}</h2></div>
+ <div style="margin:6px 0">${tag(t.st)} ${prTag(t.prio)}${t.manual?` <span class="tag t-na">prioridade ajustada</span>`:""}${t.reab?` <span class="tag t-warn">reaberto ${t.reab}x</span>`:""}</div>
+ <div class="dh2"><div><small>Solicitante</small>${esc(nome(t.sol))} · ${esc(U(t.sol)?U(t.sol).setor:"")}</div><div><small>Categoria</small>${esc(CA(t.cat)?CA(t.cat).nome:"—")}</div><div><small>Equipe</small>${esc(TM(t.eq)?TM(t.eq).nome:"—")}</div><div><small>Responsável</small>${t.ag?esc(nome(t.ag)):"Sem responsável"}</div><div><small>Aberto em</small>${esc(fmtDTL(t.criado))}</div><div><small>Impacto e urgência</small>${esc(IMP.find(x=>x[0]===t.imp)[1])} · ${esc(URG.find(x=>x[0]===t.urg)[1])}</div></div>
+ ${t.st!=="Cancelado"?`<div class="grid g2" style="margin:8px 0">${slaBlock(t,"r")}${slaBlock(t,"p")}</div>`:""}
+ ${t.causa?`<div class="muted sm">Causa registrada: ${esc(t.causa)}</div>`:""}${t.csat?`<div style="margin:6px 0">Avaliação: ${stars(t.csat.nota)} ${esc(t.csat.com)}</div>`:""}
+ ${acoesHTML(t)}
+ <div class="thr" role="log" aria-label="Conversa do chamado">${msgs.map(msgHTML).join("")}</div>${compHTML(t)}`}
+V.chamados=()=>{const L=filtrar(),sel=S.sel&&visiveis().find(t=>t.id===S.sel)?T(S.sel):null;const sh=L.slice(0,S.lim);
+ return `<div class="row"><h1 style="margin:0">${S.perfil==="Solicitante"?"Meus chamados":"Chamados"}</h1><button class="btn" data-act="novo">${ic("plus")}Novo chamado</button></div>
+ <div class="split ${sel?"hasd":""}" style="margin-top:8px"><div><div class="lfil"><div class="flt"><div class="sb"><label class="f" for="fq">Buscar por número, título ou pessoa</label>${ic("search")}<input class="in" id="fq" data-live="fq" value="${esc(S.fq)}" placeholder="CH-1004, VPN, Marcela" autocomplete="off"></div>
+ <div><label class="f" for="fc">Categoria</label><select class="in" id="fc" data-live="fc"><option value="">Todas</option>${CATS.map(c=>`<option value="${c.id}" ${S.fc===c.id?"selected":""}>${esc(c.nome)}</option>`).join("")}</select></div>
+ <div><label class="f" for="fp">Prioridade</label><select class="in" id="fp" data-live="fp"><option value="">Todas</option>${PRIOS.map(p=>`<option ${S.fp===p?"selected":""}>${p}</option>`).join("")}</select></div></div>
+ <div class="pills" role="group" aria-label="Filtros de situação">${FILS().map(([k,l])=>`<button class="pill" data-act="fv" data-v="${k}" aria-pressed="${S.fv===k}">${esc(l)}</button>`).join("")}</div><div class="muted sm" aria-live="polite">${L.length} chamado(s)</div></div>
+ <ul class="lst" aria-label="Lista de chamados" style="list-style:none;margin:0;padding:0">${sh.length?sh.map(t=>`<li><button class="li" data-act="csel" data-id="${t.id}" aria-current="${S.sel===t.id}"><div class="r1"><b>${esc(t.id)} · ${esc(t.tit)}</b>${prTag(t.prio)}</div><div class="r2">${tag(t.st)} ${isAt()&&aberto(t)?slaMini(t):""} ${isAt()?esc(nome(t.sol)):esc(fmt(t.criado.slice(0,10)))}</div></button></li>`).join(""):`<li>${empty("search","Nenhum chamado com este filtro.")}</li>`}</ul>
+ ${L.length>sh.length?`<button class="btn sec" style="margin-top:8px" data-act="mais">Mostrar mais (${L.length-sh.length})</button>`:""}</div>
+ <div class="dpane">${sel?detalheHTML(sel):`<div class="empty">${ic("headset")}<div>Escolha um chamado na lista para ver a conversa e o prazo.</div></div>`}</div></div>`};
+
+/* ===== Conhecimento ===== */
+function kbLista(){const q=S.kq.trim().toLowerCase();return S.kb.filter(a=>(isAt()||a.st==="Publicado")&&(!S.kc||a.cat===S.kc)&&(!q||(a.tit+" "+a.tags+" "+a.corpo).toLowerCase().includes(q))).sort((a,b)=>b.util-a.util)}
+function artHTML(a){const k=S.uid+":"+a.id,votou=!!S.votos[k];const lines=a.corpo.split("\n").filter(Boolean);
+ return `<button class="btn sec back" data-act="kback">${ic("back")}Voltar à lista</button><div class="art"><h2 id="dh" tabindex="-1">${esc(a.tit)}</h2><div class="muted sm">${a.st==="Rascunho"?`<span class="tag t-warn">Rascunho</span> `:""}${esc(CA(a.cat)?CA(a.cat).nome:"")} · por ${esc(nome(a.au))} · atualizado em ${esc(fmt(a.up.slice(0,10)))}</div>${lines.map(l=>`<p>${esc(l)}</p>`).join("")}
+ ${a.st==="Publicado"?`<div class="vote"><span>Este artigo ajudou?</span><button class="btn sec" data-act="vup" data-id="${a.id}" ${votou?"disabled":""}>Sim · ${a.util}</button><button class="btn sec" data-act="vno" data-id="${a.id}" ${votou?"disabled":""}>Não · ${a.nao}</button></div>`:""}
+ ${isAt()&&podeEditarKb(a)?`<div class="actions" style="justify-content:flex-start"><button class="btn sec" data-act="kedit" data-id="${a.id}">${ic("pen")}Editar</button>${isGest()?`<button class="btn bad sec" data-act="kdel" data-id="${a.id}">${ic("trash")}Excluir</button>`:""}</div>`:""}</div>`}
+V.kb=()=>{const L=kbLista(),sel=S.ksel&&L.find(a=>a.id===S.ksel)?KB(S.ksel):null;
+ return `<div class="row"><h1 style="margin:0">Base de conhecimento</h1>${isAt()?`<button class="btn" data-act="knew">${ic("plus")}Novo artigo</button>`:""}</div><div class="muted">Resolva sozinho os problemas mais comuns. Se não resolver, abra um chamado.</div>
+ <div class="split ${sel?"hasd":""}" style="margin-top:8px"><div><div class="lfil"><div class="flt"><div class="sb"><label class="f" for="kq">Buscar artigo</label>${ic("search")}<input class="in" id="kq" data-live="kq" value="${esc(S.kq)}" placeholder="senha, VPN, impressora" autocomplete="off"></div><div><label class="f" for="kc">Categoria</label><select class="in" id="kc" data-live="kc"><option value="">Todas</option>${CATS.map(c=>`<option value="${c.id}" ${S.kc===c.id?"selected":""}>${esc(c.nome)}</option>`).join("")}</select></div></div><div class="muted sm" aria-live="polite">${L.length} artigo(s)</div></div>
+ <ul class="lst" aria-label="Artigos" style="list-style:none;margin:0;padding:0">${L.length?L.map(a=>`<li><button class="li" data-act="ksel" data-id="${a.id}" aria-current="${S.ksel===a.id}"><div class="r1"><b>${esc(a.tit)}</b>${a.st==="Rascunho"?'<span class="tag t-warn">Rascunho</span>':""}</div><div class="r2">${esc(CA(a.cat)?CA(a.cat).nome:"")} · ${a.util} acharam útil</div></button></li>`).join(""):`<li>${empty("search","Nenhum artigo encontrado. Tente outra palavra ou abra um chamado.")}</li>`}</ul></div>
+ <div class="dpane">${sel?artHTML(sel):`<div class="empty">${ic("book")}<div>Escolha um artigo para ler o passo a passo.</div></div>`}</div></div>`};
+
+/* ===== Relatórios ===== */
+V.relat=()=>{const R=relat(S.rp);const per=[7,30,90];
+ return `<div class="row"><h1 style="margin:0">Relatórios</h1><button class="btn sec noprint" data-act="print">${ic("print")}Imprimir</button></div><div class="muted">Chamados abertos nos últimos ${S.rp} dias, até ${esc(fmtDTL(agora()))}.</div>
+ <div class="pills noprint" role="group" aria-label="Período">${per.map(p=>`<button class="pill" data-act="rper" data-v="${p}" aria-pressed="${S.rp===p}">${p} dias</button>`).join("")}</div>
+ <div class="kpis">${kpi("list",R.n,"Chamados no período")}${kpi("clock",R.abertos,"Ainda abertos")}${kpi("shield",R.slaP==null?"—":R.slaP+"%","Solução no prazo",R.slaP!=null&&R.slaP<80?"warn":"")}${kpi("check",R.slaR==null?"—":R.slaR+"%","Primeira resposta no prazo",R.slaR!=null&&R.slaR<80?"warn":"")}${kpi("sync",R.mttr==null?"—":durU(R.mttr),"Tempo médio de solução (útil)")}${kpi("star",R.med==null?"—":String(R.med).replace(".",","),"Satisfação média ("+R.ncs+" avaliações)")}</div>
+ <div class="grid g2"><div class="card"><h2 style="margin-top:0">Chamados por categoria</h2>${R.porCat.length?hbars(R.porCat.map(x=>[x.k,x.v])):'<div class="muted">Sem chamados.</div>'}${dtab(["Categoria","Chamados"],R.porCat.map(x=>[x.k,x.v]))}</div>
+ <div class="card"><h2 style="margin-top:0">Chamados por prioridade</h2>${hbars(R.porPrio.map(x=>[x.k,x.v]))}${dtab(["Prioridade","Chamados"],R.porPrio.map(x=>[x.k,x.v]))}</div></div>
+ <div class="grid g2"><div class="card"><h2 style="margin-top:0">Chamados por semana</h2>${R.sem.length?colSvg(R.sem.map(x=>x.k),R.sem.map(x=>x.v),"Chamados abertos por semana: "+R.sem.map(x=>x.k+" "+x.v).join(", ")):'<div class="muted">Sem chamados.</div>'}${dtab(["Semana de","Chamados"],R.sem.map(x=>[x.k,x.v]))}</div>
+ <div class="card"><h2 style="margin-top:0">Satisfação</h2>${hbars([5,4,3,2,1].map(n=>[n+" estrelas",R.dist[n-1]]))}${dtab(["Nota","Avaliações"],[5,4,3,2,1].map(n=>[n,R.dist[n-1]]))}</div></div>
+ <div class="grid g2"><div class="card"><h2 style="margin-top:0">Carga por agente (abertos agora)</h2>${R.carga.length?hbars(R.carga.map(x=>[x.k,x.v])):'<div class="muted">Ninguém com chamados abertos.</div>'}${dtab(["Agente","Abertos"],R.carga.map(x=>[x.k,x.v]))}</div>
+ <div class="card"><h2 style="margin-top:0">Chamados evitados pela base de conhecimento</h2><div class="kpi"><span class="kic">${ic("book")}</span><div><b>${S.defl}</b><small>Solicitantes que resolveram com um artigo antes de abrir chamado</small></div></div></div></div>`};
+
+/* ===== Cadastros ===== */
+const admTabs=()=>S.perfil==="Administrador"?[["us","Usuários"],["eq","Equipes"],["ca","Categorias"],["sla","Prazos e horário"],["rp","Respostas prontas"]]:[["sla","Prazos e horário"],["rp","Respostas prontas"]];
+function admTable(cap,head,rows){return `<div class="card" style="overflow:auto;margin-top:10px"><table class="lines acts"><caption class="sr">${esc(cap)}</caption><thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table></div>`}
+V.admin=()=>{const tabs=admTabs();if(!tabs.some(t=>t[0]===S.adm))S.adm=tabs[0][0];const ad=S.perfil==="Administrador";let body="";
+ const act=(a,id,lb,ico,cls="")=>`<button class="ib ${cls}" data-act="${a}" data-id="${id}" aria-label="${esc(lb)}" title="${esc(lb)}">${ic(ico)}</button>`;
+ if(S.adm==="us")body=`<div class="row"><h2 style="margin:0">Usuários</h2><button class="btn" data-act="usernew">${ic("plus")}Novo usuário</button></div>`+admTable("Usuários",["Nome","Perfil","Equipe","E-mail","Situação",'<span class="sr">Ações</span>'],USERS.map(u=>`<tr><td><span class="avatar sm2" aria-hidden="true">${ini(u.nome)}</span> ${esc(u.nome)}</td><td>${esc(u.perfil)}</td><td>${u.eq?esc(TM(u.eq).nome):"—"}</td><td>${esc(u.email)}</td><td>${u.ativo?'<span class="tag t-ok">Ativo</span>':'<span class="tag t-na">Inativo</span>'}</td><td style="white-space:nowrap">${act("useredit",u.id,"Editar "+u.nome,"pen")}${act("usertog",u.id,(u.ativo?"Desativar ":"Ativar ")+u.nome,u.ativo?"lock":"check")}${act("userdel",u.id,"Excluir "+u.nome,"trash")}</td></tr>`));
+ else if(S.adm==="eq")body=`<div class="row"><h2 style="margin:0">Equipes de atendimento</h2><button class="btn" data-act="eqnew">${ic("plus")}Nova equipe</button></div>`+admTable("Equipes",["Equipe","Pessoas","Chamados abertos","Situação",'<span class="sr">Ações</span>'],TEAMS.map(e=>`<tr><td>${esc(e.nome)}</td><td>${USERS.filter(u=>u.eq===e.id&&u.ativo).length}</td><td>${S.tk.filter(t=>t.eq===e.id&&aberto(t)).length}</td><td>${e.ativo?'<span class="tag t-ok">Ativa</span>':'<span class="tag t-na">Inativa</span>'}</td><td style="white-space:nowrap">${act("eqedit",e.id,"Editar "+e.nome,"pen")}${act("eqtog",e.id,(e.ativo?"Desativar ":"Ativar ")+e.nome,e.ativo?"lock":"check")}${act("eqdel",e.id,"Excluir "+e.nome,"trash")}</td></tr>`));
+ else if(S.adm==="ca")body=`<div class="row"><h2 style="margin:0">Categorias</h2><button class="btn" data-act="canew">${ic("plus")}Nova categoria</button></div>`+admTable("Categorias",["Categoria","Equipe responsável","Chamados","Situação",'<span class="sr">Ações</span>'],CATS.map(c=>`<tr><td>${esc(c.nome)}</td><td>${esc(TM(c.eq)?TM(c.eq).nome:"—")}</td><td>${S.tk.filter(t=>t.cat===c.id).length}</td><td>${c.ativo?'<span class="tag t-ok">Ativa</span>':'<span class="tag t-na">Inativa</span>'}</td><td style="white-space:nowrap">${act("caedit",c.id,"Editar "+c.nome,"pen")}${act("catog",c.id,(c.ativo?"Desativar ":"Ativar ")+c.nome,c.ativo?"lock":"check")}${act("cadel",c.id,"Excluir "+c.nome,"trash")}</td></tr>`));
+ else if(S.adm==="sla")body=`<div class="row"><h2 style="margin:0">Prazos e horário de atendimento</h2>${ad?`<span><button class="btn sec" data-act="polform">${ic("pen")}Editar prazos</button> <button class="btn sec" data-act="hrform">${ic("clock")}Editar horário</button></span>`:""}</div><p class="muted">Segunda a sexta, das ${S.h.ini}h às ${S.h.fim}h. Os prazos contam só nesse horário.${ad?"":" Somente o Administrador altera."}</p>`+admTable("Prazos por prioridade",["Prioridade","Primeira resposta","Solução"],PRIOS.map(p=>`<tr><td>${prTag(p)}</td><td>${durU(S.pol[p].r)} úteis</td><td>${durU(S.pol[p].p)} úteis</td></tr>`));
+ else body=`<div class="row"><h2 style="margin:0">Respostas prontas</h2><button class="btn" data-act="cnew">${ic("plus")}Nova resposta</button></div>`+admTable("Respostas prontas",["Título","Texto",'<span class="sr">Ações</span>'],S.canned.map(c=>`<tr><td>${esc(c.tit)}</td><td>${esc(c.txt.length>90?c.txt.slice(0,90)+"…":c.txt)}</td><td style="white-space:nowrap">${act("cedit",c.id,"Editar "+c.tit,"pen")}${act("cdel",c.id,"Excluir "+c.tit,"trash")}</td></tr>`));
+ return `<h1>Cadastros</h1><div class="subt" role="group" aria-label="Cadastros">${tabs.map(([k,l])=>`<button class="pill" data-act="adm" data-v="${k}" aria-pressed="${S.adm===k}">${l}</button>`).join("")}</div>${body}`};
+/* ===== Painel "Como seria na Power Platform" ===== */
+const PP={
+ cover:{c:["Entrada pela conta Microsoft Entra ID de quem abre o app; não há tela de login própria","User().Email localiza a pessoa numa tabela de usuários do app (perfil e equipe como colunas)","A lista de pessoas da capa existe só no mockup"],d:"Tabela de usuários no Dataverse ligada ao usuário do sistema; app compartilhado com grupos do Microsoft Entra ID",w:"Esconder tela ou botão por perfil melhora a experiência, mas não é segurança: quem protege os dados são os papéis de segurança do Dataverse."},
+ painel:{c:["Cartões de contagem: CountRows(Filter(...)). No Dataverse, a agregação com filtro vai até 50.000 linhas e CountRows usa um valor em cache","Fila por risco: Galeria ordenada por uma coluna de risco do prazo, gravada na tabela de chamados (veja a atenção abaixo)","Gráficos de barras horizontais do mockup seriam Galeria com rótulo de largura proporcional; os gráficos nativos do Canvas são Coluna, Linha e Pizza","Cada cartão leva à lista já filtrada com UpdateContext e Navigate"],d:"Dataverse: tabela Chamado com colunas de escolha (situação, prioridade) e relações com Usuário, Equipe e Categoria",w:"O estado do prazo (no prazo, em risco, violado) não deve ser coluna calculada: coluna de fórmula não dispara fluxo e coluna de rollup recalcula de hora em hora e também não dispara. Um fluxo agendado do Power Automate (gatilho Recurrence) grava o estado e avisa os líderes."},
+ chamados:{c:["Lista: Galeria com Filter e Search; = e <> delegam em colunas de escolha, StartsWith e Search delegam em colunas de texto, < e > não delegam em escolha","Limite de linhas do Canvas: padrão 500, máximo 10.000. Por isso a lista filtra no servidor e pagina","Conversa: Galeria vertical de uma tabela Mensagem (chamado, autor, tipo, texto, data) ordenada por data","Nota interna: Visible muda só a tela. Para valer de verdade, o papel de segurança do Dataverse do Solicitante não deve ler mensagens do tipo interno","No celular, a lista e o detalhe viram duas telas com Navigate; o botão Voltar do mockup faz esse papel"],d:"Dataverse: tabelas Chamado e Mensagem; papéis de segurança com acesso apenas aos próprios registros para o Solicitante",w:"A visibilidade por equipe (Agente vê só a sua) é regra de segurança do servidor, não de Filter no app."},
+ chamado:{c:["Prazo: DateDiff(Criado; Now(); TimeUnit.Minutes) e proporção do prazo usado em uma barra (Rectangle com Width proporcional). Evite subtrair datas direto","Horário útil (segunda a sexta, 8h às 18h) não tem função pronta: é uma regra sua, em uma tabela de expediente e em uma fórmula nomeada ou no fluxo","Pausa do prazo ao aguardar o solicitante: colunas Pausado em e Minutos pausados, atualizadas na troca de situação","Anexos: o controle Attachments clássico só existe dentro de formulário e só com lista SharePoint ou Dataverse; no celular, um arquivo por vez. O controle moderno de anexos está em preview","Resolver, transferir e alterar prioridade gravam a mudança e uma mensagem do sistema; o aviso ao solicitante é um fluxo disparado pela linha do Dataverse"],d:"Dataverse: coluna de arquivo guarda um arquivo por registro; para vários anexos, tabela Anexo ou Notas (limite padrão 5 MB, até 128 MB)",w:"Dois Patch em tabelas diferentes não são uma transação. Para gravar situação e mensagem juntas, use um fluxo ou uma ação do servidor. O componente Timer chega a 24 horas, roda só no dispositivo de quem abriu o app e, no Studio, só em Visualizar: não serve como cronômetro de prazo compartilhado."},
+ novo:{c:["Formulário com Combo box de categoria e duas listas de impacto e urgência; a prioridade sai de uma tabela de matriz (LookUp) mostrada em tempo real","Sugestões de artigo: Galeria com Filter(Artigos; StartsWith(Título; texto)) no texto digitado; Search e StartsWith delegam em colunas de texto","Validação antes do Patch: título, tamanho da descrição, anexos e limite de chamados abertos, com IfError e mensagem ao usuário","Ao criar a linha, um fluxo com gatilho de linha adicionada do Dataverse avisa a equipe responsável. O gatilho de linha do Dataverse aceita filtro de linhas (OData); a seleção de colunas vale para a condição Modificada, e colunas de relação não entram nela","Duplicidade (mesmo título aberto): LookUp antes do Patch"],d:"Dataverse: tabelas Chamado, Categoria (com equipe padrão) e Artigo",w:"A conta de chamados abertos por pessoa e a checagem de duplicidade valem como regra do app; para garantir no servidor, use um plug-in síncrono ou um fluxo."},
+ kb:{c:["Lista e leitura: Galeria com Search em coluna de texto; o artigo aparece em um controle de texto formatado (HtmlText) quando o corpo é HTML","Edição do artigo: editor de texto rico, que entrega HTML","Voto de utilidade: uma linha por pessoa e artigo em uma tabela Voto, e a contagem vem de CountRows; assim dois votos ao mesmo tempo não se sobrepõem","Rascunho e Publicado: coluna de escolha; o Solicitante só enxerga Publicado por papel de segurança e por Filter"],d:"Dataverse: tabelas Artigo e Voto",w:"Os artigos de rascunho só ficam realmente invisíveis ao Solicitante se o papel de segurança ou uma exibição do servidor os esconder."},
+ relat:{c:["Indicadores: CountRows, Sum e Average sobre o período filtrado; no Dataverse, as agregações trabalham até 50.000 linhas","Gráficos nativos do Canvas: Coluna, Linha e Pizza. Para cruzamentos e histórico longo, um bloco do Power BI embutido (o Learn recomenda poucos blocos por tela e quem abre precisa de acesso à origem)","Prazo cumprido: coluna gravada ao resolver (Dentro do prazo, Sim ou Não), em vez de recalcular tudo na tela","Impressão: a função PDF do Power Fx é experimental; em produção prefira um relatório do Power BI paginado"],d:"Dataverse como origem; Power BI para relatórios gerenciais",w:"Telas com muita agregação devem ler uma exibição ou um conjunto de dados resumido, não percorrer milhares de linhas no aplicativo."},
+ admin:{c:["Usuários, equipes, categorias, prazos e respostas prontas são tabelas com Galeria e formulário de edição","Desativar usa a coluna de situação ativo/inativo (statecode); excluir é bloqueado por relação Referencial, Restringir exclusão, que impede apagar o registro pai com filhos","Último administrador e autoalteração de perfil: regra do app e, melhor, do servidor","Prazos por prioridade: tabela de política lida por uma fórmula nomeada em App.Formulas; mudar a política vale para todos os chamados abertos na próxima execução do fluxo"],d:"Dataverse: tabelas Usuário, Equipe, Categoria, Política de prazo e Resposta pronta",w:"Acesso a Cadastros deve ser limitado por papel de segurança. Esconder o botão no app não impede quem tem acesso à tabela."}
+};
+const NM={cover:"Capa e acesso",painel:"Painel de atendimento",chamados:"Lista de chamados",chamado:"Detalhe do chamado",novo:"Novo chamado",kb:"Base de conhecimento",relat:"Relatórios",admin:"Cadastros"};
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>${ppHTML()}`}
+function ppHTML(){const k=S.ppk||(S.logged?((S.sel&&S.tela==="chamados")?"chamado":S.tela):"cover");const p=PP[k];
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(NM[k])}</b> · Canvas app, celular, tablet e desktop</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d)}</dd></dl><div class="warn"><b>Atenção:</b> ${esc(p.w)}</div><p class="muted sm" style="margin-top:10px">Conferido na documentação oficial da Microsoft em 04/11/2026. Este é um mockup HTML: não é um app Power Apps. O relógio e o fluxo agendado são simulados.</p>`}
+
+/* ===== Cabeçalho, capa e tela ===== */
+function buildPeople(){renderCover();$("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("");if(S.logged)$("#perfil").value=S.uid}
+function renderHdr(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un&&n.u===S.uid).length;
+ $("#hdr").innerHTML=`<div class="bn">${ic("headset")}<span>Tessera Atendimento<small>Central de chamados de TI</small></span></div><span style="flex:1"></span>
+ <button class="clk" data-act="relogio" aria-label="Relógio simulado: ${esc(fmtDTL(agora()))}. Avançar o tempo">${ic("clock")}<span>${esc(fmtDTL(agora()))}</span></button>
+ <button class="ib" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>
+ <div class="usr"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small style="opacity:.85">${esc(S.perfil)}</small></div><button class="ib" data-act="sair" aria-label="Sair">${ic("logout")}</button></div><div id="npop" hidden></div>
+ <nav class="tabsx" aria-label="Seções do aplicativo">${ROLES[S.perfil].map(k=>`<button data-nav="${k}" ${S.tela===k?'aria-current="page"':""}>${ic(NAVI[k][1])}<span class="lb">${NAVI[k][0]}</span></button>`).join("")}</nav>`}
+const telaInicial=()=>S.perfil==="Solicitante"?"chamados":"painel";
+function render(focus){
+ if(!$("#modal").innerHTML)S.ppk=null;
+ document.body.classList.toggle("lg",S.logged);
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ if(!ROLES[S.perfil].includes(S.tela))S.tela=telaInicial();
+ $("#screen").innerHTML=V[S.tela]();
+ renderHdr();$("#pp").innerHTML=ppPanel();$("#perfil").value=S.uid;
+ if(!focus&&!$("#modal").innerHTML&&(!document.activeElement||document.activeElement===document.body)){const h=$("#dh")||$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}
+}
+function go(t,focus=true){S.tela=t;render(focus)}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("headset")+"<span>Tessera Atendimento · Empresa fictícia</span>";
+ $("#cvlist").innerHTML=[["clock","Prazo de resposta e de solução visível em cada chamado"],["book","Artigos que resolvem sem abrir chamado"],["users","Fila da equipe ordenada pelo risco de vencer o prazo"],["star","Avaliação do atendimento ao final"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ $("#cvsteps").innerHTML=["Novo","Em atendimento","Resolvido","Fechado"].map(s=>`<li>${esc(s)}</li>`).join("");
+ if(!U(S.cv)||!U(S.cv).ativo)S.cv=(USERS.find(u=>u.ativo)||{}).id;
+ $("#cvp").innerHTML=PERFIS.map(p=>{const L=USERS.filter(u=>u.ativo&&u.perfil===p);return L.length?`<div class="pgr">${esc(p)} · ${esc(PDESC[p])}</div>`+L.map(u=>`<button class="prs" data-act="cvsel" data-v="${u.id}" aria-pressed="${S.cv===u.id}"><span class="avatar" aria-hidden="true">${ini(u.nome)}</span><span><b>${esc(u.nome)}</b><small>${esc(u.eq&&TM(u.eq)?TM(u.eq).nome:u.setor)}</small></span></button>`).join(""):""}).join("");
+ $("#entrar").innerHTML=ic("logout")+"Entrar como "+esc((U(S.cv)||{nome:""}).nome);$("#ppbtn").innerHTML=ic("layers")+"Como seria na Power Platform";
+ $("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("")}
+function abrirChamado(id){S.sel=id;S.anx=[];S.tela="chamados";render(false);const h=$("#dh");if(h)h.focus({preventScroll:true})}
+function resetFiltros(){S.fv="";S.fq="";S.fc="";S.fp="";S.lim=25}
+S.anx=[];
+
+/* ===== Eventos ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const bb=$("#hdr [data-act=bell]");if(bb)bb.setAttribute("aria-expanded","false")}}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML)closeModal();S.sel=null;S.ksel=null;go(t.dataset.nav);return}
+ const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v;
+ switch(a){
+  case"cvsel":S.cv=v;renderCover();$("#cvp [aria-pressed=true]").focus();break;
+  case"entrar":{const alvo=U(S.cv);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;S.tela=telaInicial();S.sel=null;S.anx=[];resetFiltros();render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair do aplicativo?","Sair",()=>{S.logged=false;render(false);$("#entrar").focus()});break;
+  case"closemodal":cancelModal();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt" class="sr">Como seria na Power Platform</h2><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="pp">${ppHTML()}</div></div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){const mine=S.notifs.filter(n=>n.u===S.uid);mine.forEach(n=>n.un=false);{const bb=$("#hdr .badge");if(bb)bb.remove();t.setAttribute("aria-label","Notificações")}p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${mine.length?mine.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div>${esc(n.m)}<div class="muted sm">${esc(n.h)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}`}p.hidden=!open;t.setAttribute("aria-expanded",String(open));break}
+  case"clearn":S.notifs=S.notifs.filter(n=>n.u!==S.uid);renderHdr();$("#hdr [data-act=bell]").focus();break;
+  case"pfil":resetFiltros();S.fv=v;S.sel=null;go("chamados");break;
+  case"pprio":resetFiltros();S.fp=v;S.sel=null;go("chamados");break;
+  case"csel":abrirChamado(id);break;
+  case"back":S.sel=null;render(false);break;
+  case"novo":S.ppk="novo";novoForm();$("#pp").innerHTML=ppPanel();break;
+  case"fv":S.fv=v;S.lim=25;S.sel=null;render(false);break;
+  case"mais":S.lim+=25;render(false);break;
+  case"assumir":assumir(id);break;
+  case"resolver":resolverForm(id);break;
+  case"aguardar":aguardar(id);break;
+  case"transf":transferirForm(id);break;
+  case"prio":prioForm(id);break;
+  case"reatr":reatribuirForm(id);break;
+  case"cancel":cancelarForm(id);break;
+  case"confirmsol":confirmarSol(id);break;
+  case"reabrir":reabrirForm(id);break;
+  case"avaliar":avaliarForm(id);break;
+  case"ctab":S.tab[S.sel]=v;render(false);{const c=$("#cmp");if(c)c.focus()}break;
+  case"msg":enviarMsg(id);break;
+  case"kbpeek":{const a2=KB(id),bx=$("#sugart");if(a2&&bx){NF.peek=1;bx.hidden=false;bx.innerHTML=`<b>${esc(a2.tit)}</b>${a2.corpo.split("\n").filter(Boolean).map(l=>`<p style="margin:4px 0">${esc(l)}</p>`).join("")}`}break}
+  case"defl":if(!NF.peek){toast("Abra e leia o artigo antes de dizer que resolveu.","err");break}S.defl++;closeModal();toast("Que bom que o artigo ajudou. Nenhum chamado foi aberto.");render(false);break;
+  case"relogio":relogioForm();break;
+  case"avanca":avancar(+v);break;
+  case"ksel":S.ksel=id;render(false);{const h=$("#dh");if(h)h.focus({preventScroll:true})}break;
+  case"kback":S.ksel=null;render(false);break;
+  case"knew":kbForm(null);break;case"kedit":kbForm(KB(id));break;case"kdel":kbDel(id);break;
+  case"vup":votar(id,true);break;case"vno":votar(id,false);break;
+  case"rper":S.rp=+v;render(false);break;
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  case"adm":S.adm=v;render(false);break;
+  case"usernew":userForm(null);break;case"useredit":userForm(U(id));break;case"usertog":userTog(id);break;case"userdel":userDel(id);break;
+  case"eqnew":equipeForm(null);break;case"eqedit":equipeForm(TM(id));break;case"eqtog":equipeTog(id);break;case"eqdel":equipeDel(id);break;
+  case"canew":catForm(null);break;case"caedit":catForm(CA(id));break;case"catog":catTog(id);break;case"cadel":catDel(id);break;
+  case"polform":polForm();break;case"hrform":horarioForm();break;
+  case"cnew":cannedForm(null);break;case"cedit":cannedForm(S.canned.find(x=>x.id===id));break;case"cdel":cannedDel(id);break;
+ }});
+document.addEventListener("input",e=>{
+ const d=e.target.closest("[data-draft]");if(d){S.draft[d.dataset.draft]=d.value;return}
+ const t=e.target.closest("[data-live]");if(t){S[t.dataset.live]=t.value;S.lim=25;const id=t.id,pos=t.selectionStart;render(false);const n=$("#"+id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}}});
+document.addEventListener("change",e=>{
+ if(e.target.id==="perfil"){const id=e.target.value;if(S.busy){e.target.value=S.uid;toast("Aguarde a ação em andamento terminar antes de trocar de usuário.","err");return}if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");e.target.value=S.uid;return}if($("#modal").innerHTML)closeModal();setUser(id);resetFiltros();S.kq="";S.kc="";S.ksel=null;S.sel=null;S.anx=[];S.tela=telaInicial();render(true);toast("Agora você é "+alvo.nome+" ("+alvo.perfil+").","info");return}
+ if(e.target.id==="canned"){const c=S.canned.find(x=>x.id===e.target.value),ta=$("#cmp");if(c&&ta){ta.value=(ta.value?ta.value+"\n":"")+c.txt;S.draft[S.sel]=ta.value;ta.focus()}e.target.value="";return}
+ if(e.target.id==="cmpf"){S.anx=lerArquivos(e.target);$("#cmpl").innerHTML=S.anx.map(a=>`<li><span>${ic("clip")} ${esc(a.nome)} · ${tamTxt(a.tam)}</span></li>`).join("")}});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const b=$("#hdr [data-act=bell]");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}if($("#modal").innerHTML&&!S.busy)cancelModal()});
+renderCover();render(false);
+</script>
+</body>
+</html>

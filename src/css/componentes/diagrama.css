@@ -1,5 +1,11 @@
 /* Diagramas de arquitetura dos cases */
-.case-grid{display:grid;gap:1.5rem;margin-top:3rem}
+/* Sessões por área (scripts/cases.mjs, AREAS). Título fora do cartão e maior
+   que o do case (h4), sem lima; um fio separa uma sessão da seguinte. */
+.cases-area{margin-top:3rem;scroll-margin-top:1.5rem}
+.cases-area+.cases-area{margin-top:clamp(3rem,6vw,4.5rem);padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--border)}
+.cases-area__titulo{font-size:clamp(1.4rem,3vw,2.1rem);margin:0 0 .5rem}
+.cases-area__abertura{margin:0;max-width:60ch;color:var(--text-muted)}
+.case-grid{display:grid;gap:1.5rem;margin-top:1.75rem}
 .case-card{display:grid;gap:clamp(1.5rem,3vw,2.5rem);padding:clamp(1.35rem,2.5vw,2rem)}
 .case-card__content{min-width:0}
 .case-card__content .taglist{margin-top:1.5rem}

@@ -26,5 +26,5 @@ en/index.html
 src/index.en.template.html
 
 # Páginas geradas e apps de demonstração
-cases/
-en/cases/
+demos/
+en/demos/

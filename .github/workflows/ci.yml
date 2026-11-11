@@ -67,8 +67,12 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      # Se o apt do runner não alcançar os espelhos do Ubuntu (falha de DNS
+      # vista em 11/11/2026), instala só o navegador: a imagem do GitHub já
+      # traz as bibliotecas de sistema. Se faltar alguma, os testes falham
+      # ao abrir o Chromium, então o portão continua valendo.
       - name: Instalar navegador
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install chromium --with-deps || npx playwright install chromium
 
       - name: Testes
         run: npm test
