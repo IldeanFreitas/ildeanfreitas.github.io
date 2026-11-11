@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ildeanfreitas.github.io/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/"/>
@@ -11,11 +11,219 @@
   </url>
   <url>
     <loc>https://ildeanfreitas.github.io/en/</loc>
-    <lastmod>2026-10-21</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/inspecao-via/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/inspecao-via/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/inspecao-via/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/inspecao-via/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/ordens-servico/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/ordens-servico/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/ordens-servico/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/ordens-servico/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/reserva-frota/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/reserva-frota/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/reserva-frota/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/reserva-frota/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/compras/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/compras/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/compras/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/compras/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/estoque/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/estoque/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/estoque/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/estoque/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/chamados/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/chamados/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/chamados/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/chamados/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/clinica/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/clinica/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/clinica/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/clinica/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/obra/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/obra/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/obra/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/obra/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/permissao-trabalho/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/permissao-trabalho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/permissao-trabalho/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/permissao-trabalho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/contas-pagar/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/contas-pagar/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/contas-pagar/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/contas-pagar/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/rebanho/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/rebanho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/rebanho/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/rebanho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/cases/power-apps/ouvidoria/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/ouvidoria/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/en/cases/power-apps/ouvidoria/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/cases/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/cases/power-apps/ouvidoria/"/>
   </url>
 </urlset>

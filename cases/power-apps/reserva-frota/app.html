@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup · Reserva de Veículos da Frota</title>
+<style>
+:root{--pri:#4338ca;--pri2:#3730a3;--dark:#1e1b4b;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#f4f4fb;--bd:#d9d9ea;--tx:#18181b;--tx2:#52525b;--w:#fff;--r:12px;--acc:#be123c}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#e4e4f1;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}.sm{font-size:13px}
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;min-height:40px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx)}
+.banner label{display:flex;gap:6px;align-items:center}
+.ppbtn{display:inline-flex;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center}
+@media(min-width:1280px){body.lg .ppbtn{display:none}}
+/* capa */
+#cover{flex:1;overflow:auto;background:radial-gradient(circle at 20% 10%,#3b36a6 0,#1e1b4b 55%,#0f0d2e 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:1040px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:820px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.steps{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px}
+.cv ul.fl{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv ul.fl li{display:flex;gap:10px;align-items:flex-start}
+.login{background:#fff;color:var(--tx);border-radius:18px;padding:24px;box-shadow:0 20px 50px #00000066}
+.login h2{margin:0 0 4px;font-size:20px}
+.pcs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+@media(max-width:420px){.pcs{grid-template-columns:1fr}}
+.pc{display:flex;gap:10px;align-items:flex-start;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:10px;cursor:pointer;min-height:64px}
+.pc small{display:block;color:var(--tx2);font-size:12px;line-height:1.25}
+.pc[aria-pressed=true]{border-color:var(--pri);background:#eceafd}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.avatar.sm2{width:26px;height:26px;font-size:11px}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1600px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:flex;flex-direction:column;background:var(--bg);border-radius:16px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #18181b2b}
+@media(max-width:700px){#app{border-radius:0;border:0}}
+.hdr{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--dark);color:#fff;position:relative}
+.hdr .bn{display:flex;gap:8px;align-items:center;font-weight:700;flex:1;min-width:0;white-space:nowrap}
+.hdr .bn small{font-weight:400;opacity:.8;margin-left:4px}
+@media(max-width:520px){.hdr .bn small{display:none}}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:inherit}
+.ib:hover{background:#ffffff22}
+main .ib:hover,.mbox .ib:hover,.toast .ib:hover{background:#0000000f}
+.badge{position:absolute;top:4px;right:4px;background:#dc2626;color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1}
+@media(max-width:700px){.usr .nm{display:none}}
+#screen{flex:1;overflow:auto;padding:16px;min-height:0}
+@media(min-width:1100px){#screen{padding:20px 26px}}
+h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px}h3{font-size:15px;margin:16px 0 8px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;gap:10px;align-items:center}
+.kpi b{font-size:24px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:40px;height:40px;border-radius:10px;background:#eceafd;color:var(--pri);display:grid;place-items:center;flex:none}
+.kpi.bad .kic{background:#fde4e2;color:var(--bad)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:10px 12px;border:1px solid #8a8577;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:84px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#6b7280}
+.sb{position:relative}.sb .ic{position:absolute;left:12px;top:12px;color:var(--tx2)}.sb .in{padding-left:40px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri)}.btn.sec:hover{background:#eceafd}
+.btn.bad{background:var(--bad);border-color:var(--bad)}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e7e5e4;color:#3f3f46}.t-pri{background:#e0e0fb;color:#312e81}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.empty{text-align:center;color:var(--tx2);padding:26px 10px}.empty .ic{width:34px;height:34px;margin-bottom:6px}
+.tools{display:grid;grid-template-columns:minmax(180px,2fr) repeat(2,minmax(130px,1fr)) auto;gap:8px;align-items:end;margin:10px 0}
+@media(max-width:700px){.tools{grid-template-columns:1fr 1fr}.tools .sb{grid-column:1/-1}}
+.tools label.f{margin:0 0 3px}.tools .sb .ic{top:34px}
+@media(max-width:759px){.hn{display:none!important}#screen{padding-bottom:84px}}
+/* quadro */
+@media(max-width:700px){.col .lst{max-height:none}}
+.late{color:var(--bad);font-weight:700}
+/* lista */
+.tw{overflow-x:auto}
+table.tb{border-collapse:collapse;width:100%;min-width:720px;background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.tb th,.tb td{border-bottom:1px solid var(--bd);padding:9px 10px;text-align:left;vertical-align:middle;font-size:14px}
+.tb th{background:#eeeef8;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--tx2)}
+.tb td.act{white-space:nowrap;text-align:right}
+.lcards{display:none}
+@media(max-width:700px){.tw.t2{display:none}.lcards{display:grid;gap:8px}}
+/* barras / gráficos */
+.hbar{display:grid;grid-template-columns:minmax(90px,150px) 1fr 40px;gap:8px;align-items:center;margin:4px 0;font-size:14px;width:100%;background:none;border:0;padding:2px 0;text-align:left}
+button.hbar{cursor:pointer;min-height:40px}button.hbar:hover .nm2{text-decoration:underline}
+.hbar b{text-align:right}
+.bar{display:block;height:12px;background:#e2e2ef;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}.bar.w>i{background:var(--acc)}.bar.r>i{background:var(--bad)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+svg.cs{width:100%;height:auto;display:block}
+svg.cs text{font:11px system-ui,sans-serif;fill:#3f3f46}
+.lgd{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:6px}.lgd i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+details.dt{margin-top:8px;font-size:13px}details.dt summary{cursor:pointer;color:var(--pri);min-height:40px;display:flex;align-items:center}
+details.dt table{border-collapse:collapse;margin-top:4px}details.dt th,details.dt td{border:1px solid var(--bd);padding:3px 8px;text-align:left}
+.stk{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
+/* FAB */
+body.pt [data-act=rnew]:not(.slot){display:none!important}.fab{display:none;position:absolute;right:14px;bottom:84px;z-index:5;width:56px;height:56px;border-radius:50%;background:var(--acc);color:#fff;border:0;box-shadow:0 6px 18px #0004;cursor:pointer;place-items:center}
+@media(max-width:759px){.fab{display:grid}}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:#eceafd}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+#npop{position:absolute;right:8px;top:100%;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #18181b4d;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:#eceafd}
+/* modal e gaveta */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#18181bcc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:780px}
+.modal.dr{justify-content:flex-end;align-items:stretch;padding:0}
+.mbox.dr{max-width:540px;height:100%;max-height:100dvh;border-radius:16px 0 0 16px}
+@media(max-width:600px){.mbox.dr{border-radius:0;max-width:none}}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal:not(.dr){align-items:flex-end;padding:0}.modal:not(.dr) .mbox{border-radius:16px 16px 0 0;max-height:94dvh}}
+.dl2{display:grid;grid-template-columns:120px 1fr;gap:6px 10px;margin:8px 0;font-size:14px}.dl2 dt{color:var(--tx2)}.dl2 dd{margin:0}
+.sec{border-top:1px solid var(--bd);margin-top:14px;padding-top:10px}
+.sec h3{margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.li{display:flex;gap:8px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding:6px 0;font-size:14px}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--bd)}
+.tl li{position:relative;padding:0 0 10px 10px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--pri)}
+#busy{position:fixed;inset:0;z-index:80;background:#18181b66;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0006}
+.spin{width:24px;height:24px;border:3px solid #d2d0f5;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-right-color:var(--pri)}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:84px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(min-width:701px){#toasts{bottom:22px}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0006}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast .ib{color:#fff;width:40px;height:40px}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* relatório */
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+.doc .sg{border-top:1px solid #000;margin-top:34px;padding-top:4px;max-width:320px}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body>*{display:none!important}
+ body>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}.doc{border:0;padding:0}
+}
+
+/* shell com trilho */
+.shell{flex:1;min-height:0;display:flex}
+.rail{flex:none;width:76px;background:#fff;border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:4px;padding:8px 6px;overflow-y:auto}
+.rail button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;border-radius:12px;padding:8px 2px;cursor:pointer;color:var(--tx2);font-size:11px;min-height:56px;line-height:1.1}
+.rail button:hover{background:#eeeef8}
+.rail button[aria-current=page]{background:#eceafd;color:var(--pri);font-weight:700}
+#screen{flex:1;min-width:0}
+@media(max-width:759px){.shell{flex-direction:column-reverse}.rail{width:auto;flex-direction:row;border-right:0;border-top:1px solid var(--bd);padding:4px;justify-content:space-around;overflow-x:auto}.rail button{flex:1;min-width:58px}.hn{display:none!important}#screen{padding-bottom:16px}}
+.late{color:var(--bad);font-weight:700}
+/* agenda */
+.agbar{display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin:8px 0}
+.agbar .nav{display:flex;gap:6px;align-items:center}
+.agbar .dt{font-weight:700;min-width:170px;text-align:center}
+.seg{display:inline-flex;border:1px solid #8a87a0;border-radius:10px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed=true]{background:var(--pri);color:#fff}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin:6px 0}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px}
+.tlw{overflow-x:auto;background:#fff;border:1px solid var(--bd);border-radius:12px}
+.tl2{min-width:880px;position:relative}
+.tlh,.tlr{display:grid;grid-template-columns:190px 1fr}
+.tlh{background:#eeeef8;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2);position:sticky;top:0;z-index:3}
+.tlh .lab,.tlr .lab{position:sticky;left:0;z-index:2;background:inherit;padding:8px 10px;border-right:1px solid var(--bd)}
+.tlr{border-bottom:1px solid var(--bd);min-height:62px}
+.tlr .lab{background:#fff;display:flex;flex-direction:column;gap:2px;font-size:13px}
+.tlr .lab b{font-size:14px}
+.tlr.off{opacity:.55}
+.ticks{position:relative;height:30px}
+.ticks span{position:absolute;top:6px;transform:translateX(-50%);white-space:nowrap}
+.ticks span.l{transform:none}
+.track{position:relative;min-height:62px;background-image:linear-gradient(to right,#e6e6f2 1px,transparent 1px);background-size:var(--cell,5.5555%) 100%}
+.slot{position:absolute;top:0;bottom:0;border:0;background:none;cursor:pointer;padding:0}
+.slot:hover{background:#4338ca12}
+.blk{position:absolute;top:8px;bottom:8px;border-radius:8px;border:2px solid transparent;color:#fff;font-size:12px;padding:3px 6px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:left;cursor:pointer;z-index:1;line-height:1.2;min-width:6px}
+.blk.sol{background:repeating-linear-gradient(45deg,#fff3c4,#fff3c4 6px,#fde08a 6px,#fde08a 12px);color:#4a3300;border-color:#c98a00}
+.blk.apr{background:#0f766e}
+.blk.uso{background:#4338ca}
+.blk.dev{background:#71717a}
+.blk.bq{background:repeating-linear-gradient(135deg,#d4d4d8,#d4d4d8 6px,#e4e4e7 6px,#e4e4e7 12px);color:#27272a;border-color:#71717a}
+.blk.mine{outline:3px solid #be123c;outline-offset:1px}
+.blk.msk{background:#a1a1aa;color:#fff;cursor:default}.blk.lt{border-color:#be123c;border-style:dashed}.blk.sel{box-shadow:0 0 0 3px #f59e0b}
+.nowl{position:absolute;top:0;bottom:0;width:2px;background:#be123c;z-index:2;pointer-events:none}
+.nowl::before{content:"agora";position:absolute;top:-1px;left:3px;font-size:10px;color:#be123c;font-weight:700;background:#fff;padding:0 2px}
+.dtab{margin-top:10px}
+/* folha inferior */
+.modal.sheet{align-items:flex-end;padding:0}
+.mbox.sheet{max-width:760px;border-radius:18px 18px 0 0;max-height:90dvh}
+.mbox.sheet::before{content:"";display:block;width:44px;height:5px;border-radius:3px;background:#c4c4d6;margin:-6px auto 10px}
+.sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0}
+.sum div{background:#f4f4fb;border-radius:10px;padding:8px 10px;font-size:13px}.sum b{display:block;font-size:15px}
+.chk{display:grid;gap:4px;margin:8px 0;font-size:14px}
+.chk div{display:flex;gap:8px;align-items:flex-start}
+.chk .ok{color:var(--ok)}.chk .no{color:var(--bad)}.chk .wr{color:var(--warn)}
+.fuel{display:inline-flex;gap:3px;vertical-align:middle}.fuel i{width:10px;height:14px;border-radius:2px;background:#d4d4d8}.fuel i.on{background:var(--pri)}
+.pplist{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
+.pplist li{display:flex;gap:10px;align-items:center;border:1px solid var(--bd);border-radius:12px;padding:8px 10px;background:#fff}
+.persons{display:grid;gap:8px;margin:12px 0;max-height:46dvh;overflow:auto}
+.prs{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:56px;width:100%}
+.prs small{display:block;color:var(--tx2);font-size:12px}
+.prs[aria-pressed=true]{border-color:var(--pri);background:#eceafd}
+.pgr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:8px 0 2px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3zM7 19v2M17 19v2"/><circle cx="8" cy="13.5" r=".6"/><circle cx="16" cy="13.5" r=".6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3M14 9l2 2"/></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14 6a4 4 0 0 0 5 5l-9 9a2.1 2.1 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-6"/></symbol>
+<symbol id="i-fuel" viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M4 21h12M15 9h2a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V8l-3-3"/><path d="M8 8h4"/></symbol>
+</svg>
+
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Empresa fictícia “Orla Serviços”.</span>
+  <div class="sim">
+    <label>Usuário <select id="perfil" aria-label="Usuário simulado"></select></label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Reserva de veículos da frota</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">Veja a agenda de cada carro, reserve sem conflito de horário e registre retirada e devolução com km e combustível.</p>
+      <ul class="fl" id="cvlist"></ul>
+      <ol class="steps" id="cvsteps" aria-label="Fluxo da reserva"></ol>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso ao aplicativo</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Escolha quem está entrando. Nenhum dado é enviado.</p>
+      <div class="persons" id="cvp" role="group" aria-label="Usuário de acesso"></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted sm" style="margin:12px 0 0">Depois de entrar, o seletor Usuário no topo da página troca de pessoa.</p>
+    </div>
+  </div>
+</section>
+
+<div id="stage" hidden>
+  <div id="app">
+    <header class="hdr" id="hdr"></header>
+    <div class="shell">
+      <nav class="rail" id="rail" aria-label="Navegação principal"></nav>
+      <main id="screen" tabindex="-1"></main>
+    </div>
+    <button class="fab" data-act="rnew" aria-label="Nova reserva"></button>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const p2=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const addDias=n=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return iso(d)};
+const addTo=(s,n)=>{const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const fmt=s=>s?s.slice(0,10).split("-").reverse().join("/"):"—";
+const fmtH=s=>s?s.slice(11,16):"";
+const fmtDT=s=>s?s.slice(8,10)+"/"+s.slice(5,7)+" "+s.slice(11,16):"—";
+const fmtDTL=s=>s?fmt(s)+" "+fmtH(s):"—";
+const TD=s=>new Date(s.length===10?s+"T00:00":s);
+const tiso=d=>iso(d)+"T"+p2(d.getHours())+":"+p2(d.getMinutes());
+const nowS=()=>tiso(new Date());
+const addMin=(s,m)=>tiso(new Date(TD(s).getTime()+m*6e4));
+const minDiff=(a,b)=>Math.round((TD(b)-TD(a))/6e4);
+const overlap=(a1,a2,b1,b2)=>a1<b2&&a2>b1;
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const ini=n=>n.split(/\s+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase();
+const num=v=>String(v).replace(".",",");
+const nf=v=>Number(v).toLocaleString("pt-BR");
+const durTxt=m=>{const h=Math.floor(m/60),mm=m%60;return h>=24?Math.floor(h/24)+" d "+(h%24?(h%24)+" h":""):h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const wkStart=s=>{const d=new Date(s+"T12:00:00");const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d)};
+const DSEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+/* ===== Dados fictícios ===== */
+let _s=33321;const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+const SETORES=["Administração","Comercial","Obras","Atendimento","Manutenção"];
+const PERFIS=["Administrador","Gestor de Frota","Chefia","Portaria","Condutor"];
+const PDESC={Administrador:"Cadastros, usuários e todas as reservas","Gestor de Frota":"Aprova qualquer reserva, cuida da frota e dos bloqueios",Chefia:"Aprova reservas do próprio setor",Portaria:"Registra retirada e devolução dos veículos",Condutor:"Solicita e acompanha as próprias reservas"};
+const CATS=["Carro","Utilitário","Picape","Van","Moto","Caminhão"];
+const CNHREQ={Carro:"B",Utilitário:"B",Picape:"B",Van:"D",Moto:"A",Caminhão:"C"};
+const COVERS={A:["A"],B:["B"],C:["B","C"],D:["B","C","D"],E:["B","C","D","E"]};
+const VEIC=[
+ ["VX-01","QRS4F21","Hatch compacto","Carro",5,38210,40000],["VX-02","QRS5G32","Hatch compacto","Carro",5,52780,55000],
+ ["VX-03","RTA2B14","Sedã médio","Carro",5,21640,30000],["VX-04","RTA3C25","Sedã médio","Carro",5,67910,68300],
+ ["VX-05","UTL1D36","Utilitário compacto","Utilitário",5,44100,50000],["VX-06","UTL2E47","Utilitário compacto","Utilitário",5,12480,20000],
+ ["VX-07","PKP3H58","Picape cabine dupla","Picape",5,73250,80000],["VX-08","PKP4J69","Picape cabine dupla","Picape",5,29900,40000],
+ ["VX-09","VAN5K71","Van de passageiros","Van",15,58300,60000],["VX-10","VAN6L82","Van executiva","Van",9,33120,40000],
+ ["VX-11","MTO7M93","Moto 160 cc","Moto",1,9870,12000],["VX-12","CMN8N04","Caminhão leve baú","Caminhão",3,81500,90000]
+].map(([id,placa,modelo,cat,lug,odo,rev])=>({id,placa,modelo,cat,lug,odo,rev,ativo:id!=="VX-12"}));
+const USERS=[
+ ["u1","Marina Cavalcante","Administrador","Administração","B",400],["u2","Rui Tavares","Gestor de Frota","Administração","B",300],
+ ["u3","Dália Nogueira","Chefia","Comercial","B",350],["u4","Heitor Brandão","Chefia","Obras","B",260],
+ ["u5","Cleber Pinto","Portaria","Administração","",0],["u6","Ana Beatriz Lopes","Condutor","Comercial","B",300],
+ ["u7","Marcos Vinícius Teles","Condutor","Obras","C",200],["u8","Fernanda Ribeiro","Condutor","Administração","B",18],
+ ["u9","Jair Moreira","Condutor","Obras","D",500],["u10","Larissa Peixoto","Condutor","Atendimento","B",250],
+ ["u11","Caio Siqueira","Condutor","Manutenção","A,B",150],["u12","Sônia Valadares","Condutor","Atendimento","B",-12],
+ ["u13","Otávio Nery","Condutor","Comercial","B",220]
+].map(([id,nome,perfil,setor,cnh,d])=>({id,nome,perfil,setor,cnh,cnhVal:cnh?addDias(d):"",email:nome.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g,".")+"@orla.example",ativo:id!=="u13"}));
+const RES0=[
+ ["VX-01","u6",-9,"08:00",-9,"17:00","Cliente Delta (visita)","Visita comercial",2,"Devolvida"],
+ ["VX-03","u10",-8,"09:00",-8,"12:30","Cartório central","Protocolo de documentos",1,"Devolvida"],
+ ["VX-05","u7",-7,"07:30",-6,"18:00","Obra Norte","Vistoria de canteiro",3,"Devolvida"],
+ ["VX-09","u9",-6,"06:30",-6,"20:00","Obra Sul","Transporte de equipe",12,"Devolvida"],
+ ["VX-02","u8",-5,"13:00",-5,"17:00","Banco regional","Reunião externa",2,"Devolvida"],
+ ["VX-11","u11",-4,"08:00",-4,"12:00","Centro da cidade","Entrega de documentos",1,"Devolvida"],
+ ["VX-04","u6",-3,"09:00",-3,"16:00","Cliente Beta","Apresentação de proposta",2,"Devolvida"],
+ ["VX-08","u7",-12,"07:00",-11,"17:00","Obra Leste","Fiscalização",3,"Devolvida"],
+ ["VX-10","u9",-10,"06:30",-10,"13:00","Aeroporto","Transporte de visitantes",6,"Devolvida"],
+ ["VX-06","u10",-2,"10:00",-2,"12:00","Escola municipal","Visita de atendimento",2,"Recusada"],
+ ["VX-02","u6",-3,"08:00",-3,"12:00","Cliente Gama","Visita",2,"Cancelada"],
+ ["VX-07","u7",-1,"08:00",1,"18:00","Obra Norte","Inspeção semanal",3,"Em uso"],
+ ["VX-05","u6",-1,"09:00",-1,"17:00","Fornecedor Sigma","Retirada de amostras",2,"Em uso"],
+ ["VX-03","u8",0,"06:00",0,"23:00","Matriz regional","Visita institucional",2,"Aprovada"],
+ ["VX-01","u6",0,"14:00",0,"18:00","Cliente Delta","Reunião de contrato",2,"Aprovada"],
+ ["VX-04","u6",1,"14:00",1,"18:00","Cliente Beta","Entrega de contrato",2,"Aprovada"],
+ ["VX-11","u11",1,"08:00",1,"10:00","Agência postal","Postagem de lote",1,"Aprovada"],
+ ["VX-10","u9",2,"06:30",2,"12:00","Obra Sul","Transporte de equipe",8,"Aprovada"],
+ ["VX-08","u7",3,"07:00",4,"17:00","Obra Leste","Fiscalização",3,"Aprovada"],
+ ["VX-01","u10",5,"09:00",5,"12:00","Prefeitura","Reunião de convênio",2,"Aprovada"],
+ ["VX-03","u6",6,"08:00",6,"17:00","Cliente Gama","Visita técnica",2,"Aprovada"],
+ ["VX-09","u9",4,"07:00",4,"19:00","Obra Sul","Transporte de equipe",10,"Solicitada"],
+ ["VX-02","u6",1,"09:00",1,"13:00","Cliente Gama","Visita comercial",2,"Solicitada"],
+ ["VX-06","u10",1,"07:00",3,"17:00","Posto de atendimento oeste","Mobilização de equipe de campo",3,"Solicitada"],
+ ["VX-01","u11",1,"10:00",1,"12:00","Centro de treinamento","Treinamento externo",2,"Solicitada"],
+ ["VX-03","u8",2,"08:00",2,"12:00","Cartório central","Registro de contrato",1,"Solicitada"]
+];
+const RES=[];let resSeq=2000;
+(function seed(){
+ RES0.forEach(([veic,cond,d0,h0,d1,h1,destino,motivo,pass,status])=>{
+  const u=USERS.find(x=>x.id===cond);const r={id:"R-"+(++resSeq),veic,cond,setor:u.setor,ini:addDias(d0)+"T"+h0,fim:addDias(d1)+"T"+h1,destino,motivo,pass,status,hist:[],kmS:null,kmC:null,cbS:null,cbC:null,avaria:"",aprov:"",motivoRec:"",atraso:false};
+  const cria=addMin(r.ini,-ri(1500,4000));r.hist.push(["Solicitada",cond,cria,""]);
+  if(status!=="Solicitada"&&status!=="Recusada"&&status!=="Cancelada"){r.aprov=u.setor==="Comercial"?"u3":"u2";r.hist.push(["Aprovada",r.aprov,addMin(cria,ri(30,300)),""])}
+  if(status==="Recusada"){r.motivoRec="Veículo reservado para outra demanda prioritária.";r.hist.push(["Recusada","u2",addMin(cria,120),r.motivoRec])}
+  if(status==="Cancelada"){r.motivoRec="Visita adiada pelo cliente.";r.hist.push(["Cancelada",cond,addMin(cria,600),r.motivoRec])}
+  if(status==="Em uso"||status==="Devolvida"){r.hist.push(["Em uso","u5",r.ini,"Retirada registrada."]);r.cbS=ri(3,4)}
+  if(status==="Devolvida"){r.hist.push(["Devolvida","u5",r.fim,""]);r.cbC=ri(2,4)}
+  RES.push(r)});
+ (function hist(){const used=new Set();const pool={Carro:["u6","u8","u10","u11","u7","u9"],Utilitário:["u6","u8","u10","u11","u7","u9"],Picape:["u6","u8","u10","u7","u9"],Van:["u9"],Moto:["u11"]};
+  const dest=["Cliente Delta","Cliente Beta","Cliente Gama","Obra Norte","Obra Sul","Obra Leste","Cartório central","Banco regional","Prefeitura","Fornecedor Sigma"],mot=["Visita comercial","Vistoria","Reunião externa","Entrega de documentos","Fiscalização","Transporte de equipe"];
+  VEIC.filter(v=>v.ativo&&pool[v.cat]).forEach(v=>{let d=-85;while(d<-14){d+=ri(2,6);if(d>=-14)break;const p=pool[v.cat];let cond=null;for(let k=0;k<6;k++){const c=p[ri(0,p.length-1)];if(!used.has(c+d)){cond=c;break}}if(!cond)continue;used.add(cond+d);const u=USERS.find(x=>x.id===cond);const h0=pick8();
+   const r={id:"R-"+(++resSeq),veic:v.id,cond,setor:u.setor,ini:addDias(d)+"T"+h0,fim:addDias(d)+"T"+p2(+h0.slice(0,2)+ri(3,9))+":00",destino:dest[ri(0,dest.length-1)],motivo:mot[ri(0,mot.length-1)],pass:Math.min(v.lug,ri(1,3)),status:"Devolvida",hist:[],kmS:null,kmC:null,cbS:ri(3,4),cbC:ri(2,4),avaria:"",aprov:u.setor==="Comercial"?"u3":"u2",motivoRec:"",atraso:ri(0,9)===0};
+   r.hist.push(["Solicitada",cond,addMin(r.ini,-3000),""],["Aprovada",r.aprov,addMin(r.ini,-2800),""],["Em uso","u5",r.ini,"Retirada registrada."],["Devolvida","u5",r.fim,r.atraso?"Sem ocorrências. Devolvida com atraso.":"Sem ocorrências."]);RES.push(r)}});
+  function pick8(){return p2(ri(6,12))+":"+(ri(0,1)?"00":"30")}})();
+ VEIC.forEach(v=>{let cur=v.odo;const emuso=RES.find(r=>r.veic===v.id&&r.status==="Em uso");if(emuso){emuso.kmS=v.odo}
+  RES.filter(r=>r.veic===v.id&&r.status==="Devolvida").sort((a,b)=>b.ini.localeCompare(a.ini)).forEach(r=>{r.kmC=cur;const d=ri(18,140);r.kmS=cur-d;cur=r.kmS-ri(5,60)});
+  });
+ const rd=RES.find(r=>r.veic==="VX-05"&&r.status==="Devolvida");if(rd)rd.avaria="Arranhão leve no para-choque traseiro.";
+ resSeq=RES.length+2000;
+})();
+const BQ=[
+ {id:"B-1",veic:"VX-04",ini:addDias(3)+"T07:00",fim:addDias(3)+"T18:00",motivo:"Revisão programada"},
+ {id:"B-2",veic:"VX-06",ini:addDias(5)+"T08:00",fim:addDias(6)+"T17:00",motivo:"Funilaria e pintura"}
+];
+/* ===== Estado ===== */
+const S={logged:false,uid:"u1",perfil:"Administrador",tela:"agenda",ppc:false,notifs:[],busy:false,res:RES,bq:BQ,seq:resSeq,bseq:3,
+ date:addDias(0),view:"dia",fcat:"",fq:"",rfl:"Todas",rq:"",rveic:"",rsetor:"",sub:"veic",per:90,uq:"",cv:"u1",back:null,sel:null};
+const R=id=>S.res.find(r=>r.id===id);
+const V1=id=>VEIC.find(v=>v.id===id);
+const U=id=>USERS.find(u=>u.id===id);
+const user=()=>U(S.uid)||USERS[0];
+const me=()=>user().nome;
+const CAPS={cadFrota:["Administrador","Gestor de Frota"],bloqueio:["Administrador","Gestor de Frota"],delRes:["Administrador"],users:["Administrador"],ind:["Administrador","Gestor de Frota","Chefia"],portaria:["Administrador","Gestor de Frota","Portaria"],terceiros:["Administrador","Gestor de Frota","Chefia"]};
+const can=k=>CAPS[k].includes(S.perfil);
+const ROLES={Administrador:["agenda","reservas","frota","ind","usuarios"],"Gestor de Frota":["agenda","reservas","frota","ind"],Chefia:["agenda","reservas","ind"],Portaria:["agenda","reservas"],Condutor:["agenda","reservas"]};
+const NAV={agenda:["cal","Agenda"],reservas:["key","Reservas"],frota:["car","Frota"],ind:["chart","Indicadores"],usuarios:["users","Usuários"]};
+function setUser(id){const u=U(id);S.uid=u.id;S.perfil=u.perfil;$("#perfil").value=u.id}
+const ST=["Solicitada","Aprovada","Em uso","Devolvida","Recusada","Cancelada"];
+const stC=s=>({"Solicitada":"t-warn","Aprovada":"t-pri","Em uso":"t-info","Devolvida":"t-ok","Recusada":"t-bad","Cancelada":"t-na"}[s]);
+const stI={"Solicitada":"clock","Aprovada":"check","Em uso":"key","Devolvida":"back","Recusada":"x","Cancelada":"x"};
+const tag=s=>`<span class="tag ${stC(s)}">${ic(stI[s])}${esc(s)}</span>`;
+const ativoRes=r=>r.status==="Aprovada"||r.status==="Em uso";
+const ocupa=r=>r.status==="Solicitada"||r.status==="Aprovada"||r.status==="Em uso";
+const fimPend=r=>r.status==="Em uso"&&r.fim<nowS();
+const naoRet=r=>r.status==="Aprovada"&&r.fim<nowS();
+const needsGestor=r=>{const v=V1(r.veic);return (v&&v.cat==="Van")||minDiff(r.ini,r.fim)>1440};
+function canSee(r){const p=S.perfil;if(p==="Administrador"||p==="Gestor de Frota"||p==="Portaria")return true;if(r.cond===S.uid)return true;return p==="Chefia"&&r.setor===user().setor}
+function canApprove(r){if(r.status!=="Solicitada"||r.cond===S.uid||(r.hist[0]&&r.hist[0][1]===S.uid))return false;const p=S.perfil;if(p==="Administrador"||p==="Gestor de Frota")return true;return p==="Chefia"&&r.setor===user().setor&&!needsGestor(r)}
+const canCancel=r=>(r.status==="Solicitada"||r.status==="Aprovada")&&(r.cond===S.uid||S.perfil==="Administrador"||S.perfil==="Gestor de Frota");
+const canEdit=r=>r.status==="Solicitada"&&(r.cond===S.uid||S.perfil==="Administrador"||S.perfil==="Gestor de Frota");
+const canOut=r=>r.status==="Aprovada"&&can("portaria");
+const canRet=r=>r.status==="Em uso"&&can("portaria");
+const canDel=r=>can("delRes")&&(r.status==="Recusada"||r.status==="Cancelada");
+const visRes=()=>S.res.filter(canSee);
+const kpi=(i,v,l,c="")=>`<div class="kpi ${c}"><span class="kic">${ic(i)}</span><div><b>${v}</b><small>${l}</small></div></div>`;
+const empty=(i,m)=>`<div class="card empty">${ic(i)}<div>${m}</div></div>`;
+function veicSit(v){if(!v.ativo)return["Inativo","t-na"];const n=nowS();if(S.res.some(r=>r.veic===v.id&&r.status==="Em uso"))return["Em uso","t-info"];if(S.bq.some(b=>b.veic===v.id&&b.ini<=n&&b.fim>=n))return["Em manutenção","t-warn"];if(S.res.some(r=>r.veic===v.id&&r.status==="Aprovada"&&r.ini<=n&&r.fim>=n))return["Reservado agora","t-pri"];return["Disponível","t-ok"]}
+const covers=(cnh,cat)=>{const need=CNHREQ[cat];return cnh.split(",").map(x=>x.trim()).filter(Boolean).some(c=>(COVERS[c]||[]).includes(need))};
+/* ===== Notificações, avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),t==="err"?9000:5500)}
+function pushTo(uid,m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true,u:uid})}
+function notifyTo(uid,m,t="info"){pushTo(uid,m,t);if(uid===S.uid)renderHdr()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){const hadSheet=!!$("#modal .sheet");if(hadSheet&&S.sel)S.back=S.sel;lastFocus=lastFocus&&document.contains(lastFocus)?lastFocus:document.activeElement;$("#modal").innerHTML=html;const m=$("#modal");const f=m.querySelector("[autofocus]")||m.querySelector(".mbox .in")||m.querySelector("button");["#cover","#app","#pp",".banner"].forEach(s=>{const e=$(s);if(e)e.inert=true});if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";S.sel=null;["#cover","#app","#pp",".banner"].forEach(s=>{const e=$(s);if(e)e.inert=false});if(S.logged)$("#pp").innerHTML=ppPanel();if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else{const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}lastFocus=null}
+function cancelModal(){const b=S.back;S.back=null;closeModal();if(b&&R(b))abrirR(b)}
+function confirmar(msg,okLabel,fn){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions"><button class="btn sec" data-act="closemodal" autofocus>Cancelar</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{const b=S.back;S.back=null;closeModal();fn(b)}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}" aria-describedby="ferr">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}" aria-describedby="ferr">${esc(v)}</textarea>`;
+ else c=`<input class="in" aria-describedby="ferr" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.step?`step="${f.step}"`:""} ${f.min!=null?`min="${f.min}"`:""} ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}${f.hint?`<div class="muted sm">${esc(f.hint)}</div>`:""}`}
+function collect(fields){const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});return v}
+function missing(fields,v){const miss=fields.filter(f=>f.req&&!v[f.id]);if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return true}return false}
+function formModal({title,fields,validate,save,msg,ok="Salvar",done,extra="",sheet}){
+ openModal(`<div class="modal ${sheet?"sheet":""}"><form class="mbox ${sheet?"sheet":""}" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}${extra}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v=collect(fields);if(missing(fields,v))return;
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  busy("Gravando…",()=>{const b=S.back;S.back=null;save(v);closeModal();toast(msg||"Salvo com sucesso.");if(done)done(v);if(b&&R(b))abrirR(b);render(false)})})}
+/* ===== Regras de reserva ===== */
+const CBL=["Vazio","1/4","1/2","3/4","Cheio"];
+const fuel=n=>n==null?"—":`<span class="fuel" role="img" aria-label="Combustível: ${CBL[n]}">${[1,2,3,4].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</span> ${CBL[n]}`;
+const short=n=>{const p=n.split(/\s+/);return p[0]+(p.length>1?" "+p[p.length-1][0]+".":"")};
+function valida(d,self,o={}){
+ const E=[],W=[],OK=[];const v=V1(d.veic),u=U(d.cond);
+ if(!d.ini||!d.fim){E.push("Informe data e hora de início e de fim.");return{E,W,OK}}
+ if(d.fim<=d.ini){E.push("O fim precisa ser depois do início.");return{E,W,OK}}
+ if(d.ini.slice(11)<"06:00"||d.ini.slice(11)>"22:00"||d.fim.slice(11)<"06:00"||d.fim.slice(11)>"22:00"){E.push("Saída e retorno devem ficar entre 06:00 e 22:00, horário da portaria.");return{E,W,OK}}
+ const m=minDiff(d.ini,d.fim);
+ if(m<30)E.push("Duração mínima de 30 minutos.");
+ if(m>14400)E.push("Duração máxima de 10 dias.");
+ if(!o.noPast){const old=self?R(self):null;if((!old||old.ini!==d.ini)&&d.ini<addMin(nowS(),-60))E.push("O início não pode estar no passado.")}
+ if(!v){E.push("Escolha um veículo.");return{E,W,OK}}
+ if(!u){E.push("Escolha o condutor.");return{E,W,OK}}
+ if(!v.ativo)E.push("O veículo "+v.id+" está inativo.");
+ if(v.odo>=v.rev)E.push("Revisão vencida no veículo "+v.id+" (odômetro "+nf(v.odo)+" km, revisão em "+nf(v.rev)+" km). Agende manutenção.");
+ else if(v.rev-v.odo<=500)W.push("Revisão do veículo em "+nf(v.rev-v.odo)+" km.");
+ if(!(d.pass>=1))E.push("Informe ao menos 1 passageiro (contando o condutor).");
+ else if(d.pass>v.lug)E.push("Lotação excedida: "+d.pass+" pessoa(s) para "+v.lug+" lugar(es).");else OK.push("Lotação: "+d.pass+" de "+v.lug+" lugares.");
+ if(!u.ativo)E.push("O condutor "+u.nome+" está inativo.");
+ if(!u.cnh)E.push(u.nome+" não tem CNH cadastrada.");
+ else if(u.cnhVal<d.fim.slice(0,10))E.push("CNH de "+short(u.nome)+" "+(u.cnhVal<hoje()?"vencida em ":"vence em ")+fmt(u.cnhVal)+", antes do fim da viagem.");
+ else if(!covers(u.cnh,v.cat))E.push("Categoria da CNH ("+u.cnh+") não habilita "+v.cat.toLowerCase()+" (exige "+CNHREQ[v.cat]+").");
+ else OK.push("CNH "+u.cnh+" válida até "+fmt(u.cnhVal)+".");
+ S.bq.filter(b=>b.veic===v.id&&overlap(b.ini,b.fim,d.ini,d.fim)).forEach(b=>E.push("Veículo em manutenção ("+b.motivo+") de "+fmtDT(b.ini)+" a "+fmtDT(b.fim)+"."));
+ const cf=S.res.filter(r=>r.id!==self&&r.veic===v.id&&ativoRes(r)&&overlap(r.ini,r.fim,d.ini,d.fim));
+ cf.forEach(r=>E.push("Conflito com a reserva "+r.id+" ("+r.status.toLowerCase()+", "+fmtDT(r.ini)+" a "+fmtDT(r.fim)+")."));
+ const pend=S.res.filter(r=>r.id!==self&&r.veic===v.id&&r.status==="Solicitada"&&overlap(r.ini,r.fim,d.ini,d.fim));
+ if(pend.length)W.push(pend.length+" solicitação(ões) pendente(s) neste horário ("+pend.map(r=>r.id).join(", ")+"). A primeira aprovada fica com o veículo.");
+ S.res.filter(r=>r.id!==self&&r.cond===u.id&&ocupa(r)&&overlap(r.ini,r.fim,d.ini,d.fim)).forEach(r=>E.push(short(u.nome)+" já tem a reserva "+r.id+" nesse período."));
+ if(!E.length&&!cf.length&&!S.bq.some(b=>b.veic===v.id&&overlap(b.ini,b.fim,d.ini,d.fim)))OK.unshift("Veículo livre no período ("+durTxt(m)+").");
+ return{E,W,OK}}
+function chkHTML(x){return [...x.E.map(t=>`<div class="no">${ic("x")}<span>${esc(t)}</span></div>`),...x.W.map(t=>`<div class="wr">${ic("alert")}<span>${esc(t)}</span></div>`),...x.OK.map(t=>`<div class="ok">${ic("check")}<span>${esc(t)}</span></div>`)].join("")}
+const hoje=()=>addDias(0);
+function aprovadores(r){const sol=r.hist&&r.hist[0]?r.hist[0][1]:null;return aprovadores0(r).filter(u=>u.id!==sol&&u.id!==r.cond)}
+function aprovadores0(r){const L=USERS.filter(u=>u.ativo&&u.perfil==="Gestor de Frota");if(!needsGestor(r)){const c=USERS.filter(u=>u.ativo&&u.perfil==="Chefia"&&u.setor===r.setor);return c.concat(L)}return L}
+function condsPossiveis(){const p=S.perfil;let L=USERS.filter(u=>u.ativo&&u.cnh);if(p==="Condutor"||p==="Portaria")L=L.filter(u=>u.id===S.uid);else if(p==="Chefia")L=L.filter(u=>u.setor===user().setor);return L}
+function rForm(r,pre={}){
+ let cs=condsPossiveis();if(r&&!cs.some(u=>u.id===r.cond))cs=cs.concat(U(r.cond));if(!cs.length){toast("Seu usuário não tem CNH cadastrada para reservar.","err");return}
+ const ini0=r?r.ini:(pre.t||addDias(1)+"T09:00");const fim0=r?r.fim:addMin(ini0,240);
+ const vs=VEIC.filter(v=>v.ativo||(r&&r.veic===v.id));
+ const fields=[
+  {id:"cond",label:"Condutor",type:"select",options:cs.map(u=>[u.id,u.nome+" · "+u.setor]),value:r?r.cond:(cs.some(u=>u.id===S.uid)?S.uid:cs[0].id),req:true},
+  {id:"veic",label:"Veículo",type:"select",options:vs.map(v=>[v.id,v.id+" · "+v.placa+" · "+v.modelo+" ("+v.lug+" lug.)"]),value:r?r.veic:(pre.v||vs[0].id),req:true},
+  {id:"di",label:"Data de saída",type:"date",value:ini0.slice(0,10),req:true},{id:"hi",label:"Hora de saída",type:"time",value:ini0.slice(11,16),req:true},
+  {id:"df",label:"Data de retorno",type:"date",value:fim0.slice(0,10),req:true},{id:"hf",label:"Hora de retorno",type:"time",value:fim0.slice(11,16),req:true},
+  {id:"pass",label:"Pessoas no veículo (com o condutor)",type:"number",value:r?String(r.pass):"1",min:1,req:true},
+  {id:"destino",label:"Destino",value:r?r.destino:"",ph:"Ex.: Cliente Delta",req:true},
+  {id:"motivo",label:"Motivo da viagem",type:"textarea",value:r?r.motivo:"",req:true}];
+ const get=()=>{const g=id=>$("#f_"+id).value;return{cond:g("cond"),veic:g("veic"),ini:g("di")&&g("hi")?g("di")+"T"+g("hi"):"",fim:g("df")&&g("hf")?g("df")+"T"+g("hf"):"",pass:+g("pass")}};
+ const upd=()=>{const d=get();const x=valida(d,r?r.id:null);$("#vchk").innerHTML=chkHTML(x);const ve=V1(d.veic);const vr=ve?{...d,veic:ve.id,setor:(U(d.cond)||{}).setor}:null;$("#vrot").textContent=vr&&d.ini&&d.fim&&d.fim>d.ini?(needsGestor(vr)?"Esta reserva exige aprovação do Gestor de Frota ("+(ve.cat==="Van"?"van":"mais de 24 h")+").":"Esta reserva será aprovada pela chefia do setor ou pelo Gestor de Frota."):""};
+ formModal({title:r?"Editar reserva "+r.id:"Nova reserva",fields,ok:r?"Salvar alterações":"Solicitar reserva",sheet:true,
+  extra:`<div class="muted sm" id="vrot" style="margin-top:8px"></div><div class="chk" id="vchk" role="status" aria-live="polite" aria-label="Conferência da reserva"></div>`,
+  validate:v=>{const d=get();const x=valida(d,r?r.id:null);return x.E[0]||""},
+  save:v=>{const d=get();const u=U(d.cond);
+   if(r){Object.assign(r,{cond:d.cond,setor:u.setor,veic:d.veic,ini:d.ini,fim:d.fim,pass:d.pass,destino:v.destino,motivo:v.motivo});r.hist.push(["Solicitada",S.uid,nowS(),"Reserva editada."])}
+   else{const n={id:"R-"+(++S.seq),veic:d.veic,cond:d.cond,setor:u.setor,ini:d.ini,fim:d.fim,destino:v.destino,motivo:v.motivo,pass:d.pass,status:"Solicitada",hist:[["Solicitada",S.uid,nowS(),d.cond!==S.uid?"Solicitada em nome de "+u.nome+".":""]],kmS:null,kmC:null,cbS:null,cbC:null,avaria:"",aprov:"",motivoRec:"",atraso:false};
+    S.res.push(n);aprovadores(n).forEach(a=>notifyTo(a.id,"Nova solicitação "+n.id+": "+V1(n.veic).placa+", "+fmtDT(n.ini)+".","info"));if(d.cond!==S.uid)notifyTo(d.cond,"Foi criada a reserva "+n.id+" em seu nome.","info")}},
+  msg:r?"Reserva atualizada.":"Reserva solicitada. A aprovação seguirá a alçada.",done:()=>{}});
+ ["f_cond","f_veic","f_di","f_hi","f_df","f_hf","f_pass"].forEach(id=>{$("#"+id).addEventListener("input",upd);$("#"+id).addEventListener("change",upd)});
+ $("#f_di").addEventListener("change",()=>{if($("#f_df").value<$("#f_di").value){$("#f_df").value=$("#f_di").value}});
+ upd()}
+function nota(t,uid){return [t,uid,nowS()]}
+function aprovar(id){const r=R(id);if(!r||!canApprove(r)){toast("Você não pode aprovar esta reserva.","err");return}
+ busy("Conferindo conflitos…",()=>{const x=valida(r,r.id,{noPast:true});if(x.E.length){toast("Não foi possível aprovar: "+x.E[0],"err");return}
+  r.status="Aprovada";r.aprov=S.uid;r.hist.push(["Aprovada",S.uid,nowS(),""]);
+  S.res.filter(o=>o.id!==r.id&&o.veic===r.veic&&o.status==="Solicitada"&&overlap(o.ini,o.fim,r.ini,r.fim)).forEach(o=>notifyTo(o.cond,"A reserva "+o.id+" disputa horário com a "+r.id+", já aprovada. Aguarde a análise ou ajuste o horário.","warn"));
+  notifyTo(r.cond,"Reserva "+r.id+" aprovada: "+V1(r.veic).placa+", "+fmtDT(r.ini)+".","ok");toast("Reserva "+r.id+" aprovada.");render(false)})}
+function recusarForm(id){const r=R(id);formModal({title:"Recusar "+id,fields:[{id:"m",label:"Motivo da recusa",type:"textarea",req:true}],ok:"Recusar",save:v=>{r.status="Recusada";r.motivoRec=v.m;r.hist.push(["Recusada",S.uid,nowS(),v.m]);notifyTo(r.cond,"Reserva "+r.id+" recusada: "+v.m,"warn")},msg:"Reserva recusada."})}
+function cancelarForm(id){const r=R(id);formModal({title:"Cancelar "+id,fields:[{id:"m",label:"Motivo do cancelamento",type:"textarea",req:true}],ok:"Cancelar reserva",save:v=>{r.status="Cancelada";r.motivoRec=v.m;r.hist.push(["Cancelada",S.uid,nowS(),v.m]);if(r.cond!==S.uid)notifyTo(r.cond,"Reserva "+r.id+" cancelada: "+v.m,"warn")},msg:"Reserva cancelada. O horário foi liberado."})}
+function retiradaForm(id){const r=R(id),v=V1(r.veic);
+ formModal({title:"Retirada · "+id,fields:[{id:"km",label:"Odômetro na saída (km)",type:"number",value:String(v.odo),min:0,req:true,hint:"Último registro do veículo: "+nf(v.odo)+" km."},{id:"cb",label:"Combustível na saída",type:"select",options:CBL.map((l,i)=>[String(i),l]),value:"4",req:true},{id:"ob",label:"Observações da vistoria",type:"textarea",ph:"Opcional: avarias existentes, itens ausentes"}],ok:"Registrar retirada",sheet:true,
+  validate:f=>{const n=nowS();if(n<addMin(r.ini,-60)||n>r.fim)return "Retirada permitida de 60 min antes do início até o fim da reserva ("+fmtDT(r.ini)+" a "+fmtDT(r.fim)+").";if(S.res.some(o=>o.id!==r.id&&o.veic===r.veic&&o.status==="Em uso"))return "O veículo ainda consta como em uso em outra reserva. Registre a devolução antes.";if(v.rev-v.odo<0&&false)return "";if(+f.km>v.odo+3000)return "O odômetro de saída está mais de 3.000 km acima do último registro. Confira o valor digitado.";if(+f.km<v.odo)return "O odômetro de saída não pode ser menor que o último registro ("+nf(v.odo)+" km).";const u=U(r.cond);if(!covers(u.cnh,v.cat))return "A categoria da CNH ("+u.cnh+") não habilita este veículo ("+v.cat+"). Retirada bloqueada.";if(v.ativo===false)return "Veículo inativo. Retirada bloqueada.";if(u.cnhVal<hoje())return "CNH do condutor vencida em "+fmt(u.cnhVal)+". Retirada bloqueada.";if(!v.ativo)return "Veículo inativo.";if(S.bq.some(b=>b.veic===v.id&&overlap(b.ini,b.fim,n,addMin(n,1))))return "Veículo em manutenção neste momento.";return ""},
+  save:f=>{r.status="Em uso";r.kmS=+f.km;r.cbS=+f.cb;r.hist.push(["Em uso",S.uid,nowS(),f.ob||"Retirada registrada."])},msg:"Retirada registrada."})}
+function devolucaoForm(id){const r=R(id),v=V1(r.veic);
+ formModal({title:"Devolução · "+id,fields:[{id:"km",label:"Odômetro na chegada (km)",type:"number",value:String(r.kmS),min:0,req:true,hint:"Saída: "+nf(r.kmS)+" km."},{id:"cb",label:"Combustível na chegada",type:"select",options:CBL.map((l,i)=>[String(i),l]),value:String(r.cbS??4),req:true},{id:"av",label:"Avarias ou ocorrências",type:"textarea",ph:"Deixe em branco se não houve"}],ok:"Registrar devolução",sheet:true,
+  validate:f=>{if(+f.km<r.kmS)return "O odômetro de chegada não pode ser menor que o de saída ("+nf(r.kmS)+" km).";if(+f.km-r.kmS>3000)return "Percurso acima de 3.000 km: confira o odômetro digitado.";return ""},
+  save:f=>{const atraso=nowS()>addMin(r.fim,15);r.status="Devolvida";r.kmC=+f.km;r.cbC=+f.cb;r.avaria=f.av;r.atraso=atraso;v.odo=Math.max(v.odo,+f.km);r.hist.push(["Devolvida",S.uid,nowS(),(f.av?"Avaria: "+f.av:"Sem ocorrências.")+(atraso?" Devolvida com atraso.":"")]);
+   USERS.filter(u=>u.ativo&&u.perfil==="Gestor de Frota").forEach(g=>{if(f.av)notifyTo(g.id,"Avaria informada na devolução de "+v.placa+": "+f.av,"warn");if(v.rev-v.odo<=500)notifyTo(g.id,"Revisão do "+v.placa+" "+(v.odo>=v.rev?"vencida":"em "+nf(v.rev-v.odo)+" km")+".","warn")})},msg:"Devolução registrada. Odômetro do veículo atualizado."})}
+function delRes(id){confirmar("Excluir a reserva "+id+" e o histórico dela?","Excluir",()=>busy("Excluindo…",()=>{S.res=S.res.filter(r=>r.id!==id);toast("Reserva excluída.","info");render(false)}))}
+/* ===== Detalhe (folha inferior) ===== */
+function abrirR(id){const r=R(id);if(!r||!canSee(r))return;const v=V1(r.veic),u=U(r.cond),ap=r.aprov?U(r.aprov):null;S.sel=id;
+ const m=minDiff(r.ini,r.fim);const al=[];
+ if(fimPend(r))al.push(["no","Devolução atrasada há "+durTxt(minDiff(r.fim,nowS()))+"."]);
+ if(naoRet(r))al.push(["wr","Reserva vencida sem retirada. O gestor pode cancelar para liberar o horário."]);
+ if(r.status==="Solicitada"&&needsGestor(r))al.push(["wr","Exige aprovação do Gestor de Frota ("+(v.cat==="Van"?"van":"mais de 24 h")+")."]);
+ if(r.status==="Solicitada"){const x=valida(r,r.id,{noPast:true});x.E.forEach(t=>al.push(["no",t]));x.W.forEach(t=>al.push(["wr",t]))}
+ if(r.avaria)al.push(["wr","Avaria informada: "+r.avaria]);
+ const ac=[];
+ if(canApprove(r))ac.push(`<button class="btn" data-act="rapr" data-id="${id}">${ic("check")}Aprovar</button><button class="btn sec" data-act="rrec" data-id="${id}">${ic("x")}Recusar</button>`);
+ if(canOut(r))ac.push(`<button class="btn" data-act="rout" data-id="${id}">${ic("key")}Registrar retirada</button>`);
+ if(canRet(r))ac.push(`<button class="btn" data-act="rin" data-id="${id}">${ic("back")}Registrar devolução</button>`);
+ if(canEdit(r))ac.push(`<button class="btn sec" data-act="redit" data-id="${id}">${ic("pen")}Editar</button>`);
+ if(canCancel(r))ac.push(`<button class="btn sec" data-act="rcan" data-id="${id}">${ic("x")}Cancelar reserva</button>`);
+ if(r.status==="Aprovada"||r.status==="Em uso"||r.status==="Devolvida")ac.push(`<button class="btn sec" data-act="rtermo" data-id="${id}">${ic("print")}Termo de uso</button>`);
+ if(canDel(r))ac.push(`<button class="btn sec" data-act="rdel" data-id="${id}">${ic("trash")}Excluir</button>`);
+ openModal(`<div class="modal sheet"><div class="mbox sheet" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">${esc(id)} · ${esc(v.placa)} ${tag(r.status)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar detalhe" autofocus>${ic("x")}</button></div>
+ ${al.length?`<div class="chk" role="status">${al.map(([c,t])=>`<div class="${c}">${ic(c==="no"?"x":"alert")}<span>${esc(t)}</span></div>`).join("")}</div>`:""}
+ <div class="sum"><div>Veículo<b>${esc(v.modelo)}</b>${esc(v.id)} · ${v.lug} lugares</div><div>Condutor<b>${esc(u.nome)}</b>${esc(u.setor)}</div><div>Período<b>${fmtDTL(r.ini)}</b>até ${fmtDTL(r.fim)} · ${durTxt(m)}</div><div>Destino<b>${esc(r.destino)}</b>${r.pass} pessoa(s)</div>
+ <div>Odômetro<b>${r.kmS!=null?nf(r.kmS)+" km":"—"}${r.kmC!=null?" → "+nf(r.kmC)+" km":""}</b>${r.kmC!=null?"Rodou "+nf(r.kmC-r.kmS)+" km":""}</div><div>Combustível<b>${fuel(r.cbS)}</b>${r.cbC!=null?"Chegada: "+fuel(r.cbC):""}</div></div>
+ <p style="margin:6px 0"><b>Motivo:</b> ${esc(r.motivo)}</p>${r.motivoRec?`<p style="margin:6px 0"><b>${r.status==="Recusada"?"Recusa":"Cancelamento"}:</b> ${esc(r.motivoRec)}</p>`:""}${ap?`<p class="muted sm" style="margin:6px 0">Aprovada por ${esc(ap.nome)}.</p>`:""}
+ <div class="sec"><h3>Histórico</h3><ol class="tl">${r.hist.map(h=>`<li><b>${esc(h[0])}</b> · ${esc((U(h[1])||{nome:"Sistema"}).nome)} · ${fmtDT(h[2])}${h[3]?`<div class="muted">${esc(h[3])}</div>`:""}</li>`).join("")}</ol></div>
+ <div class="actions">${ac.join("")}</div></div></div>`)}
+function relR(r){const v=V1(r.veic),u=U(r.cond);const ln=(l,x)=>`<tr><th scope="row" style="width:34%">${l}</th><td>${x||"&nbsp;"}</td></tr>`;
+ return `<div class="doc"><div class="hd"><div><h2>Termo de uso de veículo</h2><div>Orla Serviços (fictícia) · Reserva ${esc(r.id)}</div></div><div style="text-align:right">Emitido em ${fmtDTL(nowS())}<br>Situação: ${esc(r.status)}</div></div>
+ <h3>Veículo</h3><table>${ln("Placa / modelo",esc(v.placa)+" · "+esc(v.modelo))}${ln("Categoria / lugares",esc(v.cat)+" · "+v.lug)}</table>
+ <h3>Condutor</h3><table>${ln("Nome",esc(u.nome))}${ln("Setor",esc(u.setor))}${ln("CNH",esc(u.cnh||"—")+" · válida até "+fmt(u.cnhVal))}</table>
+ <h3>Viagem</h3><table>${ln("Saída prevista",fmtDTL(r.ini))}${ln("Retorno previsto",fmtDTL(r.fim))}${ln("Destino",esc(r.destino))}${ln("Motivo",esc(r.motivo))}${ln("Pessoas",String(r.pass))}</table>
+ <h3>Saída e chegada</h3><table>${ln("Odômetro saída (km)",r.kmS!=null?nf(r.kmS):"")}${ln("Combustível saída",r.cbS!=null?CBL[r.cbS]:"")}${ln("Odômetro chegada (km)",r.kmC!=null?nf(r.kmC):"")}${ln("Combustível chegada",r.cbC!=null?CBL[r.cbC]:"")}${ln("Avarias",esc(r.avaria))}</table>
+ <h3>Vistoria</h3><table><tr><td>☐ Pneus e estepe</td><td>☐ Luzes e setas</td><td>☐ Documentos do veículo</td><td>☐ Limpeza</td></tr></table>
+ <div style="display:flex;gap:24px;flex-wrap:wrap"><div class="sg" style="flex:1">Condutor</div><div class="sg" style="flex:1">Portaria</div></div></div>`}
+/* ===== Formulários de cadastro ===== */
+function vForm(v){const novo=!v;
+ formModal({title:novo?"Novo veículo":"Editar "+v.id,fields:[{id:"placa",label:"Placa",value:v?v.placa:"",req:true,ph:"AAA0A00"},{id:"modelo",label:"Modelo",value:v?v.modelo:"",req:true},{id:"cat",label:"Categoria",type:"select",options:CATS.map(c=>[c,c+" (CNH "+CNHREQ[c]+")"]),value:v?v.cat:"Carro",req:true},{id:"lug",label:"Lugares",type:"number",value:v?String(v.lug):"5",min:1,req:true},{id:"odo",label:"Odômetro atual (km)",type:"number",value:v?String(v.odo):"0",min:0,req:true},{id:"rev",label:"Próxima revisão (km)",type:"number",value:v?String(v.rev):"10000",min:1,req:true}],
+  validate:f=>{const pl=f.placa.toUpperCase().replace(/[^A-Z0-9]/g,"");if(!/^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(pl))return "Placa inválida. Use o formato AAA0A00 ou AAA0000.";if(VEIC.some(x=>x!==v&&x.placa===pl))return "Já existe veículo com essa placa.";if(!(+f.lug>=1&&+f.lug<=60))return "Lugares deve estar entre 1 e 60.";if(v&&+f.odo<v.odo)return "O odômetro não pode diminuir (atual: "+nf(v.odo)+" km).";if(+f.rev<=+f.odo)return "A próxima revisão precisa ser maior que o odômetro.";if(v&&+f.lug<v.lug&&S.res.some(r=>r.veic===v.id&&ocupa(r)&&r.pass>+f.lug))return "Há reservas abertas com mais pessoas que a nova lotação.";return ""},
+  save:f=>{const pl=f.placa.toUpperCase().replace(/[^A-Z0-9]/g,"");if(v)Object.assign(v,{placa:pl,modelo:f.modelo,cat:f.cat,lug:+f.lug,odo:+f.odo,rev:+f.rev});else VEIC.push({id:"VX-"+p2(Math.max(0,...VEIC.map(x=>+x.id.slice(3)))+1),placa:pl,modelo:f.modelo,cat:f.cat,lug:+f.lug,odo:+f.odo,rev:+f.rev,ativo:true})},msg:novo?"Veículo cadastrado.":"Veículo atualizado."})}
+function bForm(b){const novo=!b;const ini0=b?b.ini:addDias(7)+"T08:00",fim0=b?b.fim:addDias(7)+"T17:00";
+ formModal({title:novo?"Novo bloqueio de manutenção":"Editar bloqueio "+b.id,fields:[{id:"veic",label:"Veículo",type:"select",options:VEIC.filter(v=>v.ativo||(b&&b.veic===v.id)).map(v=>[v.id,v.id+" · "+v.placa+" · "+v.modelo]),value:b?b.veic:"VX-01",req:true},{id:"di",label:"Data de início",type:"date",value:ini0.slice(0,10),req:true},{id:"hi",label:"Hora de início",type:"time",value:ini0.slice(11,16),req:true},{id:"df",label:"Data de fim",type:"date",value:fim0.slice(0,10),req:true},{id:"hf",label:"Hora de fim",type:"time",value:fim0.slice(11,16),req:true},{id:"motivo",label:"Motivo",value:b?b.motivo:"",req:true,ph:"Ex.: Revisão programada"}],
+  validate:f=>{const i=f.di+"T"+f.hi,e=f.df+"T"+f.hf;if(e<=i)return "O fim precisa ser depois do início.";const cf=S.res.filter(r=>ativoRes(r)&&r.veic===f.veic&&overlap(r.ini,r.fim,i,e));if(cf.length)return "Há reserva(s) aprovada(s) ou em uso nesse período: "+cf.map(r=>r.id).join(", ")+". Cancele ou reagende antes.";if(S.bq.some(x=>x!==b&&x.veic===f.veic&&overlap(x.ini,x.fim,i,e)))return "Já existe outro bloqueio para esse veículo no período.";return ""},
+  save:f=>{const i=f.di+"T"+f.hi,e=f.df+"T"+f.hf;S.res.filter(r=>r.status==="Solicitada"&&r.veic===f.veic&&overlap(r.ini,r.fim,i,e)).forEach(r=>notifyTo(r.cond,"A reserva "+r.id+" cai em período de manutenção do veículo. Ajuste o horário ou o veículo.","warn"));if(b)Object.assign(b,{veic:f.veic,ini:i,fim:e,motivo:f.motivo});else S.bq.push({id:"B-"+(S.bseq++),veic:f.veic,ini:i,fim:e,motivo:f.motivo})},msg:novo?"Bloqueio registrado.":"Bloqueio atualizado."})}
+const admins=()=>USERS.filter(u=>u.ativo&&u.perfil==="Administrador");
+const abertas=u=>S.res.filter(r=>r.cond===u.id&&ocupa(r));
+const userUsed=u=>S.res.some(r=>r.cond===u.id||r.aprov===u.id||r.hist.some(h=>h[1]===u.id));
+function userForm(u){const novo=!u;
+ formModal({title:novo?"Novo usuário":"Editar "+u.nome,fields:[{id:"nome",label:"Nome",value:u?u.nome:"",req:true},{id:"email",label:"E-mail corporativo",type:"email",value:u?u.email:"",req:true,ph:"nome.sobrenome@orla.example"},{id:"perfil",label:"Perfil",type:"select",options:PERFIS.map(p=>[p,p]),value:u?u.perfil:"Condutor",req:true},{id:"setor",label:"Setor",type:"select",options:SETORES.map(s=>[s,s]),value:u?u.setor:SETORES[0],req:true},{id:"cnh",label:"Categorias da CNH",value:u?u.cnh:"",ph:"Ex.: B ou A,B (vazio se não tem)",hint:"Letras de A a E, separadas por vírgula."},{id:"val",label:"Validade da CNH",type:"date",value:u?u.cnhVal:""}],
+  validate:f=>{if(!/^\S+@\S+\.\S+$/.test(f.email))return "E-mail inválido.";if(USERS.some(x=>x!==u&&x.email.toLowerCase()===f.email.toLowerCase()))return "Já existe usuário com esse e-mail.";const c=f.cnh.toUpperCase().replace(/\s/g,"");if(c&&!/^[A-E](,[A-E])*$/.test(c))return "CNH: use letras de A a E separadas por vírgula.";if(c&&!f.val)return "Informe a validade da CNH.";if(u){if(f.perfil!==u.perfil&&u.id===S.uid)return "Você não pode alterar o seu próprio perfil.";if(u.perfil==="Administrador"&&f.perfil!=="Administrador"&&u.ativo&&admins().length<=1)return "Mantenha ao menos um administrador ativo.";if(f.perfil!==u.perfil&&abertas(u).length)return "Há reservas abertas deste usuário. Conclua ou cancele antes de mudar o perfil.";if(f.perfil==="Portaria"&&c==="")return ""}return ""},
+  save:f=>{const c=f.cnh.toUpperCase().replace(/\s/g,"");if(u)Object.assign(u,{nome:f.nome,email:f.email,perfil:f.perfil,setor:f.setor,cnh:c,cnhVal:c?f.val:""});else USERS.push({id:"u"+(Math.max(...USERS.map(x=>+x.id.slice(1)))+1),nome:f.nome,email:f.email,perfil:f.perfil,setor:f.setor,cnh:c,cnhVal:c?f.val:"",ativo:true});buildPeople()},msg:novo?"Usuário cadastrado.":"Usuário atualizado."})}
+/* ===== Gráficos ===== */
+function hbars(rows,act){const mx=Math.max(1,...rows.map(r=>r[1]));return rows.map(([l,v,k,sfx])=>{const inner=`<span class="nm2">${esc(l)}</span><span class="bar"><i style="width:${v/mx*100}%"></i></span><b>${v}${sfx||""}</b>`;return act&&k!=null?`<button class="hbar" data-act="${act}" data-v="${esc(k)}" aria-label="${esc(l)}: ${v}${sfx||""}. Ver reservas">${inner}</button>`:`<div class="hbar">${inner}</div>`}).join("")}
+function lineSvg(labels,vals,desc){const W=360,H=170,pb=26,pt=18,mx=Math.max(1,...vals),gw=W/labels.length,y=v=>H-pb-(H-pb-pt)*v/mx;const pts=vals.map((v,i)=>[gw*i+gw/2,y(v)]);
+ return `<svg class="cs" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(desc)}"><line x1="0" y1="${H-pb}" x2="${W}" y2="${H-pb}" stroke="#a1a1aa"/><polyline fill="none" stroke="#4338ca" stroke-width="2.5" points="${pts.map(p=>p.join(",")).join(" ")}"/>${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="4" fill="#4338ca"/><text x="${p[0]}" y="${p[1]-8}" text-anchor="middle">${vals[i]}</text><text x="${p[0]}" y="${H-8}" text-anchor="middle">${esc(labels[i])}</text>`).join("")}</svg>`}
+const dtab=(h,rows)=>`<details class="dt"><summary>Ver dados do gráfico</summary><table><thead><tr>${h.map(x=>`<th scope="col">${esc(x)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></details>`;
+/* ===== Telas ===== */
+const V={};
+const SC={"Solicitada":"sol","Aprovada":"apr","Em uso":"uso","Devolvida":"dev"};
+function agWin(){const d=S.date;if(S.view==="dia")return{ini:d+"T06:00",fim:d+"T22:00",n:16};const w=wkStart(d);return{ini:w+"T00:00",fim:addTo(w,7)+"T00:00",n:7}}
+function agRows(W){const q=S.fq.trim().toLowerCase();return VEIC.filter(v=>v.ativo&&(!S.fcat||v.cat===S.fcat)&&(!q||(v.placa+" "+v.modelo+" "+v.id).toLowerCase().includes(q)))}
+function agItems(v,W){return S.res.filter(r=>r.veic===v.id&&SC[r.status]&&overlap(r.ini,r.fim,W.ini,W.fim))}
+function blkAria(r,vis){const v=V1(r.veic);return vis?`Reserva ${r.id}, ${v.placa}, ${U(r.cond).nome}, ${fmtDT(r.ini)} a ${fmtDT(r.fim)}, ${r.status}${fimPend(r)?", devolução atrasada":""}`:`Reservado, ${v.placa}, ${fmtDT(r.ini)} a ${fmtDT(r.fim)}`}
+V.agenda=()=>{const W=agWin(),span=minDiff(W.ini,W.fim),dia=S.view==="dia";const pos=s=>Math.max(0,Math.min(100,minDiff(W.ini,s)/span*100));
+ const rows=agRows(W),now=nowS(),showNow=now>=W.ini&&now<=W.fim;
+ const dsel=new Date(S.date+"T12:00:00");const lbl=dia?`${DSEM[dsel.getDay()]}, ${fmt(S.date)}`:`${fmt(W.ini)} a ${fmt(addTo(wkStart(S.date),6))}`;
+ const nApr=S.res.filter(canApprove).length,mePend=S.res.filter(r=>r.cond===S.uid&&r.status==="Solicitada").length;
+ const aprovador=["Administrador","Gestor de Frota","Chefia"].includes(S.perfil);
+ const me_=user();const cnhD=me_.cnh?minDiff(hoje(),me_.cnhVal)/1440:null;
+ let ticks="";if(dia){for(let h=6;h<22;h++)ticks+=`<span class="l" style="left:${(h-6)/16*100+.4}%">${p2(h)}h</span>`}else{for(let i=0;i<7;i++){const d=addTo(wkStart(S.date),i),dw=new Date(d+"T12:00:00");ticks+=`<span class="l" style="left:${i/7*100+.6}%;${d===hoje()?"font-weight:700;color:#4338ca":""}">${DSEM[dw.getDay()]} ${d.slice(8)}/${d.slice(5,7)}</span>`}}
+ const body=rows.map(v=>{const its=agItems(v,W),bqs=S.bq.filter(b=>b.veic===v.id&&overlap(b.ini,b.fim,W.ini,W.fim)),sit=veicSit(v);
+  let slots="";if(dia){for(let h=6;h<22;h++)slots+=`<div class="slot" aria-hidden="true" data-act="rnew" data-v="${v.id}" data-t="${S.date}T${p2(h)}:00" style="left:${(h-6)/16*100}%;width:6.25%"></div>`}else{for(let i=0;i<7;i++)slots+=`<div class="slot" aria-hidden="true" data-act="rnew" data-v="${v.id}" data-t="${addTo(wkStart(S.date),i)}T08:00" style="left:${i/7*100}%;width:${100/7}%"></div>`}
+  const blk=its.map(r=>{const vis=canSee(r),l=pos(r.ini),w=Math.max(.8,pos(r.fim)-l),cl=`blk ${SC[r.status]}${r.cond===S.uid?" mine":""}${fimPend(r)?" lt":""}${S.sel===r.id?" sel":""}${vis?"":" msk"}`;const tx=vis?`${r.ini<W.ini?"◀ ":""}${esc(short(U(r.cond).nome))}${dia?" · "+fmtH(r.ini)+"–"+fmtH(r.fim):""}${r.fim>W.fim?" ▶":""}`:"Reservado";
+   return vis?`<button class="${cl}" style="left:${l}%;width:${w}%" data-act="ropen" data-id="${r.id}" aria-label="${esc(blkAria(r,true))}" title="${esc(blkAria(r,true))}">${tx}</button>`:`<div class="${cl}" style="left:${l}%;width:${w}%" role="img" aria-label="${esc(blkAria(r,false))}">${tx}</div>`}).join("");
+  const bk=bqs.map(b=>{const l=pos(b.ini),w=Math.max(.8,pos(b.fim)-l);return `<div class="blk bq" style="left:${l}%;width:${w}%" role="img" aria-label="Manutenção, ${esc(v.placa)}, ${esc(b.motivo)}, ${fmtDT(b.ini)} a ${fmtDT(b.fim)}">${esc(b.motivo)}</div>`}).join("");
+  return `<div class="tlr"><div class="lab"><b>${esc(v.placa)}</b><span>${esc(v.modelo)} · ${v.lug} lug.</span><span><span class="tag ${sit[1]}">${esc(sit[0])}</span></span><button class="btn sec sm" data-act="rnew" data-v="${v.id}" aria-label="Reservar ${esc(v.placa)}">${ic("plus")}Reservar</button></div><div class="track" style="--cell:${100/W.n}%">${slots}${bk}${blk}${showNow?`<div class="nowl" style="left:${pos(now)}%"></div>`:""}</div></div>`}).join("");
+ const alt=[];rows.forEach(v=>{agItems(v,W).forEach(r=>alt.push([v.placa,fmtDT(r.ini),fmtDT(r.fim),r.status,canSee(r)?U(r.cond).nome:"Reservado"]));S.bq.filter(b=>b.veic===v.id&&overlap(b.ini,b.fim,W.ini,W.fim)).forEach(b=>alt.push([v.placa,fmtDT(b.ini),fmtDT(b.fim),"Manutenção",b.motivo]))});alt.sort((a,b)=>a[0].localeCompare(b[0])||a[1].localeCompare(b[1]));
+ return `<div class="row"><div><h1>Agenda da frota</h1><div class="muted">Veja a ocupação de cada veículo e toque num horário livre para reservar.</div></div><button class="btn hn" data-act="rnew">${ic("plus")}Nova reserva</button></div>
+ ${cnhD!=null&&cnhD<=30?`<div class="card" role="status" style="border-color:#c98a00;background:#fff7dc">${ic("alert")} Sua CNH ${cnhD<0?"venceu em "+fmt(me_.cnhVal)+". Você não pode reservar até renovar.":"vence em "+Math.ceil(cnhD)+" dia(s) ("+fmt(me_.cnhVal)+")."}</div>`:""}
+ <div class="kpis">${kpi("key",S.res.filter(r=>r.status==="Em uso").length,"Em uso agora")}${kpi("cal",S.res.filter(r=>ativoRes(r)&&r.ini.slice(0,10)<=hoje()&&r.fim.slice(0,10)>=hoje()).length,"Reservas hoje")}${aprovador?kpi("clock",nApr,"A aprovar por você",nApr?"bad":""):kpi("clock",mePend,"Suas solicitações pendentes")}${kpi("alert",S.res.filter(fimPend).length,"Devoluções atrasadas",S.res.some(fimPend)?"bad":"")}</div>
+ <div class="agbar"><div class="nav"><button class="ib" data-act="agnav" data-v="-1" aria-label="${dia?"Dia anterior":"Semana anterior"}">${ic("back")}</button><div class="dt" role="status" aria-live="polite">${esc(lbl)}</div><button class="ib" data-act="agnav" data-v="1" aria-label="${dia?"Próximo dia":"Próxima semana"}" style="transform:scaleX(-1)">${ic("back")}</button></div>
+ <button class="btn sec sm" data-act="agnav" data-v="0">Hoje</button>
+ <div><label class="f" for="agdate" style="margin:0 0 3px">Ir para a data</label><input class="in" type="date" id="agdate" data-sel="date" value="${S.date}" style="min-height:44px"></div>
+ <div class="seg" role="group" aria-label="Escala"><button data-act="view" data-v="dia" aria-pressed="${dia}">Dia</button><button data-act="view" data-v="sem" aria-pressed="${!dia}">Semana</button></div>
+ <div><label class="f" for="fcat" style="margin:0 0 3px">Categoria</label><select class="in" id="fcat" data-sel="fcat"><option value="">Todas</option>${CATS.map(c=>`<option ${S.fcat===c?"selected":""}>${c}</option>`).join("")}</select></div>
+ <div class="sb"><label class="f" for="fq" style="margin:0 0 3px">Buscar veículo</label>${ic("search")}<input class="in" id="fq" data-live="fq" value="${esc(S.fq)}" placeholder="Placa ou modelo" autocomplete="off"></div></div>
+ <div class="legend" aria-label="Legenda"><span><i style="background:#fde08a;border:1px solid #c98a00"></i>Solicitada</span><span><i style="background:#0f766e"></i>Aprovada</span><span><i style="background:#4338ca"></i>Em uso</span><span><i style="background:#71717a"></i>Devolvida</span><span><i style="background:#d4d4d8;border:1px solid #71717a"></i>Manutenção</span><span><i style="background:#fff;border:3px solid #be123c"></i>Sua reserva</span></div>
+ ${rows.length?`<div class="tlw" role="region" aria-label="Agenda por veículo" tabindex="0"><div class="tl2"><div class="tlh"><div class="lab">Veículo</div><div class="ticks" style="--cell:${100/W.n}%;background-image:linear-gradient(to right,#c9c9dc 1px,transparent 1px);background-size:${100/W.n}% 100%">${ticks}</div></div>${body}</div></div>`:empty("search","Nenhum veículo para esse filtro.")}
+ <details class="dt dtab"><summary>Ver esta agenda como tabela (${alt.length} registro(s))</summary><table><thead><tr><th scope="col">Veículo</th><th scope="col">Início</th><th scope="col">Fim</th><th scope="col">Situação</th><th scope="col">Condutor / motivo</th></tr></thead><tbody>${alt.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")||'<tr><td colspan="5">Sem registros no período.</td></tr>'}</tbody></table></details>
+ ${S.perfil==="Condutor"?'<p class="muted sm">Você vê o detalhe só das suas reservas; as de outras pessoas aparecem como “Reservado”.</p>':""}`};
+const RFL=["Todas","Minhas","A aprovar","Em uso","Atrasadas","Encerradas"];
+function resFiltro(){const q=S.rq.trim().toLowerCase(),f=S.rfl;return visRes().filter(r=>{const u=U(r.cond),v=V1(r.veic);
+ const okf=f==="Todas"||(f==="Minhas"&&r.cond===S.uid)||(f==="A aprovar"&&canApprove(r))||(f==="Em uso"&&r.status==="Em uso")||(f==="Atrasadas"&&(fimPend(r)||naoRet(r)))||(f==="Encerradas"&&["Devolvida","Recusada","Cancelada"].includes(r.status))||(ST.includes(f)&&r.status===f);
+ return okf&&(!S.rveic||r.veic===S.rveic)&&(!S.rsetor||r.setor===S.rsetor)&&(!q||(r.id+" "+u.nome+" "+v.placa+" "+v.modelo+" "+r.destino).toLowerCase().includes(q))}).sort((a,b)=>S.rfl==="A aprovar"?a.ini.localeCompare(b.ini):b.ini.localeCompare(a.ini))}
+function qa(r){let s="";if(canApprove(r))s+=`<button class="btn sm" data-act="rapr" data-id="${r.id}" aria-label="Aprovar ${r.id}">${ic("check")}Aprovar</button>`;if(canOut(r))s+=`<button class="btn sm" data-act="rout" data-id="${r.id}" aria-label="Registrar retirada de ${r.id}">${ic("key")}Retirada</button>`;if(canRet(r))s+=`<button class="btn sm" data-act="rin" data-id="${r.id}" aria-label="Registrar devolução de ${r.id}">${ic("back")}Devolução</button>`;return s}
+V.reservas=()=>{const L=resFiltro();const apr=["Administrador","Gestor de Frota","Chefia"].includes(S.perfil);let fls=RFL.filter(f=>apr||f!=="A aprovar");if(S.perfil==="Condutor")fls=fls.filter(f=>f!=="Minhas");if(ST.includes(S.rfl)&&!fls.includes(S.rfl))fls=fls.concat(S.rfl);
+ const flag=r=>fimPend(r)?'<span class="late">Devolução atrasada</span>':naoRet(r)?'<span class="late">Não retirada</span>':"";
+ return `<div class="row"><div><h1>Reservas</h1><div class="muted">${S.perfil==="Condutor"?"Suas reservas":S.perfil==="Chefia"?"Reservas do seu setor":"Todas as reservas da frota"}.</div></div><button class="btn hn" data-act="rnew">${ic("plus")}Nova reserva</button></div>
+ <div class="pills" role="group" aria-label="Filtro de situação">${fls.map(f=>`<button class="pill" data-act="rfl" data-v="${f}" aria-pressed="${S.rfl===f}">${f}${f==="A aprovar"?" ("+S.res.filter(canApprove).length+")":""}</button>`).join("")}</div>
+ <div class="row" style="justify-content:flex-start;align-items:end;margin-bottom:8px"><div class="sb" style="flex:1;min-width:220px;max-width:400px"><label class="sr" for="rq">Buscar reservas</label>${ic("search")}<input class="in" id="rq" data-live="rq" value="${esc(S.rq)}" placeholder="Código, condutor, placa ou destino" autocomplete="off"></div>
+ ${["Administrador","Gestor de Frota"].includes(S.perfil)?`<div><label class="f" for="rs" style="margin:0 0 3px">Setor</label><select class="in" id="rs" data-sel="rsetor"><option value="">Todos</option>${SETORES.map(s=>`<option ${S.rsetor===s?"selected":""}>${s}</option>`).join("")}</select></div>`:""}
+ ${S.rveic?`<button class="pill" data-act="rvclear" aria-label="Remover filtro do veículo ${esc(V1(S.rveic).placa)}">Veículo ${esc(V1(S.rveic).placa)} ${ic("x")}</button>`:""}</div>
+ <p class="muted sm" role="status">${L.length} reserva(s).</p>
+ ${L.length?`<div class="tw t2"><table class="tb"><thead><tr><th scope="col">Reserva</th><th scope="col">Veículo</th><th scope="col">Condutor</th><th scope="col">Período</th><th scope="col">Situação</th><th scope="col"><span class="sr">Ações</span></th></tr></thead><tbody>${L.map(r=>`<tr><td><b>${r.id}</b></td><td>${esc(V1(r.veic).placa)}<div class="muted sm">${esc(V1(r.veic).modelo)}</div></td><td>${esc(U(r.cond).nome)}<div class="muted sm">${esc(r.setor)}</div></td><td>${fmtDT(r.ini)} → ${fmtDT(r.fim)}</td><td>${tag(r.status)}<div class="sm">${flag(r)}</div></td><td class="act"><button class="btn sec sm" data-act="ropen" data-id="${r.id}" aria-label="Abrir ${r.id}">${ic("eye")}Abrir</button> ${qa(r)}</td></tr>`).join("")}</tbody></table></div>
+ <div class="lcards">${L.map(r=>`<div class="card" style="margin:0"><div class="row"><b>${r.id} · ${esc(V1(r.veic).placa)}</b>${tag(r.status)}</div><div>${esc(U(r.cond).nome)} · ${esc(r.destino)}</div><div class="muted sm">${fmtDT(r.ini)} → ${fmtDT(r.fim)} ${flag(r)}</div><div class="actions" style="margin-top:8px"><button class="btn sec sm" data-act="ropen" data-id="${r.id}" aria-label="Abrir ${r.id}">${ic("eye")}Abrir</button>${qa(r)}</div></div>`).join("")}</div>`:empty("search","Nenhuma reserva para esse filtro.")}`};
+V.frota=()=>{const bq=S.sub==="bloq";const rv=VEIC.filter(v=>v.ativo&&v.rev-v.odo<=1000);const cnhA=USERS.filter(u=>u.ativo&&u.cnh&&minDiff(hoje(),u.cnhVal)/1440<=30);
+ return `<div class="row"><div><h1>Frota</h1><div class="muted">Veículos, revisões e bloqueios de manutenção.</div></div><button class="btn" data-act="${bq?"bnew":"vnew"}">${ic("plus")}${bq?"Novo bloqueio":"Novo veículo"}</button></div>
+ ${rv.length||cnhA.length?`<div class="card" role="region" aria-label="Alertas"><b>${ic("alert")} Alertas</b><ul style="margin:6px 0 0;padding-left:20px">${rv.map(v=>`<li>${esc(v.placa)}: revisão ${v.odo>=v.rev?"vencida":"em "+nf(v.rev-v.odo)+" km"}.</li>`).join("")}${cnhA.map(u=>`<li>CNH de ${esc(u.nome)} ${u.cnhVal<hoje()?"vencida em ":"vence em "}${fmt(u.cnhVal)}.</li>`).join("")}</ul></div>`:""}
+ <div class="pills" role="group" aria-label="Cadastro">${[["veic","Veículos"],["bloq","Bloqueios de manutenção"]].map(([k,l])=>`<button class="pill" data-act="sub" data-v="${k}" aria-pressed="${S.sub===k}">${l}</button>`).join("")}</div>
+ ${!bq?`<div class="tw"><table class="tb"><thead><tr><th scope="col">Veículo</th><th scope="col">Categoria</th><th scope="col">Odômetro</th><th scope="col">Revisão</th><th scope="col">Situação</th><th scope="col"><span class="sr">Ações</span></th></tr></thead><tbody>${VEIC.map(v=>{const sit=veicSit(v),fal=v.rev-v.odo;return `<tr><td><b>${esc(v.placa)}</b><div class="muted sm">${esc(v.id)} · ${esc(v.modelo)}</div></td><td>${esc(v.cat)} · ${v.lug} lug.</td><td>${nf(v.odo)} km</td><td>${fal<=0?'<span class="late">Vencida</span>':nf(fal)+" km"}<span class="bar ${fal<=1000?"r":""}" style="margin-top:4px"><i style="width:${Math.max(4,100-Math.min(100,fal/50))}%"></i></span></td><td><span class="tag ${sit[1]}">${esc(sit[0])}</span></td><td class="act"><button class="ib" data-act="vedit" data-id="${v.id}" aria-label="Editar ${esc(v.placa)}">${ic("pen")}</button><button class="btn sec sm" data-act="vtog" data-id="${v.id}">${v.ativo?"Desativar":"Ativar"}</button><button class="ib" data-act="vdel" data-id="${v.id}" aria-label="Excluir ${esc(v.placa)}">${ic("trash")}</button></td></tr>`}).join("")}</tbody></table></div>`
+ :`<div class="tw"><table class="tb" style="min-width:560px"><thead><tr><th scope="col">Veículo</th><th scope="col">Início</th><th scope="col">Fim</th><th scope="col">Motivo</th><th scope="col"><span class="sr">Ações</span></th></tr></thead><tbody>${S.bq.slice().sort((a,b)=>b.ini.localeCompare(a.ini)).map(b=>`<tr><td><b>${esc(V1(b.veic).placa)}</b></td><td>${fmtDTL(b.ini)}</td><td>${fmtDTL(b.fim)}</td><td>${esc(b.motivo)}</td><td class="act"><button class="ib" data-act="bedit" data-id="${b.id}" aria-label="Editar bloqueio ${b.id}">${ic("pen")}</button><button class="ib" data-act="bdel" data-id="${b.id}" aria-label="Remover bloqueio ${b.id}">${ic("trash")}</button></td></tr>`).join("")||'<tr><td colspan="5">Nenhum bloqueio.</td></tr>'}</tbody></table></div>`}`};
+function indData(){const per=S.per,from=addDias(-per)+"T00:00",to=nowS();let L=S.res.filter(r=>overlap(r.ini,r.fim,from,to));if(S.perfil==="Chefia")L=L.filter(r=>r.setor===user().setor);
+ const real=L.filter(r=>r.status==="Em uso"||r.status==="Devolvida");const av=VEIC.filter(v=>v.ativo);const cap=per*16*60;
+ const ut=av.map(v=>{const m=real.filter(r=>r.veic===v.id).reduce((s,r)=>s+Math.max(0,minDiff(r.ini<from?from:r.ini,r.fim>to?to:r.fim)),0);return[v.placa+" · "+v.modelo,Math.min(100,Math.round(m/cap*100)),v.id]}).sort((a,b)=>b[1]-a[1]);
+ const km=SETORES.map(s=>[s,real.filter(r=>r.setor===s&&r.kmC!=null).reduce((a,r)=>a+(r.kmC-r.kmS),0)]).sort((a,b)=>b[1]-a[1]);
+ const sem=[];for(let i=7;i>=0;i--){const a=addTo(wkStart(hoje()),-7*i),b=addTo(a,7);sem.push([a.slice(8)+"/"+a.slice(5,7),L.filter(r=>(r.status==="Devolvida"||r.status==="Em uso"||r.status==="Aprovada")&&r.ini.slice(0,10)>=a&&r.ini.slice(0,10)<b).length])}
+ const sts=ST.map(s=>[s,L.filter(r=>r.status===s).length,s]);const naoSol=L.filter(r=>r.status!=="Solicitada");const rc=naoSol.filter(r=>r.status==="Recusada"||r.status==="Cancelada").length;
+ return{L,real,ut,km,sem,sts,rc:naoSol.length?Math.round(rc/naoSol.length*100):0,kmT:km.reduce((a,x)=>a+x[1],0),atr:L.filter(r=>r.atraso||fimPend(r)).length,um:ut.length?Math.round(ut.reduce((a,x)=>a+x[1],0)/ut.length):0}}
+V.ind=()=>{const d=indData();return `<div class="row"><div><h1>Indicadores</h1><div class="muted">${S.perfil==="Chefia"?"Reservas do setor "+esc(user().setor)+".":"Uso da frota inteira."} Período: últimos ${S.per} dias.</div></div></div>
+ <div class="pills" role="group" aria-label="Período">${[30,60,90].map(p=>`<button class="pill" data-act="per" data-v="${p}" aria-pressed="${S.per===p}">${p} dias</button>`).join("")}</div>
+ <div class="kpis">${kpi("key",d.real.length,"Viagens realizadas")}${kpi("gauge",d.um+"%","Utilização média")}${kpi("car",nf(d.kmT)+" km","Km rodados")}${kpi("x",d.rc+"%","Recusadas ou canceladas")}${kpi("clock",d.atr,"Devoluções com atraso",d.atr?"bad":"")}</div>
+ <div class="cg"><div class="card"><figure class="ch"><figcaption>Utilização por veículo (% das horas úteis, 06h às 22h)</figcaption>${hbars(d.ut.map(r=>[r[0],r[1],r[2],"%"]),"drillv")}${dtab(["Veículo","Utilização (%)"],d.ut.map(r=>[r[0],r[1]]))}</figure></div>
+ <div class="card"><figure class="ch"><figcaption>Km rodados por setor</figcaption>${hbars(d.km.map(r=>[r[0],r[1],null,""]))}${dtab(["Setor","Km"],d.km.map(r=>[r[0],nf(r[1])]))}</figure></div>
+ <div class="card"><figure class="ch"><figcaption>Reservas por semana (início na semana de…)</figcaption>${lineSvg(d.sem.map(x=>x[0]),d.sem.map(x=>x[1]),"Reservas por semana: "+d.sem.map(x=>x[0]+" "+x[1]).join(", "))}${dtab(["Semana","Reservas"],d.sem)}</figure></div>
+ <div class="card"><figure class="ch"><figcaption>Reservas por situação</figcaption>${hbars(d.sts,"drillst")}${dtab(["Situação","Reservas"],d.sts.map(r=>[r[0],r[1]]))}</figure></div></div>`};
+V.usuarios=()=>{const q=S.uq.trim().toLowerCase();const L=USERS.filter(u=>!q||(u.nome+" "+u.email+" "+u.perfil+" "+u.setor).toLowerCase().includes(q));
+ return `<div class="row"><div><h1>Usuários e CNH</h1><div class="muted">Perfis de acesso e habilitação dos condutores.</div></div><button class="btn" data-act="usernew">${ic("plus")}Novo usuário</button></div>
+ <div class="sb" style="max-width:420px;margin:10px 0"><label class="sr" for="uq">Buscar usuários</label>${ic("search")}<input class="in" id="uq" data-live="uq" value="${esc(S.uq)}" placeholder="Nome, e-mail, perfil ou setor" autocomplete="off"></div>
+ <div class="tw"><table class="tb"><thead><tr><th scope="col">Nome</th><th scope="col">Perfil</th><th scope="col">Setor</th><th scope="col">CNH</th><th scope="col">Situação</th><th scope="col"><span class="sr">Ações</span></th></tr></thead><tbody>${L.map(u=>{const dd=u.cnh?minDiff(hoje(),u.cnhVal)/1440:null;return `<tr><td><b>${esc(u.nome)}</b><div class="muted sm">${esc(u.email)}</div></td><td>${esc(u.perfil)}</td><td>${esc(u.setor)}</td><td>${u.cnh?esc(u.cnh)+" · "+fmt(u.cnhVal)+(dd<0?' <span class="tag t-bad">Vencida</span>':dd<=30?' <span class="tag t-warn">Vence em '+Math.ceil(dd)+' d</span>':""):"—"}</td><td>${u.ativo?'<span class="tag t-ok">Ativo</span>':'<span class="tag t-na">Inativo</span>'}</td><td class="act"><button class="ib" data-act="useredit" data-id="${u.id}" aria-label="Editar ${esc(u.nome)}">${ic("pen")}</button><button class="btn sec sm" data-act="usertog" data-id="${u.id}">${u.ativo?"Desativar":"Ativar"}</button><button class="ib" data-act="userdel" data-id="${u.id}" aria-label="Excluir ${esc(u.nome)}">${ic("trash")}</button></td></tr>`}).join("")}</tbody></table></div>`};
+/* ===== Painel "Como seria na Power Platform" ===== */
+const PP={
+ cover:{c:["Entrada pela conta Microsoft Entra ID de quem abre o app: não há tela de login própria","User().FullName e User().Email identificam a pessoa; perfil e setor vêm de uma tabela Usuário (perfil como coluna de escolha)","A lista de pessoas da capa existe só no mockup"],d:"Tabela de perfis do app, ligada ao usuário do sistema no Dataverse; acesso ao app compartilhado com um grupo do Microsoft Entra ID",w:"Esconder telas por perfil melhora a experiência, mas a segurança de verdade está nos papéis de segurança do Dataverse."},
+ agenda:{c:["O Canvas não tem controle nativo de agenda em linha do tempo. Caminho 1: uma Galeria de veículos em que cada barra é um Label com X e Width calculados do horário (minutos desde o início da janela ÷ minutos da janela × largura da trilha). Caminho 2: uma imagem SVG gerada por fórmula, já que o controle Imagem aceita URI de dados","Galeria dentro de galeria vai até 2 níveis, mas o Learn orienta evitar. Carregue a janela do período em uma coleção (ClearCollect com Filter) e filtre localmente por veículo","Para quem administra, uma alternativa é um app model-driven com o controle Calendar (Dia, Semana, Mês) sobre a tabela de reservas","Tocar num horário livre grava veículo e hora em variáveis e abre o formulário; o botão Reservar de cada linha serve para quem usa teclado"],d:"Tabelas Reserva, Veículo e Bloqueio no Dataverse. Janela: Filter(Reservas; Inicio < fimJanela && Fim > inicioJanela). Os operadores < e > delegam em coluna Data e hora; as páginas do Learn divergem sobre Now() e Today() nessas comparações, então calcule o limite antes e confira o aviso de delegação no Studio",w:"Hora sem fuso: se todos reservam no mesmo local, use coluna Data e hora com comportamento Independente de fuso. O padrão (Local do usuário) grava em UTC e converte para quem vê."},
+ rform:{c:["Entradas: Combo box de condutor e de veículo, Date picker (só data; a hora vem de Dropdown ou componente) e Number input (controles modernos)","Conflito ao vivo: CountRows(Filter(Reservas; Veiculo = v && (Status = Aprovada || Status = 'Em uso') && Inicio < fim && Fim > ini)) > 0","CNH: LookUp(Condutores; ID = condutor).ValidadeCNH >= fim e categoria compatível com o tipo do veículo (tabela de regras por categoria)","Lotação: passageiros <= Lugares do veículo; revisão vencida bloqueia","Gravar: Patch(Reservas; Defaults(Reservas); {...}) dentro de IfError, com Notify","Solicitada contra Solicitada é só aviso: vale a primeira aprovada"],d:"Tabela Reserva (colunas de escolha para Situação) com relação ao Veículo e ao Condutor",w:"As mesmas regras precisam existir no servidor (plug-in ou fluxo). O app é a primeira barreira, não a única."},
+ detalhe:{c:["A folha inferior é um contêiner ancorado ao rodapé com Visible ligado a uma variável (varReserva); fecha com Set(varReserva; Blank()). O Learn avisa que diálogos e sobreposições não têm gestão de foco acessível no canvas: aqui o foco preso do mockup exige cuidado extra ou uma tela própria","Botões com Visible por regra: Aprovar = Situação Solicitada e usuário diferente do condutor; Retirada = Aprovada e perfil Portaria","Aprovação por alçada: o app grava Aprovada e um fluxo avisa o condutor; para formalizar, o fluxo usa “Iniciar e aguardar uma aprovação”","Histórico em tabela filha (Movimento da reserva), galeria em ordem de data","Odômetro e combustível entram na retirada e na devolução; a devolução atualiza o odômetro do veículo"],d:"Tabelas Reserva, Movimento e Veículo; fluxos de aprovação e de aviso",w:"Evitar reserva dupla de verdade exige lógica no servidor, como um plug-in síncrono que consulta as reservas do veículo e cancela com exceção. O Learn mostra que lógica dentro de transação não garante unicidade quando duas pessoas gravam ao mesmo tempo sem um desenho de bloqueio: teste com dois usuários. Dois Patch em tabelas diferentes (reserva e veículo) também não são uma transação."},
+ reservas:{c:["Galeria ou Data table com SortByColumns e Filter pela variável do filtro (as pílulas são UpdateContext)","Search delega só em colunas de texto (em escolha, número e data, não); use StartsWith em coluna de texto, como o código da reserva","Fila A aprovar: Filter(Reservas; Situação = Solicitada && Setor = usuário.Setor); a Chefia só vê o próprio setor","Visibilidade por registro: papel de segurança com acesso Usuário mostra só os registros que a pessoa possui","Ações rápidas na linha: botões com Visible por regra e Patch na Situação"],d:"Tabela Reserva (propriedade do usuário para o Condutor)",w:"Perfil de segurança de coluna libera a coluna para todos os registros do grupo; não existe regra “só o dono vê”. Para mostrar “Reservado” a terceiros, separe os dados: uma tabela de ocupação (veículo, início, fim, situação) com leitura ampla e a tabela Reserva com destino e motivo, lida só pelo dono e pelo setor. Teste com usuário comum, não com administrador."},
+ frota:{c:["Galeria de veículos com barra de revisão (largura proporcional aos km restantes)","Desativar sem apagar: statecode Ativo/Inativo; exclusão bloqueada por relação Referencial, Restringir exclusão com a Reserva","Revisão vencida bloqueia novas reservas, no app e no servidor","Bloqueio de manutenção em tabela própria com início e fim; a agenda une Reservas e Bloqueios em uma coleção","Aviso de revisão: fluxo agendado (gatilho Recurrence) que lista veículos com List rows e filtro OData e envia e-mail"],d:"Tabelas Veículo e Bloqueio de manutenção",w:"Comparar duas colunas (odômetro contra revisão) existe na Web API; no Canvas, confira o aviso de delegação ou use coluna calculada."},
+ ind:{c:["Cartões: CountRows e Sum sobre a tabela; delegar exige a opção “Enhanced delegation for Microsoft Dataverse”, e a agregação é limitada a 50.000 linhas com filtro. CountRows sem filtro usa contagem em cache, que pode ser imprecisa","Gráficos nativos: Coluna, Linha e Pizza; a barra horizontal do mockup seria uma Galeria com Label de largura proporcional","Utilização: minutos reservados ÷ horas úteis do período; melhor numa coluna calculada ou resumo no servidor","Histórico longo e cruzamentos: Power BI embutido (o Learn recomenda até 3 tiles por tela)"],d:"Tabela Reserva e Veículo",w:"A Chefia vê só o setor: filtro Setor = usuário.Setor na fórmula e, no servidor, modelar o setor como unidade de negócio ou equipe, pois papéis de segurança agem por dono, unidade e equipe, não por valor de coluna."},
+ usuarios:{c:["Tabela Usuário com Perfil (escolha), Setor, categorias da CNH, validade e Ativo","Fórmula nomeada em App.Formulas: UsuarioAtual = LookUp(Usuarios; Email = User().Email) (sem o prefixo var, que é de variáveis)","Alerta de CNH: DateDiff(Today(); Validade; TimeUnit.Days) <= 30","Exclusão bloqueada se a pessoa aparece em reservas; desative em vez de excluir","Último administrador e autoalteração de perfil são regras do app e, melhor, do servidor"],d:"Tabela Condutor/Perfil do app ligada ao usuário do sistema (systemuser) do Dataverse, que vem do Microsoft Entra ID",w:"Perfil no app não substitui papel de segurança: atribua os papéis do Dataverse a grupos do Entra ID."}
+};
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>${ppHTML()}`}
+const NM={cover:"Capa e acesso",agenda:"Agenda",rform:"Nova reserva",detalhe:"Detalhe da reserva",reservas:"Reservas",frota:"Frota e bloqueios",ind:"Indicadores",usuarios:"Usuários e CNH"};
+function ppHTML(){const k=S.ppk||(S.logged?(S.sel?"detalhe":S.tela):"cover");const p=PP[k];
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(NM[k])}</b> · Canvas app, celular, tablet e desktop</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d)}</dd></dl><div class="warn"><b>Atenção:</b> ${esc(p.w)}</div><p class="muted sm" style="margin-top:10px">Conferido na documentação oficial da Microsoft em 04/11/2026. Este é um mockup HTML: não é um app Power Apps.</p>`}
+/* ===== Render ===== */
+function renderHdr(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un&&n.u===S.uid).length;
+ $("#hdr").innerHTML=`<div class="bn">${ic("car")}<span>Orla Frota<small>Reserva de veículos</small></span></div>
+ <button class="ib" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>
+ <div class="usr"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small style="opacity:.85">${esc(S.perfil)}</small></div><button class="ib" data-act="sair" aria-label="Sair">${ic("logout")}</button></div><div id="npop" hidden></div>`}
+function render(focus){if(!$("#modal").innerHTML)S.ppk=null;
+ document.body.classList.toggle("lg",S.logged);document.body.classList.toggle("pt",S.perfil==="Portaria");
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ if(!ROLES[S.perfil].includes(S.tela))S.tela="agenda";
+ $("#screen").innerHTML=V[S.tela]();
+ $("#rail").innerHTML=ROLES[S.perfil].map(t=>`<button data-nav="${t}" ${S.tela===t?'aria-current="page"':""}>${ic(NAV[t][0])}<span>${NAV[t][1]}</span></button>`).join("");
+ renderHdr();$("#pp").innerHTML=ppPanel();$("#perfil").value=S.uid;$(".fab").hidden=!["agenda","reservas"].includes(S.tela);
+ if(!focus&&!$("#modal").innerHTML&&(!document.activeElement||document.activeElement===document.body)){const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}
+}
+function go(t,focus=true){S.tela=t;if(t==="ind"){busy("Carregando indicadores…",()=>render(focus),Math.min(MS,450));return}render(focus)}
+function buildPeople(){renderCover();$("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("");if(S.logged)$("#perfil").value=S.uid}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("car")+"<span>Orla Serviços · Empresa fictícia</span>";
+ $("#cvlist").innerHTML=[["cal","Agenda de cada veículo por dia ou semana"],["shield","Conflito de horário, lotação e CNH conferidos na hora"],["key","Retirada e devolução com odômetro e combustível"],["chart","Uso da frota, km por setor e atrasos"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ $("#cvsteps").innerHTML=["Solicitada","Aprovada","Em uso","Devolvida"].map(s=>`<li>${esc(s)}</li>`).join("");
+ if(!U(S.cv)||!U(S.cv).ativo)S.cv=(USERS.find(u=>u.ativo)||{}).id;
+ $("#cvp").innerHTML=PERFIS.map(p=>{const L=USERS.filter(u=>u.ativo&&u.perfil===p);return L.length?`<div class="pgr">${esc(p)} · ${esc(PDESC[p])}</div>`+L.map(u=>`<button class="prs" data-act="cvsel" data-v="${u.id}" aria-pressed="${S.cv===u.id}"><span class="avatar" aria-hidden="true">${ini(u.nome)}</span><span><b>${esc(u.nome)}</b><small>${esc(u.setor)}${u.cnh?" · CNH "+esc(u.cnh):""}</small></span></button>`).join(""):""}).join("");
+ $(".fab").innerHTML=ic("plus");$("#entrar").innerHTML=ic("logout")+"Entrar como "+esc((U(S.cv)||{nome:""}).nome);$("#ppbtn").innerHTML=ic("layers")+"Como seria na Power Platform";
+ $("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("")}
+/* ===== Eventos ===== */
+function proxHora(){const d=new Date();d.setSeconds(0,0);const m=d.getMinutes();d.setMinutes(m<=30?30:60);return tiso(d)}
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden)p.hidden=true}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML){S.back=null;closeModal()}go(t.dataset.nav);return}
+ const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v;
+ switch(a){
+  case"cvsel":S.cv=v;renderCover();$("#cvp [aria-pressed=true]").focus();break;
+  case"entrar":{const alvo=U(S.cv);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;S.tela="agenda";render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair do aplicativo?","Sair",()=>{S.logged=false;render(false);$("#entrar").focus()});break;
+  case"closemodal":cancelModal();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt" class="sr">Como seria na Power Platform</h2><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="pp">${ppHTML()}</div></div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){const mine=S.notifs.filter(n=>n.u===S.uid);mine.forEach(n=>n.un=false);{const bb=$("#hdr .badge");if(bb)bb.remove();t.setAttribute("aria-label","Notificações")}p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${mine.length?mine.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div>${esc(n.m)}<div class="muted sm">${esc(n.h)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}`;renderHdrKeep()}p.hidden=!open;t.setAttribute("aria-expanded",String(open));break}
+  case"clearn":S.notifs=S.notifs.filter(n=>n.u!==S.uid);renderHdr();$("#hdr [data-act=bell]").focus();break;
+  case"rnew":{let tt=t.dataset.t;if(tt&&tt<nowS())tt=proxHora();S.ppk="rform";rForm(null,{v,t:tt});$("#pp").innerHTML=ppPanel();break}
+  case"redit":S.ppk="rform";rForm(R(id));$("#pp").innerHTML=ppPanel();break;
+  case"ropen":abrirR(id);break;
+  case"rapr":{const b=!!$("#modal .sheet");if(b){S.back=null;closeModal()}aprovar(id);break}
+  case"rrec":recusarForm(id);break;
+  case"rcan":cancelarForm(id);break;
+  case"rout":retiradaForm(id);break;
+  case"rin":devolucaoForm(id);break;
+  case"rdel":delRes(id);break;
+  case"rtermo":{const r=R(id);openModal(`<div class="modal"><div class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Termo de uso ${esc(id)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar termo">${ic("x")}</button></div>${relR(r)}<div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir ou salvar em PDF</button></div></div></div>`);break}
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  case"agnav":S.date=v==="0"?hoje():addTo(S.date,(+v)*(S.view==="dia"?1:7));render(false);break;
+  case"view":S.view=v;render(false);break;
+  case"rfl":S.rfl=v;render(false);break;
+  case"rvclear":S.rveic="";render(false);break;
+  case"sub":S.sub=v;render(false);break;
+  case"per":S.per=+v;render(false);break;
+  case"drillv":S.rveic=v;S.rfl="Todas";S.rq="";S.rsetor="";go("reservas");break;
+  case"drillst":S.rfl=v;S.rveic="";S.rq="";S.rsetor="";go("reservas");break;
+  case"vnew":vForm(null);break;
+  case"vedit":vForm(V1(id));break;
+  case"vtog":{const x=V1(id);if(x.ativo&&S.res.some(r=>r.veic===id&&(r.status==="Em uso"||(ocupa(r)&&r.fim>=nowS())))){toast("Há reservas abertas deste veículo. Cancele ou conclua antes de desativar.","err");break}x.ativo=!x.ativo;render(false);toast(x.ativo?"Veículo ativado.":"Veículo desativado.","info");break}
+  case"vdel":if(S.res.some(r=>r.veic===id)||S.bq.some(b=>b.veic===id))toast("Veículo com reservas ou bloqueios. Desative em vez de excluir.","err");else confirmar("Excluir o veículo "+id+"?","Excluir",()=>busy("Excluindo…",()=>{VEIC.splice(VEIC.findIndex(x=>x.id===id),1);toast("Veículo excluído.","info");render(false)}));break;
+  case"bnew":bForm(null);break;
+  case"bedit":bForm(S.bq.find(b=>b.id===id));break;
+  case"bdel":confirmar("Remover o bloqueio "+id+"? O veículo volta a ficar livre nesse período.","Remover",()=>busy("Removendo…",()=>{S.bq=S.bq.filter(b=>b.id!==id);toast("Bloqueio removido.","info");render(false)}));break;
+  case"usernew":userForm(null);break;
+  case"useredit":userForm(U(id));break;
+  case"usertog":{const u=U(id);if(u.id===S.uid){toast("Você não pode desativar o seu próprio usuário.","err");break}if(u.ativo&&u.perfil==="Administrador"&&admins().length<=1){toast("Mantenha ao menos um administrador ativo.","err");break}if(u.ativo&&abertas(u).length){toast("Este usuário tem reservas abertas. Cancele ou conclua antes de desativar.","err");break}u.ativo=!u.ativo;buildPeople();render(false);toast(u.ativo?"Usuário ativado.":"Usuário desativado.","info");break}
+  case"userdel":{const u=U(id);if(u.id===S.uid){toast("Você não pode excluir o seu próprio usuário.","err");break}if(u.perfil==="Administrador"&&u.ativo&&admins().length<=1){toast("Mantenha ao menos um administrador ativo.","err");break}if(userUsed(u)){toast("Este usuário aparece em reservas ou aprovações. Desative em vez de excluir.","err");break}confirmar("Excluir "+u.nome+"?","Excluir",()=>busy("Excluindo…",()=>{USERS.splice(USERS.findIndex(x=>x.id===id),1);buildPeople();toast("Usuário excluído.","info");render(false)}));break}
+ }});
+function renderHdrKeep(){}
+document.addEventListener("input",e=>{const t=e.target.closest("[data-live]");if(!t)return;S[t.dataset.live]=t.value;const id=t.id,pos=t.selectionStart;render(false);const n=$("#"+id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}});
+document.addEventListener("change",e=>{const t=e.target.closest("[data-sel]");if(t){if(t.dataset.sel==="date"&&!t.value)return;S[t.dataset.sel]=t.value;render(false);const n=$("#"+t.id);if(n)n.focus();return}
+ if(e.target.id==="perfil"){const id=e.target.value;if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");e.target.value=S.uid;return}if($("#modal").innerHTML){S.back=null;closeModal()}setUser(id);S.rfl="Todas";S.rveic="";S.rsetor="";S.rq="";render(true);toast("Agora você é "+alvo.nome+" ("+alvo.perfil+").","info")}});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;return}if($("#modal").innerHTML&&!S.busy)cancelModal()});
+renderCover();render(false);
+</script>
+</body>
+</html>

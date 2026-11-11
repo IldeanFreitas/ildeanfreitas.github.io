@@ -100,7 +100,9 @@
     var links = Array.prototype.slice.call(document.querySelectorAll('.nav__link'));
     var secoes = links
       .map(function (a) {
-        return document.querySelector(a.getAttribute('href'));
+        var alvo = a.getAttribute('href');
+        /* Nas páginas internas os links apontam para a home (/#secao). */
+        return alvo.charAt(0) === '#' ? document.querySelector(alvo) : null;
       })
       .filter(Boolean);
     if (!secoes.length) return;

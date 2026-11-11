@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup · Clínica Lumevita · Agendamento de consultas</title>
+<style>
+:root{--pri:#a16207;--pri2:#854d0e;--dark:#2d1f06;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#fffbf2;--bd:#e9dcc0;--tx:#1f1a10;--tx2:#5a4f3a;--w:#fff;--r:12px;--acc:#0e7490;--tint:#fef3c7}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#f1e9d6;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}.sm{font-size:13px}
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;min-height:40px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx)}
+.banner label{display:flex;gap:6px;align-items:center;min-height:40px}
+.banner input[type=checkbox]{width:20px;height:20px}
+.ppbtn{display:inline-flex;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center;min-height:40px}
+@media(min-width:1280px){body.lg .ppbtn{display:none}}
+/* capa */
+#cover{flex:1;overflow:auto;background:radial-gradient(circle at 15% 8%,#d97706 0,#7c4a06 45%,#241502 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:1040px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:820px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.steps{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px}
+.cv ul.fl{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv ul.fl li{display:flex;gap:10px;align-items:flex-start}
+.login{background:#fff;color:var(--tx);border-radius:18px;padding:24px;box-shadow:0 20px 50px #00000066}
+.login h2{margin:0 0 4px;font-size:20px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1600px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:flex;flex-direction:column;background:var(--bg);border-radius:16px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #2d1f062b}
+@media(max-width:700px){#app{border-radius:0;border:0}}
+.hdr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--dark);color:#fff;position:relative}
+.hdr .bn{display:flex;gap:8px;align-items:center;font-weight:700;min-width:0;white-space:nowrap}
+.hdr .crumb{display:flex;gap:6px;align-items:center;min-width:0;opacity:.95;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .crumb b{overflow:hidden;text-overflow:ellipsis}
+@media(max-width:620px){.hdr .bn span{display:none}}
+@media(max-width:420px){.hdr .crumb .cs{display:none}}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:inherit;flex:none}
+.ib:hover{background:#ffffff22}
+main .ib:hover,.mbox .ib:hover,.toast .ib:hover{background:#0000000f}
+.badge{position:absolute;top:4px;right:4px;background:#dc2626;color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1}
+@media(max-width:760px){.usr .nm{display:none}}
+.clk{display:inline-flex;gap:6px;align-items:center;background:#ffffff1f;color:#fff;border:1px solid #fff4;border-radius:10px;min-height:40px;padding:4px 10px;cursor:pointer;font-size:13px}
+@media(max-width:520px){.clk span{display:none}}
+#screen{flex:1;overflow:auto;padding:16px;min-height:0;min-width:0}
+@media(min-width:1100px){#screen{padding:20px 26px}}
+h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px}h3{font-size:15px;margin:16px 0 8px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;gap:10px;align-items:center;text-align:left}
+.kpi b{font-size:24px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:40px;height:40px;border-radius:10px;background:var(--tint);color:var(--pri);display:grid;place-items:center;flex:none}
+.kpi.bad .kic{background:#fde4e2;color:var(--bad)}
+button.kpi{cursor:pointer;font:inherit;color:inherit}button.kpi:hover{border-color:var(--pri)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:10px 12px;border:1px solid #8a7a55;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:84px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#6b6250}
+.sb{position:relative}.sb .ic{position:absolute;left:12px;bottom:13px;color:var(--tx2)}.sb .in{padding-left:40px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri2)}.btn.sec:hover{background:var(--tint)}
+.btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.bad.sec{background:#fff;color:#b3261e;border-color:#b3261e}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e7e5e4;color:#3f3f46}.t-pri{background:var(--tint);color:#6b3f07}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri2);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.empty{text-align:center;color:var(--tx2);padding:26px 10px}.empty .ic{width:34px;height:34px;margin-bottom:6px}
+.tw{overflow-x:auto}
+table.tb{border-collapse:collapse;width:100%;min-width:640px;background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.tb th,.tb td{border-bottom:1px solid var(--bd);padding:9px 10px;text-align:left;vertical-align:middle;font-size:14px}
+.tb th{background:#f6eedb;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--tx2)}
+.tb td.act{white-space:nowrap;text-align:right}
+.hbar{display:grid;grid-template-columns:minmax(100px,170px) 1fr 52px;gap:8px;align-items:center;margin:4px 0;font-size:14px;width:100%;background:none;border:0;padding:2px 0;text-align:left}
+button.hbar{cursor:pointer;min-height:40px}button.hbar:hover .nm2{text-decoration:underline}
+.hbar b{text-align:right}
+.bar{display:block;height:12px;background:#ece3cd;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}.bar.w>i{background:var(--acc)}.bar.r>i{background:var(--bad)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+svg.cs{width:100%;height:auto;display:block}
+svg.cs text{font:11px system-ui,sans-serif;fill:#3f3a2c}
+details.dt{margin-top:8px;font-size:13px}details.dt summary{cursor:pointer;color:var(--pri2);min-height:40px;display:flex;align-items:center}
+details.dt table{border-collapse:collapse;margin-top:4px}details.dt th,details.dt td{border:1px solid var(--bd);padding:3px 8px;text-align:left}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:var(--tint)}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri2);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+#npop{position:absolute;right:8px;top:100%;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #2d1f064d;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:var(--tint)}
+/* modal e gaveta */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#2d1f06cc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:780px}.mbox.big{max-width:900px}
+.modal.dr{justify-content:flex-end;align-items:stretch;padding:0}
+.mbox.dr{max-width:600px;height:100%;max-height:100dvh;border-radius:16px 0 0 16px}
+.modal.dl{justify-content:flex-start;align-items:stretch;padding:0}
+.mbox.dl{max-width:340px;height:100%;max-height:100dvh;border-radius:0 16px 16px 0;padding:12px}
+@media(max-width:600px){.mbox.dr{border-radius:0;max-width:none}.mbox.dl{max-width:min(340px,88vw)}}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal:not(.dr):not(.dl){align-items:flex-end;padding:0}.modal:not(.dr):not(.dl) .mbox{border-radius:16px 16px 0 0;max-height:94dvh}}
+.dl2{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;margin:8px 0;font-size:14px}.dl2 dt{color:var(--tx2)}.dl2 dd{margin:0}
+.sec{border-top:1px solid var(--bd);margin-top:14px;padding-top:10px}
+.sec h3{margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.li{display:flex;gap:8px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding:6px 0;font-size:14px}
+#busy{position:fixed;inset:0;z-index:80;background:#2d1f0666;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0006}
+.spin{width:24px;height:24px;border:3px solid #f1dfae;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-right-color:var(--pri)}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:22px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(max-width:560px){#toasts{top:8px;bottom:auto}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0006}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast .ib{color:#fff;width:40px;height:40px}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body>*{display:none!important}
+ body>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}.doc{border:0;padding:0}
+}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 14px}
+.seg{display:inline-flex;border:1px solid #8a7a55;border-radius:10px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed=true]{background:var(--pri);color:#fff}
+/* gaveta de navegação */
+.navd{display:grid;gap:4px;margin:8px 0}
+.navd button{display:flex;gap:12px;align-items:center;text-align:left;border:0;background:none;border-radius:12px;padding:10px 12px;cursor:pointer;min-height:56px;width:100%}
+.navd button:hover{background:var(--tint)}
+.navd button[aria-current=page]{background:var(--tint);font-weight:700;box-shadow:inset 4px 0 0 var(--pri)}
+.navd small{display:block;color:var(--tx2);font-weight:400;font-size:12px}
+.nvu{display:flex;gap:10px;align-items:center;border-top:1px solid var(--bd);margin-top:10px;padding-top:12px}
+/* assistente */
+.stepper{list-style:none;margin:10px 0 14px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.stepper li{display:flex;flex-direction:column;gap:2px;border-top:4px solid var(--bd);padding-top:6px;font-size:13px;color:var(--tx2);min-width:0}
+.stepper li b{color:var(--tx);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stepper li.done{border-top-color:var(--ok)}.stepper li.cur{border-top-color:var(--pri)}.stepper li.cur b{color:var(--pri2)}
+@media(max-width:520px){.stepper li small{display:none}}
+.optg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.opt{display:flex;flex-direction:column;gap:4px;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:14px;padding:12px;cursor:pointer;min-height:76px}
+.opt:hover{border-color:var(--pri)}
+.opt[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.opt[disabled]{opacity:.55;cursor:not-allowed}
+.opt small{color:var(--tx2)}
+.pcard{display:grid;grid-template-columns:48px 1fr;gap:12px;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:14px;padding:12px;cursor:pointer;width:100%}
+.pcard:hover{border-color:var(--pri)}.pcard[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.pcard .avatar{width:48px;height:48px;font-size:16px}
+.pcard[disabled]{opacity:.55;cursor:not-allowed}
+.days{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin:8px 0}
+.day{flex:none;width:76px;min-height:76px;border:2px solid var(--bd);background:#fff;border-radius:14px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;text-align:center}
+.day b{font-size:20px;line-height:1}.day small{color:var(--tx2);font-size:12px}
+.day[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.day[disabled]{opacity:.5;cursor:not-allowed;background:#f4efe3}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin:6px 0 10px}
+.slot{min-height:44px;border:2px solid var(--bd);background:#fff;border-radius:10px;cursor:pointer;font-weight:600}
+.slot:hover{border-color:var(--pri)}.slot[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.per{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:10px 0 2px}
+.sumbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}
+.sumbox div{background:#fffaf0;border:1px solid var(--bd);border-radius:10px;padding:8px 10px}.sumbox small{display:block;color:var(--tx2)}
+.note{background:var(--tint);border:1px solid #ecd48a;border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px}
+.note.bad{background:#fde4e2;border-color:#f3a09a}
+/* cartões de consulta */
+.cons{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--bd);border-radius:14px;padding:10px 12px;margin-bottom:8px;width:100%;text-align:left;cursor:pointer}
+.cons:hover{border-color:var(--pri)}
+.cons .dt{display:flex;flex-direction:column;align-items:center;background:var(--tint);border-radius:10px;padding:6px 0;font-size:12px;color:var(--pri2);font-weight:700;line-height:1.1}
+.cons .dt b{font-size:22px;color:var(--tx)}
+@media(max-width:520px){.cons{grid-template-columns:56px 1fr}.cons .st{grid-column:1/-1}}
+/* agenda em colunas */
+.agbar{display:flex;gap:8px 12px;align-items:end;flex-wrap:wrap;margin:8px 0}
+.agbar .nav{display:flex;gap:6px;align-items:center}
+.agbar .dtl{font-weight:700;min-width:170px;text-align:center}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin:6px 0}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px;border:1px solid #0003}
+.gwrap{overflow:auto;background:#fff;border:1px solid var(--bd);border-radius:12px;max-height:calc(100dvh - 330px);min-height:360px}
+.gin{display:grid;position:relative}
+.gax{position:sticky;left:0;z-index:4;background:#fffaf0;border-right:1px solid var(--bd)}
+.gax .gh{height:52px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:#fffaf0;z-index:5}
+.gax .hh{position:absolute;right:6px;font-size:11px;color:var(--tx2);transform:translateY(-7px)}
+.gc{border-right:1px solid var(--bd);position:relative;min-width:150px}
+.gc .gh{height:52px;border-bottom:1px solid var(--bd);position:sticky;top:0;background:#f6eedb;z-index:3;padding:4px 8px;font-size:13px;line-height:1.2;overflow:hidden}
+.gc .gh b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gb{position:relative;background-image:linear-gradient(to bottom,#ece3cd 1px,transparent 1px);background-size:100% calc(var(--pm)*60px)}
+.goff{position:absolute;left:0;right:0;background:repeating-linear-gradient(135deg,#f1ece0,#f1ece0 6px,#e8e1d0 6px,#e8e1d0 12px)}
+.gfree,.gbl{position:absolute;left:3px;right:3px;border-radius:8px;overflow:hidden;text-align:left;padding:2px 6px;font-size:12px;line-height:1.2;border:2px solid transparent}
+.gfree{background:#fffdf6;border:2px dashed #cdbd93;color:var(--tx2);cursor:pointer}
+.gfree:hover{background:var(--tint);border-color:var(--pri)}
+.gbl{cursor:pointer;color:#1f1a10}
+.gbl b,.gbl span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-Agendada{background:#fde68a;border-color:#b58105}.s-Confirmada{background:#bbf7d0;border-color:#1a7a4a}.s-Presente{background:#1d4ed8;color:#fff;border-color:#1e3a8a}
+.s-Atendida{background:#d6d3c9;border-color:#6b6455}.s-Faltou{background:#fecaca;border-color:#b3261e}.s-Cancelada{background:#eee;border-color:#999}
+.gbl.bq{background:repeating-linear-gradient(45deg,#e4e4e7,#e4e4e7 6px,#d4d4d8 6px,#d4d4d8 12px);border-color:#71717a;cursor:default}
+.gbl.ofe{background:#e0f2fe;border:2px dashed #0e7490;cursor:default}
+.gnow{position:absolute;left:0;right:0;height:2px;background:#be123c;z-index:2;pointer-events:none}
+.fer{background:#fef3c7;border:1px solid #ecd48a;border-radius:10px;padding:10px;margin:8px 0}
+.lock{display:inline-flex;gap:4px;align-items:center}
+.hold{opacity:.9}
+.persons{display:grid;gap:8px;margin:12px 0;max-height:46dvh;overflow:auto}
+.prs{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:56px;width:100%}
+.prs small{display:block;color:var(--tx2);font-size:12px}
+.prs[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.pgr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:8px 0 2px}
+.gpast{position:absolute;left:3px;right:3px;background:#f7f2e4;border-radius:6px}
+.tabsa{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tabsa button{border:1px solid var(--bd);background:#fff;border-radius:10px;padding:8px 14px;cursor:pointer;min-height:44px}
+.tabsa button[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.ok-box{text-align:center;padding:18px}.ok-box .ic{width:46px;height:46px;color:var(--ok)}
+@media print{.hdr,.banner{display:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></symbol>
+<symbol id="i-calplus" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></symbol>
+<symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></symbol>
+<symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 3h-4l-.4 2.4a7 7 0 0 0-2.2 1.3l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 21h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h13M16 3l4 4-4 4M17 17H4M8 13l-4 4 4 4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+
+</svg>
+
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Empresa fictícia “Clínica Lumevita”.</span>
+  <div class="sim">
+    <label>Usuário <select id="perfil" aria-label="Usuário simulado"></select></label>
+    <label><input type="checkbox" id="race"> Simular choque de horário</label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Agendamento de consultas sem choque de horário</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">O paciente escolhe especialidade, profissional, dia e horário em quatro etapas. A recepção vê a agenda em colunas por profissional, e a lista de espera oferece a vaga que abrir.</p>
+      <ul class="fl" id="cvlist"></ul>
+      <ol class="steps" id="cvsteps" aria-label="Etapas do agendamento"></ol>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso ao aplicativo</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Escolha quem está entrando. Nenhum dado é enviado.</p>
+      <div class="persons" id="cvp" role="group" aria-label="Usuário de acesso"></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted sm" style="margin:12px 0 0">Depois de entrar, o seletor Usuário no topo da página troca de pessoa.</p>
+    </div>
+  </div>
+</section>
+
+<div id="stage" hidden>
+  <div id="app">
+    <header class="hdr" id="hdr"></header>
+    <main id="screen" tabindex="-1"></main>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const p2=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const addTo=(s,n)=>{const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const fmt=s=>s?s.slice(0,10).split("-").reverse().join("/"):"—";
+const fmtH=s=>s?s.slice(11,16):"";
+const fmtDT=s=>s?s.slice(8,10)+"/"+s.slice(5,7)+" "+s.slice(11,16):"—";
+const fmtDTL=s=>s?fmt(s)+" "+fmtH(s):"—";
+const TD=s=>new Date(s.length===10?s+"T00:00":s);
+const tiso=d=>iso(d)+"T"+p2(d.getHours())+":"+p2(d.getMinutes());
+const addMin=(s,m)=>tiso(new Date(TD(s).getTime()+m*6e4));
+const minDiff=(a,b)=>Math.round((TD(b)-TD(a))/6e4);
+const overlap=(a1,a2,b1,b2)=>a1<b2&&a2>b1;
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const ini=n=>esc(String(n||"").split(/\s+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase());
+const num=v=>String(v).replace(".",",");
+const durTxt=m=>{const h=Math.floor(m/60),mm=m%60;return h>=24?Math.floor(h/24)+" d "+(h%24?(h%24)+" h":""):h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const wkStart=s=>{const d=new Date(s+"T12:00:00");const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d)};
+const DSEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const DSEML=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+const MESN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const wdOf=s=>new Date(s.slice(0,10)+"T12:00:00").getDay();
+const fmtDia=s=>DSEM[wdOf(s)]+" "+s.slice(8,10)+"/"+s.slice(5,7);
+const fmtDiaL=s=>DSEML[wdOf(s)]+", "+s.slice(8,10)+"/"+s.slice(5,7)+"/"+s.slice(0,4);
+const toMin=h=>{const m=/^(\d{1,2}):(\d{2})$/.exec(h||"");return m?(+m[1])*60+(+m[2]):NaN};
+const hm=n=>p2(Math.floor(n/60))+":"+p2(n%60);
+const minDia=s=>toMin(s.slice(11,16));
+const idade=(nasc,ref)=>{const a=new Date(nasc+"T12:00:00"),b=new Date(ref.slice(0,10)+"T12:00:00");let n=b.getFullYear()-a.getFullYear();if(b.getMonth()<a.getMonth()||(b.getMonth()===a.getMonth()&&b.getDate()<a.getDate()))n--;return n};
+const brl=v=>"R$ "+Number(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(a,b)=>b?Math.round(a*100/b):0;
+let _s=90417;const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+/* ===== Dados fictícios · Clínica Lumevita ===== */
+const PERFIS=["Paciente","Recepção","Profissional","Administrador"];
+const PDESC={Paciente:"agenda e acompanha as próprias consultas e as dos dependentes",Recepção:"agenda para pacientes, faz check-in e cuida da lista de espera",Profissional:"vê a própria agenda e conclui os atendimentos",Administrador:"cadastros, regras de agendamento e indicadores"};
+const ROLES={Paciente:["agendar","consultas","espera","dados"],Recepção:["agenda","pacientes","espera","bloqueios","relat"],Profissional:["prof","bloqueios"],Administrador:["agenda","pacientes","espera","bloqueios","relat","admin"]};
+const NAVI={agendar:["Agendar consulta","calplus","Escolha especialidade, profissional e horário"],consultas:["Minhas consultas","cal","Confirme, remarque ou cancele"],espera:["Lista de espera","hourglass","Vagas que podem abrir para você"],dados:["Meus dados","user","Contato, convênio e dependentes"],agenda:["Agenda","cal","Colunas por profissional, semana e lista"],pacientes:["Pacientes","users","Cadastro e histórico"],bloqueios:["Bloqueios","lock","Ausências e horários indisponíveis"],relat:["Indicadores","chart","Ocupação, faltas e cancelamentos"],admin:["Cadastros","gear","Profissionais, regras, feriados e usuários"],prof:["Minha agenda","cal","Seus atendimentos do dia e da semana"]};
+const ST_ATIVAS=["Agendada","Confirmada","Presente","Atendida","Faltou"];
+const STAT_TAG={Agendada:"t-info",Confirmada:"t-ok",Presente:"t-pri",Atendida:"t-na",Faltou:"t-bad",Cancelada:"t-na"};
+const MOTIVOS_CANC=["Imprevisto do paciente","Melhorou e não precisa mais","Conflito de horário","Mudança de convênio","Ausência do profissional","Erro no agendamento","Outro motivo"];
+const MOTIVOS_BLQ=["Férias","Congresso","Ausência","Manutenção da sala","Reunião interna"];
+const QUEIXAS=["Consulta de rotina","Retorno","Revisão de exames","Check-up anual","Acompanhamento","Avaliação inicial","Dor nas costas","Dor de cabeça frequente","Manchas na pele"];
+const PERIODOS=["Qualquer","Manhã","Tarde"];
+
+/* a data de hoje do mockup é o primeiro dia útil a partir da data real */
+const BASE=(()=>{const d=new Date();d.setHours(12,0,0,0);while(d.getDay()===0||d.getDay()===6)d.setDate(d.getDate()+1);return iso(d)})();
+const G=(dias,w)=>{const g={};dias.forEach(x=>{g[x]=w});return g};
+const J=(...x)=>Object.assign({},...x);
+
+const ESPS=[{id:"e1",nome:"Clínica geral",imin:15,imax:null,ativo:true},{id:"e2",nome:"Cardiologia",imin:0,imax:null,ativo:true},{id:"e3",nome:"Dermatologia",imin:0,imax:null,ativo:true},{id:"e4",nome:"Pediatria",imin:0,imax:14,ativo:true},{id:"e5",nome:"Ortopedia",imin:0,imax:null,ativo:true},{id:"e6",nome:"Nutrição",imin:0,imax:null,ativo:true}];
+const CONVS=[{id:"c0",nome:"Particular",ativo:true},{id:"c1",nome:"Nortia Saúde",ativo:true},{id:"c2",nome:"Vivamar",ativo:true},{id:"c3",nome:"Cedral Saúde",ativo:true}];
+const PROFS=[
+ {id:"p1",nome:"Dra. Marina Teixeira",esp:"e1",dur:20,online:true,sala:"Consultório 1",conv:["c1","c2","c3"],ativo:true,grade:G([1,2,3,4,5],[["08:00","12:00"],["14:00","17:00"]])},
+ {id:"p2",nome:"Dr. Caio Albuquerque",esp:"e2",dur:30,online:false,sala:"Consultório 4",conv:["c1","c2"],ativo:true,grade:G([2,4],[["08:00","12:00"],["14:00","17:00"]])},
+ {id:"p3",nome:"Dra. Helena Rios",esp:"e3",dur:30,online:true,sala:"Consultório 2",conv:["c1","c3"],ativo:true,grade:G([1,3,5],[["09:00","12:00"],["14:00","18:00"]])},
+ {id:"p4",nome:"Dr. Otávio Lemos",esp:"e4",dur:30,online:false,sala:"Consultório 5",conv:["c1","c2","c3"],ativo:true,grade:G([1,2,3,4],[["08:00","12:00"],["13:00","16:00"]])},
+ {id:"p5",nome:"Dra. Beatriz Nogueira",esp:"e4",dur:20,online:true,sala:"Consultório 6",conv:["c2","c3"],ativo:true,grade:G([2,3,4,5],[["14:00","18:00"]])},
+ {id:"p6",nome:"Dr. Rafael Castelo",esp:"e5",dur:30,online:false,sala:"Consultório 3",conv:["c1","c2"],ativo:true,grade:J(G([1,3],[["08:00","12:00"]]),G([4],[["14:00","18:00"]]))},
+ {id:"p7",nome:"Marcos Pinheiro",esp:"e6",dur:40,online:true,sala:"Sala de Nutrição",conv:["c3"],ativo:true,grade:G([1,2,3,4,5],[["08:00","12:00"]])},
+ {id:"p8",nome:"Dra. Lívia Furtado",esp:"e1",dur:20,online:true,sala:"Consultório 7",conv:["c1","c2","c3"],ativo:true,grade:J(G([6],[["08:00","12:00"]]),G([2,4],[["14:00","18:00"]]))}
+];
+const PACS=[
+ ["pac1","Camila Duarte","1988-04-12","c1","","CN-48210"],["pac2","Roberto Aragão","1975-09-30","c2","","VV-30417"],["pac3","Sônia Medeiros","1962-01-22","c0","",""],
+ ["pac4","Theo Duarte","2020-08-05","c1","pac1","CN-48211"],["pac5","Lia Duarte","2015-02-17","c1","pac1","CN-48212"],["pac6","Eduardo Salles","1991-07-08","c1","","CN-55102"],
+ ["pac7","Valéria Monteiro","1984-11-19","c2","","VV-71820"],["pac8","Gustavo Rangel","1999-03-03","c0","",""],["pac9","Isabela Fontes","2002-12-25","c3","","CS-90314"],
+ ["pac10","Henrique Bastos","1957-05-14","c2","","VV-12044"],["pac11","Larissa Peixoto","1993-10-01","c1","","CN-60877"],["pac12","Nelson Cardoso","1949-06-27","c0","",""],
+ ["pac13","Aline Barreto","1980-02-09","c3","","CS-44019"],["pac14","Miguel Tavares","2018-09-14","c3","pac13","CS-44020"],["pac15","Júlia Esteves","2010-01-30","c2","pac7","VV-71821"],
+ ["pac16","Fábio Queiroz","1970-08-21","c1","","CN-23398"],["pac17","Renata Coutinho","1996-04-04","c0","",""],["pac18","Otto Vilela","1986-12-11","c2","","VV-80952"]
+].map((x,i)=>({id:x[0],nome:x[1],nasc:x[2],conv:x[3],resp:x[4],cart:x[5],tel:"(00) 90000-"+String(100+i*7).padStart(4,"0"),email:x[1].toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/\s+/g,".")+"@correio.example",ativo:true}));
+const USERS=[
+ {id:"u1",nome:"Camila Duarte",email:"camila.duarte@lumevita.example",perfil:"Paciente",pac:"pac1",prof:"",ativo:true},
+ {id:"u2",nome:"Roberto Aragão",email:"roberto.aragao@lumevita.example",perfil:"Paciente",pac:"pac2",prof:"",ativo:true},
+ {id:"u3",nome:"Sônia Medeiros",email:"sonia.medeiros@lumevita.example",perfil:"Paciente",pac:"pac3",prof:"",ativo:true},
+ {id:"u4",nome:"Patrícia Vasques",email:"patricia.vasques@lumevita.example",perfil:"Recepção",pac:"",prof:"",ativo:true},
+ {id:"u5",nome:"Diego Salgado",email:"diego.salgado@lumevita.example",perfil:"Recepção",pac:"",prof:"",ativo:true},
+ {id:"u6",nome:"Dra. Marina Teixeira",email:"marina.teixeira@lumevita.example",perfil:"Profissional",pac:"",prof:"p1",ativo:true},
+ {id:"u7",nome:"Dr. Caio Albuquerque",email:"caio.albuquerque@lumevita.example",perfil:"Profissional",pac:"",prof:"p2",ativo:true},
+ {id:"u8",nome:"Dra. Helena Rios",email:"helena.rios@lumevita.example",perfil:"Profissional",pac:"",prof:"p3",ativo:true},
+ {id:"u9",nome:"Dr. Otávio Lemos",email:"otavio.lemos@lumevita.example",perfil:"Profissional",pac:"",prof:"p4",ativo:true},
+ {id:"u10",nome:"Joana Prado",email:"joana.prado@lumevita.example",perfil:"Administrador",pac:"",prof:"",ativo:true}
+];
+const R0={antec:2,cancelH:24,horiz:30,horizRec:60,maxFut:3,ofertaMin:120,maxRemarc:2,faltaMin:15,checkinMin:60};
+const S={logged:false,uid:"u1",perfil:"Paciente",cv:"u1",tela:"agendar",ppk:null,ppc:false,busy:false,race:false,
+ clock:BASE+"T07:30",R:Object.assign({},R0),profs:PROFS,esps:ESPS,convs:CONVS,pacs:PACS,
+ cons:[],blq:[],esp:[],fer:[{id:"f1",d:"2026-11-15",n:"Proclamação da República"},{id:"f2",d:"2026-11-20",n:"Dia da Consciência Negra"},{id:"f3",d:"2026-12-25",n:"Natal"}],
+ notifs:[],draft:{},wz:null,sel:null,
+ nc:1,ne:1,nb:1,nf:4,np:19,nu:11,nprof:9,nesp:7,nconv:4,
+ af:{modo:"dia",dia:BASE,esp:"",prof:"p1",st:""},
+ pq:"",pf:"",adm:"prof",rel:7,ecfg:null};
+const U=id=>USERS.find(u=>u.id===id),PF=id=>S.profs.find(p=>p.id===id),ES=id=>S.esps.find(e=>e.id===id),CV=id=>S.convs.find(c=>c.id===id),PC=id=>S.pacs.find(p=>p.id===id),CS=id=>S.cons.find(c=>c.id===id),EW=id=>S.esp.find(e=>e.id===id);
+const user=()=>U(S.uid);
+const setUser=id=>{const u=U(id);S.uid=id;S.perfil=u.perfil;S.draft={};S.wz=null;S.sel=null};
+const agora=()=>S.clock;
+const hojeS=()=>S.clock.slice(0,10);
+/* ===== Notificações, avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),t==="err"?9000:5500)}
+function pushTo(uid,m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true,u:uid})}
+function notifyTo(uid,m,t="info"){pushTo(uid,m,t);if(uid===S.uid)renderHdr()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){lastFocus=lastFocus&&document.contains(lastFocus)?lastFocus:document.activeElement;$("#modal").innerHTML=html;const m=$("#modal");const f=m.querySelector("[autofocus]")||m.querySelector(".mbox .in:not([disabled])")||m.querySelector("button");["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=true});if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";S.ppk=null;["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=false});if(S.logged)$("#pp").innerHTML=ppPanel();if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else{const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}lastFocus=null}
+function cancelModal(){closeModal()}
+function confirmar(msg,okLabel,fn,backLabel){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions"><button class="btn sec" data-act="closemodal" autofocus>${esc(backLabel||"Cancelar")}</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{closeModal();fn()}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}" aria-describedby="ferr">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}" aria-describedby="ferr">${esc(v)}</textarea>`;
+ else c=`<input class="in" aria-describedby="ferr" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.step?`step="${f.step}"`:""} ${f.min!=null?`min="${f.min}"`:""} ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}${f.hint?`<div class="muted sm">${esc(f.hint)}</div>`:""}`}
+function collect(fields){const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});return v}
+function missing(fields,v){const miss=fields.filter(f=>f.req&&!v[f.id]);if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return true}return false}
+function formModal({title,fields,validate,save,msg,ok="Salvar",done,extra="",sheet}){
+ openModal(`<div class="modal ${sheet?"sheet":""}"><form class="mbox ${sheet?"sheet":""}" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}${extra}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v=collect(fields);if(missing(fields,v))return;
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  busy("Gravando…",()=>{save(v);closeModal();toast(msg||"Salvo com sucesso.");if(done)done(v);render(false)})})}
+/* ===== Horários, regras e ações ===== */
+const feriadoDe=d=>S.fer.find(f=>f.d===d);
+const chaveDe=(prof,i)=>prof+"_"+i.replace(/\D/g,"");
+function gradeSlots(p,date){const w=wdOf(date),out=[];(p.grade[w]||[]).forEach(([a,b])=>{for(let t=toMin(a);t+p.dur<=toMin(b);t+=p.dur)out.push({ini:date+"T"+hm(t),fim:date+"T"+hm(t+p.dur)})});return out}
+const bloqueioDe=(p,i,f)=>S.blq.find(b=>b.prof===p.id&&overlap(b.ini,b.fim,i,f));
+const ocupante=(p,i)=>S.cons.find(c=>c.chave===chaveDe(p.id,i));
+const retida=(p,i,exceto)=>S.esp.find(e=>e.st==="Oferta enviada"&&e.of.prof===p.id&&e.of.ini===i&&e.id!==exceto);
+function estadoSlot(p,sl,o={}){if(feriadoDe(sl.ini.slice(0,10)))return"Feriado";if(bloqueioDe(p,sl.ini,sl.fim))return"Bloqueado";if(ocupante(p,sl.ini))return"Ocupado";if(retida(p,sl.ini,o.exceto))return"Reservado";if(sl.ini<=agora())return"Passado";return"Livre"}
+function limites(perfil){if(perfil==="Paciente")return{min:addMin(agora(),S.R.antec*60),max:addTo(hojeS(),S.R.horiz)};return{min:agora(),max:addTo(hojeS(),S.R.horizRec)}}
+function vagas(p,date,perfil,o){const L=limites(perfil);if(date>L.max)return[];return gradeSlots(p,date).filter(sl=>sl.ini>=L.min&&estadoSlot(p,sl,o)==="Livre")}
+const idadeOk=(pac,es,ref)=>{const a=idade(pac.nasc,ref||agora());return a>=es.imin&&(es.imax==null||a<=es.imax)};
+const convOk=(p,cv)=>cv==="c0"||p.conv.includes(cv);
+const meusPacs=()=>{const u=user();if(!u||!u.pac)return[];return S.pacs.filter(p=>p.ativo&&(p.id===u.pac||p.resp===u.pac))};
+const uidDoPac=id=>{const p=PC(id);if(!p)return null;const u=USERS.find(x=>x.ativo&&x.perfil==="Paciente"&&(x.pac===id||x.pac===p.resp));return u?u.id:null};
+const uidDoProf=id=>{const u=USERS.find(x=>x.ativo&&x.perfil==="Profissional"&&x.prof===id);return u?u.id:null};
+const ATIVA=["Agendada","Confirmada","Presente"];
+const futuras=pac=>S.cons.filter(c=>c.pac===pac&&ATIVA.includes(c.st)&&c.ini>agora());
+function validar(c){
+ const p=PF(c.prof),pac=PC(c.pac);if(!p||!p.ativo)return"Profissional indisponível.";
+ const es=ES(p.esp);if(!es||!es.ativo)return"Especialidade indisponível.";
+ if(!pac||!pac.ativo)return"Paciente inativo ou não encontrado.";
+ if(!idadeOk(pac,es,c.ini))return es.nome+" atende "+(es.imax!=null?"até "+es.imax+" anos":"a partir de "+es.imin+" anos")+"; "+pac.nome.split(" ")[0]+" tem "+idade(pac.nasc,c.ini)+".";
+ if(c.mod!=="Presencial"&&c.mod!=="Online")return"Escolha a modalidade.";
+ if(c.mod==="Online"&&!p.online)return p.nome+" não atende por vídeo.";
+ const cv=CV(c.conv);if(!cv||!cv.ativo)return"Convênio inválido ou inativo.";
+ if(c.conv!=="c0"&&c.conv!==pac.conv&&!(c.ignore&&CS(c.ignore)&&CS(c.ignore).conv===c.conv))return"Esse convênio não pertence ao paciente.";
+ if(!convOk(p,c.conv))return p.nome+" não atende o convênio "+cv.nome+". Use Particular ou escolha outro profissional.";
+ const date=c.ini.slice(0,10),sl=gradeSlots(p,date).find(s=>s.ini===c.ini);if(!sl)return"Este horário não faz parte da grade do profissional.";
+ if(c.ini<=agora())return"Este horário já passou.";
+ const L=limites(c.perfil);
+ if(c.ini<L.min)return"Agendamentos pelo paciente exigem antecedência mínima de "+S.R.antec+" h.";
+ if(date>L.max)return"Só é possível agendar até "+(c.perfil==="Paciente"?S.R.horiz:S.R.horizRec)+" dias à frente.";
+ const e=estadoSlot(p,sl,{exceto:c.exceto});
+ if(e!=="Livre"){const msg={Feriado:()=>"Não há atendimento em feriado ("+feriadoDe(date).n+").",Bloqueado:()=>"Horário bloqueado pelo profissional ou pela clínica.",Ocupado:()=>"Este horário já está ocupado.",Reservado:()=>"Horário reservado para uma oferta da lista de espera.",Passado:()=>"Este horário já passou."};return msg[e]()}
+ if(S.cons.some(x=>x.id!==c.ignore&&x.pac===pac.id&&x.chave&&overlap(x.ini,x.fim,sl.ini,sl.fim)))return pac.nome+" já tem uma consulta neste horário.";
+ if(S.cons.some(x=>x.id!==c.ignore&&x.pac===pac.id&&x.prof===p.id&&x.chave&&x.ini.slice(0,10)===date))return pac.nome.split(" ")[0]+" já tem consulta com "+p.nome+" neste dia.";
+ if((c.perfil==="Paciente"||c.perfil==="Oferta")&&futuras(pac.id).filter(x=>x.id!==c.ignore).length>=S.R.maxFut)return pac.nome.split(" ")[0]+" já tem "+S.R.maxFut+" consultas futuras. Cancele uma para agendar outra.";
+ return""}
+function inserir(c){const ch=chaveDe(c.prof,c.ini);if(S.cons.some(x=>x.chave===ch))return null;const n=Object.assign({id:"k"+(S.nc++),nota:"",canc:null,rem:0,lemb:false,chave:ch,log:[]},c);delete n.perfil;delete n.exceto;delete n.ignore;S.cons.push(n);return n}
+function rival(cfg){const p=PF(cfg.prof),es=ES(p.esp);const pac=S.pacs.find(x=>x.ativo&&x.id!==cfg.pac&&idadeOk(x,es,cfg.ini)&&convOk(p,x.conv)&&!S.cons.some(k=>k.pac===x.id&&k.chave&&overlap(k.ini,k.fim,cfg.ini,addMin(cfg.ini,p.dur))));if(!pac)return;inserir({pac:pac.id,prof:p.id,ini:cfg.ini,fim:addMin(cfg.ini,p.dur),mod:"Presencial",conv:pac.conv,st:"Agendada",motivo:"Consulta de rotina",por:"sistema",criado:agora(),log:[{t:agora(),por:"sistema",txt:"Agendada por outra pessoa no mesmo instante."}]})}
+function criarConsulta(cfg){const er=validar(cfg);if(er)return{err:er};
+ if(S.race&&cfg.perfil!=="seed"){S.race=false;$("#race").checked=false;rival(cfg)}
+ const p=PF(cfg.prof);
+ const n=inserir({pac:cfg.pac,prof:cfg.prof,ini:cfg.ini,fim:addMin(cfg.ini,p.dur),mod:cfg.mod,conv:cfg.conv,st:cfg.st||"Agendada",motivo:cfg.motivo||"",por:cfg.por||S.uid,criado:agora(),perfil:cfg.perfil,log:[{t:agora(),por:cfg.por||S.uid,txt:cfg.txt||"Consulta agendada."}]});
+ if(!n)return{err:"Este horário acabou de ser reservado por outra pessoa. Escolha outro horário.",dup:true};
+ const pac=PC(cfg.pac),uidP=uidDoPac(pac.id),uidM=uidDoProf(p.id);
+ if(cfg.perfil!=="seed"){
+  if(uidP&&uidP!==S.uid)notifyTo(uidP,"Consulta agendada para "+pac.nome.split(" ")[0]+": "+fmtDia(n.ini)+" às "+fmtH(n.ini)+" com "+p.nome+".");
+  if(uidM&&uidM!==S.uid)notifyTo(uidM,"Nova consulta: "+fmtDia(n.ini)+" às "+fmtH(n.ini)+" ("+pac.nome+").")}
+ return{ok:n}}
+function acoes(c){const pf=S.perfil,u=user(),a={},t=agora(),ativa=c.st==="Agendada"||c.st==="Confirmada";
+ const staff=pf==="Recepção"||pf==="Administrador",meu=pf==="Paciente"&&meusPacs().some(p=>p.id===c.pac),prof=pf==="Profissional"&&u.prof===c.prof;
+ if(!(staff||meu||prof))return a;
+ const antes=minDiff(t,c.ini),lim=S.R.cancelH*60;
+ if(c.st==="Agendada"&&(staff||meu))a.confirmar=c.ini>t?true:"A consulta já começou.";
+ if(ativa&&staff){const abre=addMin(c.ini,-S.R.checkinMin);a.checkin=(t>=abre&&t<c.fim)?true:(t>=c.fim?"A consulta já terminou.":"Check-in a partir de "+fmtDTL(abre)+".")}
+ if(ativa&&(staff||meu)){a.remarcar=c.ini<=t?"A consulta já começou.":(meu&&antes<lim)?"Remarcar pelo aplicativo só até "+S.R.cancelH+" h antes. Ligue para a recepção.":(meu&&c.rem>=S.R.maxRemarc)?"Limite de "+S.R.maxRemarc+" remarcações. Cancele e agende de novo.":true}
+ if(ativa){a.cancelar=c.ini<=t?"A consulta já começou.":(meu&&antes<lim)?"Cancelar pelo aplicativo só até "+S.R.cancelH+" h antes. Ligue para a recepção.":true}
+ if(c.st==="Presente"&&(prof||pf==="Administrador"))a.atender=true;
+ else if(ativa&&(prof||pf==="Administrador"))a.atender="Aguarda o check-in da recepção.";
+ if((ativa)&&(staff||prof))a.faltou=t>=addMin(c.ini,S.R.faltaMin)?true:"Disponível "+S.R.faltaMin+" min após o início.";
+ if(staff||prof)a.nota=true;
+ a.comprovante=true;return a}
+const logC=(c,txt)=>c.log.push({t:agora(),por:S.uid,txt});
+function confirmarC(id){const c=CS(id);if(!c||acoes(c).confirmar!==true)return;c.st="Confirmada";logC(c,"Presença confirmada.");toast("Consulta confirmada.");render(false)}
+function checkinC(id){const c=CS(id);if(!c||acoes(c).checkin!==true)return;c.st="Presente";logC(c,"Check-in feito na recepção.");toast("Check-in feito. O profissional foi avisado.");const m=uidDoProf(c.prof);if(m&&m!==S.uid)notifyTo(m,PC(c.pac).nome+" chegou para a consulta das "+fmtH(c.ini)+".");render(false)}
+function atenderC(id){const c=CS(id);if(!c||acoes(c).atender!==true)return;c.st="Atendida";logC(c,"Atendimento concluído.");toast("Atendimento concluído.");render(false)}
+function faltouC(id){const c=CS(id);if(!c||acoes(c).faltou!==true)return;confirmar("Registrar que "+PC(c.pac).nome+" não compareceu?","Registrar falta",()=>{c.st="Faltou";logC(c,"Falta registrada.");toast("Falta registrada.","info");render(false)})}
+function cancelarForm(id){const c=CS(id);if(!c||acoes(c).cancelar!==true)return;const pf=S.perfil;
+ formModal({title:"Cancelar consulta",fields:[{id:"mot",label:"Motivo",type:"select",req:1,opt:1,options:(pf==="Profissional"?["Ausência do profissional","Outro motivo"]:pf==="Paciente"?MOTIVOS_CANC.filter(x=>x!=="Ausência do profissional"):MOTIVOS_CANC).map(x=>[x,x]),value:""},{id:"obs",label:"Observação",type:"textarea",value:"",hint:"Opcional. Visível para a equipe."}],
+  extra:`<div class="note">${esc(fmtDiaL(c.ini))} às ${esc(fmtH(c.ini))} · ${esc(PF(c.prof).nome)} · ${esc(PC(c.pac).nome)}.<br>O horário volta à agenda e a lista de espera é avisada.</div>`,
+  validate:v=>v.mot==="Outro motivo"&&v.obs.length<5?"Explique o motivo na observação (mínimo 5 caracteres).":"",
+  save:v=>{const d=CS(id);if(!d||acoes(d).cancelar!==true)return;d.st="Cancelada";d.chave="";d.canc={mot:v.mot,obs:v.obs,por:S.uid,em:agora()};logC(d,"Cancelada: "+v.mot+".");const uidP=uidDoPac(d.pac);if(uidP&&uidP!==S.uid)notifyTo(uidP,"Sua consulta de "+fmtDia(d.ini)+" às "+fmtH(d.ini)+" foi cancelada ("+v.mot+").","warn");const m=uidDoProf(d.prof);if(m&&m!==S.uid)notifyTo(m,"Consulta cancelada: "+fmtDia(d.ini)+" às "+fmtH(d.ini)+" ("+PC(d.pac).nome+").");const o=liberou(d.prof,d.ini,d.fim,d.pac);S.sel=null;S._of=o},
+  ok:"Cancelar consulta",msg:"Consulta cancelada.",done:()=>{if(S._of){toast("A vaga foi oferecida a "+(S.perfil==="Paciente"?"outra pessoa na lista de espera":PC(S._of.pac).nome)+".","info");S._of=null}}})}
+function remarcarPara(id,novo,perfil){const c=CS(id);if(!c)return{err:"Consulta não encontrada."};
+ if(novo===c.ini)return{err:"Escolha um horário diferente do atual."};
+ const er=validar({pac:c.pac,prof:c.prof,ini:novo,mod:c.mod,conv:c.conv,perfil,ignore:id});if(er)return{err:er};
+ if(S.race){S.race=false;$("#race").checked=false;rival({pac:c.pac,prof:c.prof,ini:novo})}
+ const ch=chaveDe(c.prof,novo);if(S.cons.some(x=>x.chave===ch&&x.id!==id))return{err:"Este horário acabou de ser reservado por outra pessoa. Escolha outro horário.",dup:true};
+ const ra=acoes(c).remarcar;if(ra!==true)return{err:typeof ra==="string"?ra:"Remarcação indisponível."};const p=PF(c.prof),oi=c.ini,of=c.fim;c.ini=novo;c.fim=addMin(novo,p.dur);c.chave=ch;c.rem++;c.st="Agendada";c.lemb=false;logC(c,"Remarcada de "+fmtDTL(oi)+" para "+fmtDTL(novo)+".");
+ const m=uidDoProf(c.prof);if(m&&m!==S.uid)notifyTo(m,"Consulta remarcada: "+PC(c.pac).nome+" agora em "+fmtDia(novo)+" às "+fmtH(novo)+".");
+ const uidP=uidDoPac(c.pac);if(uidP&&uidP!==S.uid)notifyTo(uidP,"Sua consulta foi remarcada para "+fmtDia(novo)+" às "+fmtH(novo)+".");
+ const o=liberou(c.prof,oi,of,c.pac);return{ok:c,of:o}}
+
+/* ===== Lista de espera ===== */
+function compat(e,p,i){const mod=e.mod==="Online"?"Online":"Presencial";if(e.mod==="Online"&&!p.online)return false;
+ if(p.esp!==e.esp||(e.prof&&e.prof!==p.id))return false;const d=i.slice(0,10);if(d<e.de||d>e.ate)return false;const m=minDia(i);if(e.per==="Manhã"&&m>=720)return false;if(e.per==="Tarde"&&m<720)return false;
+ if(e.rec.includes(chaveDe(p.id,i)))return false;
+ return validar({pac:e.pac,prof:p.id,ini:i,mod,conv:e.conv,perfil:"Oferta",exceto:e.id})===""}
+function liberou(profId,i,f,pacEx){const p=PF(profId);if(!p)return null;
+ const ordem=S.esp.filter(e=>e.st==="Aguardando").sort((a,b)=>a.criado===b.criado?(+a.id.slice(1))-(+b.id.slice(1)):(a.criado<b.criado?-1:1));
+ const e=ordem.find(x=>x.pac!==pacEx&&!S.esp.some(y=>y.pac===x.pac&&y.st==="Oferta enviada")&&compat(x,p,i));if(!e)return null;
+ e.st="Oferta enviada";e.of={prof:p.id,ini:i,fim:f,venc:addMin(agora(),S.R.ofertaMin)};e.log.push({t:agora(),por:"sistema",txt:"Vaga oferecida: "+fmtDTL(i)+" com "+p.nome+"."});
+ const uid=uidDoPac(e.pac);if(uid)notifyTo(uid,"Vaga liberada com "+p.nome+" em "+fmtDia(i)+" às "+fmtH(i)+". Responda até "+fmtDTL(e.of.venc)+".","warn");return e}
+function aceitarOferta(id){const e=EW(id);if(!e||e.st!=="Oferta enviada")return;const o=e.of;
+ if(o.venc<=agora()){toast("Esta oferta expirou.","err");return}
+ busy("Reservando o horário…",()=>{const r=criarConsulta({pac:e.pac,prof:o.prof,ini:o.ini,mod:e.mod==="Online"?"Online":"Presencial",conv:e.conv,perfil:"Oferta",exceto:e.id,motivo:"Agendada pela lista de espera",txt:"Agendada pela lista de espera.",por:S.uid});
+  if(r.err){e.st="Aguardando";e.of=null;e.log.push({t:agora(),por:"sistema",txt:"Oferta não pôde ser concluída: "+r.err});toast(r.err,"err");const o2=liberou(o.prof,o.ini,o.fim);render(false);return}
+  e.st="Aceita";e.cons=r.ok.id;e.log.push({t:agora(),por:S.uid,txt:"Oferta aceita."});toast("Consulta agendada pela lista de espera.");render(false)})}
+function recusarOferta(id){const e=EW(id);if(!e||e.st!=="Oferta enviada")return;const o=e.of;confirmar("Recusar esta vaga? Você continua na lista de espera para outros horários.","Recusar vaga",()=>{e.rec.push(chaveDe(o.prof,o.ini));e.st="Aguardando";e.of=null;e.log.push({t:agora(),por:S.uid,txt:"Oferta recusada."});liberou(o.prof,o.ini,o.fim);toast("Vaga recusada. Você segue na lista.","info");render(false)},"Voltar")}
+function cancelarEspera(id){const e=EW(id);if(!e||!["Aguardando","Oferta enviada"].includes(e.st))return;confirmar("Sair da lista de espera?","Sair da lista",()=>{const o=e.of;e.st="Cancelada";e.of=null;e.log.push({t:agora(),por:S.uid,txt:"Removida da lista."});if(o)liberou(o.prof,o.ini,o.fim);toast("Removido da lista de espera.","info");render(false)},"Voltar")}
+function esperaForm(pre){const pf=S.perfil;const meus=pf==="Paciente"?meusPacs():S.pacs.filter(p=>p.ativo);
+ const esps=S.esps.filter(e=>e.ativo&&S.profs.some(p=>p.ativo&&p.esp===e.id));pre=pre||{};
+ const f=[{id:"pac",label:"Paciente",type:"select",req:1,options:meus.map(p=>[p.id,p.nome]),value:pre.pac||(meus[0]||{}).id},
+  {id:"esp",label:"Especialidade",type:"select",req:1,options:esps.map(e=>[e.id,e.nome]),value:pre.esp||(esps[0]||{}).id},
+  {id:"prof",label:"Profissional",type:"select",options:[["","Qualquer profissional"]].concat(S.profs.filter(p=>p.ativo).map(p=>[p.id,p.nome+" · "+ES(p.esp).nome])),value:pre.prof||""},
+  {id:"de",label:"A partir de",type:"date",req:1,value:pre.de||addTo(hojeS(),1)},{id:"ate",label:"Até",type:"date",req:1,value:pre.ate||addTo(hojeS(),14)},
+  {id:"per",label:"Período",type:"select",req:1,options:PERIODOS.map(x=>[x,x]),value:pre.per||"Qualquer"},
+  {id:"mod",label:"Modalidade",type:"select",req:1,options:[["Qualquer","Qualquer"],["Presencial","Só presencial"],["Online","Só online"]],value:pre.mod||"Qualquer"}];
+ formModal({title:"Entrar na lista de espera",fields:f,ok:"Entrar na lista",msg:"Você está na lista de espera.",
+  extra:`<p class="muted sm">Quando um horário compatível for liberado, a vaga é oferecida por ordem de chegada e fica reservada por ${num(S.R.ofertaMin/60)} h.</p>`,
+  validate:v=>{const pac=PC(v.pac),es=ES(v.esp);if(!pac||!es)return"Escolha paciente e especialidade.";if(!idadeOk(pac,es,agora()))return es.nome+" não atende a idade de "+pac.nome.split(" ")[0]+".";
+   if(v.prof){const p=PF(v.prof);if(p.esp!==v.esp)return"O profissional escolhido não é de "+es.nome+".";if(v.mod==="Online"&&!p.online)return p.nome+" não atende por vídeo."}
+   if(v.de<hojeS())return"A data inicial não pode ser anterior a hoje.";if(v.ate<v.de)return"A data final precisa ser igual ou posterior à inicial.";if(v.ate>addTo(hojeS(),60))return"A lista de espera vai até 60 dias à frente.";
+   const at=S.esp.filter(e=>e.pac===v.pac&&["Aguardando","Oferta enviada"].includes(e.st));if(at.length>=3)return pac.nome.split(" ")[0]+" já está em 3 listas de espera.";
+   if(at.some(e=>e.esp===v.esp&&(e.prof===v.prof||!e.prof||!v.prof)&&!(v.ate<e.de||v.de>e.ate)))return"Já existe uma espera igual ou sobreposta para essa especialidade.";return""},
+  save:v=>{const pac=PC(v.pac);const e={id:"w"+(S.ne++),pac:v.pac,esp:v.esp,prof:v.prof,de:v.de,ate:v.ate,per:v.per,mod:v.mod,conv:pac.conv,criado:agora(),st:"Aguardando",of:null,rec:[],log:[{t:agora(),por:S.uid,txt:"Entrou na lista de espera."}]};S.esp.push(e);
+   const p0=S.profs.filter(p=>p.ativo&&p.esp===v.esp&&(!v.prof||p.id===v.prof));let ach=null;for(let d=v.de;d<=v.ate&&!ach;d=addTo(d,1)){for(const p of p0){const s=vagas(p,d,"Oferta").find(sl=>compat(e,p,sl.ini));if(s){ach=[p,s];break}}}
+   S._achou=ach;S.tela="espera"},
+  done:()=>{if(S._achou)toast("Já existe horário livre nesse período: use Agendar consulta.","info");S._achou=null}})}
+
+/* ===== Fluxo agendado (simulado pelo relógio) ===== */
+function executarFluxo(){let lemb=0,exp=0,of=0;
+ S.esp.filter(e=>e.st==="Oferta enviada"&&(e.of.venc<=agora()||e.of.ini<=agora())).forEach(e=>{const o=e.of;e.rec.push(chaveDe(o.prof,o.ini));e.st="Aguardando";e.of=null;e.log.push({t:agora(),por:"sistema",txt:"Oferta expirou."});exp++;const uid=uidDoPac(e.pac);if(uid)notifyTo(uid,"A vaga de "+fmtDia(o.ini)+" às "+fmtH(o.ini)+" expirou. Você segue na lista de espera.","warn");if(liberou(o.prof,o.ini,o.fim))of++});
+ S.cons.filter(c=>(c.st==="Agendada"||c.st==="Confirmada")&&!c.lemb&&c.ini>agora()&&minDiff(agora(),c.ini)<=1440).forEach(c=>{c.lemb=true;lemb++;const uid=uidDoPac(c.pac);if(uid)notifyTo(uid,"Lembrete: consulta com "+PF(c.prof).nome+" "+fmtDia(c.ini)+" às "+fmtH(c.ini)+(c.st==="Agendada"?". Confirme sua presença.":"."),"info")});
+ return{lemb,exp,of}}
+function avancar(min){busy("Executando o fluxo agendado…",()=>{S.clock=addMin(S.clock,min);const r=executarFluxo();closeModal();toast("Relógio avançou "+durTxt(min)+". Fluxo: "+r.lemb+" lembrete(s), "+r.exp+" oferta(s) expirada(s), "+r.of+" nova(s) oferta(s).");render(false)})}
+function relogioForm(){openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Relógio simulado</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><p>Agora: <b>${esc(fmtDTL(agora()))}</b> (${DSEM[wdOf(agora())]}).</p><p class="muted sm">Ferramenta do mockup: avança o tempo e roda o fluxo agendado que envia lembretes 24 h antes e expira ofertas da lista de espera. Check-in e falta dependem deste relógio.</p><div class="actions" style="justify-content:flex-start"><button class="btn sec" data-act="avanca" data-v="60">+1 hora</button><button class="btn sec" data-act="avanca" data-v="180">+3 horas</button><button class="btn sec" data-act="avanca" data-v="1440">+1 dia</button><button class="btn sec" data-act="avanca" data-v="4320">+3 dias</button></div></div></div>`)}
+
+/* ===== Bloqueios ===== */
+function bloqueioForm(profFixo){const pf=S.perfil;const profs=pf==="Profissional"?[PF(user().prof)]:S.profs.filter(p=>p.ativo);if(!profs[0])return;
+ formModal({title:"Bloquear horário",fields:[{id:"prof",label:"Profissional",type:"select",req:1,options:profs.map(p=>[p.id,p.nome]),value:profFixo||profs[0].id},{id:"dia",label:"Data",type:"date",req:1,value:addTo(hojeS(),1)},{id:"de",label:"Das",type:"time",req:1,value:"08:00"},{id:"ate",label:"Até",type:"time",req:1,value:"12:00"},{id:"mot",label:"Motivo",type:"select",req:1,options:MOTIVOS_BLQ.map(x=>[x,x]),value:"Ausência"}],
+  ok:"Bloquear",msg:"Horário bloqueado.",
+  validate:v=>{if(pf==="Profissional"&&v.prof!==user().prof)return"Você só bloqueia a própria agenda.";if(v.dia<hojeS())return"A data não pode ser anterior a hoje.";const a=toMin(v.de),b=toMin(v.ate);if(isNaN(a)||isNaN(b)||b<=a)return"O horário final precisa ser depois do inicial.";const i=v.dia+"T"+v.de,f=v.dia+"T"+v.ate;if(f<=agora())return"O período já passou.";
+   if(S.blq.some(x=>x.prof===v.prof&&overlap(x.ini,x.fim,i,f)))return"Já existe um bloqueio neste período.";
+   const cf=S.cons.filter(c=>c.prof===v.prof&&c.chave&&overlap(c.ini,c.fim,i,f));if(cf.length)return cf.length+" consulta(s) neste período: "+cf.slice(0,3).map(c=>fmtH(c.ini)+" "+PC(c.pac).nome.split(" ")[0]).join(", ")+(cf.length>3?"…":"")+". Remarque ou cancele antes de bloquear.";return""},
+  save:v=>{S.blq.push({id:"b"+(S.nb++),prof:v.prof,ini:v.dia+"T"+v.de,fim:v.dia+"T"+v.ate,mot:v.mot,por:S.uid})}})}
+function bloqueioDel(id){const b=S.blq.find(x=>x.id===id);if(!b)return;if(S.perfil==="Profissional"&&b.prof!==user().prof)return;confirmar("Remover o bloqueio de "+fmtDTL(b.ini)+" a "+fmtH(b.fim)+"?","Remover",()=>busy("Removendo…",()=>{S.blq.splice(S.blq.indexOf(b),1);const p=PF(b.prof);if(p){gradeSlots(p,b.ini.slice(0,10)).filter(sl=>overlap(sl.ini,sl.fim,b.ini,b.fim)&&sl.ini>agora()).forEach(sl=>{if(estadoSlot(p,sl)==="Livre")liberou(p.id,sl.ini,sl.fim)})}toast("Bloqueio removido.","info");render(false)}))}
+
+/* ===== Notas, recepção agenda paciente e remarca ===== */
+function notaForm(id){const c=CS(id);if(!c||!acoes(c).nota)return;formModal({title:"Observação interna",fields:[{id:"nota",label:"Observação (só a equipe vê)",type:"textarea",value:c.nota}],validate:v=>v.nota.length>300?"Use até 300 caracteres.":"",save:v=>{c.nota=v.nota;logC(c,"Observação interna atualizada.")},msg:"Observação salva."})}
+function slotOpts(p,dia,perfil,incluir){const l=vagas(p,dia,perfil).map(s=>s.ini);if(incluir&&!l.includes(incluir)&&incluir.slice(0,10)===dia)l.push(incluir);return l.sort()}
+function agendarStaff(preProf,preIni,remarcarId){if(S.perfil!=="Recepção"&&S.perfil!=="Administrador")return;
+ const c0=remarcarId?CS(remarcarId):null;const profs=S.profs.filter(p=>p.ativo&&ES(p.esp).ativo);const p0=PF(c0?c0.prof:preProf)||profs[0];const dia0=preIni?preIni.slice(0,10):(c0?addTo(c0.ini.slice(0,10),1):hojeS());
+ const pacs=S.pacs.filter(p=>p.ativo);
+ const optSlots=(pid,dia)=>{const p=PF(pid);const l=p&&dia?vagas(p,dia,"Recepção").map(s=>s.ini):[];return l.length?l.map(i=>`<option value="${esc(i)}" ${i===preIni?"selected":""}>${esc(fmtH(i))} – ${esc(fmtH(addMin(i,p.dur)))}</option>`).join(""):`<option value="">Sem horários livres neste dia</option>`};
+ openModal(`<div class="modal"><form class="mbox" id="sform" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${c0?"Remarcar consulta":"Nova consulta"}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ ${c0?`<div class="note">${esc(PC(c0.pac).nome)} · ${esc(PF(c0.prof).nome)} · hoje marcada para ${esc(fmtDTL(c0.ini))}.</div>`:`<label class="f" for="s_pac">Paciente (obrigatório)</label><select class="in" id="s_pac" autofocus><option value="">Selecione</option>${pacs.map(p=>`<option value="${p.id}">${esc(p.nome)} · ${esc(CV(p.conv).nome)}</option>`).join("")}</select>`}
+ <label class="f" for="s_prof">Profissional</label><select class="in" id="s_prof" ${c0?"disabled":""}>${profs.map(p=>`<option value="${p.id}" ${p.id===p0.id?"selected":""}>${esc(p.nome)} · ${esc(ES(p.esp).nome)}</option>`).join("")}</select>
+ <label class="f" for="s_dia">Data</label><input class="in" id="s_dia" type="date" value="${esc(dia0)}" min="${esc(hojeS())}" max="${esc(addTo(hojeS(),S.R.horizRec))}">
+ <label class="f" for="s_ini">Horário livre</label><select class="in" id="s_ini">${optSlots(p0.id,dia0)}</select>
+ ${c0?"":`<label class="f" for="s_mod">Modalidade</label><select class="in" id="s_mod"><option>Presencial</option><option>Online</option></select><label class="f" for="s_conv">Atendimento</label><select class="in" id="s_conv"></select><label class="f" for="s_mot">Motivo da consulta</label><input class="in" id="s_mot" maxlength="120" placeholder="Ex.: retorno, rotina">`}
+ <div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${c0?"Remarcar":"Agendar"}</button></div></form></div>`);
+ const fillConv=()=>{const sp=$("#s_pac");if(!sp)return;const pac=PC(sp.value),p=PF($("#s_prof").value);const ops=[];if(pac&&pac.conv!=="c0"&&p&&convOk(p,pac.conv))ops.push([pac.conv,"Convênio "+CV(pac.conv).nome+(pac.cart?" ("+pac.cart+")":"")]);ops.push(["c0","Particular"]);$("#s_conv").innerHTML=ops.map(([v,l])=>`<option value="${v}">${esc(l)}</option>`).join("")};
+ const refresh=()=>{const pid=$("#s_prof").value,dia=$("#s_dia").value;$("#s_ini").innerHTML=optSlots(pid,dia);const p=PF(pid);const m=$("#s_mod");if(m){m.innerHTML=`<option>Presencial</option>${p.online?"<option>Online</option>":""}`}fillConv()};
+ $("#s_prof").onchange=refresh;$("#s_dia").onchange=refresh;if($("#s_pac"))$("#s_pac").onchange=fillConv;refresh();
+ $("#sform").addEventListener("submit",e=>{e.preventDefault();const er=$("#ferr");er.textContent="";const ini=$("#s_ini").value;
+  if(!c0&&!$("#s_pac").value){er.textContent="Escolha o paciente.";$("#s_pac").setAttribute("aria-invalid","true");$("#s_pac").focus();return}
+  if(!ini){er.textContent="Escolha um horário livre. Se não houver, tente outro dia ou use a lista de espera.";$("#s_ini").focus();return}
+  busy("Gravando…",()=>{let r;if(c0){r=remarcarPara(c0.id,ini,S.perfil)}else{r=criarConsulta({pac:$("#s_pac").value,prof:$("#s_prof").value,ini,mod:$("#s_mod").value,conv:$("#s_conv").value,perfil:S.perfil,motivo:$("#s_mot").value.trim()})}
+   if(r.err){er.textContent=r.err;if(r.dup){const d=$("#s_dia").value;refresh()}return}
+   closeModal();toast(c0?"Consulta remarcada.":"Consulta agendada.");if(r.of)toast("A vaga anterior foi oferecida a "+PC(r.of.pac).nome+" (lista de espera).","info");S.sel=null;if(!c0&&r.ok){S.af.dia=r.ok.ini.slice(0,10)}render(false)})})}
+function remarcarClique(id){const c=CS(id);if(!c)return;const a=acoes(c).remarcar;if(a!==true){toast(typeof a==="string"?a:"Não é possível remarcar.","err");return}
+ if(S.perfil==="Paciente"){closeModal();iniciarWizard({remarcar:id});return}agendarStaff(c.prof,null,id)}
+
+/* ===== Semente de dados ===== */
+function proxDia(p,wd,a){let d=a;for(let i=0;i<40;i++,d=addTo(d,1)){if((wd==null||wdOf(d)===wd)&&(p.grade[wdOf(d)]||[]).length&&!feriadoDe(d))return d}return a}
+const DEMO=["pac1","pac2","pac3","pac4","pac5","pac7","pac13"];
+function seedAll(){
+ const mk=(pac,pid,ini,st,mot,o={})=>{const p=PF(pid);const c=inserir(Object.assign({pac,prof:pid,ini,fim:addMin(ini,p.dur),mod:"Presencial",conv:PC(pac).conv,st,motivo:mot,por:"u4",criado:addMin(ini,-60*24*5),log:[{t:addMin(ini,-60*24*5),por:"u4",txt:"Consulta agendada."}]},o));if(c&&st==="Cancelada"){c.chave="";c.canc={mot:"Imprevisto do paciente",obs:"",por:"u4",em:addMin(ini,-60*30)};c.log.push({t:c.canc.em,por:"u4",txt:"Cancelada: Imprevisto do paciente."})}return c};
+ const D0=BASE;
+ mk("pac1","p1",proxDia(PF("p1"),null,addTo(D0,-8))+"T09:00","Atendida","Consulta de rotina");
+ mk("pac3","p3",proxDia(PF("p3"),1,addTo(D0,-10))+"T10:00","Atendida","Manchas na pele");
+ mk("pac1","p1",proxDia(PF("p1"),null,addTo(D0,1))+"T09:00","Agendada","Retorno");
+ mk("pac4","p4",proxDia(PF("p4"),null,addTo(D0,2))+"T10:00","Confirmada","Check-up anual");
+ const dc=proxDia(PF("p2"),null,addTo(D0,2));mk("pac2","p2",dc+"T09:00","Agendada","Revisão de exames");
+ mk("pac11","p1",proxDia(PF("p1"),null,D0)+"T08:20","Agendada","Retorno");
+ /* esperas */
+ const E=(pac,esp,prof,de,ate,per,mod)=>{const e={id:"w"+(S.ne++),pac,esp,prof,de,ate,per,mod,conv:PC(pac).conv,criado:addMin(agora(),-60*20+S.ne),st:"Aguardando",of:null,rec:[],log:[{t:addMin(agora(),-60*20),por:"u4",txt:"Entrou na lista de espera."}]};S.esp.push(e);return e};
+ E("pac7","e2","p2",addTo(D0,1),addTo(D0,14),"Qualquer","Qualquer");
+ const e3=E("pac3","e3","p3",addTo(D0,1),addTo(D0,14),"Manhã","Qualquer");
+ let ofd=null;for(let d=addTo(D0,2);d<=addTo(D0,14)&&!ofd;d=addTo(D0,0)&&addTo(d,1)){const p=PF("p3");const s=gradeSlots(p,d).find(x=>minDia(x.ini)<720&&!feriadoDe(d)&&!ocupante(p,x.ini)&&!bloqueioDe(p,x.ini,x.fim));if(s)ofd=s}
+ if(ofd){e3.st="Oferta enviada";e3.of={prof:"p3",ini:ofd.ini,fim:ofd.fim,venc:addMin(agora(),S.R.ofertaMin)};e3.log.push({t:agora(),por:"sistema",txt:"Vaga oferecida: "+fmtDTL(ofd.ini)+" com Dra. Helena Rios."})}
+ E("pac13","e1","",addTo(D0,1),addTo(D0,10),"Tarde","Online");
+ /* bloqueios */
+ S.blq.push({id:"b"+(S.nb++),prof:"p6",ini:proxDia(PF("p6"),4,addTo(D0,1))+"T14:00",fim:proxDia(PF("p6"),4,addTo(D0,1))+"T18:00",mot:"Congresso",por:"u10"});
+ S.blq.push({id:"b"+(S.nb++),prof:"p1",ini:proxDia(PF("p1"),null,addTo(D0,8))+"T08:00",fim:proxDia(PF("p1"),null,addTo(D0,8))+"T10:00",mot:"Ausência",por:"u6"});
+ /* preenchimento */
+ for(let off=-14;off<=21;off++){const date=addTo(D0,off);if(feriadoDe(date))continue;
+  S.profs.forEach(p=>{const es=ES(p.esp);gradeSlots(p,date).forEach(sl=>{const passado=sl.ini<agora();if(rnd()>(passado?0.5:0.4))return;
+   if(ocupante(p,sl.ini)||bloqueioDe(p,sl.ini,sl.fim)||retida(p,sl.ini))return;
+   let pac=null;for(let k=0;k<8&&!pac;k++){const x=S.pacs[ri(0,S.pacs.length-1)];if(!idadeOk(x,es,sl.ini)||!convOk(p,x.conv))continue;if(!passado&&(DEMO.includes(x.id)||S.cons.filter(k=>k.pac===x.id&&k.chave&&k.ini>=agora()).length>=7))continue;if(S.cons.some(c=>c.pac===x.id&&c.chave&&(overlap(c.ini,c.fim,sl.ini,sl.fim)||(c.prof===p.id&&c.ini.slice(0,10)===date))))continue;pac=x}
+   if(!pac)return;const r=rnd();let st;if(passado)st=r<0.8?"Atendida":r<0.9?"Faltou":"Cancelada";else st=r<0.5?"Agendada":r<0.93?"Confirmada":"Cancelada";
+   mk(pac.id,p.id,sl.ini,st,QUEIXAS[ri(0,QUEIXAS.length-1)],{mod:p.online&&rnd()<0.3?"Online":"Presencial"})})})}
+ S.cons.forEach(c=>{if(c.st==="Atendida"||c.st==="Faltou")c.log.push({t:addMin(c.ini,c.dur||30),por:"sistema",txt:c.st==="Atendida"?"Atendimento concluído.":"Falta registrada."})});
+ pushTo("u1","Lembrete: sua consulta de "+fmtDia(S.cons.find(c=>c.pac==="pac1"&&c.st==="Agendada").ini)+" às 09:00 precisa de confirmação.","info");
+ pushTo("u3","Há uma vaga reservada para você na lista de espera. Responda em até "+num(S.R.ofertaMin/60)+" h.","warn");
+ S.notifs.forEach(n=>{n.un=true})}
+/* ===== Auxiliares ===== */
+const V={};
+const nomePor=id=>id==="sistema"?"Sistema":(U(id)?U(id).nome:"—");
+const prim=n=>String(n||"").split(" ")[0];
+const tagSt=s=>`<span class="tag ${STAT_TAG[s]||"t-na"}">${esc(s)}</span>`;
+const head=(t,sub,act="")=>`<div class="row" style="align-items:flex-start;margin-bottom:6px"><div><h1>${esc(t)}</h1>${sub?`<p class="muted" style="margin:0">${esc(sub)}</p>`:""}</div>${act}</div>`;
+const asc=(a,b)=>a.ini<b.ini?-1:a.ini>b.ini?1:0,desc=(a,b)=>asc(b,a);
+const protocolo=c=>"CL-"+String(+c.id.slice(1)).padStart(5,"0");
+const EMPTY=(i,t,s="")=>`<div class="empty">${ic(i)}<div><b>${esc(t)}</b></div>${s?`<div>${esc(s)}</div>`:""}</div>`;
+const podeVer=c=>{const pf=S.perfil;if(pf==="Paciente")return meusPacs().some(p=>p.id===c.pac);if(pf==="Profissional")return user().prof===c.prof;return true};
+const ehStaff=()=>S.perfil==="Recepção"||S.perfil==="Administrador";
+function consItem(c,o={}){const p=PF(c.prof),es=ES(p.esp),d=c.ini;
+ return `<button class="cons" data-act="csel" data-id="${c.id}" aria-label="${esc(fmtDiaL(d)+" às "+fmtH(d)+", "+es.nome+" com "+p.nome+(o.pac?", paciente "+PC(c.pac).nome:"")+", situação "+c.st)}"><span class="dt" aria-hidden="true">${DSEM[wdOf(d)]}<b>${d.slice(8,10)}</b>${MESN[+d.slice(5,7)-1]}</span><span><b>${esc(fmtH(d))} · ${esc(es.nome)}</b><br><span class="muted sm">${esc(p.nome)} · ${c.mod==="Online"?"por vídeo":esc(p.sala)}${o.pac?" · "+esc(PC(c.pac).nome):(meusPacs().length>1?" · "+esc(prim(PC(c.pac).nome)):"")}</span></span><span class="st">${tagSt(c.st)}</span></button>`}
+const convOps=(pac,p)=>{const o=[];if(pac.conv!=="c0"&&convOk(p,pac.conv)&&CV(pac.conv).ativo)o.push([pac.conv,"Convênio "+CV(pac.conv).nome]);o.push(["c0","Particular"]);return o};
+
+/* ===== Assistente de agendamento (Paciente) ===== */
+const wzNovo=()=>({step:1,pac:(meusPacs()[0]||{}).id,esp:"",mod:"Presencial",prof:"",dia:"",ini:"",conv:"",motivo:"",rem:null,feito:null,err:""});
+function iniciarWizard(o={}){const m=meusPacs();if(!m.length)return;S.wz=wzNovo();
+ if(o.remarcar){const c=CS(o.remarcar);if(c){const p=PF(c.prof);Object.assign(S.wz,{step:3,pac:c.pac,esp:p.esp,mod:c.mod,prof:c.prof,conv:c.conv,rem:c.id})}}
+ S.tela="agendar";render(true)}
+function proxLivre(p){for(let i=0;i<=S.R.horiz;i++){const d=addTo(hojeS(),i),v=vagas(p,d,"Paciente");if(v.length)return v[0].ini}return null}
+const profsDoWz=w=>S.profs.filter(p=>p.ativo&&p.esp===w.esp&&(w.mod!=="Online"||p.online));
+function wz1(w){const m=meusPacs(),pac=PC(w.pac);
+ const quem=m.length>1?`<h3>Para quem é a consulta?</h3><div class="optg" role="group" aria-label="Paciente">${m.map(p=>`<button class="opt" data-act="wzpac" data-v="${p.id}" aria-pressed="${w.pac===p.id}"><b>${esc(p.nome)}</b><small>${idade(p.nasc,agora())} anos · ${esc(CV(p.conv).nome)}</small></button>`).join("")}</div>`:"";
+ const esps=S.esps.filter(e=>e.ativo).map(e=>{const n=S.profs.filter(p=>p.ativo&&p.esp===e.id).length,ok=idadeOk(pac,e,agora()),dis=!ok||!n;const small=!ok?(e.imax!=null?"Atende até "+e.imax+" anos":"Atende a partir de "+e.imin+" anos"):!n?"Sem profissionais no momento":n+(n>1?" profissionais":" profissional");
+  return `<button class="opt" data-act="wzesp" data-v="${e.id}" aria-pressed="${w.esp===e.id}" ${dis?"disabled":""}><b>${esc(e.nome)}</b><small>${esc(small)}</small></button>`}).join("");
+ return `${quem}<h3>Especialidade</h3><div class="optg" role="group" aria-label="Especialidade">${esps}</div><h3>Modalidade</h3><div class="seg" role="group" aria-label="Modalidade">${["Presencial","Online"].map(x=>`<button data-act="wzmod" data-v="${x}" aria-pressed="${w.mod===x}">${x==="Online"?"Por vídeo":"Presencial"}</button>`).join("")}</div><div class="err" id="ferr" role="alert">${esc(w.err)}</div><div class="actions"><button class="btn lg" data-act="wznext">Continuar${ic("chev")}</button></div>`}
+function wz2(w){const pac=PC(w.pac),ps=profsDoWz(w);
+ const cards=ps.map(p=>{const nx=proxLivre(p),ac=pac.conv!=="c0"&&p.conv.includes(pac.conv);const cvt=pac.conv==="c0"?"Atendimento particular":ac?"Atende "+CV(pac.conv).nome:"Não atende "+CV(pac.conv).nome+" · só particular";
+  return `<button class="pcard" data-act="wzprof" data-v="${p.id}" aria-pressed="${w.prof===p.id}" ${nx?"":"disabled"}><span class="avatar" aria-hidden="true">${ini(p.nome)}</span><span><b>${esc(p.nome)}</b><br><span class="muted sm">${esc(ES(p.esp).nome)} · consultas de ${p.dur} min · ${esc(p.sala)}</span><br><span class="muted sm">${esc(cvt)}</span><br><span class="sm">${nx?"Próximo horário: <b>"+esc(fmtDia(nx))+" às "+esc(fmtH(nx))+"</b>":"Sem horários nos próximos "+S.R.horiz+" dias"}</span></span></button>`}).join("");
+ return `<h3>Com quem?</h3><div class="grid">${cards||EMPTY("users","Nenhum profissional para essa escolha","Volte e escolha atendimento presencial ou outra especialidade.")}</div><div class="note">Não achou um horário bom? <button class="linkbtn" data-act="wzespera">Entre na lista de espera</button> e avisamos quando uma vaga abrir.</div><div class="actions"><button class="btn sec" data-act="wzback">Voltar</button></div>`}
+function diasInfo(p){const L=[];for(let i=0;i<=S.R.horiz;i++){const d=addTo(hojeS(),i),f=feriadoDe(d);if((p.grade[wdOf(d)]||[]).length||f)L.push({d,f,n:f?0:vagas(p,d,"Paciente").length})}return L}
+function wz3(w){const p=PF(w.prof),info=diasInfo(p);
+ if(!info.some(x=>x.d===w.dia&&x.n)){w.dia=(info.find(x=>x.n)||{}).d||"";w.ini=""}
+ const v=w.dia?vagas(p,w.dia,"Paciente"):[];if(w.ini&&!v.some(s=>s.ini===w.ini))w.ini="";
+ const grp=(nome,l)=>l.length?`<div class="per">${nome}</div><div class="slots" role="group" aria-label="Horários da ${nome.toLowerCase()}">${l.map(s=>`<button class="slot" data-act="wzini" data-v="${s.ini}" aria-pressed="${w.ini===s.ini}">${esc(fmtH(s.ini))}</button>`).join("")}</div>`:"";
+ const rem=w.rem?CS(w.rem):null;
+ return `${rem?`<div class="note">Consulta atual: <b>${esc(fmtDiaL(rem.ini))} às ${esc(fmtH(rem.ini))}</b> com ${esc(p.nome)}. Escolha o novo horário. Remarcações feitas: ${rem.rem} de ${S.R.maxRemarc}.</div>`:`<p class="muted" style="margin:0">${esc(p.nome)} · ${esc(ES(p.esp).nome)} · consultas de ${p.dur} min.</p>`}<h3>Dia</h3>${info.some(x=>x.n)?`<div class="days" role="group" aria-label="Datas">${info.map(x=>`<button class="day" data-act="wzdia" data-v="${x.d}" aria-pressed="${w.dia===x.d}" ${x.n?"":"disabled"} aria-label="${esc(fmtDiaL(x.d)+", "+(x.f?"feriado, "+x.f.n:x.n?x.n+" horários livres":"sem horários livres"))}"><small>${DSEM[wdOf(x.d)]} ${MESN[+x.d.slice(5,7)-1]}</small><b>${x.d.slice(8,10)}</b><small>${x.f?"Feriado":x.n?x.n+" livres":"Lotado"}</small></button>`).join("")}</div>`:EMPTY("cal","Sem horários nos próximos "+S.R.horiz+" dias","Entre na lista de espera para ser avisado.")}
+ ${w.dia?`<h3>Horário · ${esc(fmtDiaL(w.dia))}</h3>${grp("Manhã",v.filter(s=>minDia(s.ini)<720))}${grp("Tarde",v.filter(s=>minDia(s.ini)>=720))}`:""}
+ <div class="note">Consultas podem ser agendadas com no mínimo ${S.R.antec} h de antecedência. <button class="linkbtn" data-act="wzespera">Prefere esperar uma vaga melhor? Entrar na lista de espera.</button></div>
+ <div class="actions">${rem?`<button class="btn sec" data-act="wzcancrem">Cancelar remarcação</button>`:`<button class="btn sec" data-act="wzback">Voltar</button>`}<button class="btn lg" data-act="wznext" ${w.ini?"":"disabled"}>Revisar${ic("chev")}</button></div>`}
+function wz4(w){const p=PF(w.prof),pac=PC(w.pac),es=ES(p.esp),ops=convOps(pac,p);if(!ops.some(o=>o[0]===w.conv))w.conv=ops[0][0];const rem=w.rem?CS(w.rem):null;
+ return `<h3>Confira e confirme</h3><div class="sumbox"><div><small>Paciente</small><b>${esc(pac.nome)}</b></div><div><small>Especialidade</small><b>${esc(es.nome)}</b></div><div><small>Profissional</small><b>${esc(p.nome)}</b></div><div><small>Data</small><b>${esc(fmtDiaL(w.ini))}</b></div><div><small>Horário</small><b>${esc(fmtH(w.ini))} às ${esc(fmtH(addMin(w.ini,p.dur)))}</b></div><div><small>${w.mod==="Online"?"Modalidade":"Local"}</small><b>${w.mod==="Online"?"Por vídeo":esc(p.sala)}</b></div></div>
+ ${rem?`<div class="note">Esta consulta substitui a de <b>${esc(fmtDTL(rem.ini))}</b>. O horário antigo volta para a agenda.</div>`:`<label class="f" for="wzconv">Atendimento</label><select class="in" id="wzconv" data-wz="conv">${ops.map(([v,l])=>`<option value="${v}" ${v===w.conv?"selected":""}>${esc(l)}</option>`).join("")}</select><label class="f" for="wzmot">Motivo da consulta (opcional)</label><input class="in" id="wzmot" maxlength="120" data-wzf="motivo" value="${esc(w.motivo)}" placeholder="Ex.: retorno, rotina">`}
+ <div class="note">Cancelamento e remarcação pelo aplicativo até ${S.R.cancelH} h antes. Você recebe um lembrete 24 h antes.</div>
+ <div class="err" id="ferr" role="alert">${esc(w.err)}</div><div class="actions"><button class="btn sec" data-act="wzback">Voltar</button><button class="btn lg" data-act="wzconf">${ic("check")}${rem?"Confirmar remarcação":"Confirmar agendamento"}</button></div>`}
+function wzFeito(w){const c=CS(w.feito);if(!c)return head("Agendamento","")+EMPTY("alert","Consulta não encontrada");const p=PF(c.prof);
+ return `<div class="ok-box card">${ic("check")}<h1 style="margin-top:6px">${w.rem?"Consulta remarcada":"Consulta agendada"}</h1><p style="margin:0"><b>${esc(PC(c.pac).nome)}</b> · ${esc(ES(p.esp).nome)} com ${esc(p.nome)}</p><p style="margin:4px 0 0">${esc(fmtDiaL(c.ini))} às ${esc(fmtH(c.ini))} · ${c.mod==="Online"?"por vídeo":esc(p.sala)}</p><p class="muted sm">Protocolo ${esc(protocolo(c))}</p><div class="actions" style="justify-content:center"><button class="btn sec" data-act="comprov" data-id="${c.id}">${ic("print")}Comprovante</button><button class="btn sec" data-nav="consultas">Minhas consultas</button><button class="btn" data-act="wznovo">Agendar outra</button></div></div>`}
+V.agendar=()=>{if(!meusPacs().length)return head("Agendar consulta","")+EMPTY("alert","Seu cadastro de paciente está inativo","Fale com a recepção.");
+ if(!S.wz)S.wz=wzNovo();const w=S.wz;if(w.feito)return wzFeito(w);
+ const st=[["Especialidade","e modalidade"],["Profissional","e convênio"],["Dia","e horário"],["Confirmação","revisão"]];
+ return head(w.rem?"Remarcar consulta":"Agendar consulta",w.rem?"Escolha um novo horário para a mesma consulta.":"Quatro passos, sem ligar para a clínica.",`<span class="tag t-na">Consultas futuras: ${futuras_n()} de ${S.R.maxFut}</span>`)+`<ol class="stepper" aria-label="Etapas">${st.map((s,i)=>`<li class="${i+1<w.step?"done":i+1===w.step?"cur":""}" ${i+1===w.step?'aria-current="step"':""}><small>Etapa ${i+1}</small><b>${esc(s[0])}</b><small>${esc(s[1])}</small></li>`).join("")}</ol>`+[null,wz1,wz2,wz3,wz4][w.step](w)};
+const futuras_n=()=>{const w=S.wz;const ids=meusPacs().map(p=>p.id);return Math.max(...ids.map(i=>futuras(i).length),0)};
+function wzConfirmar(){const w=S.wz;if(!w||w.step!==4)return;
+ busy("Gravando o agendamento…",()=>{let r;if(w.rem)r=remarcarPara(w.rem,w.ini,"Paciente");else r=criarConsulta({pac:w.pac,prof:w.prof,ini:w.ini,mod:w.mod,conv:w.conv,perfil:"Paciente",motivo:(w.motivo||"").trim()});
+  if(r.err){if(r.dup){w.ini="";w.step=3;w.err=""}else w.err=r.err;toast(r.err,"err");render(false);return}
+  w.err="";w.feito=(r.ok||{}).id;render(true);toast(w.rem?"Consulta remarcada.":"Consulta agendada.")})}
+
+/* ===== Consultas do paciente ===== */
+V.consultas=()=>{const ids=meusPacs().map(p=>p.id),todas=S.cons.filter(c=>ids.includes(c.pac));
+ const prox=todas.filter(c=>["Agendada","Confirmada","Presente"].includes(c.st)&&c.fim>agora()).sort(asc),hist=todas.filter(c=>!prox.includes(c)).sort(desc);
+ const aba=S.ct||"prox",L=aba==="prox"?prox:hist.slice(0,S.hl||10);const prec=prox.filter(c=>c.st==="Agendada");
+ return head("Minhas consultas",ids.length>1?"Inclui as consultas dos dependentes.":"Confirme, remarque ou cancele.",`<button class="btn" data-nav="agendar">${ic("plus")}Agendar consulta</button>`)+
+ (prec.length?`<div class="note">${ic("info")} ${prec.length} consulta(s) aguardando sua confirmação de presença.</div>`:"")+
+ `<div class="seg" role="group" aria-label="Lista"><button data-act="cta" data-v="prox" aria-pressed="${aba==="prox"}">Próximas (${prox.length})</button><button data-act="cta" data-v="hist" aria-pressed="${aba==="hist"}">Histórico (${hist.length})</button></div><div style="margin-top:10px">${L.length?L.map(c=>consItem(c)).join(""):EMPTY("cal",aba==="prox"?"Nenhuma consulta marcada":"Nada no histórico","Use Agendar consulta para marcar a primeira.")}${aba==="hist"&&hist.length>L.length?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="hmais">Ver mais</button></div>`:""}</div>`};
+
+/* ===== Gaveta da consulta ===== */
+function drawerInner(c){const p=PF(c.prof),es=ES(p.esp),pac=PC(c.pac),a=acoes(c),pf=S.perfil,equipe=pf!=="Paciente";
+ const B=(k,l,i,cls="")=>{const v=a[k];if(v===undefined)return"";return `<button class="btn ${cls}" data-act="${k}" data-id="${c.id}" ${v===true?"":'aria-disabled="true"'}>${ic(i)}${l}</button>`};
+ const motivos=[["confirmar","Confirmar presença"],["checkin","Check-in"],["atender","Concluir atendimento"],["faltou","Registrar falta"],["remarcar","Remarcar"],["cancelar","Cancelar consulta"]].filter(([k])=>typeof a[k]==="string").map(([k,l])=>`<li><b>${l}:</b> ${esc(a[k])}</li>`).join("");
+ const log=c.log.filter(x=>equipe||!/Observação interna/.test(x.txt));
+ return `<div class="mh"><h2 id="dh" tabindex="-1">Consulta · ${esc(fmtDia(c.ini))} ${esc(fmtH(c.ini))}</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <p style="margin:0 0 6px">${tagSt(c.st)} <span class="muted sm">Protocolo ${esc(protocolo(c))}</span></p>
+ <dl class="dl2"><dt>Paciente</dt><dd>${esc(pac.nome)} (${idade(pac.nasc,c.ini)} anos)</dd><dt>Especialidade</dt><dd>${esc(es.nome)}</dd><dt>Profissional</dt><dd>${esc(p.nome)}</dd><dt>Data</dt><dd>${esc(fmtDiaL(c.ini))}</dd><dt>Horário</dt><dd>${esc(fmtH(c.ini))} às ${esc(fmtH(c.fim))}</dd><dt>${c.mod==="Online"?"Modalidade":"Local"}</dt><dd>${c.mod==="Online"?"Por vídeo":esc(p.sala)}</dd><dt>Atendimento</dt><dd>${esc(CV(c.conv).nome)}</dd>${c.motivo?`<dt>Motivo</dt><dd>${esc(c.motivo)}</dd>`:""}<dt>Remarcações</dt><dd>${c.rem} de ${S.R.maxRemarc}</dd>${c.canc?`<dt>Cancelamento</dt><dd>${esc(c.canc.mot)} · ${esc(nomePor(c.canc.por))} · ${esc(fmtDTL(c.canc.em))}${equipe&&c.canc.obs?"<br>"+esc(c.canc.obs):""}</dd>`:""}</dl>
+ ${equipe&&c.nota?`<div class="note"><b>Observação interna:</b> ${esc(c.nota)}</div>`:""}
+ <div class="actions" style="justify-content:flex-start">${B("confirmar","Confirmar presença","check")}${B("checkin","Check-in","user")}${B("atender","Concluir atendimento","check")}${B("faltou","Registrar falta","alert","sec")}${B("remarcar","Remarcar","swap","sec")}${B("cancelar","Cancelar consulta","x","bad sec")}${B("nota","Observação","pen","sec")}${B("comprovante","Comprovante","print","sec")}</div>
+ ${motivos?`<ul class="muted sm" style="margin:8px 0 0;padding-left:18px">${motivos}</ul>`:""}
+ <div class="sec"><h3>Histórico</h3><ul class="hist">${log.slice().reverse().map(x=>`<li><b>${esc(fmtDTL(x.t))}</b> · ${esc(nomePor(x.por))}<br>${esc(x.txt)}</li>`).join("")}</ul></div>`}
+function abrirConsulta(id){const c=CS(id);if(!c||!podeVer(c))return;S.sel=id;S.ppk="consulta";openModal(`<div class="modal dr"><div class="mbox dr" role="dialog" aria-modal="true" aria-labelledby="dh">${drawerInner(c)}</div></div>`);$("#pp").innerHTML=ppPanel();const h=$("#dh");if(h)h.focus()}
+function comprovanteHTML(c){const p=PF(c.prof),pac=PC(c.pac);return `<div class="doc"><div class="hd"><div><h2>Clínica Lumevita</h2><div>Comprovante de agendamento · empresa fictícia</div></div><div style="text-align:right"><b>${esc(protocolo(c))}</b><br>Emitido em ${esc(fmtDTL(agora()))}</div></div>
+ <h3>Paciente</h3><table><tr><th>Nome</th><td>${esc(pac.nome)}</td><th>Nascimento</th><td>${esc(fmt(pac.nasc))}</td></tr><tr><th>Atendimento</th><td>${esc(CV(c.conv).nome)}</td><th>Carteirinha</th><td>${esc(c.conv===pac.conv?pac.cart||"—":"—")}</td></tr></table>
+ <h3>Consulta</h3><table><tr><th>Especialidade</th><td>${esc(ES(p.esp).nome)}</td><th>Profissional</th><td>${esc(p.nome)}</td></tr><tr><th>Data</th><td>${esc(fmtDiaL(c.ini))}</td><th>Horário</th><td>${esc(fmtH(c.ini))} às ${esc(fmtH(c.fim))}</td></tr><tr><th>${c.mod==="Online"?"Modalidade":"Local"}</th><td colspan="3">${c.mod==="Online"?"Por vídeo. O link chega por e-mail 1 hora antes.":esc(p.sala)}</td></tr><tr><th>Situação</th><td colspan="3">${esc(c.st)}</td></tr></table>
+ <h3>Orientações</h3><ul><li>Chegue 15 minutos antes e leve documento com foto${c.conv!=="c0"?" e a carteirinha do convênio":""}.</li><li>Cancelamento e remarcação pelo aplicativo até ${S.R.cancelH} horas antes.</li></ul></div>`}
+function abrirComprovante(id){const c=CS(id);if(!c||!podeVer(c))return;openModal(`<div class="modal"><div class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Comprovante</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${comprovanteHTML(c)}<div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+
+/* ===== Lista de espera ===== */
+const posEspera=e=>S.esp.filter(x=>["Aguardando","Oferta enviada"].includes(x.st)&&x.esp===e.esp).sort((a,b)=>a.criado===b.criado?(+a.id.slice(1))-(+b.id.slice(1)):(a.criado<b.criado?-1:1)).findIndex(x=>x.id===e.id)+1;
+V.espera=()=>{const pac=S.perfil==="Paciente",ids=pac?meusPacs().map(p=>p.id):null;let L=S.esp.filter(e=>!ids||ids.includes(e.pac));
+ const at=L.filter(e=>["Aguardando","Oferta enviada"].includes(e.st)).sort((a,b)=>a.criado<b.criado?-1:1),enc=L.filter(e=>!at.includes(e)).sort((a,b)=>a.criado<b.criado?1:-1).slice(0,8);
+ const card=e=>{const es=ES(e.esp),p=e.prof?PF(e.prof):null,o=e.of,venc=o&&o.venc<=agora();
+  return `<div class="card"><div class="row"><b>${esc(PC(e.pac).nome)} · ${esc(es.nome)}</b><span class="tag ${e.st==="Oferta enviada"?"t-warn":e.st==="Aceita"?"t-ok":e.st==="Aguardando"?"t-info":"t-na"}">${esc(e.st)}</span></div><div class="muted sm">${p?esc(p.nome):"Qualquer profissional"} · ${esc(fmt(e.de))} a ${esc(fmt(e.ate))} · ${esc(e.per)} · ${e.mod==="Qualquer"?"presencial ou vídeo":e.mod==="Online"?"só vídeo":"só presencial"}${["Aguardando","Oferta enviada"].includes(e.st)?` · posição ${posEspera(e)} na fila`:""}</div>
+  ${e.st==="Oferta enviada"?`<div class="note">${ic("hourglass")} <b>Vaga liberada:</b> ${esc(fmtDiaL(o.ini))} às ${esc(fmtH(o.ini))} com ${esc(PF(o.prof).nome)}.<br>${venc?"A oferta venceu e será repassada na próxima execução do fluxo.":"Responda até <b>"+esc(fmtDTL(o.venc))+"</b>. O horário fica reservado para esta pessoa até lá."}<div class="actions" style="justify-content:flex-start"><button class="btn" data-act="oacc" data-id="${e.id}">Aceitar vaga</button><button class="btn sec" data-act="orec" data-id="${e.id}">Recusar</button></div></div>`:""}
+  ${["Aguardando","Oferta enviada"].includes(e.st)?`<div class="actions" style="justify-content:flex-start"><button class="btn sec sm" data-act="ecan" data-id="${e.id}">Sair da lista</button></div>`:""}</div>`};
+ return head("Lista de espera",pac?"Quando um horário compatível abrir, a vaga é oferecida por ordem de chegada.":"Pedidos aguardando vaga, por ordem de chegada.",`<button class="btn" data-act="enova">${ic("plus")}${pac?"Entrar na lista":"Incluir na lista"}</button>`)+
+ `<h3>Aguardando (${at.length})</h3>${at.length?at.map(card).join(""):EMPTY("hourglass","Ninguém aguardando","Se não houver horário, entre na lista para ser avisado.")}${enc.length?`<h3>Encerradas</h3>${enc.map(card).join("")}`:""}`};
+
+/* ===== Meus dados e cadastro de paciente ===== */
+function pacForm(id,modo){const p=id?PC(id):null;
+ if(modo==="self"||modo==="dep"){if(S.perfil!=="Paciente"||(p&&!meusPacs().some(x=>x.id===p.id)))return}else if(!ehStaff())return;
+ const cvo=S.convs.filter(c=>c.ativo||(p&&p.conv===c.id)).map(c=>[c.id,c.nome]),f=[];
+ if(modo!=="self")f.push({id:"nome",label:"Nome completo",req:1,value:p?p.nome:""},{id:"nasc",label:"Data de nascimento",type:"date",req:1,value:p?p.nasc:""});
+ f.push({id:"tel",label:"Telefone",req:1,value:p?p.tel:"",ph:"(00) 90000-0000"},{id:"email",label:"E-mail",type:"email",req:1,value:p?p.email:""},{id:"conv",label:"Convênio",type:"select",req:1,options:cvo,value:p?p.conv:"c0"},{id:"cart",label:"Número da carteirinha",value:p?p.cart:"",hint:"Obrigatório quando houver convênio."});
+ if(modo==="staff"){const rs=S.pacs.filter(x=>x.ativo&&!x.resp&&(!p||x.id!==p.id)&&idade(x.nasc,agora())>=18);f.push({id:"resp",label:"Responsável (obrigatório para menores de 18 anos)",type:"select",options:[["","Sem responsável"]].concat(rs.map(x=>[x.id,x.nome])),value:p?p.resp:""})}
+ formModal({title:p?(modo==="self"?"Meus dados de contato":"Editar "+p.nome):(modo==="dep"?"Novo dependente":"Novo paciente"),fields:f,ok:"Salvar",msg:p?"Dados atualizados.":"Cadastro criado.",
+  validate:v=>{if(modo!=="self"){if(v.nome.length<5||v.nome.split(/\s+/).length<2)return"Informe nome e sobrenome.";if(v.nome.length>80)return"Use até 80 caracteres no nome.";if(!/^\d{4}-\d{2}-\d{2}$/.test(v.nasc)||v.nasc>hojeS()||v.nasc<"1900-01-01")return"Data de nascimento inválida.";
+    if(S.pacs.some(x=>(!p||x.id!==p.id)&&x.nome.toLowerCase()===v.nome.toLowerCase()&&x.nasc===v.nasc))return"Já existe um paciente com este nome e nascimento."}
+   if(!/^\(\d{2}\) \d{4,5}-\d{4}$/.test(v.tel))return"Telefone no formato (00) 90000-0000.";if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email))return"E-mail inválido.";
+   if(v.conv!=="c0"&&v.cart.length<4)return"Informe o número da carteirinha do convênio.";
+   if(modo==="dep"){if(idade(v.nasc,agora())>=18)return"Dependente precisa ter menos de 18 anos. Adultos têm o próprio acesso.";if(!p&&meusPacs().length>=6)return"Limite de 5 dependentes."}
+   if(modo==="staff"){const a=idade(v.nasc,agora());if(a<18&&!v.resp)return"Menor de 18 anos precisa de responsável.";if(a>=18&&v.resp)return"Responsável só se aplica a menores de 18 anos."}
+   if(p&&modo!=="self"){const novo=Object.assign({},p,{nasc:v.nasc}),bad=futuras(p.id).find(c=>!idadeOk(novo,ES(PF(c.prof).esp),c.ini));if(bad)return"A nova data de nascimento conflita com a consulta de "+fmtDTL(bad.ini)+" ("+ES(PF(bad.prof).esp).nome+"). Remarque ou cancele antes."}return""},
+  save:v=>{const o=p||{id:"pac"+(S.np++),ativo:true,resp:modo==="dep"?user().pac:""};if(modo!=="self"){o.nome=v.nome;o.nasc=v.nasc}o.tel=v.tel;o.email=v.email;o.conv=v.conv;o.cart=v.conv==="c0"?"":v.cart;if(modo==="staff")o.resp=v.resp;if(!p)S.pacs.push(o)}})}
+function pacTog(id){const p=PC(id);if(!p||!ehStaff())return;
+ if(p.ativo){const fu=futuras(id).length,ew=S.esp.filter(e=>e.pac===id&&["Aguardando","Oferta enviada"].includes(e.st)).length,dep=S.pacs.filter(x=>x.resp===id&&x.ativo).length;
+  if(fu){toast(p.nome+" tem "+fu+" consulta(s) futura(s). Cancele antes de desativar.","err");return}if(ew){toast("Há pedido na lista de espera. Cancele antes de desativar.","err");return}if(dep){toast("Há dependentes ativos. Desative-os ou troque o responsável.","err");return}
+  confirmar("Desativar "+p.nome+"? O histórico é mantido.","Desativar",()=>{p.ativo=false;toast("Paciente desativado.","info");render(false)})}
+ else{p.ativo=true;toast("Paciente reativado.");render(false)}}
+function pacDel(id){const p=PC(id);if(!p||!ehStaff())return;const uso=S.cons.filter(c=>c.pac===id).length+S.esp.filter(e=>e.pac===id).length+S.pacs.filter(x=>x.resp===id).length+USERS.filter(u=>u.pac===id).length;
+ if(uso){toast("Cadastro em uso ("+uso+" registro(s) ligados). Desative em vez de excluir.","err");return}confirmar("Excluir "+p.nome+"? Não há consultas nem pedidos ligados.","Excluir",()=>{S.pacs.splice(S.pacs.indexOf(p),1);toast("Cadastro excluído.","info");render(false)})}
+function depDel(id){const p=PC(id);if(!p||S.perfil!=="Paciente"||!meusPacs().some(x=>x.id===id)||p.id===user().pac)return;
+ const fu=futuras(id).length,ew=S.esp.filter(e=>e.pac===id&&["Aguardando","Oferta enviada"].includes(e.st)).length;if(fu||ew){toast(prim(p.nome)+" tem "+(fu?fu+" consulta(s) futura(s)":"pedido na lista de espera")+". Cancele antes de remover.","err");return}
+ confirmar("Remover "+p.nome+" dos seus dependentes? O histórico de consultas é mantido na clínica.","Remover",()=>{p.ativo=false;toast("Dependente removido.","info");render(false)})}
+V.dados=()=>{const u=user(),m=meusPacs(),card=p=>{const dep=p.id!==u.pac;return `<div class="card"><div class="row"><h3 style="margin:0">${esc(p.nome)} <span class="tag ${dep?"t-na":"t-pri"}">${dep?"Dependente":"Titular"}</span></h3><span><button class="btn sec sm" data-act="pedit" data-id="${p.id}">${ic("pen")}Editar</button>${dep?` <button class="btn sec bad sm" data-act="depdel" data-id="${p.id}">Remover</button>`:""}</span></div><dl class="dl2"><dt>Nascimento</dt><dd>${esc(fmt(p.nasc))} (${idade(p.nasc,agora())} anos)</dd><dt>Convênio</dt><dd>${esc(CV(p.conv).nome)}${p.cart?" · carteirinha "+esc(p.cart):""}</dd><dt>Telefone</dt><dd>${esc(p.tel)}</dd><dt>E-mail</dt><dd>${esc(p.email)}</dd></dl></div>`};
+ return head("Meus dados","Contato, convênio e dependentes.",`<button class="btn" data-act="depnew" ${m.length>=6?"disabled":""}>${ic("plus")}Adicionar dependente</button>`)+m.map(card).join("")+`<p class="muted sm">Para mudar nome ou data de nascimento do titular, fale com a recepção.</p>`};
+/* ===== Agenda em colunas ===== */
+const PM=2;
+function colHTML(c,mi,ma,H,book){const p=c.prof,d=c.date,fer=feriadoDe(d),segs=(p.grade[wdOf(d)]||[]).map(([a,b])=>[toMin(a),toMin(b)]);let h="";
+ const off=(a,b)=>`<div class="goff" style="top:${(a-mi)*PM}px;height:${(b-a)*PM}px" aria-hidden="true"></div>`;
+ if(fer||!segs.length)h+=`<div class="goff" style="top:0;height:${H}px" title="${esc(fer?"Feriado: "+fer.n:"Sem expediente")}"></div>${fer?`<div style="position:absolute;top:8px;left:6px;right:6px;font-size:12px;font-weight:700">${esc(fer.n)}</div>`:""}`;
+ else{let cur=mi;segs.forEach(([a,b])=>{if(a>cur)h+=off(cur,a);cur=Math.max(cur,b)});if(cur<ma)h+=off(cur,ma);
+  gradeSlots(p,d).forEach(sl=>{const s0=minDia(sl.ini),st=`top:${(s0-mi)*PM}px;height:${p.dur*PM-2}px`,est=estadoSlot(p,sl),hh=fmtH(sl.ini);
+   if(est==="Livre")h+=book?`<button class="gfree" style="${st}" data-act="gslot" data-prof="${p.id}" data-ini="${sl.ini}" aria-label="Horário livre ${hh}, ${esc(p.nome)}. Agendar">${hh} · livre</button>`:`<div class="gfree" style="${st};cursor:default" aria-label="Horário livre ${hh}">${hh} · livre</div>`;
+   else if(est==="Ocupado"){const k=ocupante(p,sl.ini),pa=PC(k.pac),on=k.mod==="Online"?" · vídeo":"";h+=`<button class="gbl s-${k.st}" style="${st}" data-act="csel" data-id="${k.id}" title="${esc(pa.nome+" · "+k.st)}" aria-label="${esc(hh+", "+pa.nome+", "+k.st+", "+p.nome)}"><b>${hh} ${esc(prim(pa.nome))} ${esc(pa.nome.split(" ").slice(-1)[0][0])}.${on}</b><span>${esc(k.st)} · ${esc(k.motivo||"")}</span></button>`}
+   else if(est==="Reservado")h+=`<div class="gbl ofe" style="${st}" title="Reservada para oferta da lista de espera"><b>${hh} reservada</b><span>Oferta da lista de espera</span></div>`;
+   else if(est==="Passado")h+=`<div class="gpast" style="${st}" aria-hidden="true"></div>`});
+  S.blq.filter(b=>b.prof===p.id&&b.ini.slice(0,10)===d).forEach(b=>{const a=Math.max(minDia(b.ini),mi),z=Math.min(minDia(b.fim),ma);if(z>a)h+=`<div class="gbl bq" style="top:${(a-mi)*PM}px;height:${(z-a)*PM-2}px" title="${esc(b.mot)}"><b>Bloqueado</b><span>${esc(b.mot)} · ${esc(fmtH(b.ini))}–${esc(fmtH(b.fim))}</span></div>`})}
+ if(d===hojeS()){const n=minDia(agora());if(n>=mi&&n<=ma)h+=`<div class="gnow" style="top:${(n-mi)*PM}px" aria-hidden="true"></div>`}
+ return `<div class="gc"><div class="gh"><b>${esc(c.head)}</b>${esc(c.sub)}</div><div class="gb" style="height:${H}px">${h}</div></div>`}
+function gradeHTML(cols,book){let mi=1e9,ma=0;cols.forEach(c=>(c.prof.grade[wdOf(c.date)]||[]).forEach(([a,b])=>{mi=Math.min(mi,toMin(a));ma=Math.max(ma,toMin(b))}));
+ if(mi>=ma)return EMPTY("cal","Sem expediente para esta seleção");mi=Math.floor(mi/60)*60;ma=Math.ceil(ma/60)*60;const H=(ma-mi)*PM,hs=[];for(let t=mi;t<=ma;t+=60)hs.push(`<span class="hh" style="top:${Math.max(8,(t-mi)*PM)}px">${hm(t)}</span>`);
+ return `<div class="gwrap" role="region" aria-label="Agenda em colunas" tabindex="0"><div class="gin" style="--pm:${PM};grid-template-columns:52px repeat(${cols.length},minmax(150px,1fr))"><div class="gax"><div class="gh"></div><div style="position:relative;height:${H}px">${hs.join("")}</div></div>${cols.map(c=>colHTML(c,mi,ma,H,book)).join("")}</div></div>`}
+const LEG=`<div class="legend" aria-label="Legenda"><span><i style="background:#fffdf6;border:2px dashed #cdbd93"></i>Livre</span><span><i class="s-Agendada"></i>Agendada</span><span><i class="s-Confirmada"></i>Confirmada</span><span><i class="s-Presente"></i>Na recepção</span><span><i class="s-Atendida"></i>Atendida</span><span><i class="s-Faltou"></i>Faltou</span><span><i style="background:#e4e4e7"></i>Bloqueio</span><span><i style="background:#e0f2fe;border:2px dashed #0e7490"></i>Vaga reservada</span></div>`;
+function agendaView(fix){const f=S.af,modo=f.modo;if(fix)f.prof=fix;
+ const pl=S.profs.filter(p=>p.ativo&&(!f.esp||p.esp===f.esp));if(modo==="semana"&&!pl.some(p=>p.id===f.prof))f.prof=(pl[0]||{}).id||"";if(modo!=="semana"&&f.prof&&!pl.some(p=>p.id===f.prof)&&!fix)f.prof="";
+ const passo=modo==="semana"?7:1,dia=f.dia,fer=feriadoDe(dia);
+ const bar=`<div class="agbar"><div class="seg" role="group" aria-label="Modo">${[["dia","Dia"],["semana","Semana"],["lista","Lista"]].map(([k,l])=>`<button data-act="amodo" data-v="${k}" aria-pressed="${modo===k}">${l}</button>`).join("")}</div>
+ <div class="nav"><button class="ib" style="color:var(--tx);border-color:var(--bd)" data-act="adia" data-v="-${passo}" aria-label="${modo==="semana"?"Semana anterior":"Dia anterior"}">${ic("back")}</button><span class="dtl" aria-live="polite">${modo==="semana"?esc(fmt(wkStart(dia)))+" a "+esc(fmt(addTo(wkStart(dia),6))):esc(fmtDiaL(dia))}</span><button class="ib" style="color:var(--tx);border-color:var(--bd);transform:scaleX(-1)" data-act="adia" data-v="${passo}" aria-label="${modo==="semana"?"Próxima semana":"Próximo dia"}">${ic("back")}</button><button class="btn sec sm" data-act="ahoje">Hoje</button></div>
+ <div><label class="f" for="afd" style="margin:0">Ir para a data</label><input class="in" id="afd" type="date" value="${esc(dia)}" style="width:auto"></div>
+ ${fix?"":`<div><label class="f" for="afe" style="margin:0">Especialidade</label><select class="in" id="afe" data-af="esp" style="width:auto"><option value="">Todas</option>${S.esps.filter(e=>e.ativo).map(e=>`<option value="${e.id}" ${f.esp===e.id?"selected":""}>${esc(e.nome)}</option>`).join("")}</select></div><div><label class="f" for="afp" style="margin:0">Profissional</label><select class="in" id="afp" data-af="prof" style="width:auto">${modo==="semana"?"":'<option value="">Todos</option>'}${pl.map(p=>`<option value="${p.id}" ${f.prof===p.id?"selected":""}>${esc(p.nome)}</option>`).join("")}</select></div>`}
+ ${modo==="lista"?`<div><label class="f" for="afs" style="margin:0">Situação</label><select class="in" id="afs" data-af="st" style="width:auto"><option value="">Todas</option>${["Agendada","Confirmada","Presente","Atendida","Faltou","Cancelada"].map(s=>`<option ${f.st===s?"selected":""}>${s}</option>`).join("")}</select></div>`:""}
+ ${fix?"":`<button class="btn" data-act="gnova">${ic("plus")}Nova consulta</button>`}</div>`;
+ let corpo="";const book=!fix;
+ if(modo==="dia"){const ps=pl.filter(p=>!f.prof||p.id===f.prof);if(fer)corpo=`<div class="fer">${ic("flag")} Feriado: <b>${esc(fer.n)}</b>. Sem atendimento neste dia.</div>`;else{const cols=ps.filter(p=>(p.grade[wdOf(dia)]||[]).length).map(p=>({prof:p,date:dia,head:p.nome,sub:ES(p.esp).nome+" · "+p.dur+" min"}));corpo=cols.length?LEG+gradeHTML(cols,book):EMPTY("cal","Ninguém atende neste dia","Escolha outro dia ou outro filtro.")}}
+ else if(modo==="semana"){const p=PF(f.prof);if(!p)corpo=EMPTY("cal","Escolha um profissional");else{const ini=wkStart(dia),dias=[0,1,2,3,4,5,6].map(i=>addTo(ini,i)).filter(d=>(p.grade[wdOf(d)]||[]).length||feriadoDe(d)),cols=dias.map(d=>({prof:p,date:d,head:fmtDia(d),sub:p.nome}));corpo=cols.length?`<p class="muted" style="margin:0">${esc(p.nome)} · ${esc(ES(p.esp).nome)} · consultas de ${p.dur} min</p>`+LEG+gradeHTML(cols,book):EMPTY("cal","Sem expediente nesta semana")}}
+ else{const L=S.cons.filter(c=>c.ini.slice(0,10)===dia&&(!f.prof||c.prof===f.prof)&&(!f.esp||PF(c.prof).esp===f.esp)&&(!f.st||c.st===f.st)&&(!fix||c.prof===fix)).sort(asc);
+  corpo=L.length?`<div class="tw"><table class="tb"><caption class="sr">Consultas do dia</caption><thead><tr><th>Hora</th><th>Paciente</th><th>Profissional</th><th>Especialidade</th><th>Situação</th><th></th></tr></thead><tbody>${L.map(c=>`<tr><td>${esc(fmtH(c.ini))}</td><td>${esc(PC(c.pac).nome)}</td><td>${esc(PF(c.prof).nome)}</td><td>${esc(ES(PF(c.prof).esp).nome)}</td><td>${tagSt(c.st)}</td><td class="act"><button class="btn sec sm" data-act="csel" data-id="${c.id}" aria-label="Abrir consulta de ${esc(PC(c.pac).nome)} às ${esc(fmtH(c.ini))}">Abrir</button></td></tr>`).join("")}</tbody></table></div>`:EMPTY("cal","Nenhuma consulta neste dia","Altere a data ou os filtros.")}
+ return bar+corpo}
+V.agenda=()=>{const ps=S.profs.filter(p=>p.ativo),dia=S.af.dia,dd=S.cons.filter(c=>c.ini.slice(0,10)===dia&&c.chave),
+ k=(i,n,l,a)=>`<${a?'button data-act="'+a+'"':"div"} class="kpi"><span class="kic">${ic(i)}</span><span><b>${n}</b><small>${l}</small></span></${a?"button":"div"}>`;
+ return head("Agenda","Colunas por profissional, semana e lista.")+`<div class="kpis">${k("cal",dd.length,"consultas no dia")}${k("check",dd.filter(c=>c.st==="Confirmada").length,"confirmadas")}${k("user",dd.filter(c=>c.st==="Presente").length,"na recepção")}${k("hourglass",S.esp.filter(e=>e.st==="Oferta enviada").length,"ofertas em aberto","irespera")}</div>`+agendaView(null)};
+V.prof=()=>{const u=user(),p=PF(u.prof);if(!p)return head("Minha agenda","")+EMPTY("alert","Seu usuário não está ligado a um profissional","Fale com o administrador.");
+ const hoje=S.cons.filter(c=>c.prof===p.id&&c.ini.slice(0,10)===hojeS()&&c.chave).sort(asc),fila=hoje.filter(c=>c.st==="Presente"),prox=hoje.filter(c=>["Agendada","Confirmada"].includes(c.st)&&c.fim>agora());
+ return head("Minha agenda",p.nome+" · "+ES(p.esp).nome+" · consultas de "+p.dur+" min")+`<div class="grid g2"><div class="card"><h3 style="margin-top:0">${ic("user")} Na recepção (${fila.length})</h3>${fila.length?fila.map(c=>`<div class="li"><span><b>${esc(fmtH(c.ini))}</b> ${esc(PC(c.pac).nome)}</span><span><button class="btn sm" data-act="atender" data-id="${c.id}">Concluir atendimento</button> <button class="btn sec sm" data-act="csel" data-id="${c.id}">Abrir</button></span></div>`).join(""):'<p class="muted">Ninguém aguardando. O check-in é feito pela recepção.</p>'}</div><div class="card"><h3 style="margin-top:0">${ic("clock")} Próximas hoje (${prox.length})</h3>${prox.length?prox.slice(0,5).map(c=>`<div class="li"><span><b>${esc(fmtH(c.ini))}</b> ${esc(PC(c.pac).nome)} ${tagSt(c.st)}</span><button class="btn sec sm" data-act="csel" data-id="${c.id}">Abrir</button></div>`).join(""):'<p class="muted">Nada mais para hoje.</p>'}</div></div>`+agendaView(p.id)};
+
+/* ===== Pacientes (recepção e administração) ===== */
+V.pacientes=()=>{const q=(S.pq||"").trim().toLowerCase(),fs=S.pf||"ativos";let L=S.pacs.filter(p=>(fs==="todos"||(fs==="ativos")===p.ativo)&&(!q||p.nome.toLowerCase().includes(q)||p.email.toLowerCase().includes(q)||(p.cart||"").toLowerCase().includes(q)));L.sort((a,b)=>a.nome.localeCompare(b.nome,"pt-BR"));const tot=L.length;L=L.slice(0,S.lim||25);
+ return head("Pacientes","Cadastro, convênio e histórico.",`<button class="btn" data-act="pnew">${ic("plus")}Novo paciente</button>`)+`<div class="row" style="justify-content:flex-start"><div class="sb" style="flex:1;min-width:220px"><label class="f" for="pq" style="margin-top:0">Buscar por nome, e-mail ou carteirinha</label><input class="in" id="pq" type="search" data-live="pq" value="${esc(S.pq||"")}" autocomplete="off">${ic("search")}</div><div class="seg" role="group" aria-label="Situação" style="align-self:end">${[["ativos","Ativos"],["inativos","Inativos"],["todos","Todos"]].map(([k,l])=>`<button data-act="pfil" data-v="${k}" aria-pressed="${fs===k}">${l}</button>`).join("")}</div></div>
+ <p class="muted sm" aria-live="polite">${tot} paciente(s)</p>${L.length?`<div class="tw"><table class="tb"><caption class="sr">Pacientes</caption><thead><tr><th>Nome</th><th>Idade</th><th>Atendimento</th><th>Telefone</th><th>Próxima consulta</th><th></th></tr></thead><tbody>${L.map(p=>{const nx=futuras(p.id).sort(asc)[0];return `<tr><td><b>${esc(p.nome)}</b>${p.resp?`<br><span class="muted sm">Dependente de ${esc(PC(p.resp)?PC(p.resp).nome:"—")}</span>`:""}${p.ativo?"":' <span class="tag t-na">Inativo</span>'}</td><td>${idade(p.nasc,agora())}</td><td>${esc(CV(p.conv).nome)}</td><td>${esc(p.tel)}</td><td>${nx?esc(fmtDTL(nx.ini)):"—"}</td><td class="act"><button class="btn sec sm" data-act="pver" data-id="${p.id}" aria-label="Ver ${esc(p.nome)}">Ver</button> <button class="btn sec sm" data-act="pstaff" data-id="${p.id}" aria-label="Editar ${esc(p.nome)}">Editar</button> <button class="btn sec sm" data-act="ptog" data-id="${p.id}" aria-label="${p.ativo?"Desativar":"Reativar"} ${esc(p.nome)}">${p.ativo?"Desativar":"Reativar"}</button> <button class="btn sec bad sm" data-act="pdel" data-id="${p.id}" aria-label="Excluir ${esc(p.nome)}">Excluir</button></td></tr>`}).join("")}</tbody></table></div>${tot>L.length?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="mais">Ver mais</button></div>`:""}`:EMPTY("users","Nenhum paciente encontrado")}`};
+function pacDrawer(id){const p=PC(id);if(!p||!ehStaff())return;S.ppk="pacientes";
+ const cs=S.cons.filter(c=>c.pac===id).sort(desc).slice(0,12),es=S.esp.filter(e=>e.pac===id).sort((a,b)=>a.criado<b.criado?1:-1).slice(0,5);
+ openModal(`<div class="modal dr"><div class="mbox dr" role="dialog" aria-modal="true" aria-labelledby="dh"><div class="mh"><h2 id="dh" tabindex="-1">${esc(p.nome)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><dl class="dl2"><dt>Nascimento</dt><dd>${esc(fmt(p.nasc))} (${idade(p.nasc,agora())} anos)</dd><dt>Atendimento</dt><dd>${esc(CV(p.conv).nome)}${p.cart?" · "+esc(p.cart):""}</dd><dt>Telefone</dt><dd>${esc(p.tel)}</dd><dt>E-mail</dt><dd>${esc(p.email)}</dd>${p.resp?`<dt>Responsável</dt><dd>${esc(PC(p.resp)?PC(p.resp).nome:"—")}</dd>`:""}</dl><div class="sec"><h3>Consultas (${cs.length})</h3>${cs.length?cs.map(c=>consItem(c)).join(""):'<p class="muted">Sem consultas.</p>'}</div><div class="sec"><h3>Lista de espera</h3>${es.length?es.map(e=>`<div class="li"><span>${esc(ES(e.esp).nome)} · ${esc(fmt(e.de))} a ${esc(fmt(e.ate))}</span><span class="tag t-na">${esc(e.st)}</span></div>`).join(""):'<p class="muted">Nenhum pedido.</p>'}</div></div></div>`);$("#pp").innerHTML=ppPanel();$("#dh").focus()}
+
+/* ===== Bloqueios ===== */
+V.bloqueios=()=>{const prof=S.perfil==="Profissional",pid=prof?user().prof:"";let L=S.blq.filter(b=>!prof||b.prof===pid).sort((a,b)=>a.ini<b.ini?-1:1);const fer=S.fer.slice().sort((a,b)=>a.d<b.d?-1:1);
+ return head("Bloqueios de agenda",prof?"Ausências na sua agenda.":"Ausências, congressos e manutenção. Feriados ficam em Cadastros.",`<button class="btn" data-act="bnew">${ic("plus")}Bloquear horário</button>`)+
+ (L.length?`<div class="tw"><table class="tb"><caption class="sr">Bloqueios</caption><thead><tr><th>Profissional</th><th>Data</th><th>Horário</th><th>Motivo</th><th>Criado por</th><th></th></tr></thead><tbody>${L.map(b=>`<tr><td>${esc(PF(b.prof)?PF(b.prof).nome:"—")}</td><td>${esc(fmtDia(b.ini))}/${b.ini.slice(0,4)}</td><td>${esc(fmtH(b.ini))} às ${esc(fmtH(b.fim))}</td><td>${esc(b.mot)}</td><td>${esc(nomePor(b.por))}</td><td class="act"><button class="btn sec bad sm" data-act="bdel" data-id="${b.id}" aria-label="Remover bloqueio de ${esc(fmtDTL(b.ini))}">Remover</button></td></tr>`).join("")}</tbody></table></div>`:EMPTY("lock","Nenhum bloqueio","Bloqueie horários de ausência ou manutenção.")) +
+ `<h3>Feriados cadastrados</h3>${fer.length?`<ul class="hist">${fer.map(f=>`<li>${ic("flag")} <b>${esc(fmt(f.d))}</b> · ${esc(f.n)}</li>`).join("")}</ul>`:'<p class="muted">Nenhum feriado cadastrado.</p>'}`};
+
+/* ===== Indicadores ===== */
+function relCalc(){const hoje=hojeS(),N=S.rel,de=addTo(hoje,-(N-1)),dias=[];for(let i=0;i<N;i++)dias.push(addTo(de,i));
+ const cons=S.cons.filter(c=>{const d=c.ini.slice(0,10);return d>=de&&d<=hoje}),pass=cons.filter(c=>c.ini<agora()&&c.chave);
+ const por=S.profs.filter(p=>p.ativo||cons.some(c=>c.prof===p.id)).map(p=>{let cap=0;dias.forEach(d=>{if(feriadoDe(d))return;gradeSlots(p,d).forEach(sl=>{if(sl.ini<agora()&&!bloqueioDe(p,sl.ini,sl.fim))cap++})});const usado=pass.filter(c=>c.prof===p.id).length;return{id:p.id,nome:p.nome,cap,usado,oc:pct(usado,cap)}});
+ const cap=por.reduce((a,x)=>a+x.cap,0),usado=por.reduce((a,x)=>a+x.usado,0),at=cons.filter(c=>c.st==="Atendida").length,fa=cons.filter(c=>c.st==="Faltou").length,ca=cons.filter(c=>c.st==="Cancelada");
+ const porEsp=S.esps.map(e=>({id:e.id,nome:e.nome,n:cons.filter(c=>c.st!=="Cancelada"&&PF(c.prof).esp===e.id).length})).filter(x=>x.n);
+ const mot={};ca.forEach(c=>{const m=c.canc?c.canc.mot:"—";mot[m]=(mot[m]||0)+1});
+ const porDia=dias.map(d=>({d,n:cons.filter(c=>c.ini.slice(0,10)===d&&c.st!=="Cancelada").length}));
+ return{de,hoje,dias,cons,por,cap,usado,oc:pct(usado,cap),at,fa,txFalta:pct(fa,at+fa),ca,txCanc:pct(ca.length,cons.length),porEsp,mot:Object.entries(mot).sort((a,b)=>b[1]-a[1]),porDia}}
+function colChart(vals,labels,titulo){const W=560,Hh=190,pl=34,pb=26,pt=10,n=vals.length,mx=Math.max(4,...vals),bw=(W-pl-8)/n,step=Math.ceil(n/10);
+ const gl=[0,.5,1].map(f=>{const y=pt+(Hh-pt-pb)*(1-f);return `<line x1="${pl}" x2="${W-4}" y1="${y}" y2="${y}" stroke="#e9dcc0"/><text x="${pl-4}" y="${y+4}" text-anchor="end">${Math.round(mx*f)}</text>`}).join("");
+ const bars=vals.map((v,i)=>{const h=(Hh-pt-pb)*v/mx,x=pl+i*bw+bw*.15;return `<rect x="${x}" y="${Hh-pb-h}" width="${bw*.7}" height="${h}" fill="#a16207" rx="2"><title>${esc(labels[i])}: ${v}</title></rect>${i%step===0?`<text x="${x+bw*.35}" y="${Hh-8}" text-anchor="middle">${esc(labels[i].slice(0,5))}</text>`:""}`}).join("");
+ return `<figure class="ch"><figcaption>${esc(titulo)}</figcaption><svg class="cs" viewBox="0 0 ${W} ${Hh}" role="img" aria-label="${esc(titulo)}">${gl}${bars}</svg><details class="dt"><summary>Ver como tabela</summary><table><thead><tr><th>Dia</th><th>Consultas</th></tr></thead><tbody>${vals.map((v,i)=>`<tr><td>${esc(labels[i])}</td><td>${v}</td></tr>`).join("")}</tbody></table></details></figure>`}
+const hbar=(nome,v,mx,txt,drill,cls="")=>`<button class="hbar" ${drill?`data-act="rdrill" data-v="${drill}"`:'disabled style="cursor:default"'} aria-label="${esc(nome+": "+txt)}"><span class="nm2">${esc(nome)}</span><span class="bar ${cls}"><i style="width:${mx?Math.round(v*100/mx):0}%"></i></span><b>${esc(txt)}</b></button>`;
+function drillRows(R,k){const c=R.cons;if(k==="todas")return{t:"Todas as consultas do período",l:c};if(k==="faltas")return{t:"Faltas do período",l:c.filter(x=>x.st==="Faltou")};if(k==="cancel")return{t:"Cancelamentos do período",l:R.ca};
+ if(k.startsWith("prof:"))return{t:"Consultas de "+(PF(k.slice(5))||{nome:"—"}).nome,l:c.filter(x=>x.prof===k.slice(5))};if(k.startsWith("esp:"))return{t:"Consultas de "+(ES(k.slice(4))||{nome:"—"}).nome,l:c.filter(x=>PF(x.prof).esp===k.slice(4))};
+ if(k.startsWith("mot:"))return{t:"Cancelamentos: "+k.slice(4),l:R.ca.filter(x=>(x.canc?x.canc.mot:"—")===k.slice(4))};return{t:"",l:[]}}
+V.relat=()=>{const R=relCalc(),mxE=Math.max(1,...R.porEsp.map(x=>x.n)),mxM=Math.max(1,...R.mot.map(x=>x[1])),esperaAt=S.esp.filter(e=>["Aguardando","Oferta enviada"].includes(e.st)).length;
+ const kp=(i,n,l,a,bad)=>`<button class="kpi ${bad?"bad":""}" data-act="${a}" aria-label="${esc(l+": "+n)}"><span class="kic">${ic(i)}</span><span><b>${n}</b><small>${l}</small></span></button>`;
+ const dr=S.rd?drillRows(R,S.rd):null;
+ return head("Indicadores","Últimos "+S.rel+" dias, até hoje. Clique em um número ou barra para ver as consultas.",`<span class="noprint"><button class="btn sec" data-act="relprint">${ic("print")}Relatório para impressão</button></span>`)+
+ `<div class="pills" role="group" aria-label="Período">${[7,14,30].map(n=>`<button class="pill" data-act="rper" data-v="${n}" aria-pressed="${S.rel===n}">${n} dias</button>`).join("")}</div>
+ <div class="kpis">${kp("cal",R.cons.length,"consultas","rdrill-todas")}${kp("pulse",R.oc+"%","ocupação da agenda","rdrill-ocup")}${kp("alert",R.txFalta+"%","faltas ("+R.fa+")","rdrill-faltas",R.txFalta>=15)}${kp("x",R.txCanc+"%","cancelamentos ("+R.ca.length+")","rdrill-cancel",R.txCanc>=25)}${kp("hourglass",esperaAt,"na lista de espera","irespera")}</div>
+ <div class="cg"><div class="card">${colChart(R.porDia.map(x=>x.n),R.porDia.map(x=>fmt(x.d).slice(0,5)),"Consultas por dia")}</div><div class="card"><h3 style="margin-top:0">Ocupação por profissional</h3>${R.por.map(x=>hbar(x.nome,x.oc,100,x.oc+"%","prof:"+x.id,x.oc<40?"w":"")).join("")||"<p class='muted'>Sem dados.</p>"}</div>
+ <div class="card"><h3 style="margin-top:0">Consultas por especialidade</h3>${R.porEsp.map(x=>hbar(x.nome,x.n,mxE,String(x.n),"esp:"+x.id)).join("")||"<p class='muted'>Sem dados.</p>"}</div><div class="card"><h3 style="margin-top:0">Motivos de cancelamento</h3>${R.mot.map(([m,n])=>hbar(m,n,mxM,String(n),"mot:"+m,"r")).join("")||"<p class='muted'>Nenhum cancelamento.</p>"}</div></div>
+ ${dr?`<div class="card" id="drill"><div class="row"><h3 style="margin:0" tabindex="-1" id="drh">${esc(dr.t)} (${dr.l.length})</h3><button class="btn sec sm" data-act="rdrill" data-v="">Fechar</button></div>${dr.l.length?`<div class="tw"><table class="tb"><caption class="sr">${esc(dr.t)}</caption><thead><tr><th>Data</th><th>Paciente</th><th>Profissional</th><th>Situação</th><th></th></tr></thead><tbody>${dr.l.slice().sort(desc).slice(0,50).map(c=>`<tr><td>${esc(fmtDTL(c.ini))}</td><td>${esc(PC(c.pac).nome)}</td><td>${esc(PF(c.prof).nome)}</td><td>${tagSt(c.st)}</td><td class="act"><button class="btn sec sm" data-act="csel" data-id="${c.id}">Abrir</button></td></tr>`).join("")}</tbody></table></div>`:"<p class='muted'>Nada para mostrar.</p>"}</div>`:""}
+ <p class="muted sm">Ocupação = consultas realizadas ou marcadas em horários já passados ÷ horários da grade, sem feriados e bloqueios.</p>`};
+function relatorioDoc(){const R=relCalc();openModal(`<div class="modal"><div class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Relatório para impressão</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="doc"><div class="hd"><div><h2>Clínica Lumevita</h2><div>Indicadores de agenda · empresa fictícia</div></div><div style="text-align:right">${esc(fmt(R.de))} a ${esc(fmt(R.hoje))}<br>Emitido em ${esc(fmtDTL(agora()))}</div></div><h3>Resumo</h3><table><tr><th>Consultas</th><td>${R.cons.length}</td><th>Ocupação</th><td>${R.oc}%</td></tr><tr><th>Atendidas</th><td>${R.at}</td><th>Faltas</th><td>${R.fa} (${R.txFalta}%)</td></tr><tr><th>Cancelamentos</th><td>${R.ca.length} (${R.txCanc}%)</td><th>Lista de espera</th><td>${S.esp.filter(e=>["Aguardando","Oferta enviada"].includes(e.st)).length}</td></tr></table><h3>Ocupação por profissional</h3><table><thead><tr><th>Profissional</th><th>Horários</th><th>Ocupados</th><th>Ocupação</th></tr></thead><tbody>${R.por.map(x=>`<tr><td>${esc(x.nome)}</td><td>${x.cap}</td><td>${x.usado}</td><td>${x.oc}%</td></tr>`).join("")}</tbody></table></div><div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+/* ===== Cadastros (Administrador) ===== */
+const futurasDe=f=>S.cons.filter(c=>ATIVA.includes(c.st)&&c.ini>agora()&&f(c));
+const ADM=[["prof","Profissionais"],["esp","Especialidades"],["conv","Convênios"],["fer","Feriados"],["usr","Usuários"],["reg","Regras"]];
+const gradeTxt=(p)=>[1,2,3,4,5,6,0].filter(d=>(p.grade[d]||[]).length).map(d=>DSEM[d]+" "+p.grade[d].map(x=>x[0]+"–"+x[1]).join(", ")).join(" · ")||"Sem expediente";
+V.admin=()=>{const t=S.adm,tb=`<div class="tabsa" role="group" aria-label="Cadastros">${ADM.map(([k,l])=>`<button data-act="adm" data-v="${k}" aria-pressed="${t===k}">${l}</button>`).join("")}</div>`;
+ const btn=(a,l)=>`<button class="btn" data-act="${a}">${ic("plus")}${l}</button>`,sit=a=>`<span class="tag ${a?"t-ok":"t-na"}">${a?"Ativo":"Inativo"}</span>`;
+ const ac=(e,t,id,nome,ativo)=>`<td class="act"><button class="btn sec sm" data-act="${e}edit" data-id="${id}" aria-label="Editar ${esc(nome)}">Editar</button> <button class="btn sec sm" data-act="${e}tog" data-id="${id}" aria-label="${ativo?"Desativar":"Ativar"} ${esc(nome)}">${ativo?"Desativar":"Ativar"}</button> <button class="btn sec bad sm" data-act="${e}del" data-id="${id}" aria-label="Excluir ${esc(nome)}">Excluir</button></td>`;
+ let c="";
+ if(t==="prof")c=`<div class="row"><p class="muted" style="margin:0">Grade semanal e duração definem os horários oferecidos.</p>${btn("profnew","Novo profissional")}</div><div class="tw"><table class="tb"><caption class="sr">Profissionais</caption><thead><tr><th>Profissional</th><th>Especialidade</th><th>Consulta</th><th>Expediente</th><th>Situação</th><th></th></tr></thead><tbody>${S.profs.map(p=>`<tr><td><b>${esc(p.nome)}</b><br><span class="muted sm">${esc(p.sala)}${p.online?" · vídeo":""}</span></td><td>${esc(ES(p.esp).nome)}</td><td>${p.dur} min</td><td class="sm">${esc(gradeTxt(p))}<br><span class="muted">Convênios: ${esc(p.conv.map(x=>CV(x)?CV(x).nome:"—").join(", ")||"só particular")}</span></td><td>${sit(p.ativo)}</td>${ac("prof","",p.id,p.nome,p.ativo)}</tr>`).join("")}</tbody></table></div>`;
+ else if(t==="esp")c=`<div class="row"><p class="muted" style="margin:0">Limites de idade valem na hora de agendar.</p>${btn("espnew","Nova especialidade")}</div><div class="tw"><table class="tb"><caption class="sr">Especialidades</caption><thead><tr><th>Especialidade</th><th>Idade</th><th>Profissionais</th><th>Situação</th><th></th></tr></thead><tbody>${S.esps.map(e=>`<tr><td><b>${esc(e.nome)}</b></td><td>${e.imin}${e.imax!=null?" a "+e.imax+" anos":" anos ou mais"}</td><td>${S.profs.filter(p=>p.esp===e.id).length}</td><td>${sit(e.ativo)}</td>${ac("esp","",e.id,e.nome,e.ativo)}</tr>`).join("")}</tbody></table></div>`;
+ else if(t==="conv")c=`<div class="row"><p class="muted" style="margin:0">Particular é fixo e sempre existe.</p>${btn("convnew","Novo convênio")}</div><div class="tw"><table class="tb"><caption class="sr">Convênios</caption><thead><tr><th>Convênio</th><th>Pacientes</th><th>Profissionais que atendem</th><th>Situação</th><th></th></tr></thead><tbody>${S.convs.map(v=>`<tr><td><b>${esc(v.nome)}</b></td><td>${S.pacs.filter(p=>p.conv===v.id).length}</td><td>${v.id==="c0"?"Todos":S.profs.filter(p=>p.conv.includes(v.id)).length}</td><td>${sit(v.ativo)}</td>${v.id==="c0"?'<td class="act muted">Fixo</td>':ac("conv","",v.id,v.nome,v.ativo)}</tr>`).join("")}</tbody></table></div>`;
+ else if(t==="fer")c=`<div class="row"><p class="muted" style="margin:0">Em feriados a agenda não oferece horários.</p>${btn("fernew","Novo feriado")}</div>${S.fer.length?`<div class="tw"><table class="tb"><caption class="sr">Feriados</caption><thead><tr><th>Data</th><th>Nome</th><th></th></tr></thead><tbody>${S.fer.slice().sort((a,b)=>a.d<b.d?-1:1).map(f=>`<tr><td>${esc(fmt(f.d))} · ${DSEM[wdOf(f.d)]}</td><td>${esc(f.n)}</td><td class="act"><button class="btn sec bad sm" data-act="ferdel" data-id="${f.id}" aria-label="Remover feriado ${esc(f.n)}">Remover</button></td></tr>`).join("")}</tbody></table></div>`:EMPTY("flag","Nenhum feriado")}`;
+ else if(t==="usr")c=`<div class="row"><p class="muted" style="margin:0">Quem acessa o app e com qual perfil.</p>${btn("usernew","Novo usuário")}</div><div class="tw"><table class="tb"><caption class="sr">Usuários</caption><thead><tr><th>Nome</th><th>Perfil</th><th>Ligado a</th><th>Situação</th><th></th></tr></thead><tbody>${USERS.map(u=>`<tr><td><b>${esc(u.nome)}</b><br><span class="muted sm">${esc(u.email)}</span></td><td>${esc(u.perfil)}</td><td>${u.pac&&PC(u.pac)?esc(PC(u.pac).nome):u.prof&&PF(u.prof)?esc(PF(u.prof).nome):"—"}</td><td>${sit(u.ativo)}</td>${ac("user","",u.id,u.nome,u.ativo)}</tr>`).join("")}</tbody></table></div>`;
+ else c=`<div class="row"><p class="muted" style="margin:0">Valem para novos agendamentos. Consultas já marcadas não mudam.</p><button class="btn" data-act="regform">${ic("pen")}Editar regras</button></div><dl class="dl2"><dt>Antecedência mínima (paciente)</dt><dd>${S.R.antec} h</dd><dt>Cancelar/remarcar pelo app até</dt><dd>${S.R.cancelH} h antes</dd><dt>Horizonte do paciente</dt><dd>${S.R.horiz} dias</dd><dt>Horizonte da recepção</dt><dd>${S.R.horizRec} dias</dd><dt>Consultas futuras por pessoa</dt><dd>${S.R.maxFut}</dd><dt>Remarcações por consulta</dt><dd>${S.R.maxRemarc}</dd><dt>Oferta da lista de espera</dt><dd>${num(S.R.ofertaMin/60)} h para responder</dd><dt>Falta liberada após</dt><dd>${S.R.faltaMin} min do início</dd><dt>Check-in a partir de</dt><dd>${S.R.checkinMin} min antes</dd></dl>`;
+ return head("Cadastros","Profissionais, especialidades, convênios, feriados, usuários e regras.")+tb+c};
+function parseGrade(txt,dur){const t=txt.trim();if(!t)return{arr:[]};const arr=[];for(const part of t.split(/\s*[,;]\s*/)){const m=/^(\d{1,2}):(\d{2})\s*[-–]\s*(\d{1,2}):(\d{2})$/.exec(part);if(!m)return{err:"Use o formato 08:00-12:00, separando intervalos por vírgula."};const a=(+m[1])*60+(+m[2]),b=(+m[3])*60+(+m[4]);if(+m[1]>23||+m[3]>23||+m[2]>59||+m[4]>59)return{err:"Horário inválido em "+part+"."};if(b<=a)return{err:"O fim precisa ser depois do início em "+part+"."};if(b-a<dur)return{err:"O intervalo "+part+" é menor que a consulta de "+dur+" min."};arr.push([a,b])}
+ arr.sort((x,y)=>x[0]-y[0]);for(let i=1;i<arr.length;i++)if(arr[i][0]<arr[i-1][1])return{err:"Os intervalos de um mesmo dia não podem se sobrepor."};return{arr:arr.map(x=>[hm(x[0]),hm(x[1])])}}
+function profForm(p){const novo=!p;const f=[{id:"nome",label:"Nome",req:1,value:p?p.nome:""},{id:"esp",label:"Especialidade",type:"select",req:1,options:S.esps.filter(e=>e.ativo||(p&&p.esp===e.id)).map(e=>[e.id,e.nome]),value:p?p.esp:"e1"},{id:"dur",label:"Duração da consulta",type:"select",req:1,options:[15,20,30,40,45,60].map(x=>[String(x),x+" min"]),value:String(p?p.dur:30)},{id:"sala",label:"Sala",req:1,value:p?p.sala:""},{id:"online",label:"Atende por vídeo",type:"select",req:1,options:[["1","Sim"],["0","Não"]],value:p&&p.online?"1":"0"}];
+ [1,2,3,4,5,6,0].forEach(d=>f.push({id:"g"+d,label:"Expediente · "+DSEML[d],value:p?(p.grade[d]||[]).map(x=>x[0]+"-"+x[1]).join(", "):"",hint:d===1?"Ex.: 08:00-12:00, 14:00-17:00. Deixe vazio se não atende.":""}));
+ const extra=`<fieldset style="border:1px solid var(--bd);border-radius:10px;margin-top:12px"><legend class="sm" style="font-weight:700">Convênios atendidos</legend><div class="gcb">${S.convs.filter(c=>c.id!=="c0"&&(c.ativo||(p&&p.conv.includes(c.id)))).map(c=>`<label><input type="checkbox" name="pconv" value="${c.id}" ${p&&p.conv.includes(c.id)?"checked":""}>${esc(c.nome)}</label>`).join("")}</div></fieldset>`;
+ formModal({title:novo?"Novo profissional":"Editar "+p.nome,fields:f,extra,ok:"Salvar",msg:novo?"Profissional criado.":"Profissional atualizado.",
+  validate:v=>{if(v.nome.length<4)return"Informe o nome.";if(S.profs.some(x=>(!p||x.id!==p.id)&&x.nome.toLowerCase()===v.nome.toLowerCase()))return"Já existe um profissional com este nome.";
+   const dur=+v.dur,g={};for(const d of [0,1,2,3,4,5,6]){const r=parseGrade(v["g"+d],dur);if(r.err)return DSEML[d]+": "+r.err;g[d]=r.arr}if(!Object.values(g).some(x=>x.length))return"Informe o expediente de pelo menos um dia.";
+   const cv=[...document.querySelectorAll("[name=pconv]:checked")].map(x=>x.value);
+   if(p){const fu=futurasDe(c=>c.prof===p.id);if(fu.length){if(v.esp!==p.esp)return"Há "+fu.length+" consulta(s) futura(s). Remarque ou cancele antes de mudar a especialidade.";if(dur!==p.dur)return"Há "+fu.length+" consulta(s) futura(s). Remarque ou cancele antes de mudar a duração.";
+     if(v.online==="0"&&fu.some(c=>c.mod==="Online"))return"Há consulta futura por vídeo. Remarque ou cancele antes de desligar o atendimento por vídeo.";
+     const novoP=Object.assign({},p,{grade:g,dur});const fora=fu.filter(c=>!gradeSlots(novoP,c.ini.slice(0,10)).some(s=>s.ini===c.ini)||feriadoDe(c.ini.slice(0,10)));if(fora.length)return fora.length+" consulta(s) futura(s) ficariam fora do expediente (primeira: "+fmtDTL(fora[0].ini)+"). Remarque ou cancele antes.";
+     const sem=fu.find(c=>c.conv!=="c0"&&!cv.includes(c.conv));if(sem)return"Há consulta futura pelo convênio "+CV(sem.conv).nome+". Remarque ou cancele antes de remover esse convênio."}}return""},
+  save:v=>{const g={};[0,1,2,3,4,5,6].forEach(d=>{const r=parseGrade(v["g"+d],+v.dur).arr;if(r.length)g[d]=r});const cv=[...document.querySelectorAll("[name=pconv]:checked")].map(x=>x.value);
+   const o=p||{id:"p"+(S.nprof++),ativo:true};Object.assign(o,{nome:v.nome,esp:v.esp,dur:+v.dur,sala:v.sala,online:v.online==="1",grade:g,conv:cv});if(!p)S.profs.push(o)}})}
+function profTog(id){const p=PF(id);if(!p)return;if(p.ativo){const fu=futurasDe(c=>c.prof===id).length;if(fu){toast(p.nome+" tem "+fu+" consulta(s) futura(s). Remarque ou cancele antes de desativar.","err");return}confirmar("Desativar "+p.nome+"? Deixa de aparecer para novos agendamentos.","Desativar",()=>{p.ativo=false;toast("Profissional desativado.","info");render(false)})}else{if(!ES(p.esp).ativo){toast("A especialidade está inativa. Ative-a antes.","err");return}p.ativo=true;toast("Profissional ativado.");render(false)}}
+function profDel(id){const p=PF(id);if(!p)return;const uso=S.cons.filter(c=>c.prof===id).length+S.blq.filter(b=>b.prof===id).length+S.esp.filter(e=>e.prof===id).length+USERS.filter(u=>u.prof===id).length;if(uso){toast("Cadastro em uso ("+uso+" registro(s) ligados). Desative em vez de excluir.","err");return}confirmar("Excluir "+p.nome+"?","Excluir",()=>{S.profs.splice(S.profs.indexOf(p),1);toast("Profissional excluído.","info");render(false)})}
+function espForm(e){const novo=!e;formModal({title:novo?"Nova especialidade":"Editar "+e.nome,fields:[{id:"nome",label:"Nome",req:1,value:e?e.nome:""},{id:"imin",label:"Idade mínima (anos)",type:"number",req:1,min:0,value:String(e?e.imin:0)},{id:"imax",label:"Idade máxima (anos)",type:"number",min:0,value:e&&e.imax!=null?String(e.imax):"",hint:"Deixe vazio para sem limite."}],ok:"Salvar",msg:novo?"Especialidade criada.":"Especialidade atualizada.",
+  validate:v=>{if(v.nome.length<3)return"Informe o nome.";if(S.esps.some(x=>(!e||x.id!==e.id)&&x.nome.toLowerCase()===v.nome.toLowerCase()))return"Já existe uma especialidade com este nome.";const a=+v.imin,b=v.imax===""?null:+v.imax;if(!Number.isInteger(a)||a<0||a>120)return"Idade mínima inválida.";if(b!=null&&(!Number.isInteger(b)||b<a||b>120))return"A idade máxima precisa ser maior ou igual à mínima.";
+   if(e){const novoE=Object.assign({},e,{imin:a,imax:b}),ruim=futurasDe(c=>PF(c.prof).esp===e.id).find(c=>!idadeOk(PC(c.pac),novoE,c.ini));if(ruim)return"A consulta de "+fmtDTL(ruim.ini)+" ("+PC(ruim.pac).nome+") ficaria fora da faixa de idade. Remarque ou cancele antes."}return""},
+  save:v=>{const o=e||{id:"e"+(S.nesp++),ativo:true};o.nome=v.nome;o.imin=+v.imin;o.imax=v.imax===""?null:+v.imax;if(!e)S.esps.push(o)}})}
+function espTog(id){const e=ES(id);if(!e)return;if(e.ativo){const n=S.profs.filter(p=>p.ativo&&p.esp===id).length;if(n){toast("Há "+n+" profissional(is) ativo(s) nesta especialidade. Desative-os antes.","err");return}confirmar("Desativar "+e.nome+"?","Desativar",()=>{e.ativo=false;toast("Especialidade desativada.","info");render(false)})}else{e.ativo=true;toast("Especialidade ativada.");render(false)}}
+function espDel(id){const e=ES(id);if(!e)return;const uso=S.profs.filter(p=>p.esp===id).length+S.esp.filter(w=>w.esp===id).length;if(uso){toast("Especialidade em uso ("+uso+" registro(s)). Desative em vez de excluir.","err");return}confirmar("Excluir "+e.nome+"?","Excluir",()=>{S.esps.splice(S.esps.indexOf(e),1);toast("Especialidade excluída.","info");render(false)})}
+function convForm(c){const novo=!c;formModal({title:novo?"Novo convênio":"Editar "+c.nome,fields:[{id:"nome",label:"Nome",req:1,value:c?c.nome:""}],ok:"Salvar",msg:novo?"Convênio criado.":"Convênio atualizado.",validate:v=>{if(v.nome.length<3)return"Informe o nome.";if(S.convs.some(x=>(!c||x.id!==c.id)&&x.nome.toLowerCase()===v.nome.toLowerCase()))return"Já existe um convênio com este nome.";return""},save:v=>{if(c)c.nome=v.nome;else S.convs.push({id:"c"+(S.nconv++),nome:v.nome,ativo:true})}})}
+function convTog(id){const c=CV(id);if(!c||id==="c0")return;if(c.ativo){const fu=futurasDe(x=>x.conv===id).length;if(fu){toast("Há "+fu+" consulta(s) futura(s) por este convênio. Remarque ou cancele antes.","err");return}confirmar("Desativar "+c.nome+"? Pacientes com este convênio continuam cadastrados.","Desativar",()=>{c.ativo=false;toast("Convênio desativado.","info");render(false)})}else{c.ativo=true;toast("Convênio ativado.");render(false)}}
+function convDel(id){const c=CV(id);if(!c||id==="c0")return;const uso=S.pacs.filter(p=>p.conv===id).length+S.profs.filter(p=>p.conv.includes(id)).length+S.cons.filter(x=>x.conv===id).length+S.esp.filter(e=>e.conv===id).length;if(uso){toast("Convênio em uso ("+uso+" registro(s)). Desative em vez de excluir.","err");return}confirmar("Excluir "+c.nome+"?","Excluir",()=>{S.convs.splice(S.convs.indexOf(c),1);toast("Convênio excluído.","info");render(false)})}
+function ferForm(){formModal({title:"Novo feriado",fields:[{id:"d",label:"Data",type:"date",req:1,value:addTo(hojeS(),7)},{id:"n",label:"Nome",req:1,value:""}],ok:"Salvar",msg:"Feriado cadastrado.",validate:v=>{if(v.n.length<3)return"Informe o nome.";if(v.d<=hojeS())return"O feriado precisa ser uma data futura.";if(S.fer.some(f=>f.d===v.d))return"Já existe um feriado nesta data.";const fu=futurasDe(c=>c.ini.slice(0,10)===v.d);if(fu.length)return"Há "+fu.length+" consulta(s) nesta data. Remarque ou cancele antes.";return""},save:v=>{S.fer.push({id:"f"+(S.nf++),d:v.d,n:v.n})}})}
+function ferDel(id){const f=S.fer.find(x=>x.id===id);if(!f)return;confirmar("Remover o feriado "+f.n+" ("+fmt(f.d)+")? Os horários voltam a ser oferecidos.","Remover",()=>{S.fer.splice(S.fer.indexOf(f),1);S.profs.filter(p=>p.ativo).forEach(p=>gradeSlots(p,f.d).forEach(sl=>{if(sl.ini>agora()&&estadoSlot(p,sl)==="Livre")liberou(p.id,sl.ini,sl.fim)}));toast("Feriado removido.","info");render(false)})}
+const usoUser=id=>S.cons.filter(c=>c.por===id||(c.canc&&c.canc.por===id)||c.log.some(l=>l.por===id)).length+S.blq.filter(b=>b.por===id).length+S.esp.filter(e=>e.log.some(l=>l.por===id)).length;
+const admsAtivos=(exc)=>USERS.filter(u=>u.ativo&&u.perfil==="Administrador"&&u.id!==exc).length;
+function userForm(u){const novo=!u,self=u&&u.id===S.uid;
+ const pacs=S.pacs.filter(p=>p.ativo&&!p.resp),profs=S.profs.filter(p=>p.ativo||(u&&u.prof===p.id));
+ formModal({title:novo?"Novo usuário":"Editar "+u.nome,fields:[{id:"nome",label:"Nome",req:1,value:u?u.nome:""},{id:"email",label:"E-mail",type:"email",req:1,value:u?u.email:"",hint:"Domínio fictício .example."},{id:"perfil",label:"Perfil",type:"select",req:1,options:PERFIS.map(x=>[x,x]),value:u?u.perfil:"Recepção"},{id:"pac",label:"Paciente titular (perfil Paciente)",type:"select",options:[["","Nenhum"]].concat(pacs.map(p=>[p.id,p.nome])),value:u?u.pac:""},{id:"prof",label:"Profissional (perfil Profissional)",type:"select",options:[["","Nenhum"]].concat(profs.map(p=>[p.id,p.nome])),value:u?u.prof:""},{id:"ativo",label:"Situação",type:"select",req:1,options:[["1","Ativo"],["0","Inativo"]],value:!u||u.ativo?"1":"0"}],ok:"Salvar",msg:novo?"Usuário criado.":"Usuário atualizado.",
+  validate:v=>{if(v.nome.length<3)return"Informe o nome.";if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email))return"E-mail inválido.";if(USERS.some(x=>(!u||x.id!==u.id)&&x.email.toLowerCase()===v.email.toLowerCase()))return"Já existe um usuário com este e-mail.";
+   if(v.perfil==="Paciente"){if(!v.pac)return"Escolha o paciente titular.";if(USERS.some(x=>(!u||x.id!==u.id)&&x.ativo&&x.perfil==="Paciente"&&x.pac===v.pac))return"Este paciente já tem acesso."}
+   if(v.perfil==="Profissional"){if(!v.prof)return"Escolha o profissional.";if(USERS.some(x=>(!u||x.id!==u.id)&&x.ativo&&x.perfil==="Profissional"&&x.prof===v.prof))return"Este profissional já tem acesso."}
+   if(self&&v.perfil!==u.perfil)return"Você não pode mudar o próprio perfil.";if(self&&v.ativo==="0")return"Você não pode desativar a si mesmo.";
+   if(u&&u.ativo&&u.perfil==="Administrador"&&(v.perfil!=="Administrador"||v.ativo==="0")&&admsAtivos(u.id)<1)return"Mantenha ao menos um administrador ativo.";return""},
+  save:v=>{const o=u||{id:"u"+(S.nu++)};Object.assign(o,{nome:v.nome,email:v.email,perfil:v.perfil,pac:v.perfil==="Paciente"?v.pac:"",prof:v.perfil==="Profissional"?v.prof:"",ativo:v.ativo==="1"});if(!u)USERS.push(o);buildPeople()}})}
+function userTog(id){const u=U(id);if(!u)return;if(u.ativo){if(id===S.uid){toast("Você não pode desativar a si mesmo.","err");return}if(u.perfil==="Administrador"&&admsAtivos(id)<1){toast("Mantenha ao menos um administrador ativo.","err");return}confirmar("Desativar "+u.nome+"?","Desativar",()=>{u.ativo=false;buildPeople();toast("Usuário desativado.","info");render(false)})}else{if(u.perfil==="Paciente"&&USERS.some(x=>x.id!==id&&x.ativo&&x.perfil==="Paciente"&&x.pac===u.pac)){toast("Este paciente já tem outro acesso ativo.","err");return}if(u.perfil==="Profissional"&&USERS.some(x=>x.id!==id&&x.ativo&&x.perfil==="Profissional"&&x.prof===u.prof)){toast("Este profissional já tem outro acesso ativo.","err");return}u.ativo=true;buildPeople();toast("Usuário ativado.");render(false)}}
+function userDel(id){const u=U(id);if(!u)return;if(id===S.uid){toast("Você não pode excluir a si mesmo.","err");return}if(u.perfil==="Administrador"&&u.ativo&&admsAtivos(id)<1){toast("Mantenha ao menos um administrador ativo.","err");return}const uso=usoUser(id);if(uso){toast("Usuário aparece em "+uso+" registro(s) do histórico. Desative em vez de excluir.","err");return}confirmar("Excluir "+u.nome+"?","Excluir",()=>{USERS.splice(USERS.indexOf(u),1);S.notifs=S.notifs.filter(n=>n.u!==id);buildPeople();toast("Usuário excluído.","info");render(false)})}
+function regForm(){const c=[["antec","Antecedência mínima do paciente (horas)",0,72],["cancelH","Cancelar/remarcar pelo app até (horas antes)",0,168],["horiz","Horizonte do paciente (dias)",7,90],["horizRec","Horizonte da recepção (dias)",7,180],["maxFut","Consultas futuras por pessoa",1,10],["maxRemarc","Remarcações por consulta",0,5],["ofertaMin","Tempo para responder a oferta (minutos)",30,1440],["faltaMin","Registrar falta após (minutos do início)",5,60],["checkinMin","Check-in a partir de (minutos antes)",15,180]];
+ formModal({title:"Regras de agendamento",fields:c.map(([k,l,a,b])=>({id:k,label:l,type:"number",req:1,min:a,value:String(S.R[k]),hint:a+" a "+b})),ok:"Salvar regras",msg:"Regras atualizadas.",
+  validate:v=>{for(const [k,l,a,b] of c){const n=+v[k];if(!Number.isInteger(n)||n<a||n>b)return l+": use um número inteiro de "+a+" a "+b+"."}if(+v.horizRec<+v.horiz)return"O horizonte da recepção não pode ser menor que o do paciente.";if(+v.ofertaMin%30)return"O tempo da oferta deve ser múltiplo de 30 minutos.";return""},save:v=>{c.forEach(([k])=>{S.R[k]=+v[k]})}})}
+/* ===== Painel "Como seria na Power Platform" ===== */
+const PP={
+ cover:{c:["Equipe e administração entram com a conta Microsoft Entra ID; User().Email localiza a pessoa numa tabela de usuários do app (perfil como coluna)","Paciente é público externo: convidado em app Canvas precisa de conta no Entra ID e de licença. Para o paciente, o desenho comum é um portal Power Pages, que aceita acesso anônimo e autenticado com dados no Dataverse; no Microsoft for Healthcare o acesso do paciente por Power Pages hoje é um pacote de modelo baixável, com implantação gerenciada restrita a clientes existentes desde 01/10/2026 (confira a página do Learn antes de adotar)","A lista de pessoas da capa existe só no mockup"],d:"Dataverse: tabelas Usuário, Paciente, Profissional, Consulta; app da equipe em Canvas compartilhado com grupos do Entra ID",w:"Esconder menu ou botão por perfil melhora a experiência, mas não é segurança: quem protege os dados são os papéis de segurança do Dataverse."},
+ agendar:{c:["Escolha de especialidade e profissional: Galerias com Filter na tabela; o assistente de 4 passos é uma variável de contexto com a etapa atual","Escolha do dia: o seletor de data moderno só restringe por data inicial e final, sem propriedade para desabilitar dias específicos. Por isso o mockup usa uma Galeria horizontal de dias, montada com ForAll(Sequence(30), DateAdd(Today(), Value, TimeUnit.Days)) (Sequence gera até 50.000 linhas)","Horários livres: gerados da grade semanal e da duração do profissional (tabela de Expediente), menos feriados, bloqueios e consultas ativas","Gravação: Patch na tabela Consulta com IfError; se a chave de unicidade recusar, recarregar os horários e avisar a pessoa","Regra de antecedência e de limite de consultas: DateDiff(Now(); início; TimeUnit.Minutes) e CountRows(Filter(...))"],d:"Dataverse: chave alternativa em Consulta (profissional e início, em coluna de texto) garante um paciente por horário. A plataforma não deixa criar ou atualizar outra linha com os mesmos valores. Cancelar limpa a coluna da chave, e como NULL não aplica unicidade o horário volta a ficar livre",w:"A chave alternativa é criada em segundo plano (situações Pendente, Em andamento, Ativa ou Falhou): só vale quando estiver Ativa. Máximo de 10 chaves por tabela; não vale com segurança em nível de coluna nem em tabela virtual. Vários caracteres (como / # < > * % & : \\ ? +) fazem GET e PATCH por chave falharem, então o valor da chave usa só letras, números e sublinhado. Verificar a regra só no app deixa brecha para dois agendamentos simultâneos: a chave no servidor fecha essa brecha."},
+ consultas:{c:["Lista: Galeria com Filter por paciente e situação; colunas de escolha delegam = e <>, comparações de data e hora com < e > delegam no Dataverse, exceto quando usam Now() ou Today() (nesse caso, calcule a data limite antes ou filtre no servidor)","Cancelar e remarcar até 24 h antes: DateDiff(Now(); início; TimeUnit.Hours); o mesmo teste deve existir no servidor","Remarcar atualiza a mesma linha da consulta (novo início, nova chave, contador de remarcações) em um único Patch, sem criar e cancelar duas linhas","Colunas de data e hora da consulta com comportamento Independente de fuso, para a clínica ver sempre o mesmo horário local","Lembrete 24 h antes: fluxo agendado (gatilho Recurrence) que busca consultas nas próximas 24 h sem lembrete e envia o aviso"],d:"Dataverse: tabelas Consulta e Histórico da consulta; paciente com acesso Usuário vê só as próprias linhas",w:"Notificação por push do Power Apps só chega no Power Apps Mobile e só depois que a pessoa abriu o app uma vez; o fluxo envia para um usuário ou grupo por vez. Para quem não usa o app, o canal é e-mail ou mensagem."},
+ espera:{c:["Fila: tabela Espera com data de entrada; a ordem é a de chegada (Sort por data de criação)","Ao liberar uma vaga por cancelamento ou remarcação, um fluxo com gatilho de linha modificada da Consulta procura o primeiro pedido compatível e grava a oferta com o horário e o prazo. Remover bloqueio ou feriado muda outras tabelas: use gatilhos nelas ou um fluxo agendado","Oferta vencida: um fluxo agendado (Recurrence) marca como expirada e repassa para o próximo da fila","Gatilho de linha do Dataverse: aceita filtro de linhas (OData) para só disparar na mudança desejada; a seleção de colunas vale para a condição de modificação e não aceita colunas de relação","Aceitar a oferta cria a consulta com a mesma chave de unicidade; se outro agendamento chegou antes, a gravação é recusada e a oferta volta para a fila"],d:"Dataverse: tabela Espera (paciente, especialidade, profissional opcional, período, situação, oferta e validade)",w:"Reservar o horário durante a oferta é regra sua: o mockup trata o horário como retido até o vencimento, e a tela de agendamento de outras pessoas precisa consultar as ofertas abertas."},
+ dados:{c:["Titular e dependentes: tabela Paciente com coluna de relação para o responsável; a Galeria lista o titular e os dependentes dele","Validações antes do Patch: formato de telefone e e-mail, convênio com carteirinha, idade do dependente, limite de dependentes","Trocar a data de nascimento exige reavaliar as consultas futuras (limite de idade da especialidade)","Remover dependente com consulta futura é bloqueado; sem consulta, o cadastro é desativado e o histórico fica"],d:"Dataverse: tabelas Paciente e Convênio; desativar usa a coluna de situação (ativo e inativo)",w:"Dados de saúde são sensíveis. No desenho real, defina papéis de segurança por tabela, revise quem lê o cadastro e confira a legislação de proteção de dados aplicável."},
+ agenda:{c:["O Canvas não tem controle de agenda pronto. Opções: Galerias com rótulos posicionados (como no mockup, com Y calculado em minutos), um componente de código, ou um componente de calendário feito por você (a confirmar no Learn qual opção nativa existe para o seu caso)","Coluna por profissional: Galeria horizontal; cada bloco de consulta tem Y = minutos desde o início do dia × altura por minuto e Height = duração × altura por minuto","Os blocos de consulta usam Fill por situação (If/Switch sobre a coluna de escolha); horário livre é um botão tracejado que abre o agendamento","Visões Dia, Semana e Lista: a mesma fonte, com filtros por data, especialidade, profissional e situação","Choque de horário: a chave alternativa rejeita a segunda gravação; o app trata o erro e recarrega a grade"],d:"Dataverse: Consulta, Bloqueio, Feriado e Expediente; exibições filtradas por data para ficar dentro do limite de linhas do Canvas",w:"Com muitas colunas e blocos, o desempenho cai. Carregue só o dia ou a semana visível e use Concurrent para as consultas, bloqueios e feriados. O limite de linhas do Canvas vai de 1 a 10.000 (padrão 500)."},
+ pacientes:{c:["Busca: Search e StartsWith delegam em colunas de texto do Dataverse; Search não delega em escolha, número e data","Cadastro com Form: validação, duplicidade (nome e nascimento) e regra de responsável para menores","Desativar usa a situação do registro; excluir só quando nada aponta para o paciente (relação Referencial, Restringir exclusão bloqueia apagar o pai com filhos)","Histórico do paciente: Galeria de consultas filtrada pelo paciente"],d:"Dataverse: Paciente com relação consigo mesmo (responsável) e com Convênio",w:"Quem vê quais pacientes é regra de segurança do servidor: a recepção ter acesso a todos os cadastros e o paciente só ao próprio vem dos papéis do Dataverse."},
+ bloqueios:{c:["Bloqueio é uma linha com profissional, início, fim e motivo; a grade subtrai os bloqueios dos horários livres","Criar bloqueio sobre horário com consulta é recusado no app; no servidor, um fluxo ou plug-in síncrono repete a checagem","Remover um bloqueio devolve os horários e dispara a procura de pedidos na lista de espera","Profissional só bloqueia a própria agenda: Filter pelo usuário e papel de segurança"],d:"Dataverse: tabela Bloqueio relacionada ao Profissional",w:"Dois Patch em tabelas diferentes não são uma transação. Se o bloqueio precisa cancelar consultas junto, use um fluxo ou ação no servidor."},
+ relat:{c:["Indicadores: CountRows, Sum e Average sobre o período; no Dataverse, as agregações trabalham até 50.000 linhas e CountRows usa um valor em cache","Gráficos nativos do Canvas: Coluna, Linha e Pizza. Barras horizontais, como as do mockup, saem de Galeria com rótulo de largura proporcional. Cruzamentos longos pedem um bloco do Power BI embutido","Ocupação = horários da grade ocupados ÷ horários da grade, calculada de uma tabela de horários gerada ou no Power BI (funções de agregação não são suportadas em exibições do Dataverse)","Clique no número abre a lista filtrada: UpdateContext e Navigate","Impressão: a função PDF do Power Fx é experimental; para relatório formal prefira um relatório paginado do Power BI"],d:"Dataverse como origem; Power BI para o histórico e para cruzamentos",w:"Percorrer milhares de consultas dentro do app é lento. Leia uma tabela resumida ou um modelo do Power BI."},
+ admin:{c:["Profissionais, especialidades, convênios, feriados e usuários são tabelas com Galeria e Form de edição","Grade semanal do profissional: tabela Expediente com dia da semana, início e fim; mudar duração ou grade com consulta futura é bloqueado no app e deve ser repetido no servidor","Desativar usa a situação do registro; excluir é bloqueado por relação Referencial, Restringir exclusão","Último administrador e autoalteração de perfil: regra do app e, melhor, do servidor","Regras (antecedência, prazo de cancelamento, horizontes): tabela de configuração lida por fórmula nomeada em App.Formulas"],d:"Dataverse: Profissional, Expediente, Especialidade, Convênio, Feriado, Usuário e Configuração",w:"Cadastros devem ficar atrás de papel de segurança. Esconder o botão não impede quem tem acesso à tabela."},
+ prof:{c:["Visão Dia e Semana com a mesma Galeria posicionada da agenda, filtrada pelo profissional logado (User().Email ligado ao cadastro)","Concluir atendimento só depois do check-in da recepção: botão com DisplayMode condicionado à situação Presente, e a mesma regra no servidor","Registrar falta só após o tempo de tolerância: DateDiff(início; Now(); TimeUnit.Minutes)","Observação interna fica em coluna que o papel do paciente não lê"],d:"Dataverse: Consulta com acesso do profissional às próprias linhas",w:"Filtrar a agenda pelo profissional no app não é segurança. Garanta no papel de segurança que um profissional não leia a agenda do outro."},
+ consulta:{c:["Detalhe: Form ou painel lateral com os dados da consulta; os botões mostram só as ações permitidas para o perfil e a situação","Cada mudança de situação grava a linha e um registro no histórico; como são duas tabelas, use um fluxo ou ação no servidor para que ambos entrem juntos","Comprovante: o mockup usa a impressão do navegador; no Power Apps, a função PDF é experimental, então use um modelo Word ou relatório paginado gerado por fluxo","Check-in libera a ação de concluir atendimento ao profissional e envia um aviso a ele"],d:"Dataverse: Consulta e Histórico; a observação interna só é lida por equipe e profissional",w:"Ocultar a observação interna do paciente na tela não basta: o papel de segurança do paciente não pode ler a coluna ou a tabela de observações."}
+};
+const NM={cover:"Capa e acesso",agendar:"Agendar consulta",consultas:"Minhas consultas",espera:"Lista de espera",dados:"Meus dados",agenda:"Agenda",pacientes:"Pacientes",bloqueios:"Bloqueios",relat:"Indicadores",admin:"Cadastros",prof:"Minha agenda",consulta:"Detalhe da consulta"};
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>${ppHTML()}`}
+function ppHTML(){const k=S.ppk||(S.logged?S.tela:"cover"),p=PP[k]||PP.cover;
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(NM[k]||NM.cover)}</b> · Canvas app, celular, tablet e desktop</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d)}</dd></dl><div class="warn"><b>Atenção:</b> ${esc(p.w)}</div><p class="muted sm" style="margin-top:10px">Conferido na documentação oficial da Microsoft em 04/11/2026. Este é um mockup HTML: não é um app Power Apps. O relógio, o fluxo agendado e o simulador de choque de horário são simulados.</p>`}
+
+/* ===== Cabeçalho, menu em gaveta, capa e tela ===== */
+const telaInicial=()=>({Paciente:"agendar","Recepção":"agenda",Profissional:"prof",Administrador:"agenda"})[S.perfil];
+function buildPeople(){renderCover();if(S.logged)$("#perfil").value=S.uid}
+function renderHdr(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un&&n.u===S.uid).length;
+ $("#hdr").innerHTML=`<button class="ib" data-act="menu" aria-label="Abrir menu de navegação" aria-haspopup="dialog">${ic("menu")}</button><div class="bn">${ic("sun")}<span>Clínica Lumevita</span></div><nav class="crumb" aria-label="Você está em"><span class="cs">Início</span><span class="cs" aria-hidden="true">›</span><b aria-current="page">${esc(NAVI[S.tela][0])}</b></nav><span style="flex:1"></span>
+ <button class="clk" data-act="relogio" aria-label="Relógio simulado: ${esc(fmtDTL(agora()))}. Avançar o tempo">${ic("clock")}<span>${esc(fmtDTL(agora()))}</span></button>
+ <button class="ib" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>
+ <div class="usr"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small style="opacity:.85">${esc(S.perfil)}</small></div><button class="ib" data-act="sair" aria-label="Sair">${ic("logout")}</button></div><div id="npop" hidden></div>`}
+function abrirMenu(){const u=user();openModal(`<div class="modal dl"><div class="mbox dl" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Menu</h2><button class="ib" data-act="closemodal" aria-label="Fechar menu">${ic("x")}</button></div><nav class="navd" aria-label="Seções do aplicativo">${ROLES[S.perfil].map(k=>`<button data-nav="${k}" ${S.tela===k?'aria-current="page"':""}>${ic(NAVI[k][1])}<span><b>${esc(NAVI[k][0])}</b><small>${esc(NAVI[k][2])}</small></span></button>`).join("")}</nav><div class="nvu"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div><b>${esc(u.nome)}</b><br><small class="muted">${esc(S.perfil)}</small></div></div></div></div>`);const c=$("#modal [aria-current=page]")||$("#modal [data-nav]");if(c)c.focus()}
+function render(focus){
+ if(!$("#modal").innerHTML){S.ppk=null;S.sel=null}
+ document.body.classList.toggle("lg",S.logged);
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ if(!ROLES[S.perfil].includes(S.tela))S.tela=telaInicial();
+ $("#screen").innerHTML=V[S.tela]();
+ const dr=$("#modal .mbox.dr");if(dr&&S.sel){const c=CS(S.sel);if(c&&podeVer(c)){const had=dr.contains(document.activeElement);dr.innerHTML=drawerInner(c);if(had){const h=$("#dh");if(h)h.focus()}}else closeModal()}
+ renderHdr();$("#pp").innerHTML=ppPanel();$("#perfil").value=S.uid;
+ if(!focus&&!$("#modal").innerHTML&&(!document.activeElement||document.activeElement===document.body)){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}}
+function go(t,focus=true){S.tela=t;render(focus)}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("sun")+"<span>Clínica Lumevita · Empresa fictícia</span>";
+ $("#cvlist").innerHTML=[["calplus","Paciente agenda em quatro passos, para si ou para dependentes"],["cal","Agenda em colunas por profissional, com dia, semana e lista"],["hourglass","Lista de espera que oferece a vaga que abrir"],["shield","Dois pacientes nunca ficam com o mesmo horário"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ $("#cvsteps").innerHTML=["Agendada","Confirmada","Check-in","Atendida"].map(s=>`<li>${esc(s)}</li>`).join("");
+ if(!U(S.cv)||!U(S.cv).ativo)S.cv=(USERS.find(u=>u.ativo)||{}).id;
+ $("#cvp").innerHTML=PERFIS.map(p=>{const L=USERS.filter(u=>u.ativo&&u.perfil===p);return L.length?`<div class="pgr">${esc(p)} · ${esc(PDESC[p])}</div>`+L.map(u=>`<button class="prs" data-act="cvsel" data-v="${u.id}" aria-pressed="${S.cv===u.id}"><span class="avatar" aria-hidden="true">${ini(u.nome)}</span><span><b>${esc(u.nome)}</b><small>${esc(u.perfil)}</small></span></button>`).join(""):""}).join("");
+ $("#entrar").innerHTML=ic("logout")+"Entrar como "+esc((U(S.cv)||{nome:""}).nome);$("#ppbtn").innerHTML=ic("layers")+"Como seria na Power Platform";
+ $("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("")}
+const guard=(id,k)=>{const c=CS(id);if(!c||!podeVer(c))return false;const r=acoes(c)[k];if(r===true)return true;toast(typeof r==="string"?r:"Ação indisponível para o seu perfil.","err");return false};
+function zerarTela(){S.wz=null;S.sel=null;S.rd="";S.lim=25;S.ct="prox";S.hl=10}
+S.ct="prox";S.hl=10;S.rd="";S.lim=25;
+
+/* ===== Eventos ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const bb=$("#hdr [data-act=bell]");if(bb)bb.setAttribute("aria-expanded","false")}}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML)closeModal();if(t.dataset.nav==="agendar"&&S.perfil==="Paciente"&&S.wz&&S.wz.feito)S.wz=null;S.sel=null;S.lim=25;go(t.dataset.nav);return}
+ const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v,w=S.wz;
+ switch(a){
+  case"cvsel":S.cv=v;renderCover();$("#cvp [aria-pressed=true]").focus();break;
+  case"entrar":{const alvo=U(S.cv);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;S.tela=telaInicial();zerarTela();render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair do aplicativo?","Sair",()=>{S.logged=false;render(false);$("#entrar").focus()});break;
+  case"closemodal":cancelModal();break;
+  case"menu":abrirMenu();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt" class="sr">Como seria na Power Platform</h2><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="pp">${ppHTML()}</div></div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){const mine=S.notifs.filter(n=>n.u===S.uid);mine.forEach(n=>n.un=false);{const bb=$("#hdr .badge");if(bb)bb.remove();t.setAttribute("aria-label","Notificações")}p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${mine.length?mine.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div>${esc(n.m)}<div class="muted sm">${esc(n.h)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}`}p.hidden=!open;t.setAttribute("aria-expanded",String(open));break}
+  case"clearn":S.notifs=S.notifs.filter(n=>n.u!==S.uid);renderHdr();$("#hdr [data-act=bell]").focus();break;
+  case"relogio":relogioForm();break;
+  case"avanca":avancar(+v);break;
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  /* assistente */
+  case"wzpac":if(w){w.pac=v;const e=ES(w.esp);if(e&&!idadeOk(PC(v),e,agora()))w.esp="";w.err="";render(false)}break;
+  case"wzesp":if(w){w.esp=v;w.prof="";w.err="";render(false)}break;
+  case"wzmod":if(w){w.mod=v;w.prof="";w.err="";render(false)}break;
+  case"wznext":if(!w)break;if(w.step===1){if(!w.esp){w.err="Escolha uma especialidade.";render(false);break}if(!profsDoWz(w).length){w.err="Nenhum profissional de "+ES(w.esp).nome+" atende por vídeo. Escolha atendimento presencial.";render(false);break}w.err="";w.step=2}else if(w.step===3){if(!w.ini)break;w.step=4}render(true);break;
+  case"wzback":if(w&&w.step>1){w.step--;w.err="";render(true)}break;
+  case"wzprof":if(w){w.prof=v;w.dia="";w.ini="";w.step=3;render(true)}break;
+  case"wzdia":if(w){w.dia=v;w.ini="";render(false);const d=$(".day[aria-pressed=true]");if(d)d.focus()}break;
+  case"wzini":if(w){w.ini=v;render(false);const d=$(".slot[aria-pressed=true]");if(d)d.focus()}break;
+  case"wzconf":wzConfirmar();break;
+  case"wznovo":S.wz=wzNovo();render(true);break;
+  case"wzcancrem":S.wz=null;go("consultas");break;
+  case"wzespera":if(w)esperaForm({pac:w.pac,esp:w.esp,mod:w.mod==="Online"?"Online":"Qualquer"});break;
+  /* consultas */
+  case"cta":S.ct=v;render(false);break;
+  case"hmais":S.hl+=10;render(false);break;
+  case"csel":abrirConsulta(id);break;
+  case"confirmar":if(guard(id,"confirmar"))confirmarC(id);break;
+  case"checkin":if(guard(id,"checkin"))checkinC(id);break;
+  case"atender":if(guard(id,"atender"))atenderC(id);break;
+  case"faltou":if(guard(id,"faltou"))faltouC(id);break;
+  case"cancelar":if(guard(id,"cancelar"))cancelarForm(id);break;
+  case"remarcar":if(guard(id,"remarcar"))remarcarClique(id);break;
+  case"nota":if(guard(id,"nota"))notaForm(id);break;
+  case"comprov":abrirComprovante(id);break;
+  case"comprovante":abrirComprovante(id);break;
+  /* espera */
+  case"enova":esperaForm();break;
+  case"oacc":aceitarOferta(id);break;
+  case"orec":recusarOferta(id);break;
+  case"ecan":cancelarEspera(id);break;
+  case"irespera":go("espera");break;
+  /* dados e pacientes */
+  case"pedit":pacForm(id,id===user().pac?"self":"dep");break;
+  case"depnew":pacForm(null,"dep");break;
+  case"depdel":depDel(id);break;
+  case"pnew":pacForm(null,"staff");break;
+  case"pstaff":pacForm(id,"staff");break;
+  case"pver":pacDrawer(id);break;
+  case"ptog":pacTog(id);break;
+  case"pdel":pacDel(id);break;
+  case"pfil":S.pf=v;S.lim=25;render(false);break;
+  case"mais":S.lim+=25;render(false);break;
+  /* agenda */
+  case"amodo":S.af.modo=v;if(v==="semana"&&S.perfil!=="Profissional"&&!S.af.prof){const p=S.profs.find(x=>x.ativo);S.af.prof=p?p.id:""}render(false);break;
+  case"adia":S.af.dia=addTo(S.af.dia,+v);render(false);break;
+  case"ahoje":S.af.dia=hojeS();render(false);break;
+  case"gslot":agendarStaff(t.dataset.prof,t.dataset.ini);break;
+  case"gnova":agendarStaff(S.af.prof||null,null);break;
+  /* bloqueios */
+  case"bnew":bloqueioForm();break;
+  case"bdel":bloqueioDel(id);break;
+  /* indicadores */
+  case"rper":S.rel=+v;S.rd="";render(false);break;
+  case"rdrill":S.rd=v;render(false);{const h=$("#drh");if(h)h.focus()}break;
+  case"rdrill-todas":case"rdrill-ocup":S.rd="todas";render(false);{const h=$("#drh");if(h)h.focus()}break;
+  case"rdrill-faltas":S.rd="faltas";render(false);{const h=$("#drh");if(h)h.focus()}break;
+  case"rdrill-cancel":S.rd="cancel";render(false);{const h=$("#drh");if(h)h.focus()}break;
+  case"relprint":relatorioDoc();break;
+  /* cadastros */
+  case"adm":S.adm=v;render(false);break;
+  case"profnew":profForm(null);break;case"profedit":profForm(PF(id));break;case"proftog":profTog(id);break;case"profdel":profDel(id);break;
+  case"espnew":espForm(null);break;case"espedit":espForm(ES(id));break;case"esptog":espTog(id);break;case"espdel":espDel(id);break;
+  case"convnew":convForm(null);break;case"convedit":convForm(CV(id));break;case"convtog":convTog(id);break;case"convdel":convDel(id);break;
+  case"fernew":ferForm();break;case"ferdel":ferDel(id);break;
+  case"usernew":userForm(null);break;case"useredit":userForm(U(id));break;case"usertog":userTog(id);break;case"userdel":userDel(id);break;
+  case"regform":regForm();break;
+ }});
+document.addEventListener("input",e=>{
+ const d=e.target.closest("[data-wzf]");if(d&&S.wz){S.wz[d.dataset.wzf]=d.value;return}
+ const t=e.target.closest("[data-live]");if(t){S[t.dataset.live]=t.value;S.lim=25;const id=t.id,pos=t.selectionStart;render(false);const n=$("#"+id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}}});
+document.addEventListener("change",e=>{
+ const el=e.target;
+ if(el.id==="perfil"){const id=el.value;if(S.busy){el.value=S.uid;toast("Aguarde a ação em andamento terminar antes de trocar de usuário.","err");return}if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");el.value=S.uid;return}if($("#modal").innerHTML)closeModal();setUser(id);zerarTela();S.pq="";S.af.prof=alvo.perfil==="Profissional"?alvo.prof:"";S.af.esp="";S.af.st="";S.tela=telaInicial();render(true);toast("Agora você é "+alvo.nome+" ("+alvo.perfil+").","info");return}
+ if(el.id==="race"){S.race=el.checked;if(el.checked)toast("O próximo agendamento vai encontrar o horário já tomado por outra pessoa.","info");return}
+ if(el.dataset.wz&&S.wz){S.wz[el.dataset.wz]=el.value;return}
+ if(el.id==="afd"){if(/^\d{4}-\d{2}-\d{2}$/.test(el.value)){S.af.dia=el.value;render(false);const n=$("#afd");if(n)n.focus()}return}
+ if(el.dataset.af){S.af[el.dataset.af]=el.value;render(false);const n=$("#"+el.id);if(n)n.focus()}});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const b=$("#hdr [data-act=bell]");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}if($("#modal").innerHTML&&!S.busy)cancelModal()});
+seedAll();renderCover();render(false);
+</script>
+</body>
+</html>
