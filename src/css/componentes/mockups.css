@@ -1,0 +1,18 @@
+/* Cases Power Apps: galeria e página de cada mockup */
+.mock-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;padding:0;list-style:none}
+.mock-filtros button{font:inherit;font-size:.8rem;font-weight:600;color:var(--text-muted);background:var(--surface-soft);border:1px solid var(--border);padding:.4rem .9rem;border-radius:var(--r-pill);cursor:pointer}
+.mock-filtros button[aria-pressed="true"]{color:var(--accent);border-color:var(--border-lime);background:var(--lime-soft)}
+.mock-card{gap:.75rem}
+.mock-card h2,.mock-card h3{font-size:1.05rem;margin:0}
+.mock-card__seg{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.mock-card .btn{align-self:flex-start;margin-top:auto}
+.mock-card[hidden]{display:none}
+.mock-aviso{border:1px solid var(--border-lime);background:var(--lime-soft);border-radius:var(--r-sm);padding:.75rem 1rem;font-size:.9rem;margin:1.25rem 0}
+.mock-passos{padding-left:1.25rem;color:var(--text-muted)}
+.mock-passos li{margin:.35rem 0}
+.mock-moldura{width:100%;height:min(80vh,820px);border:1px solid var(--border);border-radius:var(--r-card);background:#fff;display:block}
+.mock-acoes{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 1.5rem}
+.mock-voltar{display:inline-block;margin:0 0 1rem;font-size:.9rem}
+.cases-mais{margin-top:1.75rem}
+@media (max-width:700px){.mock-moldura{display:none}.mock-so-desktop{display:none}}
+@media (min-width:701px){.mock-so-mobile{display:none}}

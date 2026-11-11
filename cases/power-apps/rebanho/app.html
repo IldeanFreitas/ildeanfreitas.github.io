@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup · Ipêrana Agropecuária · Rebanho e pastos</title>
+<style>
+:root{--pri:#4d7c0f;--pri2:#3f6212;--dark:#1f2a10;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#fafcf5;--bd:#d9e3c4;--tx:#18200d;--tx2:#4b5a36;--w:#fff;--r:12px;--acc:#b45309;--tint:#ecfccb}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#e6ecd6;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #1d4ed8;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}.sm{font-size:13px}
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;min-height:40px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx)}
+.banner label{display:flex;gap:6px;align-items:center;min-height:40px}
+.banner input[type=checkbox]{width:20px;height:20px}
+.ppbtn{display:inline-flex;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center;min-height:40px}
+@media(min-width:1280px){body.lg .ppbtn{display:none}}
+/* capa */
+#cover{flex:1;overflow:auto;background:radial-gradient(circle at 15% 8%,#65a30d 0,#3f6212 45%,#141c07 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:1040px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:820px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.steps{list-style:none;padding:0;margin:20px 0 0;display:flex;gap:6px;flex-wrap:wrap}
+.steps li{background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px}
+.cv ul.fl{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv ul.fl li{display:flex;gap:10px;align-items:flex-start}
+.login{background:#fff;color:var(--tx);border-radius:18px;padding:24px;box-shadow:0 20px 50px #00000066}
+.login h2{margin:0 0 4px;font-size:20px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1600px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:flex;flex-direction:column;background:var(--bg);border-radius:16px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #1f2a102b}
+@media(max-width:700px){#app{border-radius:0;border:0}}
+.hdr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--dark);color:#fff;position:relative}
+.hdr .bn{display:flex;gap:8px;align-items:center;font-weight:700;min-width:0;white-space:nowrap}
+.hdr .crumb{display:flex;gap:6px;align-items:center;min-width:0;opacity:.95;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .crumb b{overflow:hidden;text-overflow:ellipsis}
+@media(max-width:620px){.hdr .bn span{display:none}}
+@media(max-width:420px){.hdr .crumb .cs{display:none}}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:inherit;flex:none}
+.ib:hover{background:#ffffff22}
+main .ib:hover,.mbox .ib:hover,.toast .ib:hover{background:#0000000f}
+.badge{position:absolute;top:4px;right:4px;background:#dc2626;color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1}
+@media(max-width:760px){.usr .nm{display:none}}
+.clk{display:inline-flex;gap:6px;align-items:center;background:#ffffff1f;color:#fff;border:1px solid #fff4;border-radius:10px;min-height:40px;padding:4px 10px;cursor:pointer;font-size:13px}
+@media(max-width:520px){.clk span{display:none}}
+#screen{flex:1;overflow:auto;padding:16px;min-height:0;min-width:0}
+@media(min-width:1100px){#screen{padding:20px 26px}}
+h1{font-size:22px;margin:0 0 4px;line-height:1.2}
+h2{font-size:17px}h3{font-size:15px;margin:16px 0 8px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0 14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px;display:flex;gap:10px;align-items:center;text-align:left}
+.kpi b{font-size:24px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:40px;height:40px;border-radius:10px;background:var(--tint);color:var(--pri);display:grid;place-items:center;flex:none}
+.kpi.bad .kic{background:#fde4e2;color:var(--bad)}
+button.kpi{cursor:pointer;font:inherit;color:inherit}button.kpi:hover{border-color:var(--pri)}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:10px 12px;border:1px solid #6f7d58;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:84px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#5c6650}
+.sb{position:relative}.sb .ic{position:absolute;left:12px;bottom:13px;color:var(--tx2)}.sb .in{padding-left:40px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri2)}.btn.sec:hover{background:var(--tint)}
+.btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.bad.sec{background:#fff;color:#b3261e;border-color:#b3261e}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:14px}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e7e5e4;color:#3f3f46}.t-pri{background:var(--tint);color:#365314}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri2);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.empty{text-align:center;color:var(--tx2);padding:26px 10px}.empty .ic{width:34px;height:34px;margin-bottom:6px}
+.tw{overflow-x:auto}
+table.tb{border-collapse:collapse;width:100%;min-width:640px;background:#fff;border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+.tb th,.tb td{border-bottom:1px solid var(--bd);padding:9px 10px;text-align:left;vertical-align:middle;font-size:14px}
+.tb th{background:#eef3e0;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--tx2)}
+.tb td.act{white-space:nowrap;text-align:right}
+.hbar{display:grid;grid-template-columns:minmax(100px,170px) 1fr 52px;gap:8px;align-items:center;margin:4px 0;font-size:14px;width:100%;background:none;border:0;padding:2px 0;text-align:left}
+button.hbar{cursor:pointer;min-height:40px}button.hbar:hover .nm2{text-decoration:underline}
+.hbar b{text-align:right}
+.bar{display:block;height:12px;background:#e3ead2;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}.bar.w>i{background:var(--acc)}.bar.r>i{background:var(--bad)}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+svg.cs{width:100%;height:auto;display:block}
+svg.cs text{font:11px system-ui,sans-serif;fill:#2f3a22}svg.cs text.nodata{font-size:9px;fill:#5b6650}
+.fontes{margin:4px 0 0;padding-left:18px;font-size:12px;word-break:break-all}.fontes a{color:#1d4ed8}.fnt,.warn.conf{margin-top:8px}.warn.conf{border-style:dashed}
+details.dt{margin-top:8px;font-size:13px}details.dt summary{cursor:pointer;color:var(--pri2);min-height:40px;display:flex;align-items:center}
+details.dt table{border-collapse:collapse;margin-top:4px}details.dt th,details.dt td{border:1px solid var(--bd);padding:3px 8px;text-align:left}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:16px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:40px;height:40px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:var(--tint)}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri2);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+#npop{position:absolute;right:8px;top:100%;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;color:var(--tx);border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #1f2a104d;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:var(--tint)}
+/* modal e gaveta */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#1f2a10cc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:16px;max-width:560px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:780px}.mbox.big{max-width:900px}
+.modal.dr{justify-content:flex-end;align-items:stretch;padding:0}
+.mbox.dr{max-width:600px;height:100%;max-height:100dvh;border-radius:16px 0 0 16px}
+.modal.dl{justify-content:flex-start;align-items:stretch;padding:0}
+.mbox.dl{max-width:340px;height:100%;max-height:100dvh;border-radius:0 16px 16px 0;padding:12px}
+@media(max-width:600px){.mbox.dr{border-radius:0;max-width:none}.mbox.dl{max-width:min(340px,88vw)}}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal:not(.dr):not(.dl){align-items:flex-end;padding:0}.modal:not(.dr):not(.dl) .mbox{border-radius:16px 16px 0 0;max-height:94dvh}}
+.dl2{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;margin:8px 0;font-size:14px}.dl2 dt{color:var(--tx2)}.dl2 dd{margin:0}
+.sect{border-top:1px solid var(--bd);margin-top:14px;padding-top:10px}
+.sect h3{margin:0 0 6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.li{display:flex;gap:8px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding:6px 0;font-size:14px}
+#busy{position:fixed;inset:0;z-index:80;background:#1f2a1066;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0006}
+.spin{width:24px;height:24px;border:3px solid #d9f99d;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-right-color:var(--pri)}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:22px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(max-width:560px){#toasts{top:8px;bottom:auto}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0006}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast .ib{color:#fff;width:40px;height:40px}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body.mo>*{display:none!important}
+ body.mo>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}.doc{border:0;padding:0}
+}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px 14px}
+.seg{display:inline-flex;border:1px solid #6f7d58;border-radius:10px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;min-height:44px}
+.seg button[aria-pressed=true]{background:var(--pri);color:#fff}
+
+.optg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.opt{display:flex;flex-direction:column;gap:3px;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:14px;padding:10px 12px;cursor:pointer;min-height:76px}
+.opt:hover{border-color:var(--pri)}.opt[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}.opt small{color:var(--tx2)}
+.sumbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:10px 0}
+.sumbox div{background:#f7faef;border:1px solid var(--bd);border-radius:10px;padding:8px 10px}.sumbox small{display:block;color:var(--tx2)}
+.note{background:var(--tint);border:1px solid #bfe08a;border-radius:12px;padding:10px 12px;margin:10px 0;font-size:14px}
+.note .ic{vertical-align:-4px}.note.bad{background:#fde4e2;border-color:#f3a09a}
+.persons{display:grid;gap:8px;margin:12px 0;max-height:46dvh;overflow:auto}
+.prs{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--bd);background:#fff;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:56px;width:100%}
+.prs small{display:block;color:var(--tx2);font-size:12px}.prs[aria-pressed=true]{border-color:var(--pri);background:var(--tint)}
+.pgr{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx2);margin:8px 0 2px}
+.tabsa{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px}
+.tabsa button{border:1px solid var(--bd);background:#fff;border-radius:10px;padding:8px 14px;cursor:pointer;min-height:44px}
+.tabsa button[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.seg button[disabled]{opacity:.5;cursor:not-allowed}
+.seg button{display:inline-flex;gap:6px;align-items:center}
+/* topo: unidade e abas em pílula */
+.hdr .fzs{min-height:40px;border-radius:999px;border:1px solid #ffffff55;background:#ffffff1a;color:#fff;padding:4px 12px;max-width:200px}
+.hdr .fzs option{color:var(--tx)}
+.ptabs{display:flex;gap:6px;padding:8px 12px;background:#2b3a16;overflow-x:auto;scrollbar-width:thin}
+.ptab{flex:none;display:inline-flex;gap:6px;align-items:center;border:1px solid #ffffff44;background:transparent;color:#eef7dc;border-radius:999px;padding:6px 14px;min-height:40px;cursor:pointer;font-weight:600}
+.ptab:hover{background:#ffffff1a}.ptab[aria-current=page]{background:#d9f99d;color:#1f2a10;border-color:#d9f99d}
+.ptab .ic{width:18px;height:18px}.ptab .badge{position:static;margin-left:2px}
+.netc{display:inline-flex;gap:6px;align-items:center;border-radius:999px;padding:4px 10px;min-height:40px;font-size:13px;background:#7a1a14;color:#fff;border:0;cursor:pointer}
+@media(max-width:560px){.netc span{display:none}}
+/* mapa */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:8px}
+@media(min-width:1000px){.mapgrid{grid-template-columns:minmax(0,1fr) 300px}}
+.mapbox{min-width:0}
+svg.mapa{width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--bd);background:#e9efd9}
+.pz polygon{stroke:#1f2a10;stroke-width:2;cursor:pointer;transition:filter .15s}
+.pz:hover polygon{filter:brightness(1.06)}.pz:focus{outline:none}.pz:focus-visible polygon,.pz.sel polygon{stroke:#1d4ed8;stroke-width:6}
+.cl-ok polygon{fill:#a3d977}.cl-hi polygon{fill:#facc15}.cl-over polygon{fill:#f87171}.cl-pronto polygon{fill:#dcfce7;stroke-dasharray:10 6}.cl-desc polygon{fill:#e7dfc6;stroke-dasharray:10 6}
+.pz.ina polygon{fill:url(#hina)}
+.pz polygon.ov{stroke:none;pointer-events:none}.cl-over polygon.ov{fill:url(#hover)}.cl-hi polygon.ov{fill:url(#hhi)}
+.mlab.st{font-weight:700;font-size:15px}.mlab.st.sh{display:none}
+.mlab{font:700 20px system-ui,sans-serif;fill:#18200d;pointer-events:none;paint-order:stroke;stroke:#ffffffb0;stroke-width:4px;stroke-linejoin:round}.mlab.s{font-weight:500;font-size:16px}.mlab.rl{fill:#fff;stroke:#1f2a10;font-size:20px}
+@media(max-width:700px){.mlab{font-size:32px}.mlab.s{font-size:27px}.mlab.l2{display:none}.cur text{display:none}.mlab.rl{font-size:30px}.mlab.st{font-size:24px}.mlab.st.lg{display:none}.mlab.st.sh{display:inline}}
+.rio{fill:none;stroke:#3b82f6;stroke-width:9;stroke-linecap:round;opacity:.7;pointer-events:none}
+.cur rect{fill:#78350f;stroke:#fff;stroke-width:2}.cur{pointer-events:none}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;margin:8px 0}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px;border:1px solid #0004}
+.lg-ok{background:#a3d977}.lg-hi{background:radial-gradient(circle,#78350f 1.2px,#facc15 1.6px) 0 0/6px 6px}.lg-over{background:repeating-linear-gradient(45deg,#f87171,#f87171 3px,#b45454 3px,#b45454 5px)}.lg-pronto{background:#dcfce7}.lg-desc{background:#e7dfc6}.lg-res{background:repeating-linear-gradient(45deg,#3f6212,#3f6212 4px,#4d7c0f 4px,#4d7c0f 8px)}
+.pside{display:none;background:#fff;border:1px solid var(--bd);border-radius:14px;padding:14px;align-self:start}
+@media(min-width:1000px){.pside{display:block}}
+.ph{font-size:17px;margin:0;display:flex;gap:8px;align-items:center}
+.mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:6px;margin:8px 0}
+.mini div{background:#f7faef;border:1px solid var(--bd);border-radius:10px;padding:6px 8px}.mini b{display:block;font-size:19px}.mini small{color:var(--tx2);font-size:12px}
+.alist{display:grid;gap:6px}.ali{display:flex;gap:8px;align-items:flex-start;text-align:left;border:1px solid var(--bd);background:#fff;border-radius:10px;padding:8px;cursor:pointer;min-height:44px;font-size:14px}.ali:hover{border-color:var(--pri)}
+.uh{margin:10px 0}.uh .row{margin-bottom:4px}
+.actions.st{justify-content:flex-start}
+.txbad{color:var(--bad)}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin-top:10px}
+@media(max-width:380px){.lgrid{grid-template-columns:1fr}}
+.lc{margin:0}
+.filt{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0 10px;margin:6px 0 12px}
+.fs{border:1px solid var(--bd);border-radius:12px;padding:8px 12px 12px;margin:12px 0}.fs legend{font-weight:700;font-size:13px;color:var(--tx2);padding:0 4px}
+label.ck{display:flex;gap:8px;align-items:center;min-height:44px;margin-top:8px}label.ck input{width:20px;height:20px}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:10px}.tl li{display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:start;font-size:14px}
+.tli{width:34px;height:34px;border-radius:50%;background:var(--tint);color:var(--pri2);display:grid;place-items:center}.tli .ic{width:18px;height:18px}
+.tl li.est{opacity:.6}.tl li.est b{text-decoration:line-through}
+.btn[aria-disabled=true]{opacity:.5;cursor:not-allowed}
+.pin{min-height:40px;padding:6px 10px}
+.cvsim{display:inline-flex;gap:6px;align-items:center;background:#ffffff1a;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;font-size:13px;margin-top:14px}
+@media print{.hdr,.banner,.ptabs{display:none!important}}
+@media print{body:not(.mo) #pp,body:not(.mo) #busy,body:not(.mo) #toasts,body:not(.mo) #modal{display:none!important}
+ body:not(.mo) #stage{display:block!important;padding:0}body:not(.mo) #app{display:block;border:0;box-shadow:none;overflow:visible}body:not(.mo) #screen{overflow:visible;height:auto;padding:0}
+ body:not(.mo) .seg,body:not(.mo) .actions,body:not(.mo) .pside{display:none!important}body:not(.mo) .mapgrid{display:block}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+<symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 3h-4l-.4 2.4a7 7 0 0 0-2.2 1.3l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 21h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M7 7h13M16 3l4 4-4 4M17 17H4M8 13l-4 4 4 4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M12 14V6M7 6h10M8 10l-1.5-4M16 10l1.5-4"/></symbol>
+<symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></symbol>
+<symbol id="i-syringe" viewBox="0 0 24 24"><path d="M18 2l4 4M15 5l4 4M17 7l-9.5 9.5-3-3L14 4M7.5 16.5L4 20M10 11l2 2M12.5 8.5l2 2"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4 20c0-9 6-15 16-16-1 10-7 16-16 16zM4 20l9-9"/></symbol>
+
+</svg>
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Empresa fictícia “Ipêrana Agropecuária”.</span>
+  <div class="sim">
+    <label>Usuário <select id="perfil" aria-label="Usuário simulado"></select></label>
+    <label><input type="checkbox" id="offl"> Sem sinal no campo</label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Rebanho e pastos no mapa da fazenda</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">O campo pesa, registra nascimentos e muda lotes de pasto. O veterinário cuida da sanidade e da carência. O gerente aprova lotação acima do limite e acompanha o ganho de peso.</p>
+      <ul class="fl" id="cvlist"></ul>
+      <span class="cvsim">Carências, limites e pesos são fictícios.</span>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso ao aplicativo</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Escolha quem está entrando. Nenhum dado é enviado.</p>
+      <div class="persons" id="cvp" role="group" aria-label="Usuário de acesso"></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted sm" style="margin:12px 0 0">Depois de entrar, o seletor Usuário no topo da página troca de pessoa.</p>
+    </div>
+  </div>
+</section>
+<div id="stage" hidden>
+  <div id="app">
+    <header class="hdr" id="hdr"></header>
+    <nav class="ptabs" id="ptabs" aria-label="Seções do aplicativo"></nav>
+    <main id="screen" tabindex="-1"></main>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const p2=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+p2(d.getMonth()+1)+"-"+p2(d.getDate());
+const addTo=(s,n)=>{const d=new Date(s+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const fmt=s=>s?s.slice(0,10).split("-").reverse().join("/"):"—";
+const fmtH=s=>s?s.slice(11,16):"";
+const fmtDT=s=>s?s.slice(8,10)+"/"+s.slice(5,7)+" "+s.slice(11,16):"—";
+const fmtDTL=s=>s?fmt(s)+" "+fmtH(s):"—";
+const TD=s=>new Date(s.length===10?s+"T00:00":s);
+const tiso=d=>iso(d)+"T"+p2(d.getHours())+":"+p2(d.getMinutes());
+const addMin=(s,m)=>tiso(new Date(TD(s).getTime()+m*6e4));
+const minDiff=(a,b)=>Math.round((TD(b)-TD(a))/6e4);
+const overlap=(a1,a2,b1,b2)=>a1<b2&&a2>b1;
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const ini=n=>esc(String(n||"").split(/\s+/).filter(Boolean).map(x=>x[0]).slice(0,2).join("").toUpperCase());
+const num=v=>String(v).replace(".",",");
+const durTxt=m=>{const h=Math.floor(m/60),mm=m%60;return h>=24?Math.floor(h/24)+" d "+(h%24?(h%24)+" h":""):h?h+" h"+(mm?" "+mm+" min":""):mm+" min"};
+const wkStart=s=>{const d=new Date(s+"T12:00:00");const w=(d.getDay()+6)%7;d.setDate(d.getDate()-w);return iso(d)};
+const DSEM=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const DSEML=["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
+const MESN=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const wdOf=s=>new Date(s.slice(0,10)+"T12:00:00").getDay();
+const fmtDia=s=>DSEM[wdOf(s)]+" "+s.slice(8,10)+"/"+s.slice(5,7);
+const fmtDiaL=s=>DSEML[wdOf(s)]+", "+s.slice(8,10)+"/"+s.slice(5,7)+"/"+s.slice(0,4);
+const toMin=h=>{const m=/^(\d{1,2}):(\d{2})$/.exec(h||"");return m?(+m[1])*60+(+m[2]):NaN};
+const hm=n=>p2(Math.floor(n/60))+":"+p2(n%60);
+const minDia=s=>toMin(s.slice(11,16));
+const idade=(nasc,ref)=>{const a=new Date(nasc+"T12:00:00"),b=new Date(ref.slice(0,10)+"T12:00:00");let n=b.getFullYear()-a.getFullYear();if(b.getMonth()<a.getMonth()||(b.getMonth()===a.getMonth()&&b.getDate()<a.getDate()))n--;return n};
+const brl=v=>"R$ "+Number(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const pct=(a,b)=>b?Math.round(a*100/b):0;
+let _s=90417;const rnd=()=>{_s=(_s*1664525+1013904223)%4294967296;return _s/4294967296};
+const ri=(a,b)=>a+Math.floor(rnd()*(b-a+1));
+/* ===== Dados fictícios · Ipêrana Agropecuária ===== */
+const PERFIS=["Campo","Veterinário","Gerente","Administrador"];
+const PDESC={Campo:"vaqueiro: pesagem, nascimento e manejo",Veterinário:"sanidade, tratamentos e carência",Gerente:"lotação, vendas, aprovações e indicadores",Administrador:"tudo, mais cadastros e usuários"};
+const ROLES={Campo:["mapa","lotes","animais","sanitario"],Veterinário:["mapa","lotes","animais","sanitario"],Gerente:["mapa","lotes","animais","sanitario","aprov","relat"],Administrador:["mapa","lotes","animais","sanitario","aprov","relat","admin"]};
+const NAVI={mapa:["Mapa","pin"],lotes:["Lotes","layers"],animais:["Animais","list"],sanitario:["Sanitário","shield"],aprov:["Aprovações","check"],relat:["Indicadores","chart"],admin:["Cadastros","gear"]};
+const CAUSAS=["Doença","Acidente","Picada de cobra","Parto","Raio","Causa desconhecida"];
+const FORR={"Mombaça":3.0,"Tifton":2.8,"Braquiarão":2.0,"Humidícola":1.6};
+const UAKG=450;
+const HOJE0=iso(new Date());
+const FAZS=[{id:"f1",nome:"Unidade Sede",mun:"Município fictício A"},{id:"f2",nome:"Unidade Retiro",mun:"Município fictício B"}];
+const CATS0=[{id:"c1",nome:"Bezerro(a)",sexo:"Ambos",ativo:true},{id:"c2",nome:"Garrote",sexo:"M",ativo:true},{id:"c3",nome:"Novilha",sexo:"F",ativo:true},{id:"c4",nome:"Vaca",sexo:"F",ativo:true},{id:"c5",nome:"Boi",sexo:"M",ativo:true},{id:"c6",nome:"Touro",sexo:"M",ativo:true}];
+const RACAS0=[{id:"r1",nome:"Nelore",ativo:true},{id:"r2",nome:"Tabapuã",ativo:true},{id:"r3",nome:"Angus cruzado",ativo:true},{id:"r4",nome:"Girolando",ativo:true}];
+const PRODS0=[
+ {id:"pv1",nome:"Vacina polivalente clostridial",tipo:"Vacina",car:21,ref:365,ativo:true},
+ {id:"pv2",nome:"Vacina contra raiva",tipo:"Vacina",car:21,ref:365,ativo:true},
+ {id:"pm1",nome:"Antiparasitário injetável",tipo:"Medicamento",car:35,ref:90,ativo:true},
+ {id:"pm2",nome:"Antibiótico injetável",tipo:"Medicamento",car:28,ref:0,ativo:true},
+ {id:"pm3",nome:"Anti-inflamatório",tipo:"Medicamento",car:5,ref:0,ativo:true},
+ {id:"pm4",nome:"Suplemento vitamínico",tipo:"Medicamento",car:0,ref:0,ativo:false}];
+const USERS=[
+ {id:"u1",nome:"Helena Matos",perfil:"Administrador",email:"helena.matos@iperana.example",faz:["f1","f2"],ativo:true},
+ {id:"u2",nome:"Rogério Lins",perfil:"Gerente",email:"rogerio.lins@iperana.example",faz:["f1","f2"],ativo:true},
+ {id:"u3",nome:"Lívia Andrade",perfil:"Veterinário",email:"livia.andrade@iperana.example",faz:["f1","f2"],ativo:true},
+ {id:"u4",nome:"Joaquim Prado",perfil:"Campo",email:"joaquim.prado@iperana.example",faz:["f1"],ativo:true},
+ {id:"u5",nome:"Severino Bastos",perfil:"Campo",email:"severino.bastos@iperana.example",faz:["f2"],ativo:true},
+ {id:"u6",nome:"Antônio Reis",perfil:"Campo",email:"antonio.reis@iperana.example",faz:["f1"],ativo:false}];
+const S={uid:"u4",perfil:"Campo",logged:false,tela:"mapa",faz:"f1",hoje:HOJE0,offline:false,fila:[],notifs:[],flog:{},busy:false,
+ pastos:[],lotes:[],ani:[],ev:[],camp:[],sol:[],lh:[],cats:CATS0.map(x=>({...x})),racas:RACAS0.map(x=>({...x})),prods:PRODS0.map(x=>({...x})),
+ reg:{ua:UAKG,desc:30,aviso:7,gmdMin:0.3},af:{q:"",lote:"",cat:"",st:"Ativo",car:""},lim:25,mv:"mapa",psel:null,asel:null,adm:"pastos",rel:365,rd:"",cv:"u4",ppc:false,ppk:null};
+const U=id=>USERS.find(u=>u.id===id),PZ=id=>S.pastos.find(p=>p.id===id),LT=id=>S.lotes.find(l=>l.id===id),AN=id=>S.ani.find(a=>a.id===id),
+ CT=id=>S.cats.find(c=>c.id===id),RC=id=>S.racas.find(r=>r.id===id),PR=id=>S.prods.find(p=>p.id===id),FZ=id=>FAZS.find(f=>f.id===id),CP=id=>S.camp.find(c=>c.id===id),SO=id=>S.sol.find(s=>s.id===id);
+const user=()=>U(S.uid);
+let _id=1000;const nid=p=>p+(++_id);
+function setUser(id){const u=U(id);S.uid=id;S.perfil=u.perfil;if(!u.faz.includes(S.faz))S.faz=u.faz[0]}
+function hojeS(){return S.hoje}
+/* ===== Notificações, avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),t==="err"?9000:5500)}
+function pushTo(uid,m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true,u:uid})}
+function notifyTo(uid,m,t="info"){pushTo(uid,m,t);if(uid===S.uid)renderHdr()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){lastFocus=lastFocus&&document.contains(lastFocus)?lastFocus:document.activeElement;$("#modal").innerHTML=html;document.body.classList.add("mo");const m=$("#modal");const f=m.querySelector("[autofocus]")||m.querySelector(".mbox .in:not([disabled])")||m.querySelector("button");["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=true});if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";document.body.classList.remove("mo");S.ppk=null;["#cover","#app","#pp",".banner","#toasts"].forEach(s=>{const e=$(s);if(e)e.inert=false});if(S.logged)$("#pp").innerHTML=ppPanel();if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else if(!(S.logged&&S.tela==="mapa"&&S.psel&&focusPasto(S.psel))){const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}lastFocus=null}
+function cancelModal(){closeModal()}
+function confirmar(msg,okLabel,fn,backLabel){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions"><button class="btn sec" data-act="closemodal" autofocus>${esc(backLabel||"Cancelar")}</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{closeModal();fn()}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}" aria-describedby="ferr">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}" aria-describedby="ferr">${esc(v)}</textarea>`;
+ else c=`<input class="in" aria-describedby="ferr" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.step?`step="${f.step}"`:""} ${f.min!=null?`min="${f.min}"`:""} ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}${f.hint?`<div class="muted sm">${esc(f.hint)}</div>`:""}`}
+function collect(fields){const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});return v}
+function missing(fields,v){const miss=fields.filter(f=>f.req&&!v[f.id]);if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return true}return false}
+function formModal({title,fields,validate,save,msg,ok="Salvar",done,extra="",sheet}){
+ openModal(`<div class="modal ${sheet?"sheet":""}"><form class="mbox ${sheet?"sheet":""}" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}${extra}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v=collect(fields);if(missing(fields,v))return;
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  busy("Gravando…",()=>{save(v);closeModal();toast(msg||"Salvo com sucesso.");if(done)done(v);render(false)})})}
+/* ===== Geometria do mapa ===== */
+function gridPolys(cols,rows,x0,y0,w,h,jit){const P=[];for(let r=0;r<=rows;r++){P[r]=[];for(let c=0;c<=cols;c++){let x=x0+w*c/cols,y=y0+h*r/rows;if(c>0&&c<cols)x+=(rnd()-.5)*jit;if(r>0&&r<rows)y+=(rnd()-.5)*jit;P[r][c]=[Math.round(x),Math.round(y)]}}return(r,c)=>[P[r][c],P[r][c+1],P[r+1][c+1],P[r+1][c]]}
+const polyArea=pts=>{let a=0;for(let i=0;i<pts.length;i++){const[x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length];a+=x1*y2-x2*y1}return Math.abs(a)/2};
+const polyC=pts=>[Math.round(pts.reduce((s,p)=>s+p[0],0)/pts.length),Math.round(pts.reduce((s,p)=>s+p[1],0)/pts.length)];
+const MAPX={f1:{res:[0,3],rio:"M0,470 C160,430 260,520 420,470 S700,380 1000,430",curral:[950,560]},f2:{res:[2,0],rio:"M45,0 C75,180 20,330 70,600",curral:[950,560]}};
+/* ===== Cálculos ===== */
+const dd=(a,b)=>Math.round((TD(b)-TD(a))/864e5);
+const r1=v=>Math.round(v*10)/10;
+const n1=v=>Number(v).toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1});
+const n2=v=>Number(v).toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2});
+const n0=v=>Number(v).toLocaleString("pt-BR",{maximumFractionDigits:0});
+const evA=id=>S.ev.filter(e=>e.an===id&&!e.est);
+const pesagens=id=>evA(id).filter(e=>e.tipo==="Pesagem"||(e.tipo==="Nascimento"&&e.peso)).sort((a,b)=>a.data<b.data?-1:a.data>b.data?1:a.ord-b.ord);
+const ultPes=id=>{const p=pesagens(id);return p[p.length-1]||null};
+const pesoAt=a=>{const p=ultPes(a.id);return p?p.peso:0};
+const gmdA=a=>{const p=pesagens(a.id);if(p.length<2)return null;const b=p[p.length-1];for(let i=p.length-2;i>=0;i--){const d=dd(p[i].data,b.data);if(d>=7)return(b.peso-p[i].peso)/d}return null};
+const carAte=a=>evA(a.id).filter(e=>e.car).reduce((m,e)=>e.car>m?e.car:m,"");
+const emCar=a=>{const c=carAte(a);return!!c&&c>=S.hoje};
+const ativos=()=>S.ani.filter(a=>a.st==="Ativo");
+const doLote=l=>S.ani.filter(a=>a.st==="Ativo"&&a.lote===l);
+const uaL=l=>doLote(l).reduce((s,a)=>s+pesoAt(a),0)/S.reg.ua;
+const loteNoPasto=p=>S.lotes.find(l=>l.ativo&&l.pasto===p);
+function estP(p){const pz=PZ(p),l=loteNoPasto(p);if(!pz)return{};if(l){const ua=uaL(l.id),uh=pz.area?ua/pz.area:0,rt=pz.cap?uh/pz.cap:0;return{ocup:true,lote:l,ua,uh,rt,cl:rt>1?"over":rt>.85?"hi":"ok",dias:dd(l.entrada,S.hoje)}}
+ const d=pz.saida?dd(pz.saida,S.hoje):999;return{ocup:false,desc:d,pronto:d>=pz.dmin,cl:d>=pz.dmin?"pronto":"desc"}}
+const gmdAlvo=c=>!["c4","c6"].includes(c);
+const gmdL=l=>{const v=doLote(l).map(gmdA).filter(x=>x!=null);return v.length?v.reduce((s,x)=>s+x,0)/v.length:null};
+const pesoMed=l=>{const L=doLote(l);return L.length?L.reduce((s,a)=>s+pesoAt(a),0)/L.length:0};
+const ultPesL=l=>doLote(l).map(a=>(ultPes(a.id)||{}).data||"").reduce((m,x)=>x>m?x:m,"");
+const pastosF=(f=S.faz)=>S.pastos.filter(p=>p.faz===f);
+const lotesF=(f=S.faz)=>S.lotes.filter(l=>l.faz===f);
+const aniF=(f=S.faz)=>S.ani.filter(a=>a.faz===f);
+function campSt(c){if(c.st==="Concluída")return["Concluída","t-ok"];const d=dd(S.hoje,c.data);if(d<0)return["Atrasada "+(-d)+" d","t-bad"];if(d<=S.reg.aviso)return[d?"Vence em "+d+" d":"Vence hoje","t-warn"];return["Programada","t-info"]}
+const ultEv=a=>evA(a.id).reduce((m,e)=>e.data>m?e.data:m,a.nasc);
+const dataMinAnimal=a=>ultEv(a)>a.nasc?ultEv(a):a.nasc;
+/* data de um registro em lote: não pode ser antes do nascimento nem do último evento de nenhum animal */
+function dataAntes(A,data){const r=A.find(a=>data<dataMinAnimal(a));return r?{a:r,min:dataMinAnimal(r)}:null}
+const solPend=p=>S.sol.find(s=>s.st==="Pendente"&&(s.para===p||s.de===p));
+const brincoUso=(b,ex)=>S.ani.some(a=>a.brinco===b&&a.id!==ex);
+/* ===== Permissões ===== */
+const PODE={pesar:["Campo","Veterinário","Gerente","Administrador"],nasc:["Campo","Veterinário","Gerente","Administrador"],trat:["Veterinário","Administrador"],transf:["Campo","Gerente","Administrador"],vender:["Gerente","Administrador"],morte:["Campo","Veterinário","Gerente","Administrador"],estornar:["Gerente","Administrador"],editA:["Gerente","Administrador"],delA:["Administrador"],entrada:["Gerente","Administrador"],mover:["Campo","Gerente","Administrador"],aprovar:["Gerente","Administrador"],progC:["Veterinário","Gerente","Administrador"],aplC:["Veterinário","Administrador"],loteCRUD:["Gerente","Administrador"],cad:["Administrador"]};
+const pode=k=>(PODE[k]||[]).includes(S.perfil);
+const SOON={vender:"A venda precisa de conexão: a carência é conferida no servidor antes de gravar.",mover:"Mover lote precisa de conexão: a checagem de lotação e o aviso ao Gerente rodam no servidor (fluxos não rodam offline).",aprovar:"Aprovar precisa de conexão.",cad:"Cadastros precisam de conexão.",estornar:"Estorno precisa de conexão.",delA:"Excluir precisa de conexão.",entrada:"Entrada por compra precisa de conexão.",loteCRUD:"Criar ou encerrar lote precisa de conexão.",progC:"Programar campanha precisa de conexão.",aplC:"Aplicar campanha precisa de conexão: o reforço é programado e a carência conferida no servidor.",editA:"Editar cadastro do animal precisa de conexão."};
+function acesso(k){if(!pode(k))return"Ação indisponível para o seu perfil.";if(S.offline&&SOON[k])return SOON[k];return true}
+function guard(k){const r=acesso(k);if(r===true)return true;toast(r,"err");return false}
+/* ===== Registro offline ===== */
+function marca(obj,desc){if(S.offline){obj.pend=true;S.fila.push({d:desc,h:hora(),o:obj})}return obj}
+function addEv(e){e.id=nid("e");e.uid=S.uid;e.ord=++_id;S.ev.push(e);return marca(e,e.tipo+" · brinco "+(AN(e.an)||{}).brinco)}
+function sincronizar(){const n=S.fila.length;busy("Sincronizando com o Dataverse…",()=>{S.fila.forEach(f=>{delete f.o.pend});S.fila=[];toast(n?n+" alteração(ões) sincronizada(s).":"Conectado. Nada pendente para enviar.");render(false)},Math.max(MS,60))}
+/* ===== Fluxo agendado (simulado) ===== */
+function notifOnce(k,uids,m,t){if(S.flog[k])return;S.flog[k]=1;uids.forEach(u=>pushTo(u,m,t))}
+const quem=(perfis,f)=>USERS.filter(u=>u.ativo&&perfis.includes(u.perfil)&&u.faz.includes(f)).map(u=>u.id);
+function executarFluxo(seed){S.camp.filter(c=>c.st!=="Concluída").forEach(c=>{const l=LT(c.lote);if(!l||!l.ativo)return;const d=dd(S.hoje,c.data),p=PR(c.prod);
+  if(d<0)notifOnce("atr"+c.id,quem(["Veterinário","Gerente"],l.faz),"Campanha atrasada: "+p.nome+" no lote "+l.nome+" (previsto "+fmt(c.data)+").","warn");
+  else if(d<=S.reg.aviso)notifOnce("ven"+c.id,quem(["Veterinário","Gerente"],l.faz),"Campanha vence em "+d+" dia(s): "+p.nome+" no lote "+l.nome+".","info")});
+ S.ani.filter(a=>a.st==="Ativo").forEach(a=>{const c=carAte(a);if(c&&c<S.hoje&&dd(c,S.hoje)<=30)notifOnce("car"+a.id+c,seed?[]:quem(["Gerente"],a.faz),"Carência encerrada: brinco "+a.brinco+" liberado para venda desde "+fmt(addTo(c,1))+".","info")});
+ S.pastos.forEach(p=>{const e=estP(p.id);if(!e.ocup&&p.ativo&&p.saida&&e.pronto&&e.desc-p.dmin<=30)notifOnce("des"+p.id+p.saida,seed?[]:quem(["Gerente"],p.faz),"Pasto "+p.nome+" ("+FZ(p.faz).nome+") completou "+p.dmin+" dias de descanso.","info")})}
+function avancar(n){S.hoje=addTo(S.hoje,n);executarFluxo();closeModal();toast("Data simulada: "+fmt(S.hoje)+". O fluxo agendado conferiu campanhas, carências e descanso dos pastos.","info");render(false)}
+/* ===== Seed ===== */
+const PESO0={c1:170,c2:290,c3:310,c4:440,c5:470,c6:720},GMD0={c1:.75,c2:.62,c3:.55,c4:.12,c5:.82,c6:.2};
+function seedAll(){_s=24681;const H=S.hoje;
+ [["f1",4,3,1000,600,70],["f2",3,3,1000,600,80]].forEach(([f,c,r,w,h,j],fi)=>{const g=gridPolys(c,r,0,0,w,h,j);let n=0;for(let rr=0;rr<r;rr++)for(let cc=0;cc<c;cc++){const pts=g(rr,cc);const res=MAPX[f].res[0]===rr&&MAPX[f].res[1]===cc;
+   if(res){MAPX[f].resPts=pts;continue}n++;const fo=Object.keys(FORR)[ri(0,3)];S.pastos.push({id:f+"p"+n,faz:f,nome:(fi?"R":"P")+p2(n),area:r1(polyArea(pts)/1700),forr:fo,cap:FORR[fo],dmin:fo==="Mombaça"?28:30,pts,c:polyC(pts),saida:addTo(H,-ri(3,60)),ativo:true})}});
+ const LD=[["f1","Vacas paridas","c4",48,"F","f1p2"],["f1","Novilhas 1","c3",42,"F","f1p5"],["f1","Garrotes recria","c2",55,"M","f1p7"],["f1","Boi engorda A","c5",62,"M","f1p9"],["f1","Boi engorda B","c5",50,"M","f1p11"],["f1","Bezerros desmama","c1",36,"X","f1p4"],
+  ["f2","Vacas solteiras","c4",40,"F","f2p1"],["f2","Novilhas 2","c3",34,"F","f2p4"],["f2","Garrotes 2","c2",44,"M","f2p6"],["f2","Touros","c6",8,"M","f2p8"]];
+ let br=1001;
+ LD.forEach(([f,nome,cat,qt,sx,pz],i)=>{const l={id:"l"+(i+1),faz:f,nome,cat,pasto:pz,entrada:addTo(H,-ri(6,40)),ativo:true};S.lotes.push(l);S.lh.push({lote:l.id,de:null,para:pz,data:l.entrada,uid:"u2"});
+  const off=ri(0,6);const ds=[addTo(H,-(118+off)),addTo(H,-(61+off)),addTo(H,-(9+off))];
+  for(let k=0;k<qt;k++){const sexo=sx==="X"?(rnd()<.5?"M":"F"):sx;const idadeM={c1:7,c2:16,c3:18,c4:60,c5:28,c6:48}[cat]+ri(-2,8);const nasc=addTo(H,-idadeM*30-ri(0,25));
+   const a={id:"a"+br,brinco:String(br),faz:f,lote:l.id,sexo,raca:["r1","r1","r1","r2","r3","r4"][ri(0,5)],cat,nasc,mae:null,st:"Ativo"};br+=ri(1,3);S.ani.push(a);
+   const g=GMD0[cat]*(0.65+rnd()*0.7);const pf=PESO0[cat]*(0.85+rnd()*0.3);
+   const nascF=cat==="c1"||(cat==="c3"&&rnd()<.5);
+   S.ev.push({id:nid("e"),an:a.id,tipo:nascF?"Nascimento":"Entrada",data:nascF?nasc:addTo(H,-ri(150,400)),peso:nascF?ri(28,38):null,obs:nascF?"":"Compra de terceiros",uid:"u2",ord:++_id});
+   ds.forEach(d=>{if(d<nasc)return;S.ev.push({id:nid("e"),an:a.id,tipo:"Pesagem",data:d,peso:Math.round(pf-g*dd(d,ds[2])+ri(-4,4)),uid:f==="f1"?"u4":"u5",ord:++_id})})}});
+ /* mães dos bezerros */
+ const vacas=S.ani.filter(a=>a.lote==="l1");S.ani.filter(a=>a.lote==="l6").forEach(a=>{a.mae=vacas[ri(0,vacas.length-1)].id});
+ /* lote com lotação acima do limite */
+ const p9=PZ("f1p9"),e9=estP("f1p9");p9.cap=r1(Math.max(1.2,e9.uh*0.88));p9.forr="Braquiarão";
+ S.pastos.forEach(p=>{if(p.id==="f1p9")return;const e=estP(p.id);if(e.ocup&&e.rt>.9){p.cap=r1(e.uh*1.18+.1);if(p.cap>2.9)p.forr="Mombaça"}});
+ /* pastos vazios: um pronto e um em descanso curto */
+ const vz=S.pastos.filter(p=>!loteNoPasto(p.id));vz.forEach((p,i)=>{p.saida=addTo(H,-(i%3===0?ri(35,70):ri(4,20)))});
+ /* tratamentos com carência ativa */
+ const eng=S.ani.filter(a=>a.lote==="l4");[0,3,7,11,15].forEach((k,i)=>{const a=eng[k];const pr=i<2?"pm2":"pm1",d=addTo(H,-ri(3,12));S.ev.push({id:nid("e"),an:a.id,tipo:"Tratamento",data:d,prod:pr,dose:"Conforme bula",obs:i<2?"Pneumonia leve":"Controle de carrapato",car:addTo(d,PR(pr).car),uid:"u3",ord:++_id})});
+ {const a=S.ani.filter(a=>a.lote==="l5")[2];const d=addTo(H,-30);S.ev.push({id:nid("e"),an:a.id,tipo:"Tratamento",data:d,prod:"pm3",dose:"Conforme bula",obs:"Claudicação",car:addTo(d,5),uid:"u3",ord:++_id})}
+ /* campanhas sanitárias */
+ const CPS=[["l1","pv1",-4],["l2","pv1",3],["l6","pm1",6],["l3","pm1",18],["l4","pv2",40],["l7","pv1",-2],["l8","pm1",5],["l9","pv2",25]];
+ CPS.forEach(([l,pr,d])=>S.camp.push({id:nid("cp"),lote:l,prod:pr,data:addTo(H,d),st:"Programada",uid:"u3"}));
+ [["l5","pm1",-80],["l3","pv1",-120]].forEach(([l,pr,d])=>{const c={id:nid("cp"),lote:l,prod:pr,data:addTo(H,d),st:"Concluída",feita:addTo(H,d),uid:"u3"};S.camp.push(c);doLote(l).forEach(a=>S.ev.push({id:nid("e"),an:a.id,tipo:"Vacinação",data:c.data,prod:pr,camp:c.id,car:addTo(c.data,PR(pr).car),uid:"u3",ord:++_id}))});
+ /* morte e venda passadas */
+ {const a=S.ani.filter(a=>a.lote==="l3")[5];a.st="Morto";S.ev.push({id:nid("e"),an:a.id,tipo:"Morte",data:addTo(H,-40),causa:"Picada de cobra",uid:"u4",ord:++_id})}
+ S.ani.filter(a=>a.lote==="l5").slice(-6).forEach(a=>{a.st="Vendido";S.ev.push({id:nid("e"),an:a.id,tipo:"Venda",data:addTo(H,-20),peso:pesoAt(a),preco:12.4,comp:"Frigorífico fictício Bom Corte",uid:"u2",ord:++_id})});
+ /* solicitação pendente do campo */
+ const vazioSede=S.pastos.find(p=>p.faz==="f1"&&!loteNoPasto(p.id)&&estP(p.id).pronto);
+ if(vazioSede)S.sol.push({id:nid("s"),lote:"l3",de:"f1p7",para:vazioSede.id,uid:"u4",data:addTo(H,-1),st:"Pendente",mot:"Pasto atual com capim rapado",uhp:0,cap:vazioSede.cap});
+ const s=S.sol[0];if(s){const pz=PZ(s.para);s.uhp=uaL("l3")/pz.area;if(s.uhp<=pz.cap){pz.forr="Humidícola";pz.cap=r1(s.uhp*0.9)}s.cap=pz.cap}
+ executarFluxo(true);S.notifs.forEach(n=>n.un=true)}
+/* ===== Mapa ===== */
+const CLN={ok:["Dentro do limite","t-ok"],hi:["Perto do limite","t-warn"],over:["Acima do limite","t-bad"],pronto:["Vazio, pronto para entrada","t-info"],desc:["Vazio, em descanso","t-na"]};
+const V={};
+function pLabel(p){const e=estP(p.id);return e.ocup?n1(e.uh)+" UA/ha":e.desc>=999?"sem saída":(e.pronto?"pronto · ":"")+e.desc+" d"}
+function pAria(p){const e=estP(p.id);return "Pasto "+p.nome+(p.ativo?"":" (inativo)")+", "+n1(p.area)+" hectares, "+(e.ocup?"lote "+e.lote.nome+", "+n1(e.uh)+" UA por hectare, limite "+n1(p.cap)+", "+CLN[e.cl][0]:CLN[e.cl][0]+", "+e.desc+" dias de descanso, mínimo "+p.dmin)+(solPend(p.id)?", mudança de lote pendente, aguardando o Gerente":"")}
+const SIT={over:["Acima do limite","Acima","▲"],hi:["Perto do limite","Perto","◆"]};
+function mapSVG(f){const ps=pastosF(f).filter(p=>p.pts),X=MAPX[f],rc=X.resPts?polyC(X.resPts):null;
+ const lab=p=>{const e=estP(p.id),s=SIT[e.cl];return `<g class="lb" aria-hidden="true" data-lb="${p.id}"><text x="${p.c[0]}" y="${p.c[1]-6}" class="mlab" text-anchor="middle">${esc(p.nome)}${solPend(p.id)?" ⏳":""}</text><text x="${p.c[0]}" y="${p.c[1]+16}" class="mlab s l2" text-anchor="middle">${esc(e.ocup?e.lote.nome:"vazio")}</text><text x="${p.c[0]}" y="${p.c[1]+36}" class="mlab s" text-anchor="middle">${esc(pLabel(p))}</text>${s&&p.ativo?`<text x="${p.c[0]}" y="${p.c[1]+56}" class="mlab s st lg" text-anchor="middle">${s[2]} ${s[0]}</text><text x="${p.c[0]}" y="${p.c[1]+56}" class="mlab s st sh" text-anchor="middle">${s[2]} ${s[1]}</text>`:""}</g>`};
+ return `<svg class="mapa" viewBox="0 0 1000 600" role="group" aria-label="Mapa da ${esc(FZ(f).nome)} com ${ps.length} pastos. Use Tab para percorrer os pastos e Enter para abrir.">
+ <defs><pattern id="hres" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="14" fill="#3f6212"/><rect width="6" height="14" fill="#4d7c0f"/></pattern>
+ <pattern id="hina" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#e5e5e5"/><rect width="4" height="10" fill="#cfcfcf"/></pattern>
+ <pattern id="hover" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="12" fill="#7f1d1d" opacity=".45"/></pattern>
+ <pattern id="hhi" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.2" fill="#78350f" opacity=".6"/></pattern></defs>
+ <rect width="1000" height="600" fill="#e9efd9"/>
+ ${X.resPts?`<polygon points="${X.resPts.map(q=>q.join(",")).join(" ")}" fill="url(#hres)" stroke="#1f2a10" stroke-width="2"/>`:""}
+ ${ps.map(p=>{const e=estP(p.id),sel=S.psel===p.id;return `<g class="pz cl-${e.cl}${sel?" sel":""}${p.ativo?"":" ina"}" role="button" tabindex="0" data-act="psel" data-id="${p.id}" aria-pressed="${sel}" aria-label="${esc(pAria(p))}"><polygon points="${p.pts.map(q=>q.join(",")).join(" ")}"/>${p.ativo&&(e.cl==="over"||e.cl==="hi")?`<polygon class="ov" points="${p.pts.map(q=>q.join(",")).join(" ")}" fill="url(#${e.cl==="over"?"hover":"hhi"})"/>`:""}</g>`}).join("")}
+ <path d="${X.rio}" class="rio"/>
+ ${ps.map(lab).join("")}
+ ${rc?`<text x="${rc[0]}" y="${rc[1]}" class="mlab rl" text-anchor="middle" aria-hidden="true">Reserva legal</text>`:""}
+ <g class="cur" transform="translate(${X.curral[0]},${X.curral[1]})"><rect x="-16" y="-12" width="32" height="24" rx="3"/><text x="-24" y="6" text-anchor="end" class="mlab s">Curral</text></g></svg>`}
+function legenda(){return `<div class="legend" aria-label="Legenda do mapa">${Object.entries(CLN).map(([k,[t]])=>`<span><i class="lg-${k}"></i>${SIT[k]?SIT[k][2]+" ":""}${esc(t)}</span>`).join("")}<span><i class="lg-res"></i>Reserva legal</span></div>`}
+V.mapa=()=>{const f=S.faz,ps=pastosF(f),ls=lotesF(f).filter(l=>l.ativo),cab=aniF(f).filter(a=>a.st==="Ativo").length,lista=S.mv==="lista"||S.offline;
+ const ua=ls.reduce((s,l)=>s+uaL(l.id),0),ha=ps.filter(p=>p.ativo).reduce((s,p)=>s+p.area,0);
+ return `<div class="row"><div><h1>Mapa da ${esc(FZ(f).nome)}</h1><p class="muted" style="margin:0">${ps.filter(p=>p.ativo).length} pastos · ${ls.length} lotes · ${cab} cabeças · ${n2(ha?ua/ha:0)} UA/ha na média</p></div>
+ <div class="seg" role="group" aria-label="Forma de exibir"><button data-act="mview" data-v="mapa" aria-pressed="${!lista}" ${S.offline?'disabled aria-disabled="true"':""}>${ic("pin")} Mapa</button><button data-act="mview" data-v="lista" aria-pressed="${lista}">${ic("list")} Lista</button></div></div>
+ ${S.offline?`<div class="note">${ic("wifioff")} <b>Sem sinal.</b> O controle de mapa precisa de internet, então o app mostra os pastos em lista. Pesagens, nascimentos, tratamentos e mortes continuam e sobem quando a conexão voltar.</div>`:""}
+ ${lista?"":legenda()}
+ <div class="mapgrid"><div class="mapbox">${lista?pastoLista(f):mapSVG(f)}</div><aside class="pside" aria-label="Detalhe do pasto" id="pside">${S.psel&&PZ(S.psel)&&PZ(S.psel).faz===f?pastoInner(PZ(S.psel)):resumoFaz(f)}</aside></div>`};
+function pastoLista(f){const ps=pastosF(f);return `<div class="tw"><table class="tb"><caption class="sr">Pastos da ${esc(FZ(f).nome)}</caption><thead><tr><th>Pasto</th><th>Situação</th><th>Lote</th><th>Cab.</th><th>UA/ha · limite</th><th>Descanso</th><th></th></tr></thead><tbody>${ps.map(p=>{const e=estP(p.id);return `<tr><td><b>${esc(p.nome)}</b><div class="muted sm">${n1(p.area)} ha · ${esc(p.forr)}${p.pts?"":" · sem desenho no mapa"}</div></td><td><span class="tag ${CLN[e.cl][1]}">${esc(p.ativo?CLN[e.cl][0]:"Inativo")}</span></td><td>${e.ocup?esc(e.lote.nome):"—"}</td><td>${e.ocup?doLote(e.lote.id).length:"—"}</td><td>${e.ocup?n1(e.uh):"—"} · ${n1(p.cap)}</td><td>${e.ocup?e.dias+" d no pasto":e.desc>=999?"—":e.desc+" d (mín. "+p.dmin+")"}</td><td class="act"><button class="btn sm sec" data-act="psel" data-id="${p.id}" aria-label="Abrir pasto ${esc(p.nome)}">Abrir</button></td></tr>`}).join("")}</tbody></table></div>`}
+function resumoFaz(f){const ls=lotesF(f).filter(l=>l.ativo),al=[];
+ pastosF(f).forEach(p=>{const e=estP(p.id);if(e.ocup&&e.cl==="over")al.push([`Pasto ${p.nome}: ${n1(e.uh)} UA/ha, acima do limite de ${n1(p.cap)}`,"psel",p.id,"t-bad"])});
+ S.camp.filter(c=>c.st!=="Concluída"&&LT(c.lote)&&LT(c.lote).faz===f&&dd(S.hoje,c.data)<0).forEach(c=>al.push([`${PR(c.prod).nome} atrasada no lote ${LT(c.lote).nome}`,"nav-san","","t-bad"]));
+ const car=aniF(f).filter(a=>a.st==="Ativo"&&emCar(a)).length;if(car)al.push([car+" animal(is) em carência: não podem ser vendidos","nav-car","","t-warn"]);
+ const sp=S.sol.filter(s=>s.st==="Pendente"&&LT(s.lote).faz===f).length;if(sp)al.push([sp+" mudança(s) de pasto aguardando o Gerente","nav-aprov","","t-warn"]);
+ return `<h2 class="ph">${ic("info")} Resumo da unidade</h2><p class="muted sm">Toque num pasto para ver o lote, os animais e a última pesagem.</p>
+ <div class="mini"><div><b>${ls.length}</b><small>lotes</small></div><div><b>${aniF(f).filter(a=>a.st==="Ativo").length}</b><small>cabeças</small></div><div><b>${pastosF(f).filter(p=>!loteNoPasto(p.id)&&p.ativo).length}</b><small>pastos vazios</small></div></div>
+ <h3>Alertas</h3>${al.length?`<div class="alist">${al.map(([t,a,id,c])=>`<button class="ali" data-act="${a}" data-id="${id}"><span class="tag ${c}">${c==="t-bad"?"Agir":"Atenção"}</span><span>${esc(t)}</span></button>`).join("")}</div>`:`<p class="muted">Nenhum alerta.</p>`}`}
+function pastoInner(p){const e=estP(p.id),l=e.lote,sp=S.sol.find(s=>s.st==="Pendente"&&(s.para===p.id||s.de===p.id));
+ const head=`<div class="mh"><h2 class="ph" id="pph" tabindex="-1">${ic("pin")} Pasto ${esc(p.nome)}</h2><button class="ib" data-act="pclose" aria-label="Fechar detalhe do pasto">${ic("x")}</button></div>
+ <span class="tag ${CLN[e.cl][1]}">${esc(p.ativo?CLN[e.cl][0]:"Inativo")}</span>
+ <dl class="dl2"><dt>Área</dt><dd>${n1(p.area)} ha</dd><dt>Forrageira</dt><dd>${esc(p.forr)}</dd><dt>Limite</dt><dd>${n1(p.cap)} UA/ha</dd><dt>Descanso mínimo</dt><dd>${p.dmin} dias</dd></dl>`;
+ const pend=sp?`<div class="note">${ic("hourglass")} Mudança pendente: lote ${esc(LT(sp.lote).nome)} de ${esc(PZ(sp.de)?PZ(sp.de).nome:"curral")} para ${esc(PZ(sp.para).nome)}, aguardando o Gerente.</div>`:"";
+ if(l){const L=doLote(l.id),g=gmdL(l.id),up=ultPesL(l.id),car=L.filter(emCar).length,w=Math.min(100,Math.round(e.rt*100));
+  return head+pend+`<div class="sect"><h3>Lote ${esc(l.nome)}</h3><dl class="dl2"><dt>Categoria</dt><dd>${esc(CT(l.cat).nome)}</dd><dt>Cabeças</dt><dd>${L.length}</dd><dt>Peso médio</dt><dd>${n0(pesoMed(l.id))} kg</dd><dt>Última pesagem</dt><dd>${fmt(up)}${up?" ("+dd(up,S.hoje)+" d)":""}</dd><dt>GMD</dt><dd>${g==null?"—":n2(g)+" kg/dia"}</dd><dt>No pasto há</dt><dd>${e.dias} dias</dd><dt>Em carência</dt><dd>${car?`<span class="tag t-warn">${car} animal(is)</span>`:"nenhum"}</dd></dl>
+  <div class="uh" aria-label="Lotação ${n1(e.uh)} de ${n1(p.cap)} UA por hectare"><div class="row sm"><span>Lotação</span><b>${n1(e.uh)} / ${n1(p.cap)} UA/ha</b></div><span class="bar ${e.cl==="over"?"r":e.cl==="hi"?"w":""}"><i style="width:${w}%"></i></span></div>
+  <div class="actions st">${pode("mover")?`<button class="btn sm" data-act="mover" data-id="${l.id}">${ic("swap")}Mover para…</button>`:""}${pode("pesar")?`<button class="btn sm sec" data-act="pesl" data-id="${l.id}">${ic("scale")}Pesagem do lote</button>`:""}<button class="btn sm sec" data-act="lanimais" data-id="${l.id}">${ic("list")}Ver animais</button></div></div>`}
+ return head+pend+`<div class="sect"><h3>Sem lote</h3><p class="muted">${e.desc>=999?"Sem registro de saída.":`Em descanso há <b>${e.desc} dias</b> (mínimo ${p.dmin}). ${e.pronto?"Pronto para receber lote.":"Ainda não completou o descanso."}`}</p>
+ ${pode("mover")&&p.ativo?`<div class="actions st"><button class="btn sm" data-act="trazer" data-id="${p.id}">${ic("swap")}Trazer um lote para cá</button></div>`:""}</div>`}
+function focusPasto(id){const g=document.querySelector(`.pz[data-id="${id}"]`)||document.querySelector(`[data-act=psel][data-id="${id}"]`);if(g){g.focus();return true}return false}
+function selPasto(id){S.psel=id;if(window.innerWidth<1000||S.tela!=="mapa"){S.ppk="pasto";openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="pph" id="pmod">${pastoInner(PZ(id))}</div></div>`);const h=$("#pph");if(h)h.focus()}else{render(false);const h=$("#pph");if(h)h.focus()}}
+/* ===== Mover lote ===== */
+function destinos(l,ex){return pastosF(l.faz).filter(p=>p.ativo&&p.id!==l.pasto&&(!loteNoPasto(p.id)||p.id===ex))}
+function projUH(l,p){return p.area?uaL(l.id)/p.area:0}
+function moverForm(lid,para){const l=LT(lid);if(!l||!l.ativo)return;if(!guard("mover"))return;
+ if(S.sol.some(s=>s.st==="Pendente"&&s.lote===lid)){toast("Já existe uma mudança deste lote aguardando o Gerente.","err");return}
+ if(!doLote(lid).length){toast("Lote sem animais ativos: nada a mover.","err");return}
+ S.mvf={lote:lid,para:para||"",mot:"",ok:false};S.ppk="mover";openModal(`<div class="modal"><form class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt" id="mvform" novalidate>${moverHTML()}</form></div>`);
+ $("#mvform").addEventListener("submit",ev=>{ev.preventDefault();moverSalvar()})}
+function moverHTML(){const m=S.mvf,l=LT(m.lote),ds=destinos(l),p=PZ(m.para),uh=p?projUH(l,p):0,over=p&&uh>p.cap,e=p?estP(p.id):null,curto=e&&!e.pronto,ger=pode("aprovar");
+ return `<div class="mh"><h2 id="mt">Mover lote ${esc(l.nome)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <p class="muted" style="margin:0">Hoje em: <b>${esc(l.pasto?PZ(l.pasto).nome:"curral")}</b> · ${doLote(l.id).length} cabeças · ${n1(uaL(l.id))} UA</p>
+ <fieldset class="fs"><legend>Para qual pasto? (só pastos vazios e ativos)</legend>${ds.length?`<div class="optg">${ds.map(q=>{const eq=estP(q.id),u=projUH(l,q);return `<button type="button" class="opt" data-act="mvp" data-v="${q.id}" aria-pressed="${m.para===q.id}"><b>${esc(q.nome)} · ${n1(q.area)} ha</b><small>${esc(q.forr)} · limite ${n1(q.cap)} UA/ha</small><small>Ficaria com <b class="${u>q.cap?"txbad":""}">${n1(u)} UA/ha</b></small><small>${eq.desc>=999?"sem saída registrada":"Descanso "+eq.desc+" d de "+q.dmin}${eq.pronto?"":" · curto"}</small></button>`}).join("")}</div>`:`<p class="muted">Nenhum pasto vazio nesta unidade.</p>`}</fieldset>
+ ${p?`<div class="note ${over?"bad":""}" role="status">${over?`<b>Lotação acima do limite:</b> ${n1(uh)} UA/ha no ${esc(p.nome)} (limite ${n1(p.cap)}). ${ger?"Para seguir, confirme abaixo.":"A mudança vai para aprovação do Gerente."}`:`Lotação prevista ${n1(uh)} UA/ha, dentro do limite de ${n1(p.cap)}.`}${curto?` <br><b>Descanso curto:</b> ${e.desc} de ${p.dmin} dias. Justifique no motivo.`:""}</div>`:""}
+ <label class="f" for="mvmot">Motivo${over||curto?" (obrigatório)":""}</label><textarea class="in" id="mvmot" data-mvf="mot">${esc(m.mot)}</textarea>
+ ${over&&ger?`<label class="ck"><input type="checkbox" id="mvok" data-mvf="ok" ${m.ok?"checked":""}> Confirmo, como ${esc(S.perfil)}, a lotação acima do limite.</label>`:""}
+ <div class="err" id="ferr" role="alert"></div>
+ <div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${over&&!ger?"Enviar para aprovação":"Mover lote"}</button></div>`}
+function moverSalvar(){const m=S.mvf,l=LT(m.lote);m.mot=$("#mvmot").value.trim();const ck=$("#mvok");m.ok=ck?ck.checked:false;
+ const er=t=>{$("#ferr").textContent=t};const p=PZ(m.para);
+ if(!p){er("Escolha o pasto de destino.");return}
+ if(loteNoPasto(p.id)){er("O pasto "+p.nome+" já recebeu outro lote. Escolha outro.");return}
+ const uh=projUH(l,p),over=uh>p.cap,curto=!estP(p.id).pronto;
+ if((over||curto)&&!m.mot){er("Informe o motivo.");$("#mvmot").setAttribute("aria-invalid","true");$("#mvmot").focus();return}
+ if(over&&!pode("aprovar")){busy("Enviando para aprovação…",()=>{const s={id:nid("s"),lote:l.id,de:l.pasto,para:p.id,uid:S.uid,data:S.hoje,st:"Pendente",mot:m.mot,uhp:uh,cap:p.cap};S.sol.push(s);
+   quem(["Gerente","Administrador"],l.faz).forEach(u=>notifyTo(u,user().nome+" pediu para mover o lote "+l.nome+" para o "+p.nome+" ("+n1(uh)+" UA/ha, limite "+n1(p.cap)+").","warn"));closeModal();toast("Pedido enviado ao Gerente. O lote fica onde está até a aprovação.","info");render(false)});return}
+ if(over&&!m.ok){er("Marque a confirmação da lotação acima do limite.");return}
+ busy("Movendo lote…",()=>{executarMov(l.id,p.id,m.mot);closeModal();toast("Lote "+l.nome+" no "+p.nome+".");render(false)})}
+function executarMov(lid,para,mot){const l=LT(lid);if(l.pasto){const o=PZ(l.pasto);if(o)o.saida=S.hoje}S.lh.push({lote:lid,de:l.pasto,para,data:S.hoje,uid:S.uid,mot});l.pasto=para;l.entrada=S.hoje;S.psel=para}
+function trazerForm(pid){const p=PZ(pid);if(!guard("mover"))return;const ls=lotesF(p.faz).filter(l=>l.ativo&&l.pasto!==pid&&doLote(l.id).length);if(!ls.length){toast("Não há lote para trazer.","err");return}
+ openModal(`<div class="modal"><form class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt" id="trf" novalidate><div class="mh"><h2 id="mt">Trazer lote para o ${esc(p.nome)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fieldHTML({id:"lote",label:"Lote",type:"select",opt:true,req:true,options:ls.map(l=>[l.id,l.nome+" · "+doLote(l.id).length+" cab. · hoje em "+(l.pasto?PZ(l.pasto).nome:"curral")])})}<div class="err" id="ferr" role="alert"></div><div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">Continuar</button></div></form></div>`);
+ $("#trf").addEventListener("submit",e=>{e.preventDefault();const v=$("#f_lote").value;if(!v){$("#ferr").textContent="Escolha o lote.";$("#f_lote").setAttribute("aria-invalid","true");return}if(S.sol.some(s=>s.st==="Pendente"&&s.lote===v)){$("#ferr").textContent="Este lote já tem mudança aguardando o Gerente.";return}closeModal();moverForm(v,pid)})}
+/* ===== Lotes ===== */
+V.lotes=()=>{const ls=lotesF().filter(l=>l.ativo),enc=lotesF().filter(l=>!l.ativo);
+ return `<div class="row"><div><h1>Lotes · ${esc(FZ(S.faz).nome)}</h1><p class="muted" style="margin:0">${ls.length} lotes ativos</p></div>${pode("loteCRUD")?`<button class="btn" data-act="lnovo">${ic("plus")}Novo lote</button>`:""}</div>
+ <div class="lgrid">${ls.map(loteCard).join("")||'<div class="empty">Nenhum lote ativo.</div>'}</div>
+ ${enc.length?`<details class="dt"><summary>Lotes encerrados (${enc.length})</summary><ul>${enc.map(l=>`<li>${esc(l.nome)} <button class="linkbtn" data-act="lhist" data-id="${l.id}">histórico</button></li>`).join("")}</ul></details>`:""}`};
+function loteCard(l){const L=doLote(l.id),p=l.pasto?PZ(l.pasto):null,e=p?estP(p.id):null,g=gmdL(l.id),car=L.filter(emCar).length,nc=S.camp.filter(c=>c.lote===l.id&&c.st!=="Concluída").sort((a,b)=>a.data<b.data?-1:1)[0],sp=S.sol.find(s=>s.st==="Pendente"&&s.lote===l.id);
+ return `<article class="card lc"><div class="row"><h2 style="margin:0">${esc(l.nome)}</h2><span class="tag t-pri">${esc(CT(l.cat).nome)}</span></div>
+ <p class="muted sm" style="margin:2px 0 8px">${p?"Pasto "+esc(p.nome)+" há "+e.dias+" dias":"No curral"}${sp?" · mudança aguardando Gerente":""}</p>
+ <div class="mini"><div><b>${L.length}</b><small>cabeças</small></div><div><b>${n0(pesoMed(l.id))}</b><small>kg médio</small></div><div><b class="${g!=null&&gmdAlvo(l.cat)&&g<S.reg.gmdMin?"txbad":""}">${g==null?"—":n2(g)}</b><small>GMD kg/dia</small></div><div><b class="${e&&e.cl==="over"?"txbad":""}">${e?n1(e.uh):"—"}</b><small>UA/ha${p?" (lim. "+n1(p.cap)+")":""}</small></div></div>
+ <p class="sm" style="margin:8px 0 0">${car?`<span class="tag t-warn">${car} em carência</span> `:""}${nc?`<span class="tag ${campSt(nc)[1]}">${esc(PR(nc.prod).nome)}: ${esc(campSt(nc)[0])}</span>`:""}</p>
+ <div class="actions st"><button class="btn sm sec" data-act="lanimais" data-id="${l.id}">${ic("list")}Animais</button>${pode("mover")?`<button class="btn sm sec" data-act="mover" data-id="${l.id}">${ic("swap")}Mover para…</button>`:""}${pode("pesar")?`<button class="btn sm sec" data-act="pesl" data-id="${l.id}">${ic("scale")}Pesagem</button>`:""}${pode("vender")?`<button class="btn sm sec" data-act="vendl" data-id="${l.id}">${ic("cart")}Vender lote</button>`:""}<button class="btn sm sec" data-act="lhist" data-id="${l.id}" aria-label="Histórico de pastos do lote ${esc(l.nome)}">${ic("clock")}Histórico</button>${pode("loteCRUD")?`<button class="btn sm sec" data-act="ledit" data-id="${l.id}" aria-label="Editar lote ${esc(l.nome)}">${ic("pen")}Editar</button><button class="btn sm bad sec" data-act="lenc" data-id="${l.id}" aria-label="Encerrar lote ${esc(l.nome)}">Encerrar</button>`:""}</div></article>`}
+function loteForm(l){if(!guard("loteCRUD"))return;const novo=!l;const vz=pastosF().filter(p=>p.ativo&&!loteNoPasto(p.id));
+ formModal({title:novo?"Novo lote":"Editar lote "+l.nome,fields:[{id:"nome",label:"Nome do lote",req:true,value:novo?"":l.nome},{id:"cat",label:"Categoria principal",type:"select",req:true,value:novo?"":l.cat,options:S.cats.filter(c=>c.ativo||(l&&c.id===l.cat)).map(c=>[c.id,c.nome])},...(novo?[{id:"pasto",label:"Pasto inicial",type:"select",value:"",options:[["","Curral (sem pasto)"],...vz.map(p=>[p.id,p.nome+" · "+n1(p.area)+" ha"])],hint:"Só pastos vazios. Mudanças depois passam por Mover para…"}]:[])],
+  validate:v=>v.nome.length<3?"O nome precisa de pelo menos 3 letras.":S.lotes.some(x=>x.ativo&&x.faz===S.faz&&x.nome.toLowerCase()===v.nome.toLowerCase()&&(!l||x.id!==l.id))?"Já existe um lote ativo com esse nome nesta unidade.":"",
+  save:v=>{if(novo){const n={id:nid("l"),faz:S.faz,nome:v.nome,cat:v.cat,pasto:v.pasto||null,entrada:S.hoje,ativo:true};S.lotes.push(n);S.lh.push({lote:n.id,de:null,para:n.pasto,data:S.hoje,uid:S.uid,mot:"Lote criado"})}else{l.nome=v.nome;l.cat=v.cat}},msg:novo?"Lote criado.":"Lote atualizado."})}
+function loteEnc(id){const l=LT(id);if(!guard("loteCRUD"))return;const n=doLote(id).length;if(n){toast("O lote tem "+n+" animal(is) ativo(s). Transfira, venda ou registre a saída antes de encerrar.","err");return}
+ const usado=S.ev.some(e=>(e.de===id||e.para===id))||S.ani.some(a=>a.lote===id)||S.camp.some(c=>c.lote===id&&c.st==="Concluída");
+ confirmar(usado?"Encerrar o lote "+l.nome+"? Ele sai da lista, libera o pasto e o histórico fica guardado.":"Excluir o lote "+l.nome+"? Ele nunca teve animais.",usado?"Encerrar":"Excluir",()=>busy("Gravando…",()=>{if(l.pasto&&usado){PZ(l.pasto).saida=S.hoje}S.camp=S.camp.filter(c=>!(c.lote===id&&c.st!=="Concluída"));S.sol.filter(s=>s.lote===id&&s.st==="Pendente").forEach(s=>s.st="Cancelada");if(usado){l.ativo=false;S.lh.push({lote:id,de:l.pasto,para:null,data:S.hoje,uid:S.uid,mot:"Lote encerrado"});l.pasto=null}else{S.lotes.splice(S.lotes.indexOf(l),1);S.lh=S.lh.filter(h=>h.lote!==id)}toast(usado?"Lote encerrado.":"Lote excluído.","info");render(false)}))}
+function loteHist(id){const l=LT(id);const H=S.lh.filter(h=>h.lote===id).sort((a,b)=>a.data<b.data?1:-1);
+ openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Histórico de pastos · ${esc(l.nome)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><ul class="hist">${H.map(h=>`<li><b>${fmt(h.data)}</b> · ${esc(h.de?(PZ(h.de)||{nome:"?"}).nome:"curral")} → ${esc(h.para?(PZ(h.para)||{nome:"?"}).nome:"saída")} <span class="muted">por ${esc((U(h.uid)||{nome:"?"}).nome)}${h.mot?" · "+esc(h.mot):""}</span></li>`).join("")||"<li>Sem registros.</li>"}</ul></div></div>`)}
+/* ===== Pesagem do lote ===== */
+function pesagemLote(lid){if(!guard("pesar"))return;const l=LT(lid),L=doLote(lid).sort((a,b)=>a.brinco<b.brinco?-1:1);if(!L.length){toast("Lote sem animais.","err");return}S.ppk="pesl";
+ openModal(`<div class="modal"><form class="mbox big" role="dialog" aria-modal="true" aria-labelledby="mt" id="plf" novalidate><div class="mh"><h2 id="mt">Pesagem do lote ${esc(l.nome)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <p class="muted sm" style="margin:0">Digite o peso de quem passou na balança. Deixe em branco quem não pesou.</p>
+ <label class="f" for="pldt">Data da pesagem (obrigatório)</label><input class="in" type="date" id="pldt" value="${S.hoje}" max="${S.hoje}" style="max-width:220px">
+ <div class="tw" style="max-height:46dvh;overflow:auto;margin-top:10px"><table class="tb" style="min-width:0"><thead><tr><th>Brinco</th><th>Último peso</th><th>Novo peso (kg)</th></tr></thead><tbody>${L.map(a=>{const u=ultPes(a.id);return `<tr><td><b>${esc(a.brinco)}</b>${emCar(a)?' <span class="tag t-warn">carência</span>':""}</td><td>${u?n0(u.peso)+" kg · "+fmt(u.data):"—"}</td><td><input class="in pin" inputmode="decimal" data-an="${a.id}" aria-label="Novo peso do brinco ${esc(a.brinco)} em quilos" style="max-width:130px"></td></tr>`}).join("")}</tbody></table></div>
+ <label class="ck"><input type="checkbox" id="plok"> Conferi os pesos fora do padrão</label><div class="err" id="ferr" role="alert"></div>
+ <div class="actions"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">Gravar pesagens</button></div></form></div>`);
+ $("#plf").addEventListener("submit",e=>{e.preventDefault();const dt=$("#pldt").value;const er=t=>{$("#ferr").textContent=t};
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(dt)||dt>S.hoje){er("Informe uma data até hoje ("+fmt(S.hoje)+").");return}
+  const ins=[...document.querySelectorAll("#plf .pin")].filter(i=>i.value.trim());ins.forEach(i=>i.removeAttribute("aria-invalid"));
+  if(!ins.length){er("Digite ao menos um peso.");return}
+  const bad=ins.filter(i=>{const v=parseFloat(i.value.replace(",","."));return!(v>=20&&v<=1300)});if(bad.length){bad.forEach(i=>i.setAttribute("aria-invalid","true"));bad[0].focus();er("Peso inválido em "+bad.length+" linha(s): use de 20 a 1.300 kg.");return}
+  const antes=ins.filter(i=>dt<AN(i.dataset.an).nasc);if(antes.length){antes.forEach(i=>i.setAttribute("aria-invalid","true"));antes[0].focus();er("Data anterior ao nascimento do brinco "+AN(antes[0].dataset.an).brinco+".");return}
+  const rep=ins.filter(i=>pesagens(i.dataset.an).some(e=>e.data===dt));if(rep.length){rep.forEach(i=>i.setAttribute("aria-invalid","true"));rep[0].focus();er("O brinco "+AN(rep[0].dataset.an).brinco+" já tem pesagem em "+fmt(dt)+" ("+rep.length+" linha(s)). Só uma pesagem por animal por dia; mude a data ou apague a linha.");return}
+  const fora=ins.filter(i=>{const a=AN(i.dataset.an),u=ultPes(a.id),v=parseFloat(i.value.replace(",","."));if(!u||u.data>=dt)return false;const g=(v-u.peso)/dd(u.data,dt);return g>2.5||g<-1.5});
+  if(fora.length&&!$("#plok").checked){fora.forEach(i=>i.setAttribute("aria-invalid","true"));er(fora.length+" peso(s) mudaram mais de 2,5 kg/dia (ou perderam mais de 1,5 kg/dia). Confira e marque a caixa para gravar.");fora[0].focus();return}
+  busy("Gravando pesagens…",()=>{ins.forEach(i=>addEv({an:i.dataset.an,tipo:"Pesagem",data:dt,peso:Math.round(parseFloat(i.value.replace(",","."))*10)/10}));closeModal();toast(ins.length+" pesagem(ns) gravada(s)"+(S.offline?" no aparelho; sobem quando houver sinal.":"."));render(false)})})}
+/* ===== Animais ===== */
+const idadeM=a=>Math.max(0,Math.floor(dd(a.nasc,S.hoje)/30.4));
+const EVI={Pesagem:"scale",Nascimento:"star",Entrada:"back",Vacinação:"shield",Tratamento:"syringe",Transferência:"swap",Venda:"cart",Morte:"x"};
+function filtA(){const f=S.af,q=f.q.trim();return aniF().filter(a=>(!q||a.brinco.startsWith(q))&&(!f.lote||a.lote===f.lote)&&(!f.cat||a.cat===f.cat)&&(f.st==="Todos"||a.st===f.st)&&(!f.car||(f.car==="sim"?emCar(a):!emCar(a)))).sort((a,b)=>a.brinco<b.brinco?-1:1)}
+V.animais=()=>{const L=filtA(),f=S.af,ls=lotesF();
+ return `<div class="row"><div><h1>Animais · ${esc(FZ(S.faz).nome)}</h1><p class="muted" style="margin:0">${L.length} encontrado(s)</p></div>${pode("entrada")?`<button class="btn" data-act="anovo">${ic("plus")}Entrada por compra</button>`:""}</div>
+ <div class="filt"><div class="sb"><label class="f" for="aq">Brinco (começa com)</label><input class="in" id="aq" inputmode="numeric" data-live="q" value="${esc(f.q)}" placeholder="Ex.: 10">${ic("search")}</div>
+ <div><label class="f" for="afl">Lote</label><select class="in" id="afl" data-af="lote"><option value="">Todos</option>${ls.map(l=>`<option value="${l.id}" ${f.lote===l.id?"selected":""}>${esc(l.nome)}${l.ativo?"":" (encerrado)"}</option>`).join("")}</select></div>
+ <div><label class="f" for="afc">Categoria</label><select class="in" id="afc" data-af="cat"><option value="">Todas</option>${S.cats.map(c=>`<option value="${c.id}" ${f.cat===c.id?"selected":""}>${esc(c.nome)}</option>`).join("")}</select></div>
+ <div><label class="f" for="afs">Situação</label><select class="in" id="afs" data-af="st">${["Ativo","Vendido","Morto","Todos"].map(x=>`<option ${f.st===x?"selected":""}>${x}</option>`).join("")}</select></div>
+ <div><label class="f" for="afk">Carência</label><select class="in" id="afk" data-af="car"><option value="">Todas</option><option value="sim" ${f.car==="sim"?"selected":""}>Em carência</option><option value="nao" ${f.car==="nao"?"selected":""}>Liberados</option></select></div></div>
+ ${L.length?`<div class="tw"><table class="tb"><caption class="sr">Animais filtrados</caption><thead><tr><th>Brinco</th><th>Categoria</th><th>Lote</th><th>Idade</th><th>Peso</th><th>GMD</th><th>Situação</th><th></th></tr></thead><tbody>${L.slice(0,S.lim).map(a=>{const g=gmdA(a),u=ultPes(a.id);return `<tr><td><b>${esc(a.brinco)}</b> <span class="muted sm">${a.sexo==="M"?"macho":"fêmea"}</span>${a.pend?' <span class="tag t-info">a sincronizar</span>':""}</td><td>${esc(CT(a.cat).nome)}<div class="muted sm">${esc(RC(a.raca).nome)}</div></td><td>${esc((LT(a.lote)||{nome:"—"}).nome)}</td><td>${idadeM(a)} m</td><td>${u?n0(u.peso)+" kg":"—"}</td><td>${g==null?"—":n2(g)}</td><td><span class="tag ${a.st==="Ativo"?"t-ok":"t-na"}">${a.st}</span>${a.st==="Ativo"&&emCar(a)?` <span class="tag t-warn">carência até ${fmt(carAte(a))}</span>`:""}</td><td class="act"><button class="btn sm sec" data-act="aver" data-id="${a.id}" aria-label="Abrir brinco ${esc(a.brinco)}">Abrir</button></td></tr>`}).join("")}</tbody></table></div>${L.length>S.lim?`<div class="actions" style="justify-content:center"><button class="btn sec" data-act="mais">Mostrar mais (${L.length-S.lim} restantes)</button></div>`:""}`:`<div class="empty">${ic("search")}<p>Nenhum animal com esses filtros.</p><button class="btn sec" data-act="alimpa">Limpar filtros</button></div>`}`};
+function evTxt(e){const p=e.prod?PR(e.prod):null;switch(e.tipo){case"Pesagem":return n1(e.peso)+" kg";case"Nascimento":return(e.peso?"nasceu com "+n1(e.peso)+" kg":"nascimento")+(e.mae?" · mãe "+(AN(e.mae)||{}).brinco:"");case"Entrada":return e.obs||"entrada";case"Vacinação":case"Tratamento":return p.nome+(e.dose?" · "+e.dose:"")+(e.obs?" · "+e.obs:"")+(e.car&&e.car>e.data?" · carência até "+fmt(e.car):"");case"Transferência":return(LT(e.de)||{nome:"?"}).nome+" → "+(LT(e.para)||{nome:"?"}).nome+(e.obs?" · "+e.obs:"");case"Venda":return n0(e.peso)+" kg × "+brl(e.preco)+"/kg = "+brl(e.peso*e.preco)+" · "+e.comp;case"Morte":return e.causa+(e.obs?" · "+e.obs:"");default:return""}}
+function abrirAnimal(id){S.asel=id;S.ppk="animal";openModal(`<div class="modal dr"><div class="mbox dr" role="dialog" aria-modal="true" aria-labelledby="dh" id="adr">${animalInner(AN(id))}</div></div>`);const h=$("#dh");if(h)h.focus()}
+function btnA(k,act,id,txt,icn,cls="sec"){const r=acesso(k);if(!pode(k))return"";return `<button class="btn sm ${cls}" data-act="${act}" data-id="${id}"${r!==true?` aria-disabled="true" title="${esc(r)}"`:""}>${ic(icn)}${esc(txt)}</button>`}
+function animalInner(a){const l=LT(a.lote),u=ultPes(a.id),g=gmdA(a),c=carAte(a),E=S.ev.filter(e=>e.an===a.id).sort((x,y)=>x.data<y.data?1:x.data>y.data?-1:y.ord-x.ord),filhos=S.ani.filter(x=>x.mae===a.id),ult=evA(a.id).filter(e=>e.tipo==="Venda"||e.tipo==="Morte").pop(),at=a.st==="Ativo";
+ return `<div class="mh"><h2 id="dh" tabindex="-1">Brinco ${esc(a.brinco)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <p style="margin:0"><span class="tag ${at?"t-ok":"t-na"}">${a.st}</span> ${at&&emCar(a)?`<span class="tag t-warn">${ic("alert")}Em carência até ${fmt(c)}</span>`:""} ${a.pend?'<span class="tag t-info">a sincronizar</span>':""}</p>
+ <dl class="dl2"><dt>Sexo</dt><dd>${a.sexo==="M"?"Macho":"Fêmea"}</dd><dt>Categoria</dt><dd>${esc(CT(a.cat).nome)}</dd><dt>Raça</dt><dd>${esc(RC(a.raca).nome)}</dd><dt>Nascimento</dt><dd>${fmt(a.nasc)} (${idadeM(a)} meses)</dd><dt>Lote</dt><dd>${esc(l?l.nome:"—")}${l&&l.pasto?" · pasto "+esc(PZ(l.pasto).nome):""}</dd><dt>Último peso</dt><dd>${u?n1(u.peso)+" kg em "+fmt(u.data):"—"}</dd><dt>GMD</dt><dd>${g==null?"—":n2(g)+" kg/dia"}</dd>${a.mae?`<dt>Mãe</dt><dd><button class="linkbtn" data-act="aver" data-id="${a.mae}">brinco ${esc(AN(a.mae).brinco)}</button></dd>`:""}${filhos.length?`<dt>Crias</dt><dd>${filhos.map(f=>`<button class="linkbtn" data-act="aver" data-id="${f.id}">${esc(f.brinco)}</button>`).join(", ")}</dd>`:""}</dl>
+ ${at?`<div class="actions st">${btnA("pesar","apesar",a.id,"Pesagem","scale","")}${a.sexo==="F"&&["c3","c4"].includes(a.cat)?btnA("nasc","anasc",a.id,"Nascimento de cria","star"):""}${btnA("trat","avac",a.id,"Vacinação","shield")}${btnA("trat","atrat",a.id,"Tratamento","syringe")}${btnA("transf","atransf",a.id,"Trocar de lote","swap")}${btnA("vender","avend",a.id,"Venda","cart")}${btnA("morte","amorte",a.id,"Morte","x","bad sec")}${btnA("editA","aedit",a.id,"Editar","pen")}${btnA("delA","adel",a.id,"Excluir","trash","bad sec")}</div>`:(ult&&pode("estornar")?`<div class="actions st">${btnA("estornar","aestorno",a.id,"Estornar "+ult.tipo.toLowerCase(),"redo")}</div>`:"")}
+ <div class="sect"><h3>Linha do tempo</h3><ol class="tl">${E.map(e=>`<li class="${e.est?"est":""}"><span class="tli">${ic(EVI[e.tipo]||"info")}</span><div><b>${esc(e.tipo)}</b> · ${fmt(e.data)}${e.est?' <span class="tag t-na">estornado</span>':""}${e.pend?' <span class="tag t-info">a sincronizar</span>':""}<div class="muted sm">${esc(evTxt(e))} · ${esc((U(e.uid)||{nome:"?"}).nome)}</div></div></li>`).join("")}</ol></div>`}
+function reabrir(id){if(S.asel===id&&$("#adr")){$("#adr").innerHTML=animalInner(AN(id))}}
+const okAt=(id,k)=>{const a=AN(id);if(!a)return false;if(a.st!=="Ativo"&&k!=="estornar"){toast("Animal "+a.st.toLowerCase()+": ação indisponível.","err");return false}return guard(k)};
+function evForm(o){const back=S.asel;const done=o.done;o.done=v=>{if(done)done(v);if(back&&AN(back))setTimeout(()=>abrirAnimal(back),0)};formModal(o)}
+const pesoNum=s=>{s=String(s).trim();if(s.includes(","))return parseFloat(s.replace(/\./g,"").replace(",","."));if(/^\d{1,3}(\.\d{3})+$/.test(s))return parseFloat(s.replace(/\./g,""));return parseFloat(s)};
+function pesarForm(id){if(!okAt(id,"pesar"))return;const a=AN(id),u=ultPes(id);
+ evForm({title:"Pesagem · brinco "+a.brinco,fields:[{id:"peso",label:"Peso (kg)",req:true,ph:u?"último: "+n0(u.peso):"",hint:u?"Último peso: "+n1(u.peso)+" kg em "+fmt(u.data):""},{id:"data",label:"Data",type:"date",req:true,value:S.hoje}],extra:`<label class="ck"><input type="checkbox" id="pok"> Conferi o peso fora do padrão</label>`,
+  validate:v=>{const p=pesoNum(v.peso);if(!(p>=20&&p<=1300))return"Peso deve ficar entre 20 e 1.300 kg.";if(v.data>S.hoje)return"A data não pode ser futura.";if(v.data<a.nasc)return"A data é anterior ao nascimento.";if(u&&u.data<v.data){const g=(p-u.peso)/dd(u.data,v.data);if((g>2.5||g<-1.5)&&!$("#pok").checked)return"Variação de "+n2(g)+" kg/dia desde a última pesagem. Confira e marque a caixa.";}const rep=pesagens(id).find(e=>e.data===v.data);if(rep)return"O brinco "+a.brinco+" já tem pesagem em "+fmt(v.data)+" ("+n1(rep.peso)+" kg). Só uma pesagem por animal por dia.";return""},
+  save:v=>addEv({an:id,tipo:"Pesagem",data:v.data,peso:Math.round(pesoNum(v.peso)*10)/10}),msg:S.offline?"Pesagem gravada no aparelho.":"Pesagem gravada."})}
+function nascForm(id){if(!okAt(id,"nasc"))return;const m=AN(id);
+ evForm({title:"Nascimento · mãe "+m.brinco,fields:[{id:"brinco",label:"Brinco da cria",req:true,ph:"4 a 6 dígitos"},{id:"sexo",label:"Sexo",type:"select",req:true,opt:true,options:[["M","Macho"],["F","Fêmea"]]},{id:"peso",label:"Peso ao nascer (kg)",req:true},{id:"data",label:"Data do parto",type:"date",req:true,value:S.hoje},{id:"raca",label:"Raça",type:"select",req:true,value:m.raca,options:S.racas.filter(r=>r.ativo||r.id===m.raca).map(r=>[r.id,r.nome])}],
+  validate:v=>{if(!/^\d{4,6}$/.test(v.brinco))return"O brinco tem de 4 a 6 dígitos.";if(brincoUso(v.brinco))return"O brinco "+v.brinco+" já existe (inclui vendidos e mortos)."+(S.offline?" No aparelho a checagem é local; a chave única do servidor confere de novo ao sincronizar.":"");const p=pesoNum(v.peso);if(!(p>=15&&p<=70))return"Peso ao nascer entre 15 e 70 kg.";if(v.data>S.hoje)return"A data não pode ser futura.";if(dd(m.nasc,v.data)<540)return"A mãe teria menos de 18 meses nessa data.";
+   const cf=S.ani.filter(x=>x.mae===id).map(x=>x.nasc).sort().find(n=>Math.abs(dd(n,v.data))<270);if(cf)return cf===v.data?"A mãe já tem cria registrada em "+fmt(cf)+": no máximo uma cria por mãe por data.":"A mãe teve cria em "+fmt(cf)+": intervalo menor que 9 meses.";return""},
+  save:v=>{const c=marca({id:nid("a"),brinco:v.brinco,faz:m.faz,lote:m.lote,sexo:v.sexo,raca:v.raca,cat:"c1",nasc:v.data,mae:id,st:"Ativo"},"Nascimento · brinco "+v.brinco);S.ani.push(c);addEv({an:c.id,tipo:"Nascimento",data:v.data,peso:Math.round(pesoNum(v.peso)*10)/10,mae:id})},msg:"Cria registrada no lote da mãe."})}
+function entradaForm(){if(!guard("entrada"))return;const ls=lotesF().filter(l=>l.ativo);
+ formModal({title:"Entrada por compra",fields:[{id:"brinco",label:"Brinco",req:true,ph:"4 a 6 dígitos"},{id:"sexo",label:"Sexo",type:"select",req:true,opt:true,options:[["M","Macho"],["F","Fêmea"]]},{id:"cat",label:"Categoria",type:"select",req:true,opt:true,options:S.cats.filter(c=>c.ativo).map(c=>[c.id,c.nome])},{id:"raca",label:"Raça",type:"select",req:true,opt:true,options:S.racas.filter(r=>r.ativo).map(r=>[r.id,r.nome])},{id:"nasc",label:"Nascimento (aproximado)",type:"date",req:true},{id:"peso",label:"Peso na entrada (kg)",req:true},{id:"lote",label:"Lote",type:"select",req:true,opt:true,options:ls.map(l=>[l.id,l.nome])},{id:"obs",label:"Origem",value:"Compra de terceiros"}],
+  validate:v=>{if(!/^\d{4,6}$/.test(v.brinco))return"O brinco tem de 4 a 6 dígitos.";if(brincoUso(v.brinco))return"O brinco "+v.brinco+" já existe.";const c=CT(v.cat);if(c.sexo!=="Ambos"&&c.sexo!==v.sexo)return"A categoria "+c.nome+" não combina com o sexo escolhido.";if(v.nasc>=S.hoje)return"Nascimento deve ser antes de hoje.";const p=pesoNum(v.peso);if(!(p>=20&&p<=1300))return"Peso entre 20 e 1.300 kg.";return""},
+  save:v=>{const a={id:nid("a"),brinco:v.brinco,faz:S.faz,lote:v.lote,sexo:v.sexo,raca:v.raca,cat:v.cat,nasc:v.nasc,mae:null,st:"Ativo"};S.ani.push(a);addEv({an:a.id,tipo:"Entrada",data:S.hoje,obs:v.obs||"Compra"});addEv({an:a.id,tipo:"Pesagem",data:S.hoje,peso:pesoNum(v.peso)})},msg:"Animal cadastrado."})}
+function tratForm(id,tipo){if(!okAt(id,"trat"))return;const a=AN(id),ps=S.prods.filter(p=>p.ativo&&p.tipo===tipo);
+ evForm({title:(tipo==="Vacina"?"Vacinação":"Tratamento")+" · brinco "+a.brinco,fields:[{id:"prod",label:"Produto",type:"select",req:true,opt:true,options:ps.map(p=>[p.id,p.nome+" · carência "+p.car+" d"])},{id:"data",label:"Data da aplicação",type:"date",req:true,value:S.hoje},{id:"dose",label:"Dose",value:"Conforme bula"},{id:"obs",label:tipo==="Vacina"?"Observação":"Motivo",req:tipo!=="Vacina"}],
+  validate:v=>v.data>S.hoje?"A data não pode ser futura.":v.data<a.nasc?"A data é anterior ao nascimento.":"",
+  save:v=>{const p=PR(v.prod);addEv({an:id,tipo:tipo==="Vacina"?"Vacinação":"Tratamento",data:v.data,prod:p.id,dose:v.dose,obs:v.obs,car:p.car?addTo(v.data,p.car):null})},msg:"Aplicação registrada. A carência, se houver, bloqueia a venda até o fim do prazo."})}
+function transfForm(id){if(!okAt(id,"transf"))return;const a=AN(id),ls=lotesF(a.faz).filter(l=>l.ativo&&l.id!==a.lote);if(!ls.length){toast("Não há outro lote ativo.","err");return}
+ evForm({title:"Trocar de lote · brinco "+a.brinco,fields:[{id:"lote",label:"Lote de destino",type:"select",req:true,opt:true,options:ls.map(l=>[l.id,l.nome+" · "+CT(l.cat).nome+(l.pasto?" · "+PZ(l.pasto).nome:"")])},{id:"obs",label:"Motivo"}],
+  validate:v=>{const l=LT(v.lote);if(!l||!l.ativo)return"Lote inválido.";return""},
+  save:v=>{const de=a.lote;a.lote=v.lote;marca(a,"Troca de lote · brinco "+a.brinco);addEv({an:id,tipo:"Transferência",data:S.hoje,de,para:v.lote,obs:v.obs})},msg:"Animal trocou de lote.",done:v=>{const l=LT(v.lote);if(l.cat!==a.cat)toast("Atenção: o lote "+l.nome+" é de "+CT(l.cat).nome+" e o animal é "+CT(a.cat).nome+".","info")}})}
+function vendaForm(ids,titulo){if(!guard("vender"))return;const A=ids.map(AN).filter(a=>a&&a.st==="Ativo"),bl=A.filter(emCar),lib=A.filter(a=>!emCar(a));
+ if(!lib.length){toast(bl.length===1?"Brinco "+bl[0].brinco+" em carência até "+fmt(carAte(bl[0]))+": venda bloqueada.":"Todos os animais estão em carência: venda bloqueada.","err");return}
+ const kg=lib.reduce((s,a)=>s+pesoAt(a),0);
+ const extra=bl.length?`<div class="note bad" role="status"><b>${bl.length} animal(is) em carência ficam fora da venda:</b> ${bl.slice(0,12).map(a=>esc(a.brinco)+" (até "+fmt(carAte(a))+")").join(", ")}${bl.length>12?"…":""}</div>`:"";
+ const back=S.asel;
+ formModal({title:titulo||"Venda · brinco "+lib[0].brinco,extra:`<div class="sumbox"><div><small>Animais liberados</small><b>${lib.length}</b></div><div><small>Peso pela última pesagem</small><b>${n0(kg)} kg</b></div></div>`+extra,fields:[{id:"data",label:"Data da venda",type:"date",req:true,value:S.hoje},{id:"comp",label:"Comprador",req:true},{id:"preco",label:"Preço por kg (R$)",req:true,ph:"Ex.: 12,40"}],
+  validate:v=>{if(v.data>S.hoje)return"A data não pode ser futura.";const ant=dataAntes(lib,v.data);if(ant)return"A venda não pode ser anterior ao último registro do brinco "+ant.a.brinco+" ("+fmt(ant.min)+").";const p=pesoNum(v.preco);if(!(p>0&&p<200))return"Informe um preço por kg válido.";const agoraBl=lib.filter(a=>{const c=carAte(a);return c&&c>=v.data});if(agoraBl.length)return"Na data escolhida "+agoraBl.length+" animal(is) ainda estariam em carência.";return""},
+  save:v=>{lib.forEach(a=>{a.st="Vendido";addEv({an:a.id,tipo:"Venda",data:v.data,peso:pesoAt(a),preco:pesoNum(v.preco),comp:v.comp})})},msg:lib.length+" animal(is) vendido(s)."+(bl.length?" "+bl.length+" em carência ficaram no lote.":""),done:()=>{if(back&&ids.length===1&&AN(back))setTimeout(()=>abrirAnimal(back),0)}})}
+function vendaLote(lid){const l=LT(lid);const L=doLote(lid);if(!L.length){toast("Lote sem animais.","err");return}vendaForm(L.map(a=>a.id),"Vender lote "+l.nome)}
+function morteForm(id){if(!okAt(id,"morte"))return;const a=AN(id);
+ evForm({title:"Registrar morte · brinco "+a.brinco,fields:[{id:"data",label:"Data",type:"date",req:true,value:S.hoje},{id:"causa",label:"Causa",type:"select",req:true,opt:true,options:CAUSAS.map(c=>[c,c])},{id:"obs",label:"Observação"}],
+  validate:v=>v.data>S.hoje?"A data não pode ser futura.":v.data<a.nasc?"A data é anterior ao nascimento.":"",save:v=>{a.st="Morto";marca(a,"Morte · brinco "+a.brinco);addEv({an:id,tipo:"Morte",data:v.data,causa:v.causa,obs:v.obs})},msg:"Morte registrada. O animal sai do lote."})}
+function estornar(id){if(!okAt(id,"estornar"))return;const a=AN(id),e=evA(id).filter(x=>x.tipo==="Venda"||x.tipo==="Morte").pop();if(!e)return;const l=LT(a.lote);if(!l||!l.ativo){toast("O lote "+(l?l.nome:"")+" foi encerrado. Crie ou escolha um lote ativo e edite o animal antes de estornar.","err");return}
+ confirmar("Estornar a "+e.tipo.toLowerCase()+" do brinco "+a.brinco+" de "+fmt(e.data)+"? O animal volta ativo ao lote "+l.nome+".","Estornar",()=>busy("Gravando…",()=>{e.est=true;a.st="Ativo";toast(e.tipo+" estornada. O animal voltou ao lote.");render(false);abrirAnimal(id)}))}
+function editAForm(id){if(!okAt(id,"editA"))return;const a=AN(id);
+ evForm({title:"Editar · brinco "+a.brinco,fields:[{id:"brinco",label:"Brinco",req:true,value:a.brinco},{id:"sexo",label:"Sexo",type:"select",req:true,value:a.sexo,options:[["M","Macho"],["F","Fêmea"]]},{id:"cat",label:"Categoria",type:"select",req:true,value:a.cat,options:S.cats.filter(c=>c.ativo||c.id===a.cat).map(c=>[c.id,c.nome])},{id:"raca",label:"Raça",type:"select",req:true,value:a.raca,options:S.racas.filter(r=>r.ativo||r.id===a.raca).map(r=>[r.id,r.nome])},{id:"nasc",label:"Nascimento",type:"date",req:true,value:a.nasc}],
+  validate:v=>{if(!/^\d{4,6}$/.test(v.brinco))return"O brinco tem de 4 a 6 dígitos.";if(brincoUso(v.brinco,id))return"O brinco "+v.brinco+" já existe.";if(v.sexo==="M"&&S.ani.some(x=>x.mae===id))return"O animal tem crias registradas: o sexo não pode ser macho.";const c=CT(v.cat);if(c.sexo!=="Ambos"&&c.sexo!==v.sexo)return"A categoria "+c.nome+" não combina com o sexo.";const pe=evA(id).map(e=>e.data).sort()[0];if(v.nasc>S.hoje)return"Nascimento no futuro.";if(pe&&v.nasc>pe)return"Há registros anteriores a essa data de nascimento ("+fmt(pe)+").";if(v.sexo==="M"&&S.ani.some(x=>x.mae===id))return"O animal tem crias registradas: o sexo não pode ser macho.";return""},
+  save:v=>Object.assign(a,{brinco:v.brinco,sexo:v.sexo,cat:v.cat,raca:v.raca,nasc:v.nasc}),msg:"Cadastro atualizado. O histórico acompanha a mudança."})}
+function delA(id){if(!okAt(id,"delA"))return;const a=AN(id),T=S.ev.filter(e=>e.an===id),E=T.filter(e=>e.est||(e.tipo!=="Entrada"&&!(e.tipo==="Pesagem"&&e.data===T[0].data)));
+ if(E.length>0||S.ani.some(x=>x.mae===id)){toast("O brinco "+a.brinco+" tem histórico ("+T.length+" registros, inclusive estornados). Para tirar do rebanho, registre venda ou morte.","err");return}
+ confirmar("Excluir o brinco "+a.brinco+"? Use só para cadastro feito por engano.","Excluir",()=>busy("Excluindo…",()=>{S.ev=S.ev.filter(e=>e.an!==id);S.ani.splice(S.ani.indexOf(a),1);S.asel=null;toast("Cadastro excluído.","info");render(false)}))}
+/* ===== Sanitário ===== */
+V.sanitario=()=>{const f=S.faz,C=S.camp.filter(c=>LT(c.lote)&&LT(c.lote).faz===f),pend=C.filter(c=>c.st!=="Concluída").sort((a,b)=>a.data<b.data?-1:1),feitas=C.filter(c=>c.st==="Concluída").sort((a,b)=>a.feita<b.feita?1:-1),car=aniF().filter(a=>a.st==="Ativo"&&emCar(a)).sort((a,b)=>carAte(a)<carAte(b)?-1:1);
+ const atr=pend.filter(c=>dd(S.hoje,c.data)<0).length,ven=pend.filter(c=>{const d=dd(S.hoje,c.data);return d>=0&&d<=S.reg.aviso}).length,t=S.st||"camp";
+ return `<div class="row"><div><h1>Sanitário · ${esc(FZ(f).nome)}</h1><p class="muted" style="margin:0">Calendário de vacinas e vermífugos e animais em carência</p></div>${pode("progC")?`<button class="btn" data-act="cnova">${ic("plus")}Programar campanha</button>`:""}</div>
+ <div class="kpis"><button class="kpi ${atr?"bad":""}" data-act="stab" data-v="camp"><span class="kic">${ic("alert")}</span><span><b>${atr}</b><small>campanhas atrasadas</small></span></button><button class="kpi" data-act="stab" data-v="camp"><span class="kic">${ic("clock")}</span><span><b>${ven}</b><small>vencem em até ${S.reg.aviso} dias</small></span></button><button class="kpi" data-act="stab" data-v="car"><span class="kic">${ic("syringe")}</span><span><b>${car.length}</b><small>animais em carência</small></span></button></div>
+ <div class="tabsa" role="group" aria-label="Seção">${[["camp","Campanhas"],["car","Em carência"],["feitas","Aplicadas"]].map(([k,n])=>`<button data-act="stab" data-v="${k}" aria-pressed="${t===k}">${n}</button>`).join("")}</div>
+ ${t==="camp"?(pend.length?`<div class="tw"><table class="tb"><caption class="sr">Campanhas pendentes</caption><thead><tr><th>Previsto</th><th>Lote</th><th>Produto</th><th>Cab.</th><th>Situação</th><th></th></tr></thead><tbody>${pend.map(c=>{const s=campSt(c),p=PR(c.prod);return `<tr><td>${fmt(c.data)}</td><td>${esc(LT(c.lote).nome)}</td><td>${esc(p.nome)}<div class="muted sm">${p.tipo} · carência ${p.car} d${p.ref?" · reforço "+p.ref+" d":""}</div></td><td>${doLote(c.lote).length}</td><td><span class="tag ${s[1]}">${esc(s[0])}</span>${c.pend?' <span class="tag t-info">a sincronizar</span>':""}</td><td class="act">${pode("aplC")?`<button class="btn sm" data-act="capl" data-id="${c.id}" aria-label="Aplicar ${esc(p.nome)} no lote ${esc(LT(c.lote).nome)}"${S.offline?` aria-disabled="true" title="${esc(SOON.aplC)}"`:""}>Aplicar</button> `:""}${pode("progC")?`<button class="btn sm sec" data-act="cedit" data-id="${c.id}" aria-label="Reprogramar">Reprogramar</button> <button class="btn sm bad sec" data-act="cdel" data-id="${c.id}" aria-label="Cancelar campanha">Cancelar</button>`:""}</td></tr>`}).join("")}</tbody></table></div>`:`<div class="empty">Nenhuma campanha pendente.</div>`)
+ :t==="car"?(car.length?`<div class="tw"><table class="tb"><caption class="sr">Animais em carência</caption><thead><tr><th>Brinco</th><th>Lote</th><th>Último produto</th><th>Carência até</th><th>Faltam</th><th></th></tr></thead><tbody>${car.map(a=>{const e=evA(a.id).filter(x=>x.car===carAte(a)).pop();return `<tr><td><b>${esc(a.brinco)}</b></td><td>${esc((LT(a.lote)||{}).nome||"—")}</td><td>${esc(PR(e.prod).nome)}</td><td>${fmt(carAte(a))}</td><td>${dd(S.hoje,carAte(a))+1} d</td><td class="act"><button class="btn sm sec" data-act="aver" data-id="${a.id}" aria-label="Abrir brinco ${esc(a.brinco)}">Abrir</button></td></tr>`}).join("")}</tbody></table></div>`:`<div class="empty">Nenhum animal em carência.</div>`)
+ :(feitas.length?`<ul class="hist">${feitas.map(c=>`<li><b>${fmt(c.feita)}</b> · ${esc(PR(c.prod).nome)} no lote ${esc(LT(c.lote).nome)} <span class="muted">· ${S.ev.filter(e=>e.camp===c.id).length} animais · ${esc((U(c.por||c.uid)||{nome:"?"}).nome)}</span></li>`).join("")}</ul>`:`<div class="empty">Nenhuma aplicação registrada.</div>`)}`};
+function campForm(c){if(!guard("progC"))return;const novo=!c,ls=lotesF().filter(l=>l.ativo);
+ formModal({title:novo?"Programar campanha":"Reprogramar campanha",fields:novo?[{id:"lote",label:"Lote",type:"select",req:true,opt:true,options:ls.map(l=>[l.id,l.nome])},{id:"prod",label:"Produto",type:"select",req:true,opt:true,options:S.prods.filter(p=>p.ativo).map(p=>[p.id,p.nome])},{id:"data",label:"Data prevista",type:"date",req:true,value:addTo(S.hoje,7)}]:[{id:"data",label:"Nova data prevista",type:"date",req:true,value:c.data}],
+  validate:v=>{if(v.data<S.hoje)return"A data prevista não pode ser no passado.";const l=novo?v.lote:c.lote,p=novo?v.prod:c.prod;if(S.camp.some(x=>x.id!==(c&&c.id)&&x.st!=="Concluída"&&x.lote===l&&x.prod===p))return"Já existe campanha pendente desse produto para esse lote.";return""},
+  save:v=>{if(novo)S.camp.push({id:nid("cp"),lote:v.lote,prod:v.prod,data:v.data,st:"Programada",uid:S.uid});else c.data=v.data},msg:novo?"Campanha programada.":"Campanha reprogramada."})}
+function campDel(id){const c=CP(id);if(!guard("progC"))return;confirmar("Cancelar a campanha de "+PR(c.prod).nome+" do lote "+LT(c.lote).nome+"?","Cancelar campanha",()=>{S.camp.splice(S.camp.indexOf(c),1);toast("Campanha cancelada.","info");render(false)},"Voltar")}
+function campApl(id){const c=CP(id);if(!guard("aplC"))return;const l=LT(c.lote),p=PR(c.prod),L=doLote(c.lote);if(!L.length){toast("Lote sem animais ativos.","err");return}
+ formModal({title:"Aplicar "+p.nome,extra:`<div class="sumbox"><div><small>Lote</small><b>${esc(l.nome)}</b></div><div><small>Animais</small><b>${L.length}</b></div><div><small>Carência</small><b>${p.car} dias</b></div><div><small>Reforço</small><b>${p.ref?p.ref+" dias":"não"}</b></div></div>`,fields:[{id:"data",label:"Data da aplicação",type:"date",req:true,value:S.hoje},{id:"dose",label:"Dose",value:"Conforme bula"}],
+  validate:v=>{if(v.data>S.hoje)return"A data não pode ser futura.";const ant=dataAntes(L,v.data);return ant?"A aplicação não pode ser anterior ao último registro do brinco "+ant.a.brinco+" ("+fmt(ant.min)+").":""},
+  save:v=>{L.forEach(a=>addEv({an:a.id,tipo:p.tipo==="Vacina"?"Vacinação":"Tratamento",data:v.data,prod:p.id,dose:v.dose,camp:c.id,car:p.car?addTo(v.data,p.car):null}));c.st="Concluída";c.feita=v.data;c.por=S.uid;if(p.ref)S.camp.push({id:nid("cp"),lote:c.lote,prod:c.prod,data:addTo(v.data,p.ref),st:"Programada",uid:S.uid})},
+  msg:"Aplicação registrada em "+L.length+" animais."+(p.ref?" Reforço programado.":"")})}
+/* ===== Aprovações ===== */
+V.aprov=()=>{const f=S.faz,P=S.sol.filter(s=>s.st==="Pendente"&&LT(s.lote).faz===f),H=S.sol.filter(s=>s.st!=="Pendente"&&LT(s.lote).faz===f).reverse();
+ return `<h1>Aprovações · ${esc(FZ(f).nome)}</h1><p class="muted">Mudanças de pasto pedidas pelo campo que deixam a lotação acima do limite.</p>
+ ${P.length?P.map(s=>{const l=LT(s.lote),p=PZ(s.para),uh=projUH(l,p);return `<article class="card"><div class="row"><h2 style="margin:0">Lote ${esc(l.nome)}: ${esc(s.de?PZ(s.de).nome:"curral")} → ${esc(p.nome)}</h2><span class="tag t-warn">Pendente</span></div>
+ <dl class="dl2"><dt>Pedido por</dt><dd>${esc(U(s.uid).nome)} em ${fmt(s.data)}</dd><dt>Lotação prevista</dt><dd><b class="${uh>p.cap?"txbad":""}">${n1(uh)} UA/ha</b> (limite ${n1(p.cap)})</dd><dt>Descanso do destino</dt><dd>${estP(p.id).ocup?"ocupado por outro lote":estP(p.id).desc+" de "+p.dmin+" dias"}</dd><dt>Motivo</dt><dd>${esc(s.mot)}</dd></dl>
+ <div class="actions">${pode("aprovar")?`<button class="btn bad sec" data-act="srec" data-id="${s.id}">Recusar</button><button class="btn" data-act="sapr" data-id="${s.id}">${ic("check")}Aprovar e mover</button>`:""}</div></article>`}).join(""):`<div class="empty">${ic("check")}<p>Nada aguardando aprovação.</p></div>`}
+ ${H.length?`<h3>Histórico</h3><ul class="hist">${H.map(s=>`<li><span class="tag ${s.st==="Aprovada"?"t-ok":"t-na"}">${s.st}</span> Lote ${esc(LT(s.lote).nome)} → ${esc(PZ(s.para).nome)} <span class="muted">· pedido de ${esc(U(s.uid).nome)}${s.res?" · "+esc(s.res):""}</span></li>`).join("")}</ul>`:""}`};
+function solApr(id){const s=SO(id);if(!guard("aprovar"))return;const l=LT(s.lote),p=PZ(s.para);
+ if(!l.ativo||l.pasto!==s.de||loteNoPasto(p.id)||!p.ativo){s.st="Cancelada";s.res="situação mudou: lote já foi movido ou o destino foi ocupado";notifyTo(s.uid,"Seu pedido do lote "+l.nome+" foi cancelado: "+s.res+".","warn");toast("O pedido não vale mais: "+s.res+".","err");render(false);return}
+ const uh=projUH(l,p);confirmar("Aprovar o lote "+l.nome+" no "+p.nome+" com "+n1(uh)+" UA/ha, acima do limite de "+n1(p.cap)+"?","Aprovar e mover",()=>busy("Movendo lote…",()=>{executarMov(l.id,p.id,"Aprovado: "+s.mot);s.st="Aprovada";s.res="aprovado por "+user().nome;notifyTo(s.uid,"Aprovado: lote "+l.nome+" já está no "+p.nome+".","info");toast("Aprovado. Lote no "+p.nome+".");render(false)}))}
+function solRec(id){const s=SO(id);if(!guard("aprovar"))return;formModal({title:"Recusar pedido",fields:[{id:"mot",label:"Motivo da recusa",type:"textarea",req:true}],ok:"Recusar",save:v=>{s.st="Recusada";s.res=v.mot;notifyTo(s.uid,"Recusado: mudança do lote "+LT(s.lote).nome+". Motivo: "+v.mot,"warn")},msg:"Pedido recusado e solicitante avisado."})}
+/* ===== Indicadores ===== */
+function hbars(rows,act,fmtv,max,lim){const M=max||Math.max(1,...rows.map(r=>r.v));return rows.map(r=>`<button class="hbar" data-act="${act}" data-v="${r.k}" aria-label="${esc(r.n)}: ${esc(fmtv(r.v))}. Ver lista"><span class="nm2">${esc(r.n)}</span><span class="bar ${r.c||""}"><i style="width:${Math.max(2,Math.min(100,r.v*100/M))}%"></i></span><b>${esc(fmtv(r.v))}</b></button>`).join("")}
+function colChart(rows,act){const W=360,H=180,M=Math.max(1,...rows.map(r=>r.v)),bw=W/rows.length;return `<svg class="cs" viewBox="0 0 ${W} ${H+54}" role="img" aria-label="Gráfico de colunas: ${rows.map(r=>r.n+" "+r.v).join(", ")}">${rows.map((r,i)=>{const h=r.v*H/M;return `<rect x="${i*bw+8}" y="${H-h+22}" width="${bw-16}" height="${h}" rx="4" fill="#4d7c0f"/><text x="${i*bw+bw/2}" y="${H-h+16}" text-anchor="middle">${r.v}</text><text x="${i*bw+bw/2}" y="${H+42}" text-anchor="middle">${esc(r.n.slice(0,11))}</text>`}).join("")}</svg>`}
+function lineChart(pts){const W=360,H=160,V=pts.filter(p=>p.v!=null);if(V.length<2)return'<p class="muted">Sem dados suficientes.</p>';const mn=Math.min(...V.map(p=>p.v))*0.95,mx=Math.max(...V.map(p=>p.v))*1.03,X=i=>20+i*(W-40)/(pts.length-1),Y=v=>10+(H-20)*(1-(v-mn)/(mx-mn||1));
+ const seg=[];let cur=[];pts.forEach((p,i)=>{if(p.v==null){if(cur.length)seg.push(cur);cur=[]}else cur.push(X(i)+","+Y(p.v))});if(cur.length)seg.push(cur);
+ return `<svg class="cs" viewBox="0 0 ${W} ${H+30}" role="img" aria-label="Linha do peso médio por mês, meses em escala igual: ${pts.map(p=>p.n+" "+(p.v==null?"sem pesagem":n0(p.v)+" kg")).join(", ")}">${seg.filter(s=>s.length>1).map(s=>`<polyline fill="none" stroke="#4d7c0f" stroke-width="3" points="${s.join(" ")}"/>`).join("")}${pts.map((p,i)=>p.v==null?`<text x="${X(i)}" y="${H+24}" text-anchor="middle" class="nodata">${p.n}</text><text x="${X(i)}" y="${H-4}" text-anchor="middle" class="nodata">sem pesagem</text>`:`<circle cx="${X(i)}" cy="${Y(p.v)}" r="4" fill="#3f6212"/><text x="${X(i)}" y="${Y(p.v)-8}" text-anchor="middle">${n0(p.v)}</text><text x="${X(i)}" y="${H+24}" text-anchor="middle">${p.n}</text>`).join("")}</svg><p class="muted sm" style="margin:2px 0 0">Meses em escala igual; mês sem pesagem fica sem ponto e a linha é interrompida.</p>`}
+const dtab=(cap,hd,rows)=>`<details class="dt"><summary>Ver dados em tabela</summary><table><caption class="sr">${esc(cap)}</caption><thead><tr>${hd.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></details>`;
+function relCalc(f){const ini=addTo(S.hoje,-S.rel),A=aniF(f),at=A.filter(a=>a.st==="Ativo"),ls=lotesF(f).filter(l=>l.ativo),ps=pastosF(f).filter(p=>p.ativo);
+ const E=S.ev.filter(e=>!e.est&&e.data>=ini&&e.data<=S.hoje&&AN(e.an)&&AN(e.an).faz===f);
+ const nasc=E.filter(e=>e.tipo==="Nascimento"),mort=E.filter(e=>e.tipo==="Morte"),vend=E.filter(e=>e.tipo==="Venda");
+ const ua=ls.reduce((s,l)=>s+uaL(l.id),0),ha=ps.reduce((s,p)=>s+p.area,0),gs=at.map(gmdA).filter(x=>x!=null);
+ const meses=[];for(let i=5;i>=0;i--){const d=new Date(S.hoje+"T12:00:00");d.setDate(1);d.setMonth(d.getMonth()-i);const k=iso(d).slice(0,7);const P=S.ev.filter(e=>!e.est&&e.tipo==="Pesagem"&&e.data.slice(0,7)===k&&AN(e.an)&&AN(e.an).faz===f);meses.push({n:MESN[d.getMonth()],v:P.length?P.reduce((s,e)=>s+e.peso,0)/P.length:null})}
+ return{at,ls,ps,nasc,mort,vend,ua,ha,gs:gs.length,gmd:gs.length?gs.reduce((s,x)=>s+x,0)/gs.length:0,car:at.filter(emCar),atr:S.camp.filter(c=>c.st!=="Concluída"&&LT(c.lote)&&LT(c.lote).faz===f&&dd(S.hoje,c.data)<0),meses,receita:vend.reduce((s,e)=>s+e.peso*e.preco,0)}}
+V.relat=()=>{const f=S.faz,R=relCalc(f),mt=R.at.length+R.mort.length?R.mort.length*100/(R.at.length+R.mort.length):0;
+ const gl=R.ls.map(l=>({k:"lote:"+l.id,n:l.nome,v:gmdL(l.id)||0,c:gmdAlvo(l.cat)&&(gmdL(l.id)||0)<S.reg.gmdMin?"r":""})),pl=R.ps.filter(p=>loteNoPasto(p.id)).map(p=>{const e=estP(p.id);return{k:"pasto:"+p.id,n:p.nome+" · "+e.lote.nome,v:e.rt*100,c:e.cl==="over"?"r":e.cl==="hi"?"w":""}}),cc=S.cats.map(c=>({k:"cat:"+c.id,n:c.nome,v:R.at.filter(a=>a.cat===c.id).length})).filter(r=>r.v);
+ return `<div class="row"><div><h1>Indicadores · ${esc(FZ(f).nome)}</h1><p class="muted" style="margin:0">Data simulada ${fmt(S.hoje)}</p></div><div class="row"><div class="seg" role="group" aria-label="Período de nascimentos, mortes e vendas">${[90,180,365].map(d=>`<button data-act="rper" data-v="${d}" aria-pressed="${S.rel===d}">${d} dias</button>`).join("")}</div><button class="btn sec" data-act="relprint">${ic("print")}Relatório</button></div></div>
+ <div class="kpis">
+ <button class="kpi" data-act="rdrill" data-v="ativos"><span class="kic">${ic("users")}</span><span><b>${R.at.length}</b><small>cabeças ativas</small></span></button>
+ <div class="kpi"><span class="kic">${ic("pin")}</span><span><b>${n2(R.ha?R.ua/R.ha:0)}</b><small>UA/ha média (${n0(R.ua)} UA em ${n0(R.ha)} ha)</small></span></div>
+ <button class="kpi" data-act="rdrill" data-v="gmd"><span class="kic">${ic("chart")}</span><span><b>${n2(R.gmd)}</b><small>GMD médio kg/dia (${R.gs} animais com GMD)</small></span></button>
+ <button class="kpi ${R.car.length?"bad":""}" data-act="rdrill" data-v="car"><span class="kic">${ic("syringe")}</span><span><b>${R.car.length}</b><small>em carência</small></span></button>
+ <button class="kpi ${R.atr.length?"bad":""}" data-act="stab-go" data-v="camp"><span class="kic">${ic("alert")}</span><span><b>${R.atr.length}</b><small>campanhas atrasadas</small></span></button>
+ <button class="kpi" data-act="rdrill" data-v="nasc"><span class="kic">${ic("star")}</span><span><b>${R.nasc.length}</b><small>nascimentos em ${S.rel} d</small></span></button>
+ <button class="kpi ${R.mort.length?"bad":""}" data-act="rdrill" data-v="mort"><span class="kic">${ic("x")}</span><span><b>${R.mort.length}</b><small>mortes · ${n1(mt)}% em ${S.rel} d</small></span></button>
+ <button class="kpi" data-act="rdrill" data-v="vend"><span class="kic">${ic("cart")}</span><span><b>${R.vend.length}</b><small>vendidos · ${brl(R.receita)}</small></span></button></div>
+ <div class="cg">
+ <figure class="ch card"><figcaption>GMD por lote (kg/dia)</figcaption>${hbars(gl,"rdrill",v=>n2(v))}<p class="muted sm">Em vermelho: lotes em crescimento ou engorda abaixo de ${n2(S.reg.gmdMin)} kg/dia (vacas e touros não entram no alerta). <button class="linkbtn" data-act="rdrill" data-v="gmdbaixo">Ver animais abaixo de ${n2(S.reg.gmdMin)}</button></p>${dtab("GMD por lote",["Lote","GMD"],gl.map(r=>[r.n,n2(r.v)]))}</figure>
+ <figure class="ch card"><figcaption>Lotação em relação ao limite (%)</figcaption>${hbars(pl,"rdrill",v=>n0(v)+"%",Math.max(120,...pl.map(r=>r.v)))}<p class="muted sm">100% = limite do pasto.</p>${dtab("Lotação por pasto",["Pasto e lote","% do limite"],pl.map(r=>[r.n,n0(r.v)+"%"]))}</figure>
+ <figure class="ch card"><figcaption>Cabeças por categoria</figcaption>${colChart(cc)}<div class="pills">${cc.map(r=>`<button class="pill" data-act="rdrill" data-v="${r.k}">${esc(r.n)}: ${r.v}</button>`).join("")}</div>${dtab("Cabeças por categoria",["Categoria","Cabeças"],cc.map(r=>[r.n,r.v]))}</figure>
+ <figure class="ch card"><figcaption>Peso médio nas pesagens do mês (kg)</figcaption>${lineChart(R.meses)}${dtab("Peso médio por mês",["Mês","kg"],R.meses.map(r=>[r.n,r.v==null?"sem pesagem":n0(r.v)]))}</figure></div>
+ ${S.rd?drillHTML(R):""}`};
+function drillHTML(R){const k=S.rd;let t="",A=[];
+ if(k==="ativos"){t="Cabeças ativas";A=R.at}else if(k==="car"){t="Em carência";A=R.car}else if(k==="gmd"){t="Animais com GMD calculado (média "+n2(R.gmd)+" kg/dia)";A=R.at.filter(a=>gmdA(a)!=null)}else if(k==="gmdbaixo"){t="GMD abaixo de "+n2(S.reg.gmdMin)+" kg/dia";A=R.at.filter(a=>{const g=gmdA(a);return gmdAlvo(a.cat)&&g!=null&&g<S.reg.gmdMin})}
+ else if(k==="nasc"){t="Nascimentos";A=R.nasc.map(e=>AN(e.an))}else if(k==="mort"){t="Mortes";A=R.mort.map(e=>AN(e.an))}else if(k==="vend"){t="Vendidos";A=R.vend.map(e=>AN(e.an))}
+ else{const[a,b]=k.split(":");if(a==="lote"){t="Lote "+LT(b).nome;A=doLote(b)}else if(a==="pasto"){const l=loteNoPasto(b);t="Pasto "+PZ(b).nome;A=l?doLote(l.id):[]}else if(a==="cat"){t="Categoria "+CT(b).nome;A=R.at.filter(x=>x.cat===b)}}
+ return `<section class="card" aria-labelledby="drh"><div class="row"><h2 id="drh" tabindex="-1" style="margin:0">${esc(t)} · ${A.length}</h2><button class="btn sm sec" data-act="rdrill" data-v="">Fechar lista</button></div><div class="tw"><table class="tb"><thead><tr><th>Brinco</th><th>Categoria</th><th>Lote</th><th>Peso</th><th>GMD</th><th>Situação</th><th></th></tr></thead><tbody>${A.slice(0,60).map(a=>{const g=gmdA(a);return `<tr><td><b>${esc(a.brinco)}</b></td><td>${esc(CT(a.cat).nome)}</td><td>${esc((LT(a.lote)||{nome:"—"}).nome)}</td><td>${n0(pesoAt(a))} kg</td><td>${g==null?"—":n2(g)}</td><td>${a.st}${a.st==="Ativo"&&emCar(a)?" · carência":""}</td><td class="act"><button class="btn sm sec" data-act="aver" data-id="${a.id}" aria-label="Abrir brinco ${esc(a.brinco)}">Abrir</button></td></tr>`}).join("")}</tbody></table></div>${A.length>60?`<p class="muted sm">Mostrando 60 de ${A.length}.</p>`:""}</section>`}
+function relatorioDoc(){const f=S.faz,R=relCalc(f);S.ppk="relat";
+ openModal(`<div class="modal"><div class="mbox big" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Relatório do rebanho</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <div class="doc"><div class="hd"><div><h2>Ipêrana Agropecuária · ${esc(FZ(f).nome)}</h2><div>Relatório do rebanho · empresa e dados fictícios</div></div><div>Data: ${fmt(S.hoje)}<br>Emitido por ${esc(user().nome)}</div></div>
+ <p>${R.at.length} cabeças ativas · ${n0(R.ua)} UA em ${n0(R.ha)} ha (${n2(R.ha?R.ua/R.ha:0)} UA/ha) · GMD médio ${n2(R.gmd)} kg/dia · ${R.car.length} em carência.</p>
+ <h3>Lotes</h3><table><thead><tr><th>Lote</th><th>Pasto</th><th>Cabeças</th><th>Peso médio</th><th>GMD</th><th>UA/ha (limite)</th></tr></thead><tbody>${R.ls.map(l=>{const p=l.pasto?PZ(l.pasto):null,e=p?estP(p.id):null;return `<tr><td>${esc(l.nome)}</td><td>${p?esc(p.nome):"curral"}</td><td>${doLote(l.id).length}</td><td>${n0(pesoMed(l.id))} kg</td><td>${gmdL(l.id)==null?"—":n2(gmdL(l.id))}</td><td>${e?n1(e.uh)+" ("+n1(p.cap)+")":"—"}</td></tr>`}).join("")}</tbody></table>
+ <h3>Campanhas pendentes</h3><table><thead><tr><th>Previsto</th><th>Lote</th><th>Produto</th><th>Situação</th></tr></thead><tbody>${S.camp.filter(c=>c.st!=="Concluída"&&LT(c.lote)&&LT(c.lote).faz===f).sort((a,b)=>a.data<b.data?-1:1).map(c=>`<tr><td>${fmt(c.data)}</td><td>${esc(LT(c.lote).nome)}</td><td>${esc(PR(c.prod).nome)}</td><td>${esc(campSt(c)[0])}</td></tr>`).join("")}</tbody></table>
+ <h3>Animais em carência</h3><table><thead><tr><th>Brinco</th><th>Lote</th><th>Até</th></tr></thead><tbody>${R.car.map(a=>`<tr><td>${esc(a.brinco)}</td><td>${esc(LT(a.lote).nome)}</td><td>${fmt(carAte(a))}</td></tr>`).join("")||"<tr><td colspan=3>Nenhum.</td></tr>"}</tbody></table></div>
+ <div class="actions noprint"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+/* ===== Cadastros ===== */
+const ATAB=[["pastos","Pastos"],["cats","Categorias"],["racas","Raças"],["prods","Produtos"],["usr","Usuários"],["faz","Unidades"],["reg","Regras"]];
+V.admin=()=>{const t=S.adm;let h="";
+ if(t==="pastos"){const ps=pastosF();h=`<div class="row"><h2>Pastos da ${esc(FZ(S.faz).nome)}</h2><button class="btn" data-act="pznovo">${ic("plus")}Novo pasto</button></div><div class="tw"><table class="tb"><thead><tr><th>Pasto</th><th>Área</th><th>Forrageira</th><th>Limite</th><th>Descanso mín.</th><th>Situação</th><th></th></tr></thead><tbody>${ps.map(p=>`<tr><td><b>${esc(p.nome)}</b>${p.pts?"":' <span class="tag t-na">sem desenho</span>'}</td><td>${n1(p.area)} ha</td><td>${esc(p.forr)}</td><td>${n1(p.cap)} UA/ha</td><td>${p.dmin} d</td><td><span class="tag ${p.ativo?"t-ok":"t-na"}">${p.ativo?"Ativo":"Inativo"}</span></td><td class="act"><button class="btn sm sec" data-act="pzedit" data-id="${p.id}" aria-label="Editar pasto ${esc(p.nome)}">Editar</button> <button class="btn sm sec" data-act="pztog" data-id="${p.id}">${p.ativo?"Desativar":"Ativar"}</button> <button class="btn sm bad sec" data-act="pzdel" data-id="${p.id}" aria-label="Excluir pasto ${esc(p.nome)}">Excluir</button></td></tr>`).join("")}</tbody></table></div>`}
+ else if(t==="cats"||t==="racas"){const L=S[t],nm=t==="cats"?"Categorias":"Raças";h=`<div class="row"><h2>${nm}</h2><button class="btn" data-act="snovo" data-v="${t}">${ic("plus")}Nova</button></div><div class="tw"><table class="tb"><thead><tr><th>Nome</th>${t==="cats"?"<th>Sexo</th>":""}<th>Em uso</th><th>Situação</th><th></th></tr></thead><tbody>${L.map(x=>`<tr><td><b>${esc(x.nome)}</b></td>${t==="cats"?`<td>${x.sexo==="Ambos"?"Ambos":x.sexo==="M"?"Macho":"Fêmea"}</td>`:""}<td>${usoS(t,x.id)} registro(s)</td><td><span class="tag ${x.ativo?"t-ok":"t-na"}">${x.ativo?"Ativa":"Inativa"}</span></td><td class="act"><button class="btn sm sec" data-act="sedit" data-v="${t}" data-id="${x.id}" aria-label="Editar ${esc(x.nome)}">Editar</button> <button class="btn sm sec" data-act="stog" data-v="${t}" data-id="${x.id}">${x.ativo?"Desativar":"Ativar"}</button> <button class="btn sm bad sec" data-act="sdel" data-v="${t}" data-id="${x.id}" aria-label="Excluir ${esc(x.nome)}">Excluir</button></td></tr>`).join("")}</tbody></table></div>`}
+ else if(t==="prods"){h=`<div class="row"><h2>Produtos sanitários</h2><button class="btn" data-act="prnovo">${ic("plus")}Novo produto</button></div><p class="muted sm">Carências e reforços aqui são fictícios. No uso real, seguem a bula de cada produto.</p><div class="tw"><table class="tb"><thead><tr><th>Produto</th><th>Tipo</th><th>Carência</th><th>Reforço</th><th>Situação</th><th></th></tr></thead><tbody>${S.prods.map(p=>`<tr><td><b>${esc(p.nome)}</b></td><td>${p.tipo}</td><td>${p.car} d</td><td>${p.ref?p.ref+" d":"—"}</td><td><span class="tag ${p.ativo?"t-ok":"t-na"}">${p.ativo?"Ativo":"Inativo"}</span></td><td class="act"><button class="btn sm sec" data-act="predit" data-id="${p.id}" aria-label="Editar ${esc(p.nome)}">Editar</button> <button class="btn sm sec" data-act="prtog" data-id="${p.id}">${p.ativo?"Desativar":"Ativar"}</button> <button class="btn sm bad sec" data-act="prdel" data-id="${p.id}" aria-label="Excluir ${esc(p.nome)}">Excluir</button></td></tr>`).join("")}</tbody></table></div>`}
+ else if(t==="usr"){h=`<div class="row"><h2>Usuários</h2><button class="btn" data-act="unovo">${ic("plus")}Novo usuário</button></div><div class="tw"><table class="tb"><thead><tr><th>Nome</th><th>Perfil</th><th>Unidades</th><th>Situação</th><th></th></tr></thead><tbody>${USERS.map(u=>`<tr><td><b>${esc(u.nome)}</b>${u.id===S.uid?" (você)":""}<div class="muted sm">${esc(u.email)}</div></td><td>${esc(u.perfil)}</td><td>${u.faz.map(f=>esc(FZ(f).nome)).join(", ")}</td><td><span class="tag ${u.ativo?"t-ok":"t-na"}">${u.ativo?"Ativo":"Inativo"}</span></td><td class="act"><button class="btn sm sec" data-act="uedit" data-id="${u.id}" aria-label="Editar ${esc(u.nome)}">Editar</button> <button class="btn sm sec" data-act="utog" data-id="${u.id}">${u.ativo?"Desativar":"Ativar"}</button> <button class="btn sm bad sec" data-act="udel" data-id="${u.id}" aria-label="Excluir ${esc(u.nome)}">Excluir</button></td></tr>`).join("")}</tbody></table></div>`}
+ else if(t==="faz"){h=`<h2>Unidades</h2><div class="tw"><table class="tb"><thead><tr><th>Unidade</th><th>Pastos</th><th>Cabeças</th><th></th></tr></thead><tbody>${FAZS.map(f=>`<tr><td><b>${esc(f.nome)}</b><div class="muted sm">${esc(f.mun)}</div></td><td>${pastosF(f.id).length}</td><td>${aniF(f.id).filter(a=>a.st==="Ativo").length}</td><td class="act"><button class="btn sm sec" data-act="fzedit" data-id="${f.id}" aria-label="Renomear ${esc(f.nome)}">Renomear</button></td></tr>`).join("")}</tbody></table></div>`}
+ else{h=`<h2>Regras</h2><dl class="dl2"><dt>kg por UA</dt><dd>${S.reg.ua} kg de peso vivo</dd><dt>Descanso padrão</dt><dd>${S.reg.desc} dias (novos pastos)</dd><dt>Aviso de campanha</dt><dd>${S.reg.aviso} dias antes</dd><dt>GMD mínimo</dt><dd>${n2(S.reg.gmdMin)} kg/dia</dd></dl><button class="btn" data-act="regedit">${ic("pen")}Editar regras</button>`}
+ return `<h1>Cadastros</h1><div class="tabsa" role="group" aria-label="Cadastro">${ATAB.map(([k,n])=>`<button data-act="adm" data-v="${k}" aria-pressed="${t===k}">${n}</button>`).join("")}</div>${h}`};
+const usoS=(t,id)=>t==="cats"?S.ani.filter(a=>a.cat===id).length+S.lotes.filter(l=>l.cat===id).length:S.ani.filter(a=>a.raca===id).length;
+function pastoForm(p){if(!guard("cad"))return;const novo=!p;
+ formModal({title:novo?"Novo pasto":"Editar pasto "+p.nome,fields:[{id:"nome",label:"Nome",req:true,value:novo?"":p.nome},{id:"area",label:"Área (ha)",req:true,value:novo?"":String(p.area).replace(".",",")},{id:"forr",label:"Forrageira",type:"select",req:true,value:novo?"":p.forr,options:Object.keys(FORR).map(k=>[k,k])},{id:"cap",label:"Limite de lotação (UA/ha)",req:true,value:novo?"":String(p.cap).replace(".",",")},{id:"dmin",label:"Descanso mínimo (dias)",type:"number",req:true,value:novo?String(S.reg.desc):String(p.dmin)}],extra:novo?'<p class="muted sm">No app real, o contorno do pasto é desenhado no controle de mapa. Aqui o pasto novo aparece na lista e no modo Lista do mapa.</p>':"",
+  validate:v=>{const a=pesoNum(v.area),c=pesoNum(v.cap),d=+v.dmin;if(S.pastos.some(x=>x.faz===S.faz&&x.nome.toLowerCase()===v.nome.toLowerCase()&&(!p||x.id!==p.id)))return"Já existe pasto com esse nome nesta unidade.";if(!(a>=0.1&&a<=5000))return"Área entre 0,1 e 5.000 ha.";if(!(c>=0.3&&c<=8))return"Limite entre 0,3 e 8 UA/ha.";if(!(d>=0&&d<=180))return"Descanso entre 0 e 180 dias.";return""},
+  save:v=>{const o={nome:v.nome,area:pesoNum(v.area),forr:v.forr,cap:pesoNum(v.cap),dmin:+v.dmin};if(novo)S.pastos.push({id:nid("pz"),faz:S.faz,pts:null,c:null,saida:null,ativo:true,...o});else Object.assign(p,o)},msg:novo?"Pasto criado.":"Pasto atualizado."})}
+function pastoTog(id){const p=PZ(id);if(!guard("cad"))return;if(p.ativo){if(loteNoPasto(id)){toast("O pasto tem lote. Mova o lote antes de desativar.","err");return}if(S.sol.some(s=>s.st==="Pendente"&&s.para===id)){toast("Há pedido de mudança para este pasto aguardando o Gerente.","err");return}}p.ativo=!p.ativo;toast(p.ativo?"Pasto ativado.":"Pasto desativado.","info");render(false)}
+function pastoDel(id){const p=PZ(id);if(!guard("cad"))return;if(loteNoPasto(id)||S.lh.some(h=>h.de===id||h.para===id)||S.sol.some(s=>s.para===id||s.de===id)){toast("O pasto "+p.nome+" tem histórico de lotes. Desative em vez de excluir.","err");return}confirmar("Excluir o pasto "+p.nome+"?","Excluir",()=>{S.pastos.splice(S.pastos.indexOf(p),1);if(S.psel===id)S.psel=null;toast("Pasto excluído.","info");render(false)})}
+function simpForm(t,x){if(!guard("cad"))return;const novo=!x,L=S[t],cat=t==="cats";
+ formModal({title:(novo?"Nova ":"Editar ")+(cat?"categoria":"raça"),fields:[{id:"nome",label:"Nome",req:true,value:novo?"":x.nome},...(cat?[{id:"sexo",label:"Sexo",type:"select",req:true,value:novo?"Ambos":x.sexo,options:[["Ambos","Ambos"],["M","Macho"],["F","Fêmea"]]}]:[])],
+  validate:v=>{if(L.some(y=>y.nome.toLowerCase()===v.nome.toLowerCase()&&(!x||y.id!==x.id)))return"Já existe com esse nome.";if(cat&&x&&v.sexo!=="Ambos"&&S.ani.some(a=>a.cat===x.id&&a.sexo!==v.sexo))return"Há animais do outro sexo nessa categoria.";return""},
+  save:v=>{if(novo)L.push({id:nid(t[0]),nome:v.nome,sexo:v.sexo,ativo:true});else{x.nome=v.nome;if(cat)x.sexo=v.sexo}},msg:novo?"Cadastrado.":"Atualizado. O nome novo aparece em todos os registros."})}
+function simpTog(t,id){if(!guard("cad"))return;const x=S[t].find(y=>y.id===id);if(x.ativo&&t==="cats"&&S.lotes.some(l=>l.ativo&&l.cat===id)){toast("Há lote ativo com essa categoria.","err");return}x.ativo=!x.ativo;toast(x.ativo?"Ativada.":"Desativada: some das listas de escolha, o histórico fica.","info");render(false)}
+function simpDel(t,id){if(!guard("cad"))return;const x=S[t].find(y=>y.id===id),u=usoS(t,id);if(u){toast(x.nome+" está em uso em "+u+" registro(s). Desative em vez de excluir.","err");return}confirmar("Excluir "+x.nome+"?","Excluir",()=>{S[t].splice(S[t].indexOf(x),1);toast("Excluído.","info");render(false)})}
+const usoP=id=>S.ev.filter(e=>e.prod===id).length+S.camp.filter(c=>c.prod===id).length;
+function prodForm(p){if(!guard("cad"))return;const novo=!p;
+ formModal({title:novo?"Novo produto":"Editar "+p.nome,fields:[{id:"nome",label:"Nome",req:true,value:novo?"":p.nome},{id:"tipo",label:"Tipo",type:"select",req:true,value:novo?"Vacina":p.tipo,options:[["Vacina","Vacina"],["Medicamento","Medicamento"]]},{id:"car",label:"Carência (dias)",type:"number",req:true,value:novo?"0":String(p.car),hint:"Dias sem poder vender ou abater depois da aplicação."},{id:"ref",label:"Reforço (dias, 0 = sem reforço)",type:"number",req:true,value:novo?"0":String(p.ref)}],
+  validate:v=>{if(S.prods.some(y=>y.nome.toLowerCase()===v.nome.toLowerCase()&&(!p||y.id!==p.id)))return"Já existe produto com esse nome.";if(!(+v.car>=0&&+v.car<=180))return"Carência entre 0 e 180 dias.";if(!(+v.ref===0||(+v.ref>=15&&+v.ref<=730)))return"Reforço 0 ou entre 15 e 730 dias.";if(p&&usoP(p.id)&&v.tipo!==p.tipo)return"Produto já usado: o tipo não pode mudar.";return""},
+  save:v=>{const o={nome:v.nome,tipo:v.tipo,car:+v.car,ref:+v.ref};if(novo)S.prods.push({id:nid("p"),ativo:true,...o});else Object.assign(p,o)},msg:novo?"Produto cadastrado.":"Produto atualizado. Carências já aplicadas não mudam.",done:()=>{}})}
+function prodTog(id){if(!guard("cad"))return;const p=PR(id);if(p.ativo&&S.camp.some(c=>c.prod===id&&c.st!=="Concluída")){toast("Há campanha pendente com esse produto.","err");return}p.ativo=!p.ativo;toast(p.ativo?"Produto ativado.":"Produto desativado.","info");render(false)}
+function prodDel(id){if(!guard("cad"))return;const p=PR(id),u=usoP(id);if(u){toast(p.nome+" aparece em "+u+" registro(s). Desative em vez de excluir.","err");return}confirmar("Excluir "+p.nome+"?","Excluir",()=>{S.prods.splice(S.prods.indexOf(p),1);toast("Produto excluído.","info");render(false)})}
+const admsAtivos=ex=>USERS.filter(u=>u.ativo&&u.perfil==="Administrador"&&u.id!==ex).length;
+function userForm(u){if(!guard("cad"))return;const novo=!u,self=u&&u.id===S.uid;
+ formModal({title:novo?"Novo usuário":"Editar "+u.nome,fields:[{id:"nome",label:"Nome",req:true,value:novo?"":u.nome},{id:"email",label:"E-mail",type:"email",req:true,value:novo?"":u.email},{id:"perfil",label:"Perfil",type:"select",req:true,value:novo?"Campo":u.perfil,options:PERFIS.map(p=>[p,p])}],extra:`<fieldset class="fs"><legend>Unidades com acesso</legend>${FAZS.map(f=>`<label class="ck"><input type="checkbox" id="fz_${f.id}" ${novo||u.faz.includes(f.id)?"checked":""}> ${esc(f.nome)}</label>`).join("")}</fieldset>`,
+  validate:v=>{if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(v.email))return"E-mail inválido.";if(USERS.some(x=>x.email.toLowerCase()===v.email.toLowerCase()&&(!u||x.id!==u.id)))return"E-mail já cadastrado.";if(!FAZS.some(f=>$("#fz_"+f.id).checked))return"Marque ao menos uma unidade.";if(self&&v.perfil!==u.perfil)return"Você não pode mudar o próprio perfil.";if(u&&u.perfil==="Administrador"&&v.perfil!=="Administrador"&&u.ativo&&admsAtivos(u.id)<1)return"Mantenha ao menos um administrador ativo.";return""},
+  save:v=>{const fz=FAZS.filter(f=>$("#fz_"+f.id).checked).map(f=>f.id);if(novo)USERS.push({id:nid("u"),nome:v.nome,email:v.email,perfil:v.perfil,faz:fz,ativo:true});else{Object.assign(u,{nome:v.nome,email:v.email,perfil:v.perfil,faz:fz});if(self){S.perfil=u.perfil;if(!fz.includes(S.faz))S.faz=fz[0]}}buildPeople()},msg:novo?"Usuário criado.":"Usuário atualizado."})}
+function userTog(id){if(!guard("cad"))return;const u=U(id);if(u.ativo){if(id===S.uid){toast("Você não pode desativar a si mesmo.","err");return}if(u.perfil==="Administrador"&&admsAtivos(id)<1){toast("Mantenha ao menos um administrador ativo.","err");return}}u.ativo=!u.ativo;buildPeople();toast(u.ativo?"Usuário ativado.":"Usuário desativado.","info");render(false)}
+function userDel(id){if(!guard("cad"))return;const u=U(id);if(id===S.uid){toast("Você não pode excluir a si mesmo.","err");return}if(u.perfil==="Administrador"&&u.ativo&&admsAtivos(id)<1){toast("Mantenha ao menos um administrador ativo.","err");return}const n=S.ev.filter(e=>e.uid===id).length+S.sol.filter(s=>s.uid===id).length+S.lh.filter(h=>h.uid===id).length;if(n){toast(u.nome+" aparece em "+n+" registro(s) do histórico. Desative em vez de excluir.","err");return}confirmar("Excluir "+u.nome+"?","Excluir",()=>{USERS.splice(USERS.indexOf(u),1);S.notifs=S.notifs.filter(x=>x.u!==id);buildPeople();toast("Usuário excluído.","info");render(false)})}
+function fazForm(id){if(!guard("cad"))return;const f=FZ(id);formModal({title:"Renomear unidade",fields:[{id:"nome",label:"Nome",req:true,value:f.nome}],validate:v=>FAZS.some(x=>x.id!==id&&x.nome.toLowerCase()===v.nome.toLowerCase())?"Já existe unidade com esse nome.":"",save:v=>{f.nome=v.nome;buildPeople()},msg:"Unidade renomeada."})}
+function regForm(){if(!guard("cad"))return;const r=S.reg;formModal({title:"Regras",fields:[{id:"ua",label:"kg de peso vivo por UA",type:"number",req:true,value:String(r.ua)},{id:"desc",label:"Descanso padrão (dias)",type:"number",req:true,value:String(r.desc)},{id:"aviso",label:"Avisar campanha com quantos dias",type:"number",req:true,value:String(r.aviso)},{id:"gmd",label:"GMD mínimo (kg/dia)",req:true,value:String(r.gmdMin).replace(".",",")}],
+  validate:v=>!(+v.ua>=300&&+v.ua<=600)?"kg por UA entre 300 e 600.":!(+v.desc>=0&&+v.desc<=180)?"Descanso entre 0 e 180.":!(+v.aviso>=1&&+v.aviso<=60)?"Aviso entre 1 e 60 dias.":!(pesoNum(v.gmd)>=0&&pesoNum(v.gmd)<=3)?"GMD mínimo entre 0 e 3.":"",save:v=>{r.ua=+v.ua;r.desc=+v.desc;r.aviso=+v.aviso;r.gmdMin=pesoNum(v.gmd)},msg:"Regras atualizadas."})}
+/* ===== Painel "Como seria na Power Platform" ===== */
+const LB="https://learn.microsoft.com/";
+const LU={
+ geo:LB+"power-apps/maker/canvas-apps/geospatial-overview",map:LB+"power-apps/maker/canvas-apps/geospatial-component-map",draw:LB+"power-apps/maker/canvas-apps/geospatial-map-draw-shapes",
+ offSetup:LB+"power-apps/mobile/canvas-mobile-offline-setup",offOver:LB+"power-apps/mobile/canvas-mobile-offline-overview",offLim:LB+"power-apps/mobile/limitations-canvas-apps",offApps:LB+"power-apps/maker/canvas-apps/offline-apps",
+ pdf:LB+"power-platform/power-fx/reference/function-pdf",akMaker:LB+"power-apps/maker/data-platform/define-alternate-keys-reference-records",akDev:LB+"power-apps/developer/data-platform/define-alternate-keys-entity",
+ dv:LB+"power-apps/maker/canvas-apps/connections/connection-common-data-service",del:LB+"power-apps/maker/canvas-apps/delegation-overview",push:LB+"power-apps/mobile/power-apps-mobile-notification",
+ appr:LB+"power-automate/get-started-approvals",spec:LB+"power-apps/developer/data-platform/specialized-columns",sig:LB+"power-platform/power-fx/reference/signals",user:LB+"power-platform/power-fx/reference/function-user",
+ sec:LB+"power-platform/admin/wp-security-cds",rel:LB+"power-apps/maker/data-platform/data-platform-entity-lookup",chart:LB+"power-apps/maker/canvas-apps/controls/control-column-line-chart",pie:LB+"power-apps/maker/canvas-apps/controls/control-pie-chart"};
+const PP={
+ cover:{c:["Equipe entra com a conta Microsoft Entra ID. User().Email devolve o UPN (não o e-mail SMTP) e User().EntraObjectId devolve o ID da pessoa no Entra; localize o perfil e as unidades na tabela de usuários do app por um deles (escolha de projeto: o EntraObjectId é único por pessoa)","App Canvas independente (standalone): o modo offline não funciona para app embutido, página personalizada ou app no Teams","Seletor de unidade no topo: Dropdown ligado às unidades a que o usuário tem acesso; todas as telas filtram por ela","A lista de pessoas da capa existe só no mockup"],d:"Dataverse: Unidade, Pasto, Lote, Animal, Evento do animal, Campanha, Produto, Solicitação de mudança",
+  w:"Esconder abas por perfil melhora a experiência, mas não é segurança: o acesso aos dados é controlado pelos papéis de segurança do Dataverse, que combinam nível de acesso, unidade de negócio, equipe e compartilhamento.",
+  u:[LU.user,LU.offLim,LU.sec],a:["Separar as unidades Sede e Retiro com unidades de negócio ou com equipes do Dataverse: o Learn descreve unidades de negócio e equipes como mecanismo de segurança, mas qual modelagem serve a este caso (uma unidade de negócio por Unidade, ou equipes) fica a confirmar no desenho da solução"]},
+ mapa:{c:["Controle Mapa (Inserir › Mídia › Mapa). Cada pasto é uma forma: Shapes_Items aponta para a tabela, ShapeGeoJSONObjects para a coluna com o GeoJSON do contorno, ShapeLabels para o nome e ShapeColors para a cor (nome, definição CSS ou RGBA); a cor pode ser calculada na fórmula (AddColumns com If sobre lotação e dias de descanso), escolha de projeto","Vista de satélite com SatelliteView; clique no pasto: OnShapeSelected e Shapes_Selected abrem o painel do pasto","Limitado x Completo: o controle roda por padrão com suporte Limitado, que já mostra mapa, pins e formas a partir de coordenadas (latitude e longitude, GeoJSON). Só endereços (pins e rotas por endereço), rotas e o controle Address input exigem suporte Completo","Suporte Completo: o administrador liga o interruptor Full em Map and address services (Power Platform admin center › Ambientes › Configurações › Produto › Recursos), aceita os termos e garante que a DLP não bloqueie o conector Spatial Services; o mockup usa só coordenadas, então o Limitado bastaria para o mapa de pastos","Limites documentados: até 500 formas por controle; até 5.000 pins por latitude e longitude e 50 por endereço","Contorno novo: Enable shape drawing, Enable shape deleting and label editing e OnShapeCreated; a propriedade GeoJSON devolve as formas","Modo Lista: Galeria com os mesmos pastos, usada também quando não há sinal"],
+  d:"Dataverse: Pasto com coluna de texto para o GeoJSON de cada contorno (a página pede a string de cada forma em uma única célula), área, forrageira, limite e data da última saída; Lote ligado ao Pasto",
+  w:"Desenhar contorno (Enable shape drawing, OnShapeCreated) é recurso em PREVIEW: a página se chama \"Draw and insert shapes on a map (preview)\" e a Microsoft informa que preview não é para uso em produção e pode ter funções restritas. Os pré-requisitos dessa página remetem aos do suporte Completo. O controle precisa de internet (limitação documentada) e não existe no Power Apps US Government. No mockup o desenho é um SVG ilustrativo.",
+  u:[LU.geo,LU.map,LU.draw],a:["Se importar contornos prontos em GeoJSON (Shapes_Items) também é preview: a página do controle não marca como preview, mas a seção está na página de desenho em preview"]},
+ pasto:{c:["Painel do pasto: contêiner com LookUp do lote que está no pasto e da última pesagem","Lotação = soma do peso vivo ÷ kg por UA ÷ área; calcule na fórmula ou grave por fluxo. Coluna rollup não é tempo real: é calculada por tarefas do sistema em segundo plano, por padrão a cada hora","Descanso = DateDiff(última saída; Today(); TimeUnit.Days) comparado ao mínimo do pasto","Botões com DisplayMode pelo perfil e pela conexão: Connection.Connected indica rede Wi-Fi ou celular e não garante conexão ativa com a internet"],d:"Dataverse: Pasto, Lote, Evento do animal (pesagens)",
+  w:"Comparações de data com Now() ou Today() não delegam no Dataverse (as demais comparações de data delegam). Calcule a data limite antes e compare a coluna com ela.",u:[LU.spec,LU.sig,LU.dv]},
+ mover:{c:["Mover lote grava o pasto novo no Lote, a data de saída no Pasto antigo e uma linha no Histórico. Use um fluxo ou lógica no servidor para gravar tudo junto","Lotação prevista acima do limite: o campo cria uma linha em Solicitação de mudança e o Gerente aprova na tela Aprovações, ou use a ação Start and wait for an approval do Power Automate, que espera a resposta do aprovador antes de seguir","Gerente e Administrador confirmam numa caixa de seleção antes de gravar","Descanso curto exige motivo"],d:"Dataverse: Lote, Pasto, Histórico de pastos, Solicitação de mudança",
+  w:"Fluxos do Power Automate não são suportados no modo offline. Por isso mover lote fica bloqueado sem sinal no mockup.",u:[LU.appr,LU.offLim],a:["Que dois Patch em tabelas diferentes não formam uma transação: não achei página do Learn que afirme isso; a recomendação de gravar por fluxo ou lógica no servidor é escolha de projeto"]},
+ pesl:{c:["Galeria dos animais do lote com uma caixa de texto de peso em cada linha","Gravar: ForAll sobre as linhas preenchidas com Patch na tabela de eventos (tipo Pesagem)","Validação antes do Patch: faixa de peso, uma pesagem por animal por dia e variação por dia desde a última pesagem, com confirmação","Offline: o app Canvas com Dataverse roda offline no Power Apps Mobile (iOS, Android e Windows); sobe quando a conexão volta"],d:"Dataverse: Evento do animal (tipo, data, peso)",
+  w:"Para o Campo abrir o app offline, o usuário com papel Basic User não basta: é preciso um papel customizado com leitura nas tabelas Canvas App, Mobile offline profile e Sync Error; o app deve estar em solução com \"Can be used offline\" ligado. A sincronização regular em segundo plano só ocorre com o Power Apps aberto em primeiro plano e a tela desbloqueada. App no navegador não roda offline, nem no celular.",u:[LU.offSetup,LU.offLim,LU.offApps]},
+ lotes:{c:["Galeria de lotes da unidade com cabeças, peso médio, GMD e lotação","GMD do animal = (peso da última pesagem − peso da pesagem anterior mais recente que esteja 7 dias ou mais antes) ÷ dias entre as duas; sem uma pesagem assim, o GMD fica em branco. O do lote é a média dos animais que têm GMD","Alerta de GMD abaixo do mínimo (0,30 kg/dia) vale para lotes em crescimento e engorda; vacas e touros ficam de fora","Encerrar lote só sem animais ativos; excluir só se nunca teve histórico","Venda do lote separa quem está em carência"],d:"Dataverse: Lote e Animal; histórico de pastos em tabela própria",
+  w:"No Dataverse, funções de agregação trabalham até 50.000 linhas e CountRows usa um valor em cache (atualizado periodicamente). Para rebanho grande, grave os totais por fluxo ou leia de um modelo do Power BI.",u:[LU.dv,LU.del]},
+ animais:{c:["Busca por brinco: StartsWith delega em colunas de texto do Dataverse; guarde o brinco como texto","Filtros de lote, categoria e situação: colunas de escolha e relação; = e <> delegam em escolha","Brinco único: chave alternativa na coluna Brinco; o índice de unicidade só vale depois de criado em segundo plano (estado Ativo)","O limite de linhas do Canvas vai de 1 a 10.000 (padrão 500): filtre no servidor"],d:"Dataverse: Animal com chave alternativa no brinco",
+  w:"Chave alternativa: valor vazio não aplica unicidade, então o brinco é obrigatório; até 10 chaves por tabela; não vale em tabela virtual. Se o valor tiver os caracteres / # < > * % & : \\ ? + , as operações por chave (GET e PATCH) deixam de funcionar. Recomendação do projeto: brinco só com letras, números e sublinhado. A página do Power Apps lista 9 desses caracteres (sem ? e +); a página do desenvolvedor lista / < > * % & : \\ ? + (sem #); o mockup considera a união das duas.",u:[LU.akMaker,LU.akDev,LU.dv,LU.del]},
+ animal:{c:["Linha do tempo: Galeria da tabela de eventos filtrada pelo animal e ordenada por data","Carência: a aplicação grava a data final (data da aplicação + dias do produto); a venda fica desabilitada (DisplayMode) enquanto essa data for maior ou igual à data da venda; o animal é liberado a partir do dia seguinte","A mesma regra precisa existir no servidor, para que outra tela ou integração não grave a venda","Mãe e cria: relação do Animal com ele mesmo (autorrelacionamento)","Estorno marca o evento como estornado e devolve o animal ao lote, sem apagar o histórico"],d:"Dataverse: Animal e Evento do animal",
+  w:"No modo offline, filtro por relação com a própria tabela (a mãe do animal) não é suportado, nem relações muitos-para-muitos, nem relação com mais de um nível; o perfil offline também não aceita referências circulares. Para o nascimento no campo, grave o brinco da mãe em coluna própria ou use uma tabela de partos (escolha de projeto).",u:[LU.offLim]},
+ sanitario:{c:["Campanhas: tabela com lote, produto, data prevista e situação; Galeria ordenada pela data","Aplicar no lote: ForAll com Patch de um evento por animal e cálculo da carência; o reforço cria a próxima campanha. No mockup, aplicar e programar campanha exigem conexão (decisão do projeto)","Avisos de vencimento e de fim de carência: fluxo agendado que envia e-mail ou notificação","Em carência: Filter pela data de fim da carência maior ou igual à data limite calculada (compare com uma data já calculada, não com Now() ou Today())"],d:"Dataverse: Campanha, Produto e Evento do animal",
+  w:"Notificação push do Power Apps só chega no Power Apps Mobile e depois que a pessoa abriu o app uma vez; um fluxo envia para um usuário ou grupo de segurança por vez. Fluxos não rodam no modo offline.",u:[LU.push,LU.offLim,LU.dv],a:["Qual gatilho do Power Automate agenda o fluxo de avisos: confirmar na página do gatilho de recorrência"]},
+ aprov:{c:["Galeria das solicitações pendentes da unidade","Aprovar reconfere se o lote continua no pasto de origem e se o destino segue vazio antes de mover","Recusar exige motivo e avisa quem pediu","Alternativa: Start and wait for an approval do Power Automate, com tipos como Approve/Reject (primeiro a responder ou todos) e aprovação sequencial"],d:"Dataverse: Solicitação de mudança",
+  w:"Aprovar fica atrás de papel de segurança do Dataverse. Esconder a aba do campo não basta.",u:[LU.appr,LU.sec]},
+ relat:{c:["Controles nativos do Canvas: Coluna, Linha (até 9 séries) e Pizza. As barras horizontais do mockup saem de Galeria com retângulo de largura proporcional","Clique no número ou na barra abre a lista filtrada (UpdateContext)","Cruzamentos longos e histórico: bloco do Power BI embutido (controle Power BI tile)","Relatório em PDF: a função PDF é EXPERIMENTAL (desligada por padrão em Configurações › Recursos futuros › Experimental) e não é para produção. Ela NÃO suporta gráficos, Power BI tile nem Map; aceita Galeria vertical, contêineres e tela, não aceita galerias aninhadas e pode falhar com fontes não latinas, negrito e itálico. O PDF é gerado no próprio aparelho e um arquivo muito grande pode derrubar o app"],d:"Dataverse como origem; Power BI para histórico e comparações",
+  w:"Por isso a tela Indicadores, com gráficos, não pode virar PDF por essa função; só as partes de tabelas (lotes, campanhas, carência) poderiam, e ainda assim é experimental. Agregar milhares de pesagens dentro do app é lento e esbarra no limite de 50.000 linhas das agregações: leia uma tabela resumida ou um modelo do Power BI.",u:[LU.pdf,LU.chart,LU.pie,LU.dv],a:["Alternativa de produção para documento formal (por exemplo relatório paginado do Power BI): não conferida nesta rodada"]},
+ admin:{c:["Pastos, categorias, raças, produtos, unidades e usuários: Galeria e Form de edição","Desativar usa a situação do registro (Ativo e Inativo); excluir é bloqueado quando há uso: relação Referencial com Restringir exclusão (Referential, Restrict Delete), que impede apagar o registro pai enquanto existir filho","Renomear categoria ou raça aparece em todo o histórico porque os registros guardam a relação, não o texto","Regras (kg por UA, descanso, aviso, GMD mínimo): tabela de configuração lida pelo app"],d:"Dataverse: tabelas de cadastro e Configuração",
+  w:"Cadastros ficam atrás de papel de segurança. Mudar a carência de um produto não muda carências já aplicadas, porque a data fica gravada no evento.",u:[LU.rel,LU.sec],a:["Ler a tabela de configuração por fórmula nomeada em App.Formulas: página do Learn não conferida nesta rodada"]}
+};
+const NM={cover:"Capa e acesso",mapa:"Mapa da fazenda",pasto:"Detalhe do pasto",mover:"Mover lote",pesl:"Pesagem do lote",lotes:"Lotes",animais:"Animais",animal:"Ficha do animal",sanitario:"Sanitário",aprov:"Aprovações",relat:"Indicadores",admin:"Cadastros"};
+const OFFPP=["Perfil Campo offline: usuário com papel Basic User não abre app offline; crie um papel customizado com leitura em Canvas App, Mobile offline profile e Sync Error","O app Canvas precisa estar em solução, com \"Can be used offline\" ligado, e as tabelas com \"Can be taken offline\"; só funciona no Power Apps Mobile (iOS, Android e Windows): app no navegador não roda offline, nem no celular","Perfil offline autogerado baixa todas as linhas a que o usuário tem permissão em cada tabela usada; perfil customizado filtra o que baixa","Cada tabela do perfil liga a no máximo 15 outras (filtros e relações, contando as transitivas); acima disso o perfil não publica","Não funciona offline: conectores fora do Dataverse (como SharePoint), tabelas virtuais e elásticas, fluxos do Power Automate, notas, Relate e Unrelate","Até 3.000.000 de registros sincronizados; colunas calculadas e rollup só são recalculadas no servidor","Conflitos são detectados na sincronização; defina Sort nas Galerias para a ordem ser a mesma no celular e no navegador","O contador de envios pendentes pode usar Connection.Sync (por exemplo NotConnectedPendingUpsync)"];
+const OFFU=[LU.offSetup,LU.offLim,LU.offApps,LU.offOver,LU.sig];
+const linkU=a=>`<ul class="fontes">${a.map(u=>`<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(u)}</a></li>`).join("")}</ul>`;
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>${ppHTML()}`}
+function ppHTML(){const k=S.ppk||(S.logged?S.tela:"cover"),p=PP[k]||PP.cover;
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(NM[k]||NM.cover)}</b> · Canvas app, celular, tablet e desktop</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d)}</dd></dl><div class="warn"><b>Atenção:</b> ${esc(p.w)}</div>${S.offline&&S.logged?`<div class="warn"><b>Sem sinal (offline):</b><ul>${OFFPP.map(x=>`<li>${esc(x)}</li>`).join("")}</ul><b>Fontes no Microsoft Learn:</b>${linkU(OFFU)}</div>`:""}${p.a?`<div class="warn conf"><b>A confirmar (sem página do Learn conferida):</b><ul>${p.a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}<div class="fnt"><b>Fonte no Microsoft Learn:</b>${linkU(p.u)}</div><p class="muted sm" style="margin-top:10px">Conferido no Microsoft Learn em 11/11/2026. Este é um mockup HTML, não um app Power Apps. Data, fluxo agendado e falta de sinal são simulados.</p>`}
+/* ===== Cabeçalho, abas, capa e tela ===== */
+const telaInicial=()=>"mapa";
+function buildPeople(){renderCover();if(S.logged){$("#perfil").value=S.uid;renderHdr()}}
+function nPend(){return S.sol.filter(s=>s.st==="Pendente"&&LT(s.lote)&&LT(s.lote).faz===S.faz).length}
+function renderHdr(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un&&n.u===S.uid).length;
+ $("#hdr").innerHTML=`<div class="bn">${ic("leaf")}<span>Ipêrana</span></div><label class="sr" for="fzsel">Unidade</label><select class="fzs" id="fzsel">${u.faz.map(f=>`<option value="${f}" ${S.faz===f?"selected":""}>${esc(FZ(f).nome)}</option>`).join("")}</select><span style="flex:1"></span>
+ ${S.offline?`<button class="netc" data-act="netinfo" aria-label="Sem sinal: ${S.fila.length} alterações aguardando envio">${ic("wifioff")}<span>${S.fila.length} a enviar</span></button>`:""}
+ <button class="clk" data-act="relogio" aria-label="Data simulada: ${esc(fmt(S.hoje))}. Avançar dias">${ic("clock")}<span>${esc(fmt(S.hoje))}</span></button>
+ <button class="ib" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>
+ <div class="usr"><div class="avatar" aria-hidden="true">${ini(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small style="opacity:.85">${esc(S.perfil)}</small></div><button class="ib" data-act="sair" aria-label="Sair">${ic("logout")}</button></div><div id="npop" hidden></div>`;
+ const np=nPend();$("#ptabs").innerHTML=ROLES[S.perfil].map(k=>`<button class="ptab" data-nav="${k}" ${S.tela===k?'aria-current="page"':""}>${ic(NAVI[k][1])}${esc(NAVI[k][0])}${k==="aprov"&&np?`<span class="badge" aria-label="${np} pendente(s) nesta unidade">${np}</span>`:""}</button>`).join("")}
+function render(focus){
+ if(!$("#modal").innerHTML){S.ppk=null}
+ document.body.classList.toggle("lg",S.logged);
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ if(!ROLES[S.perfil].includes(S.tela))S.tela=telaInicial();
+ const html=V[S.tela]();if($("#screen").innerHTML!==html)$("#screen").innerHTML=html;
+ const ad=$("#adr");if(ad&&S.asel){const a=AN(S.asel);if(a&&a.faz===S.faz){const had=ad.contains(document.activeElement);ad.innerHTML=animalInner(a);if(had){const h=$("#dh");if(h)h.focus()}}else closeModal()}
+ const pm=$("#pmod");if(pm&&S.psel&&PZ(S.psel)){pm.innerHTML=pastoInner(PZ(S.psel))}
+ renderHdr();$("#pp").innerHTML=ppPanel();$("#perfil").value=S.uid;$("#offl").checked=S.offline;
+ if(!focus&&!$("#modal").innerHTML&&(!document.activeElement||document.activeElement===document.body)){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}}
+function go(t,focus=true){S.tela=t;render(focus)}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("leaf")+"<span>Ipêrana Agropecuária · Empresa fictícia</span>";
+ $("#cvlist").innerHTML=[["pin","Mapa dos pastos colorido pela lotação e pelos dias de descanso"],["swap","Mover lote com conferência de limite e aprovação do Gerente"],["syringe","Calendário sanitário e bloqueio de venda durante a carência"],["wifioff","Registro no campo sem sinal, enviado quando a conexão volta"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ if(!U(S.cv)||!U(S.cv).ativo)S.cv=(USERS.find(u=>u.ativo)||{}).id;
+ $("#cvp").innerHTML=PERFIS.map(p=>{const L=USERS.filter(u=>u.ativo&&u.perfil===p);return L.length?`<div class="pgr">${esc(p)} · ${esc(PDESC[p])}</div>`+L.map(u=>`<button class="prs" data-act="cvsel" data-v="${u.id}" aria-pressed="${S.cv===u.id}"><span class="avatar" aria-hidden="true">${ini(u.nome)}</span><span><b>${esc(u.nome)}</b><small>${esc(u.perfil)} · ${u.faz.map(f=>esc(FZ(f).nome)).join(" e ")}</small></span></button>`).join(""):""}).join("");
+ $("#entrar").innerHTML=ic("logout")+"Entrar como "+esc((U(S.cv)||{nome:""}).nome);$("#ppbtn").innerHTML=ic("layers")+"Como seria na Power Platform";
+ $("#perfil").innerHTML=USERS.filter(u=>u.ativo).map(u=>`<option value="${u.id}">${esc(u.nome)} · ${esc(u.perfil)}</option>`).join("")}
+function relogioForm(){openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Data simulada</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><p>Hoje no mockup: <b>${fmtDiaL(S.hoje)}</b>. Ao avançar, o fluxo agendado (simulado) confere campanhas que vencem, carências encerradas e pastos que completaram o descanso, e avisa quem precisa saber.</p><div class="actions st">${[1,7,30].map(n=>`<button class="btn sec" data-act="avanca" data-v="${n}">+${n} dia${n>1?"s":""}</button>`).join("")}</div></div></div>`)}
+function zerarTela(){S.psel=null;S.asel=null;S.rd="";S.lim=25;S.af={q:"",lote:"",cat:"",st:"Ativo",car:""};S.st="camp"}
+/* ===== Modais com retorno ===== */
+const _open=openModal;openModal=function(html){if($("#adr")&&S.asel){const id=S.asel;S.back=()=>abrirAnimal(id)}else if($("#pmod")&&S.psel){const id=S.psel;S.back=()=>selPasto(id)}else S.back=null;_open(html)};
+const _close=closeModal;closeModal=function(){S.back=null;_close()};
+cancelModal=function(){const f=S.back;closeModal();if(f)f()};
+/* ===== Eventos ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const bb=$("#hdr [data-act=bell]");if(bb)bb.setAttribute("aria-expanded","false")}}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML)closeModal();S.lim=25;S.rd="";go(t.dataset.nav);return}
+ if(t.getAttribute("aria-disabled")==="true"&&t.title){toast(t.title,"err");return}
+ const a=t.dataset.act,id=t.dataset.id,v=t.dataset.v;
+ switch(a){
+  case"cvsel":S.cv=v;renderCover();$("#cvp [aria-pressed=true]").focus();break;
+  case"entrar":{const alvo=U(S.cv);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;S.tela=telaInicial();zerarTela();render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair do aplicativo?","Sair",()=>{S.logged=false;render(false);$("#entrar").focus()});break;
+  case"closemodal":cancelModal();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt" class="sr">Como seria na Power Platform</h2><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div><div class="pp">${ppHTML()}</div></div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){const mine=S.notifs.filter(n=>n.u===S.uid);mine.forEach(n=>n.un=false);{const bb=$("#hdr .badge");if(bb)bb.remove();t.setAttribute("aria-label","Notificações")}p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${mine.length?mine.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div>${esc(n.m)}<div class="muted sm">${esc(n.h)}</div></div></div>`).join(""):'<div class="empty">Nenhuma notificação.</div>'}`}p.hidden=!open;t.setAttribute("aria-expanded",String(open));break}
+  case"clearn":S.notifs=S.notifs.filter(n=>n.u!==S.uid);renderHdr();$("#hdr [data-act=bell]").focus();break;
+  case"relogio":relogioForm();break;
+  case"avanca":avancar(+v);break;
+  case"netinfo":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Aguardando sinal</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${S.fila.length?`<ul class="hist">${S.fila.map(f=>`<li>${esc(f.h)} · ${esc(f.d)}</li>`).join("")}</ul>`:"<p>Nada a enviar.</p>"}<p class="muted sm">Desmarque “Sem sinal no campo” no topo para sincronizar.</p></div></div>`);break;
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  /* mapa */
+  case"psel":selPasto(id);break;
+  case"pclose":if($("#pmod")){closeModal()}else{const id0=S.psel;S.psel=null;render(false);if(!focusPasto(id0)){const h=$("#screen h1");if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}break;
+  case"mview":S.mv=v;render(false);break;
+  case"mover":moverForm(id);break;
+  case"mvp":if(S.mvf){S.mvf.mot=$("#mvmot").value;const ck=$("#mvok");if(ck)S.mvf.ok=ck.checked;S.mvf.para=v;$("#mvform").innerHTML=moverHTML();const b=$(`#mvform [data-v="${v}"]`);if(b)b.focus()}break;
+  case"trazer":trazerForm(id);break;
+  case"pesl":pesagemLote(id);break;
+  case"nav-san":S.st="camp";go("sanitario");break;
+  case"nav-car":S.af={q:"",lote:"",cat:"",st:"Ativo",car:"sim"};go("animais");break;
+  case"nav-aprov":go(ROLES[S.perfil].includes("aprov")?"aprov":"lotes");break;
+  /* lotes */
+  case"lanimais":if($("#modal").innerHTML)closeModal();S.af={q:"",lote:id,cat:"",st:"Ativo",car:""};S.lim=25;go("animais");break;
+  case"lnovo":loteForm(null);break;case"ledit":loteForm(LT(id));break;case"lenc":loteEnc(id);break;case"lhist":loteHist(id);break;
+  case"vendl":vendaLote(id);break;
+  /* animais */
+  case"aver":abrirAnimal(id);break;
+  case"mais":S.lim+=25;render(false);break;
+  case"alimpa":S.af={q:"",lote:"",cat:"",st:"Ativo",car:""};render(false);break;
+  case"anovo":entradaForm();break;
+  case"apesar":pesarForm(id);break;case"anasc":nascForm(id);break;case"avac":tratForm(id,"Vacina");break;case"atrat":tratForm(id,"Medicamento");break;
+  case"atransf":transfForm(id);break;case"avend":{const x=AN(id);if(x&&emCar(x)){toast("Brinco "+x.brinco+" em carência até "+fmt(carAte(x))+": venda bloqueada.","err");break}vendaForm([id]);break}
+  case"amorte":morteForm(id);break;case"aestorno":estornar(id);break;case"aedit":editAForm(id);break;case"adel":delA(id);break;
+  /* sanitário */
+  case"stab":S.st=v;render(false);break;case"stab-go":S.st=v;go("sanitario");break;
+  case"cnova":campForm(null);break;case"cedit":campForm(CP(id));break;case"cdel":campDel(id);break;case"capl":campApl(id);break;
+  /* aprovações */
+  case"sapr":solApr(id);break;case"srec":solRec(id);break;
+  /* indicadores */
+  case"rper":S.rel=+v;render(false);break;
+  case"rdrill":S.rd=v;render(false);{const h=$("#drh");if(h)h.focus()}break;
+  case"relprint":relatorioDoc();break;
+  /* cadastros */
+  case"adm":S.adm=v;render(false);break;
+  case"pznovo":pastoForm(null);break;case"pzedit":pastoForm(PZ(id));break;case"pztog":pastoTog(id);break;case"pzdel":pastoDel(id);break;
+  case"snovo":simpForm(v,null);break;case"sedit":simpForm(v,S[v].find(x=>x.id===id));break;case"stog":simpTog(v,id);break;case"sdel":simpDel(v,id);break;
+  case"prnovo":prodForm(null);break;case"predit":prodForm(PR(id));break;case"prtog":prodTog(id);break;case"prdel":prodDel(id);break;
+  case"unovo":userForm(null);break;case"uedit":userForm(U(id));break;case"utog":userTog(id);break;case"udel":userDel(id);break;
+  case"fzedit":fazForm(id);break;case"regedit":regForm();break;
+ }});
+document.addEventListener("input",e=>{
+ const m=e.target.closest("[data-mvf]");if(m&&S.mvf){S.mvf[m.dataset.mvf]=m.type==="checkbox"?m.checked:m.value;return}
+ const t=e.target.closest("[data-live]");if(t){S.af[t.dataset.live]=t.value;S.lim=25;const id=t.id,pos=t.selectionStart;render(false);const n=$("#"+id);if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(x){}}}});
+document.addEventListener("change",e=>{
+ const el=e.target;
+ if(el.id==="perfil"){const id=el.value;if(S.busy){el.value=S.uid;toast("Aguarde a ação em andamento terminar antes de trocar de usuário.","err");return}if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");el.value=S.uid;return}if($("#modal").innerHTML)closeModal();setUser(id);zerarTela();S.tela=telaInicial();render(true);toast("Agora você é "+alvo.nome+" ("+alvo.perfil+").","info");return}
+ if(el.id==="offl"){if(S.busy){el.checked=S.offline;return}S.offline=el.checked;if(S.offline){toast("Sem sinal: o app passa a gravar no aparelho. O mapa vira lista.","info");render(false)}else{render(false);sincronizar()}return}
+ if(el.id==="fzsel"){if($("#modal").innerHTML)closeModal();S.faz=el.value;S.psel=null;S.rd="";S.af={q:"",lote:"",cat:"",st:"Ativo",car:""};S.lim=25;render(false);const n=$("#fzsel");if(n)n.focus();return}
+ if(el.dataset.af){S.af[el.dataset.af]=el.value;S.lim=25;render(false);const n=$("#"+el.id);if(n)n.focus()}});
+const FOCAVEL='a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+function trapTab(e){const m=$("#modal");if(!m||!m.innerHTML)return false;const L=[...m.querySelectorAll(FOCAVEL)].filter(x=>x.offsetParent!==null||x.getClientRects().length);if(!L.length)return false;
+ const a=document.activeElement,i=L.indexOf(a);
+ if(i<0){e.preventDefault();L[e.shiftKey?L.length-1:0].focus();return true}
+ if(!e.shiftKey&&i===L.length-1){e.preventDefault();L[0].focus();return true}
+ if(e.shiftKey&&i===0){e.preventDefault();L[L.length-1].focus();return true}return false}
+document.addEventListener("keydown",e=>{
+ if(e.key==="Tab"&&trapTab(e))return;
+ if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("g[role=button]")){e.preventDefault();e.target.dispatchEvent(new MouseEvent("click",{bubbles:true}));return}
+ if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const b=$("#hdr [data-act=bell]");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}if($("#modal").innerHTML&&!S.busy)cancelModal()});
+window.addEventListener("resize",()=>{if(S.logged&&S.tela==="mapa"&&$("#pmod")&&window.innerWidth>=1000){closeModal();render(false)}});
+seedAll();renderCover();render(false);
+</script>
+</body>
+</html>

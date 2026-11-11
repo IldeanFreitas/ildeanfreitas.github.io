@@ -17,6 +17,27 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+
+const mockups = JSON.parse(
+  readFileSync(
+    join(fileURLToPath(new URL('..', import.meta.url)), 'src/data/mockups-power-apps.json'),
+    'utf8'
+  )
+);
+
+/** Par pt/en de uma página dos cases Power Apps (galeria quando o slug é vazio). */
+function urlPar(slug) {
+  const pt = `${BASE}cases/power-apps/${slug}`;
+  const en = `${BASE}en/cases/power-apps/${slug}`;
+  const alt = `    <xhtml:link rel="alternate" hreflang="pt-BR" href="${pt}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`;
+  return [pt, en]
+    .map(
+      (loc) =>
+        `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n${alt}\n  </url>`
+    )
+    .join('\n');
+}
 
 const executar = promisify(execFile);
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
@@ -24,7 +45,7 @@ const BASE = 'https://ildeanfreitas.github.io/';
 
 // Só arquivos que o visitante recebe. Mudança em src/ que não altere a saída
 // não deveria mexer no lastmod.
-const RASTREADOS = ['index.html', 'en/index.html', 'assets'];
+const RASTREADOS = ['index.html', 'en/index.html', 'assets', 'cases', 'en/cases'];
 
 const hoje = () => new Date().toISOString().slice(0, 10);
 
@@ -72,6 +93,7 @@ ${alternativas}
     <priority>0.8</priority>
 ${alternativas}
   </url>
+${[urlPar(''), ...mockups.map((c) => urlPar(c.slug + '/'))].join('\n')}
 </urlset>
 `;
 

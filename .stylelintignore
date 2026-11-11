@@ -8,3 +8,5 @@ src/404.template.html
 
 # O template em inglês também só tem o marcador dentro do <style>.
 src/index.en.template.html
+cases/
+en/cases/

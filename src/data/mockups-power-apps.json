@@ -1,0 +1,374 @@
+[
+  {
+    "slug": "inspecao-via",
+    "pasta": "01-inspecao-via",
+    "empresa": "Via Modelo",
+    "segmento": { "pt": "Infraestrutura", "en": "Infrastructure" },
+    "titulo": {
+      "pt": "A inspeção de via vira papel e a falha chega tarde",
+      "en": "Track inspections live on paper and failures surface late"
+    },
+    "dor": {
+      "pt": "Equipes de campo anotam em papel, sem foto nem assinatura, e o problema só aparece no relatório da semana seguinte.",
+      "en": "Field crews write on paper, with no photo or signature, and the problem only shows up in next week's report."
+    },
+    "solucao": {
+      "pt": "Checklist guiado no celular, com foto, assinatura e uso offline, que entrega a falha ao responsável no mesmo dia.",
+      "en": "A guided phone checklist with photo, signature and offline use that puts the failure in the owner's hands the same day."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha o perfil de inspetor.",
+        "Abra uma inspeção e percorra o checklist até a assinatura.",
+        "Troque para o perfil de gestor e veja a falha registrada."
+      ],
+      "en": [
+        "Sign in and pick the inspector profile.",
+        "Open an inspection and go through the checklist to the signature.",
+        "Switch to the manager profile and see the logged failure."
+      ]
+    }
+  },
+  {
+    "slug": "ordens-servico",
+    "pasta": "02-ordens-servico",
+    "empresa": "Aurora Industrial",
+    "segmento": { "pt": "Indústria", "en": "Industry" },
+    "titulo": {
+      "pt": "A manutenção não sabe o que está parado nem o que falta",
+      "en": "Maintenance can't tell what is stopped or what is missing"
+    },
+    "dor": {
+      "pt": "Pedidos chegam por mensagem, as peças somem do estoque sem registro e ninguém vê o andamento.",
+      "en": "Requests arrive by chat, parts leave stock unrecorded and nobody sees progress."
+    },
+    "solucao": {
+      "pt": "Quadro de ordens por etapa, com peças, horas e preventivas no mesmo lugar.",
+      "en": "A board of orders by stage, with parts, hours and preventive plans in one place."
+    },
+    "tags": ["Canvas", "Power Automate"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "No quadro, mova uma ordem de etapa pelo botão Mover para.",
+        "Abra o detalhe e registre horas e peças."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "On the board, move an order to another stage with the Move to button.",
+        "Open the detail and log hours and parts."
+      ]
+    }
+  },
+  {
+    "slug": "reserva-frota",
+    "pasta": "03-reserva-frota",
+    "empresa": "Orla Frota",
+    "segmento": { "pt": "Frota e logística", "en": "Fleet and logistics" },
+    "titulo": {
+      "pt": "Dois setores reservam o mesmo carro no mesmo horário",
+      "en": "Two teams book the same car at the same time"
+    },
+    "dor": {
+      "pt": "A reserva por planilha permite choque de horário e ninguém sabe quem está com o veículo.",
+      "en": "Spreadsheet booking allows clashes and nobody knows who has the vehicle."
+    },
+    "solucao": {
+      "pt": "Linha do tempo por veículo que bloqueia o choque de horário na hora de reservar.",
+      "en": "A timeline per vehicle that blocks time clashes at the moment of booking."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Na linha do tempo, reserve um veículo.",
+        "Tente reservar o mesmo horário e veja o bloqueio."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "On the timeline, book a vehicle.",
+        "Try booking the same slot and see it blocked."
+      ]
+    }
+  },
+  {
+    "slug": "compras",
+    "pasta": "04-compras",
+    "empresa": "Vértice Compras",
+    "segmento": { "pt": "Compras", "en": "Procurement" },
+    "titulo": {
+      "pt": "Pedido de compra se perde entre e-mails e aprovações",
+      "en": "Purchase requests get lost between emails and approvals"
+    },
+    "dor": {
+      "pt": "Quem aprova não sabe quanto resta de orçamento e o solicitante não sabe em que pé está o pedido.",
+      "en": "Approvers don't know the remaining budget and requesters don't know where the request stands."
+    },
+    "solucao": {
+      "pt": "Solicitação com aprovação por alçada e orçamento visível em cada decisão.",
+      "en": "Requests with tiered approval and the budget visible at each decision."
+    },
+    "tags": ["Canvas", "Power Automate"],
+    "passos": {
+      "pt": [
+        "Entre como solicitante e crie um pedido.",
+        "Troque para o aprovador da alçada.",
+        "Aprove ou devolva e acompanhe o status."
+      ],
+      "en": [
+        "Sign in as requester and create a request.",
+        "Switch to the tier approver.",
+        "Approve or return it and follow the status."
+      ]
+    }
+  },
+  {
+    "slug": "estoque",
+    "pasta": "05-estoque",
+    "empresa": "Cedro Estoque",
+    "segmento": { "pt": "Almoxarifado", "en": "Warehouse" },
+    "titulo": {
+      "pt": "O saldo do almoxarifado nunca bate com a prateleira",
+      "en": "Warehouse balance never matches the shelf"
+    },
+    "dor": {
+      "pt": "Entradas e saídas são lançadas depois, de memória, e a contagem diverge.",
+      "en": "Receipts and issues are logged later, from memory, and counts diverge."
+    },
+    "solucao": {
+      "pt": "App de celular com leitura de código de barras simulada, para dar baixa na hora.",
+      "en": "A phone app with simulated barcode reading to record movements on the spot."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Registre uma saída lendo o código de barras.",
+        "Veja o saldo atualizar e cancele para estornar."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "Record an issue by scanning a barcode.",
+        "See the balance update and cancel to reverse it."
+      ]
+    }
+  },
+  {
+    "slug": "chamados",
+    "pasta": "06-chamados",
+    "empresa": "Tessera Atendimento",
+    "segmento": { "pt": "TI e suporte", "en": "IT and support" },
+    "titulo": {
+      "pt": "Chamados de TI estouram o prazo sem ninguém perceber",
+      "en": "IT tickets miss their deadline unnoticed"
+    },
+    "dor": {
+      "pt": "Sem prazo medido em horário útil, o atraso só é descoberto quando o cliente reclama.",
+      "en": "Without deadlines measured in business hours, delay is found only when the customer complains."
+    },
+    "solucao": {
+      "pt": "Central de chamados com prazo em horário útil, pausa e alerta de risco.",
+      "en": "A ticket desk with business-hours deadlines, pause and at-risk alerts."
+    },
+    "tags": ["Canvas", "Power Automate"],
+    "passos": {
+      "pt": [
+        "Entre e escolha o perfil de atendente.",
+        "Abra um chamado e responda na conversa.",
+        "Avance o relógio simulado e veja o prazo mudar."
+      ],
+      "en": [
+        "Sign in and pick the agent profile.",
+        "Open a ticket and reply in the thread.",
+        "Advance the simulated clock and watch the deadline change."
+      ]
+    }
+  },
+  {
+    "slug": "clinica",
+    "pasta": "07-clinica",
+    "empresa": "Clínica Lumevita",
+    "segmento": { "pt": "Saúde", "en": "Healthcare" },
+    "titulo": {
+      "pt": "Consulta marcada por telefone gera buraco e dupla marcação",
+      "en": "Phone bookings cause gaps and double bookings"
+    },
+    "dor": {
+      "pt": "A recepção marca no papel, horários cancelados ficam vazios e a lista de espera não anda.",
+      "en": "Reception books on paper, cancelled slots stay empty and the waiting list doesn't move."
+    },
+    "solucao": {
+      "pt": "Assistente de agendamento e agenda por profissional, com lista de espera que oferece o horário vago.",
+      "en": "A booking wizard and per-professional agenda, with a waiting list that offers freed slots."
+    },
+    "tags": ["Canvas", "Power Pages"],
+    "passos": {
+      "pt": [
+        "Entre como paciente e agende em 4 etapas.",
+        "Troque para a recepção e veja a agenda.",
+        "Cancele uma consulta e veja a lista de espera receber a oferta."
+      ],
+      "en": [
+        "Sign in as patient and book in 4 steps.",
+        "Switch to reception and see the agenda.",
+        "Cancel a visit and watch the waiting list get the offer."
+      ]
+    }
+  },
+  {
+    "slug": "obra",
+    "pasta": "08-obra",
+    "empresa": "Vigalto Construções",
+    "segmento": { "pt": "Construção", "en": "Construction" },
+    "titulo": {
+      "pt": "O diário de obra e a medição não conversam",
+      "en": "The site diary and the measurement don't talk"
+    },
+    "dor": {
+      "pt": "O que foi feito no canteiro é anotado à parte da medição, e a cobrança sai com divergência.",
+      "en": "What happened on site is noted apart from the measurement, and billing goes out inconsistent."
+    },
+    "solucao": {
+      "pt": "Diário de obra ligado à medição, com avanço por obra e relatório para impressão.",
+      "en": "A site diary tied to measurement, with progress per site and a printable report."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Escolha uma obra e registre o diário do dia.",
+        "Veja a medição e imprima o relatório."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "Choose a site and log today's diary.",
+        "See the measurement and print the report."
+      ]
+    }
+  },
+  {
+    "slug": "permissao-trabalho",
+    "pasta": "09-permissao-trabalho",
+    "empresa": "Itacoré Química",
+    "segmento": { "pt": "Indústria química", "en": "Chemical industry" },
+    "titulo": {
+      "pt": "Serviço de risco começa sem a permissão certa",
+      "en": "Risky work starts without the right permit"
+    },
+    "dor": {
+      "pt": "A permissão de trabalho e a análise de risco ficam em papel, e o serviço inicia sem validação completa.",
+      "en": "Work permits and risk analyses live on paper, and work starts without full validation."
+    },
+    "solucao": {
+      "pt": "Permissão de trabalho com análise de risco, aprovações por perfil e painel por área.",
+      "en": "Work permits with risk analysis, approvals by profile and a dashboard per area."
+    },
+    "tags": ["Canvas", "Power Automate"],
+    "passos": {
+      "pt": [
+        "Entre como executante e abra uma permissão.",
+        "Troque para quem aprova e valide.",
+        "Veja o painel por área."
+      ],
+      "en": [
+        "Sign in as performer and open a permit.",
+        "Switch to the approver and validate.",
+        "See the per-area dashboard."
+      ]
+    }
+  },
+  {
+    "slug": "contas-pagar",
+    "pasta": "10-contas-pagar",
+    "empresa": "Quiralto Distribuidora",
+    "segmento": { "pt": "Financeiro", "en": "Finance" },
+    "titulo": {
+      "pt": "A conciliação do contas a pagar é feita no olho",
+      "en": "Accounts payable reconciliation is done by eye"
+    },
+    "dor": {
+      "pt": "Boleto, aprovação e extrato do banco são cruzados à mão, e o erro aparece no fechamento.",
+      "en": "Invoice, approval and bank statement are matched by hand, and errors show at month-end."
+    },
+    "solucao": {
+      "pt": "Contas a pagar com aprovação e conciliação contra o extrato.",
+      "en": "Accounts payable with approval and reconciliation against the statement."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Aprove um título a pagar.",
+        "Concilie com o extrato e veja o que sobra."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "Approve a payable.",
+        "Reconcile with the statement and see what is left."
+      ]
+    }
+  },
+  {
+    "slug": "rebanho",
+    "pasta": "11-rebanho",
+    "empresa": "Ipêrana Agropecuária",
+    "segmento": { "pt": "Agro", "en": "Agribusiness" },
+    "titulo": {
+      "pt": "O rebanho é controlado em caderno e o lote some",
+      "en": "The herd is tracked in a notebook and lots get lost"
+    },
+    "dor": {
+      "pt": "Movimentação, pesagem e manejo ficam em caderno e a fazenda não sabe o desempenho de cada lote.",
+      "en": "Movements, weighing and handling live in a notebook and the farm can't see each lot's performance."
+    },
+    "solucao": {
+      "pt": "Controle de animais e lotes, com manejo e desempenho por lote.",
+      "en": "Animal and lot control, with handling and performance per lot."
+    },
+    "tags": ["Canvas", "Dataverse"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Abra um lote e registre um manejo.",
+        "Veja o desempenho do lote."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "Open a lot and log a handling event.",
+        "See the lot performance."
+      ]
+    }
+  },
+  {
+    "slug": "ouvidoria",
+    "pasta": "12-ouvidoria",
+    "empresa": "Quarzana Ouve",
+    "segmento": { "pt": "Atendimento ao cidadão", "en": "Citizen service" },
+    "titulo": {
+      "pt": "A manifestação do cidadão perde o prazo de resposta",
+      "en": "Citizen complaints miss their response deadline"
+    },
+    "dor": {
+      "pt": "Protocolos ficam espalhados, o parecer interno vaza para a resposta e o prazo legal passa.",
+      "en": "Protocols are scattered, internal opinions leak into replies and the legal deadline passes."
+    },
+    "solucao": {
+      "pt": "Protocolo único com parecer interno separado da resposta pública e prazo à vista.",
+      "en": "A single protocol with internal opinion kept apart from the public reply and the deadline in view."
+    },
+    "tags": ["Canvas", "Power Pages"],
+    "passos": {
+      "pt": [
+        "Entre e escolha um perfil.",
+        "Abra um protocolo e escreva o parecer interno.",
+        "Responda ao cidadão e veja que o parecer não vai junto."
+      ],
+      "en": [
+        "Sign in and pick a profile.",
+        "Open a protocol and write the internal opinion.",
+        "Reply to the citizen and see the opinion doesn't go with it."
+      ]
+    }
+  }
+]

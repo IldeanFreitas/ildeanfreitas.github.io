@@ -24,3 +24,7 @@ en/index.html
 
 # Template em inglês: mesmo estilo compacto do template em português.
 src/index.en.template.html
+
+# Páginas geradas e apps de demonstração
+cases/
+en/cases/

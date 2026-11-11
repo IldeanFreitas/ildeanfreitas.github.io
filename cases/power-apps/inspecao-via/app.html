@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup · Inspeção Diária de Estações e Equipamentos de Via</title>
+<style>
+:root{--pri:#0067b0;--pri2:#0a4f8a;--dark:#002d55;--ok:#1a7a4a;--bad:#b3261e;--warn:#8a5a00;--bg:#f3f6fa;--bd:#dbe3ee;--tx:#0f172a;--tx2:#475569;--w:#fff;--r:14px}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--tx);background:#e9eef5;display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #f5a623;outline-offset:2px}
+.ic{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--tx2)}
+/* faixa */
+.banner{flex:none;background:var(--dark);color:#fff;padding:6px 12px;font-size:13px;display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.banner .sim{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.banner select{padding:4px 6px;border-radius:6px;border:1px solid #fff4;background:#fff;color:var(--tx)}
+.banner label{display:flex;gap:6px;align-items:center}
+.ppbtn{display:none;background:#ffffff22;color:#fff;border:1px solid #fff5;border-radius:8px;padding:5px 10px;cursor:pointer;gap:6px;align-items:center}
+@media(max-width:1279px){.ppbtn{display:inline-flex}}
+/* capa */
+#cover{flex:1;overflow:auto;background:linear-gradient(135deg,#002d55 0%,#0067b0 60%,#0a64a8 100%);color:#fff;display:flex;padding:24px}
+.cv{margin:auto;max-width:980px;width:100%;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+@media(max-width:800px){.cv{grid-template-columns:1fr;gap:20px}}
+.cv h1{font-size:clamp(28px,5vw,44px);line-height:1.1;margin:8px 0 12px}
+.cv .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.4px}
+.cv .brand .ic{width:28px;height:28px}
+.cv ul{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.cv li{display:flex;gap:10px;align-items:flex-start}
+.cv li .ic{margin-top:2px}
+.login{background:#fff;color:var(--tx);border-radius:20px;padding:26px;box-shadow:0 20px 50px #00152e66}
+.login h2{margin:0 0 4px;font-size:20px}
+.login .fake{display:flex;gap:10px;align-items:center;background:var(--bg);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:14px 0}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--pri);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.rail{height:6px;border-radius:3px;background:repeating-linear-gradient(90deg,#fff 0 18px,transparent 18px 28px);opacity:.5;margin-top:26px}
+/* stage */
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;padding:12px;max-width:1560px;width:100%;margin:0 auto}
+@media(min-width:1280px){#stage{grid-template-columns:minmax(0,1fr) 340px}}
+@media(max-width:700px){#stage{padding:0;gap:0}}
+#app{position:relative;min-height:0;display:grid;grid-template-columns:230px minmax(0,1fr);grid-template-rows:minmax(0,1fr);background:var(--bg);border-radius:18px;overflow:clip;border:1px solid var(--bd);box-shadow:0 8px 30px #0f172a1f}
+@media(max-width:1099px){#app{grid-template-columns:72px minmax(0,1fr)}.lbl{display:none}.side .brand small{display:none}}
+@media(max-width:700px){#app{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;border-radius:0;border:0}.side{display:none!important}}
+.side{background:var(--dark);color:#fff;display:flex;flex-direction:column;padding:12px 8px;gap:4px}
+.side .brand{display:flex;gap:10px;align-items:center;padding:8px;font-weight:700;margin-bottom:8px}
+.side .brand small{display:block;font-weight:400;opacity:.8;font-size:12px}
+.side nav{display:flex;flex-direction:column;gap:4px;flex:1}
+.nb{display:flex;gap:12px;align-items:center;border:0;background:none;color:#cfe0f2;padding:12px;border-radius:10px;cursor:pointer;min-height:44px;text-align:left;width:100%}
+.nb:hover{background:#ffffff1a}
+.nb[aria-current=page]{background:#fff;color:var(--dark);font-weight:700}
+.bn{display:none;background:#fff;border-top:1px solid var(--bd);padding:4px 4px calc(4px + env(safe-area-inset-bottom));justify-content:space-around}
+@media(max-width:700px){.bn{display:flex}}
+.bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;padding:6px 2px;font-size:11px;color:var(--tx2);min-height:52px;border-radius:10px;cursor:pointer}
+.bn button[aria-current=page]{color:var(--pri);font-weight:700;background:#e8f1fa}
+.mainc{display:flex;flex-direction:column;min-width:0;min-height:0}
+.top{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border-bottom:1px solid var(--bd);position:relative}
+.top .ttl{font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:44px;height:44px;border-radius:10px;border:1px solid transparent;background:none;display:inline-grid;place-items:center;cursor:pointer;position:relative;color:var(--tx2)}
+.ib:hover{background:#eef2f7}
+.ib.bd{border-color:var(--bd);background:#fff}
+.ib.dng{color:var(--bad)}
+.badge{position:absolute;top:4px;right:4px;background:var(--bad);color:#fff;border-radius:999px;min-width:18px;height:18px;font-size:11px;display:grid;place-items:center;padding:0 4px;font-weight:700}
+.chip{display:inline-flex;gap:6px;align-items:center;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;border:0;cursor:pointer;color:#fff;min-height:36px}
+.chip.on{background:var(--ok)}.chip.off{background:var(--bad)}
+.usr{display:flex;gap:8px;align-items:center}
+.usr .nm{font-size:13px;line-height:1.1}
+@media(max-width:700px){.usr .nm,.usr .avatar{display:none}.chip{min-width:44px;min-height:44px;justify-content:center;padding:0 10px}.chip span{display:none}}
+#screen{flex:1;overflow:auto;padding:16px;scroll-behavior:smooth}
+@media(min-width:1100px){#screen{padding:22px 28px}}
+h1{font-size:22px;margin:0 0 12px;line-height:1.2}
+h2{font-size:17px}
+h3{font-size:15px;margin:18px 0 8px}
+.inner{max-width:980px;margin:0 auto}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.grid{display:grid;gap:12px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:14px;display:flex;gap:12px;align-items:center}
+.kpi b{font-size:26px;display:block;line-height:1}
+.kpi small{color:var(--tx2)}
+.kic{width:42px;height:42px;border-radius:12px;background:#e8f1fa;color:var(--pri);display:grid;place-items:center;flex:none}
+.hero{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;background:linear-gradient(120deg,var(--dark),var(--pri));color:#fff;border-radius:var(--r);padding:18px;margin-bottom:14px}
+.hero h1{margin:2px 0}.hero p{margin:0}
+label.f{display:block;font-size:13px;font-weight:700;color:var(--tx2);margin:12px 0 4px}
+.in{width:100%;padding:11px 12px;border:1px solid #8b9bb0;border-radius:10px;background:#fff;min-height:44px}
+textarea.in{min-height:84px;resize:vertical}
+.in[aria-invalid=true]{border-color:var(--bad);box-shadow:0 0 0 2px #b3261e33}
+::placeholder{color:#64748b}
+.sb{position:relative}.sb .ic{position:absolute;left:12px;top:12px;color:var(--tx2)}.sb .in{padding-left:40px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;border:1px solid var(--pri);background:var(--pri);color:#fff;border-radius:10px;padding:10px 16px;cursor:pointer;font-weight:600;min-height:44px}
+.btn:hover{background:var(--pri2)}
+.btn.sec{background:#fff;color:var(--pri)}.btn.sec:hover{background:#eef5fb}
+.btn.bad{background:var(--bad);border-color:var(--bad)}
+.btn.lg{min-height:50px;font-size:17px;padding:12px 22px}
+.btn.sm{min-height:40px;padding:6px 12px}
+.btn.wh{background:#fff;color:var(--dark);border-color:#fff}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.actions{position:sticky;bottom:-16px;background:linear-gradient(transparent,var(--bg) 25%);padding:18px 0 4px;margin-top:10px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+@media(max-width:600px){.actions .btn{flex:1}}
+.tag{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.tag .ic{width:14px;height:14px}
+.t-ok{background:#dcf5e6;color:#0f5a33}.t-bad{background:#fde4e2;color:#8c1d18}.t-warn{background:#fdf0d0;color:#6b4500}.t-info{background:#dbeafe;color:#17407a}.t-na{background:#e5e7eb;color:#374151}
+.ins{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-left:5px solid #94a3b8}
+.ins.t-ok{border-left-color:var(--ok);background:#fff;color:inherit}.ins.t-bad{border-left-color:var(--bad);background:#fff;color:inherit}.ins.t-warn{border-left-color:#d99a00;background:#fff;color:inherit}.ins.t-info{border-left-color:var(--pri);background:#fff;color:inherit}.ins.t-na{border-left-color:#94a3b8;background:#fff;color:inherit}
+.ins-main{flex:1;min-width:200px}.ins-a{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.pill{border:1px solid var(--bd);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.pill[aria-pressed=true]{background:var(--pri);color:#fff;border-color:var(--pri)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg{position:relative}.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{display:flex;gap:6px;align-items:center;justify-content:center;border:1px solid #8b9bb0;border-radius:10px;padding:10px 6px;cursor:pointer;background:#fff;min-height:48px;text-align:center;font-size:14px}
+.seg input:checked+label.c{background:var(--ok);color:#fff;border-color:var(--ok)}
+.seg input:checked+label.n{background:var(--bad);color:#fff;border-color:var(--bad)}
+.seg input:checked+label.a{background:#475569;color:#fff;border-color:#475569}
+.seg input:focus-visible+label{outline:3px solid #f5a623;outline-offset:2px}
+.item{border:1px solid var(--bd);border-radius:var(--r);padding:12px;margin-bottom:10px;background:#fff}
+.item.nc{border-color:var(--bad);background:#fffafa}
+.item legend{font-weight:600;margin-bottom:8px;padding:0}
+.err{color:var(--bad);font-size:14px;margin-top:6px;min-height:0}
+.bar{height:10px;background:#dbe3ee;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--pri)}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--pri);cursor:pointer;text-decoration:underline;padding:8px 0;min-height:40px}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ph{position:relative}.ph img{width:96px;height:70px;border-radius:8px;border:1px solid var(--bd);object-fit:cover;display:block}
+.ph button{position:absolute;top:-8px;right:-8px;width:28px;height:28px;border-radius:50%;border:1px solid var(--bd);background:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+canvas.sig{width:100%;aspect-ratio:600/160;border:2px dashed #8b9bb0;border-radius:12px;background:#fff;touch-action:none;display:block}
+.empty{text-align:center;color:var(--tx2);padding:28px 10px}.empty .ic{width:36px;height:36px;margin-bottom:6px}
+.big-ok{width:64px;height:64px;border-radius:50%;background:#dcf5e6;color:var(--ok);display:grid;place-items:center;margin:6px auto 10px}.big-ok .ic{width:34px;height:34px}
+.hbar{display:grid;grid-template-columns:minmax(90px,150px) 1fr 48px;gap:8px;align-items:center;margin:4px 0;font-size:14px}.hbar b{text-align:right}
+.donut{width:120px;height:120px;border-radius:50%;display:grid;place-items:center;flex:none}
+.donut span{background:#fff;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:20px}
+.pbi{border:2px dashed #8b9bb0;border-radius:var(--r);padding:14px;background:#fff}
+.cols{display:flex;gap:6px;align-items:flex-end;height:110px;margin-top:8px}.cols div{flex:1;text-align:center;font-size:12px}.cols i{display:block;background:var(--pri);border-radius:6px 6px 0 0;min-height:3px}
+.hist{margin:0;padding-left:18px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:700px){.g3{grid-template-columns:1fr}}
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+@media(max-width:380px){.cg{grid-template-columns:1fr}}
+figure.ch{margin:0 0 0;min-width:0}figure.ch figcaption{font-weight:700;margin-bottom:8px}
+.dn{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.lg{list-style:none;margin:0;padding:0;display:grid;gap:2px}.lg i{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.lgb{background:none;border:0;padding:4px 2px;color:inherit;text-align:left;display:inline-flex;gap:6px;align-items:center;min-height:36px;font-size:14px}
+button.lgb{cursor:pointer}button.lgb:hover{text-decoration:underline}
+.tw{overflow-x:auto}.mx{border-collapse:collapse;min-width:560px}.mx th,.mx td{border-bottom:1px solid var(--bd);padding:8px;text-align:center}.mx th:first-child,.mx td:first-child{text-align:left}
+.cols div{min-width:0}
+/* painel PP */
+#pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:18px;padding:16px;overflow:auto;font-size:14px;min-height:0}
+@media(min-width:1280px){#pp{display:block}#stage.ppc{grid-template-columns:minmax(0,1fr) 56px}#stage.ppc #pp{padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:12px;overflow:hidden}}
+.ppt{float:right;width:36px;height:36px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--pri);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;margin:-4px -4px 6px 8px}.ppt:hover{background:#eef4fb}
+.ppv{writing-mode:vertical-rl;font-weight:700;color:var(--pri);letter-spacing:.02em}
+@media(max-width:1279px){.ppt{display:none}}
+.pp h2{font-size:15px;margin:0 0 6px;color:var(--dark);display:flex;gap:8px;align-items:center}
+.pp dl{margin:0}.pp dt{font-weight:700;margin-top:10px}.pp dd{margin:2px 0 0;color:var(--tx2)}
+.pp ul{margin:4px 0 0;padding-left:18px}
+.pp .warn{background:#fdf0d0;color:#5c3b00;border-radius:10px;padding:10px;margin-top:12px}
+/* npop */
+#npop{position:absolute;right:8px;top:100%;z-index:30;width:min(380px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--bd);border-radius:14px;box-shadow:0 12px 30px #0f172a33;padding:8px}
+.nt{display:flex;gap:10px;padding:10px;border-radius:10px;align-items:flex-start}.nt.un{background:#eef5fb}
+/* modal */
+#modal{position:fixed;inset:0;z-index:50}#modal:empty{display:none}
+.modal{position:absolute;inset:0;background:#0f172acc;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:#fff;border-radius:18px;max-width:560px;width:100%;max-height:92dvh;overflow:auto;padding:18px;margin:0}
+.mbox.wide{max-width:760px}
+.mh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}.mh h2{margin:0}
+@media(max-width:600px){.modal{align-items:flex-end;padding:0}.mbox{border-radius:18px 18px 0 0;max-height:94dvh}}
+#busy{position:fixed;inset:0;z-index:80;background:#0f172a66;display:grid;place-items:center}
+#busy div{background:#fff;border-radius:14px;padding:18px 24px;display:flex;gap:12px;align-items:center;font-weight:600;box-shadow:0 12px 30px #0f172a44}
+.spin{width:24px;height:24px;border:3px solid #cfe0f2;border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation:none;border-top-color:var(--pri);border-right-color:var(--pri)}#screen{scroll-behavior:auto}}
+#toasts{position:fixed;z-index:90;left:50%;transform:translateX(-50%);bottom:76px;display:grid;gap:8px;width:min(440px,calc(100vw - 20px));pointer-events:none}
+@media(min-width:701px){#toasts{bottom:22px}}
+.toast{pointer-events:auto;display:flex;gap:10px;align-items:center;background:var(--dark);color:#fff;border-radius:12px;padding:10px 6px 10px 14px;box-shadow:0 8px 24px #0f172a55}
+.toast span{flex:1}.toast.ok .ic:first-child{color:#7ee2a8}.toast.err{background:#7a1a14}.toast .ib{color:#fff;width:36px;height:36px}
+/* relatório */
+.doc{background:#fff;color:#000;border:1px solid #cbd5e1;padding:22px;font-size:14px;overflow-wrap:anywhere}
+.doc h2{font-size:20px;margin:0}.doc h3{margin:16px 0 6px;font-size:15px;border-bottom:1px solid #000;padding-bottom:2px}
+.doc table{width:100%;border-collapse:collapse}.doc th,.doc td{border:1px solid #888;padding:6px;text-align:left;vertical-align:top;font-size:13px}
+.doc .hd{display:flex;justify-content:space-between;gap:12px;border-bottom:3px solid #000;padding-bottom:8px;margin-bottom:10px;flex-wrap:wrap}
+.doc img{max-width:120px;border:1px solid #888;margin:4px 4px 0 0}
+.doc .sg{border-top:1px solid #000;margin-top:34px;padding-top:4px;max-width:320px}
+.doc .sg img{max-width:240px;display:block;border:0}
+@media print{
+ @page{size:A4;margin:14mm}
+ body{display:block;height:auto;overflow:visible;background:#fff}
+ body>*{display:none!important}
+ body>#modal{display:block!important;position:static}
+ #modal .modal{position:static;background:none;padding:0;display:block}
+ #modal .mbox{box-shadow:none;max-height:none;overflow:visible;padding:0;max-width:none;border-radius:0}
+ .noprint{display:none!important}
+ .doc{border:0;padding:0}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-5M12 16V7M16 16v-3"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14 4l2-2"/><path d="M20 20v-5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 4H5v16h4"/><path d="M16 8l4 4-4 4M20 12H9"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v12H4z"/><circle cx="12" cy="14" r="3.5"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M12 20v.1"/></symbol>
+<symbol id="i-wifioff" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><path d="M3 3l18 18"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0 1 12 0v6l2 2H4z"/><path d="M10 21h4"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l3 3v13H5z"/><path d="M8 4v5h8V4M8 20v-6h8v6"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M7 12h10"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c3 0 5 1.5 5 4.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></symbol>
+<symbol id="i-redo" viewBox="0 0 24 24"><path d="M20 5v5h-5"/><path d="M20 10a8 8 0 1 0 2 6"/></symbol>
+</svg>
+
+<div class="banner" role="region" aria-label="Aviso do mockup">
+  <span><b>Mockup interativo · dados fictícios.</b> Operadora fictícia “Via Modelo”.</span>
+  <div class="sim">
+    <label>Perfil <select id="perfil" aria-label="Perfil simulado"></select></label>
+    <label><input type="checkbox" id="semrede" aria-label="Simular sem rede"> Simular sem rede</label>
+    <button class="ppbtn" id="ppbtn" data-act="ppopen"></button>
+  </div>
+</div>
+
+<section id="cover" aria-label="Capa">
+  <div class="cv">
+    <div>
+      <div class="brand"></div>
+      <h1>Inspeção diária de estações e equipamentos de via</h1>
+      <p style="font-size:18px;margin:0;opacity:.95">Do checklist em campo à tratativa das não conformidades, com evidência, assinatura e relatório.</p>
+      <ul id="cvlist"></ul>
+      <div class="rail" aria-hidden="true"></div>
+    </div>
+    <div class="login">
+      <h2 id="lg">Acesso ao aplicativo</h2>
+      <p class="muted" style="margin:0">Autenticação simulada. Nenhum dado é enviado.</p>
+      <div class="fake"><div class="avatar" aria-hidden="true">HC</div><div><b>Helena Costa</b><br><small class="muted">Administradora · conta de demonstração</small></div></div>
+      <button class="btn lg" style="width:100%" id="entrar" data-act="entrar"></button>
+      <p class="muted" style="font-size:13px;margin:14px 0 6px">Ou entre direto com outro perfil:</p><div class="pills" id="cvp" style="margin:0"></div><p class="muted" style="font-size:13px;margin:8px 0 0">Depois de entrar, o seletor Perfil no topo da página troca de perfil a qualquer momento.</p>
+    </div>
+  </div>
+</section>
+
+<div id="stage" hidden>
+  <div id="app">
+    <aside class="side" aria-label="Menu lateral"><div class="brand" id="sbrand"></div><nav id="snav" aria-label="Navegação principal"></nav></aside>
+    <div class="mainc">
+      <header class="top" id="top"></header>
+      <main id="screen" tabindex="-1"></main>
+    </div>
+    <nav class="bn" id="bnav" aria-label="Navegação principal (celular)"></nav>
+  </div>
+  <aside id="pp" class="pp" aria-label="Como seria na Power Platform"></aside>
+</div>
+
+<div id="busy" hidden role="status" aria-live="assertive"><div><i class="spin"></i><span>Aguarde…</span></div></div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="modal"></div>
+
+<script>
+"use strict";
+const MS=/[?&#]fast/.test(location.href)?20:650;
+/* ===== Dados fictícios ===== */
+const STATIONS=[["alv","Estação Alvorada"],["jdp","Estação Jardim das Palmeiras"],["pse","Estação Porto Seco"],["vau","Estação Vila Aurora"],["tce","Terminal Central"]].map(([id,nome])=>({id,nome,ativo:true}));
+const AREAS=["Plataforma","Bilheteria e acesso","Via permanente","Sala técnica"].map((nome,i)=>({id:"a"+i,nome,ativo:true}));
+const TIPOS={
+ "Escada rolante":["Degraus sem folga ou dano visível","Corrimão sincronizado com os degraus","Parada de emergência acessível e sinalizada","Pente e placa de entrada sem objetos","Ausência de ruído ou vibração anormal"],
+ "Catraca":["Leitor de bilhete responde","Braço gira sem travar","Sinalização de sentido visível","Abertura de emergência funciona"],
+ "Iluminação":["Luminárias acesas sem falhas","Iluminação de emergência testada","Sem fiação exposta"],
+ "Sinalização de via":["Sinal luminoso visível e limpo","Placas legíveis","Cabo e caixa de junção íntegros","Acesso à via livre"],
+ "Extintor":["Lacre íntegro","Manômetro na faixa verde","Validade em dia","Acesso desobstruído"],
+ "Painel elétrico":["Porta fecha e trava","Sem sinais de superaquecimento","Identificação dos circuitos legível","Extintor próximo ao painel"]
+};
+const EQUIP=[
+ ["ESC-ALV-01","Escada rolante 01","alv","Plataforma","Escada rolante"],["ESC-ALV-02","Escada rolante 02","alv","Plataforma","Escada rolante"],
+ ["CAT-ALV-03","Catraca 03","alv","Bilheteria e acesso","Catraca"],["EXT-ALV-07","Extintor 07","alv","Plataforma","Extintor"],
+ ["ILU-JDP-02","Iluminação do mezanino","jdp","Bilheteria e acesso","Iluminação"],["SIN-JDP-11","Sinal de via 11","jdp","Via permanente","Sinalização de via"],
+ ["PEL-PSE-01","Painel elétrico A","pse","Sala técnica","Painel elétrico"],["SIN-PSE-04","Sinal de via 04","pse","Via permanente","Sinalização de via"],
+ ["CAT-VAU-01","Catraca 01","vau","Bilheteria e acesso","Catraca"],["EXT-VAU-02","Extintor 02","vau","Plataforma","Extintor"],
+ ["ESC-TCE-05","Escada rolante 05","tce","Plataforma","Escada rolante"],["PEL-TCE-02","Painel elétrico B","tce","Sala técnica","Painel elétrico"]
+].map(([id,nome,est,area,tipo])=>({id,nome,est,area,tipo,ativo:true}));
+const RESP=["Equipe Elétrica","Equipe Mecânica","Equipe de Sinalização","Facilities"];
+const PERFIS=["Administrador","Gestor","Supervisor","Inspetor","Colaborador"];
+const PERFIL_DESC={Administrador:"Administração do aplicativo",Gestor:"Gestão de indicadores, ocorrências e cadastros",Supervisor:"Supervisão de campo e tratativas",Inspetor:"Inspetor de campo",Colaborador:"Consulta, sem alterar dados"};
+const CAPS={nova:["Administrador","Supervisor","Inspetor"],todas:["Administrador","Gestor","Supervisor","Colaborador"],delAny:["Administrador","Gestor"],nc:["Administrador","Gestor","Supervisor"],cad:["Administrador","Gestor"],users:["Administrador"]};
+const USERS=[["u1","Helena Costa","Administrador"],["u2","Carlos Nunes","Gestor"],["u3","Renato Alves","Supervisor"],["u4","Marta Lima","Inspetor"],["u5","Paulo Reis","Inspetor"],["u6","Davi Souza","Colaborador"]].map(([id,nome,perfil])=>({id,nome,perfil,ativo:true,email:nome.toLowerCase().replace(" ",".")+"@viamodelo.example"}));
+const iniciais=n=>n.split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+const eq=id=>EQUIP.find(e=>e.id===id)||{id,nome:"(equipamento removido)",tipo:"",area:"",est:""};
+const estN=id=>(STATIONS.find(s=>s.id===id)||{nome:"—"}).nome;
+const fmt=d=>{const [y,m,dd]=String(d).slice(0,10).split("-");return dd+"/"+m+"/"+y};
+const addDias=n=>{const d=new Date(2026,10,4+n);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const mkItens=(tipo,ncs={})=>TIPOS[tipo].map((t,i)=>({t,s:ncs[i]?"NC":"C",sev:ncs[i]?ncs[i][0]:"",desc:ncs[i]?ncs[i][1]:"",fotos:[],obs:""}));
+const S={ppc:false,logged:false,uid:"u1",perfil:"Administrador",utab:"usr",uPerfil:"Todos",uBusca:"",pPeriodo:"60",pTipo:"Todos",online:true,tela:"inicio",seq:7,nseq:6,sel:null,draft:null,fila:[],fNC:"Todas",fIns:"Todas",busca:"",painelEst:"Todas",tab:"eq",busy:false,
+ notifs:[{m:"NC-002 está com o prazo vencido.",t:"warn",h:"08:12",un:true},{m:"NC-005 aguarda aprovação de fechamento.",t:"info",h:"08:40",un:true}],
+ insp:[
+  {id:"INS-0001",data:addDias(-12),est:"alv",eqId:"ESC-ALV-01",turno:"Manhã",por:"Marta Lima",status:"Concluída",itens:mkItens("Escada rolante",{2:["Alta","Botão de parada sem sinalização."]})},
+  {id:"INS-0002",data:addDias(-9),est:"jdp",eqId:"SIN-JDP-11",turno:"Tarde",por:"Paulo Reis",status:"Concluída",itens:mkItens("Sinalização de via")},
+  {id:"INS-0003",data:addDias(-6),est:"pse",eqId:"PEL-PSE-01",turno:"Manhã",por:"Marta Lima",status:"Em tratamento",itens:mkItens("Painel elétrico",{1:["Média","Ponto quente próximo ao disjuntor 4."]})},
+  {id:"INS-0004",data:addDias(-4),est:"vau",eqId:"CAT-VAU-01",turno:"Noite",por:"Paulo Reis",status:"Enviada",itens:mkItens("Catraca",{1:["Baixa","Braço gira com atrito."]})},
+  {id:"INS-0005",data:addDias(-2),est:"tce",eqId:"ESC-TCE-05",turno:"Manhã",por:"Marta Lima",status:"Em tratamento",itens:mkItens("Escada rolante",{0:["Média","Degrau 14 com desgaste."],4:["Baixa","Ruído leve na descida."]})},
+  {id:"INS-0006",data:addDias(-1),est:"alv",eqId:"EXT-ALV-07",turno:"Tarde",por:"Paulo Reis",status:"Enviada",itens:mkItens("Extintor")}
+ ],
+ ncs:[
+  {id:"NC-001",insp:"INS-0001",eqId:"ESC-ALV-01",desc:"Botão de parada sem sinalização.",sev:"Alta",status:"Fechada",resp:"Equipe Mecânica",prazo:addDias(-8),fotos:[],hist:[["Aberta","Marta Lima",addDias(-12)],["Fechada","Renato Alves",addDias(-9)]]},
+  {id:"NC-002",insp:"INS-0003",eqId:"PEL-PSE-01",desc:"Ponto quente próximo ao disjuntor 4.",sev:"Média",status:"Em tratamento",resp:"Equipe Elétrica",prazo:addDias(-1),fotos:[],hist:[["Aberta","Marta Lima",addDias(-6)],["Em tratamento","Renato Alves",addDias(-5)]]},
+  {id:"NC-003",insp:"INS-0004",eqId:"CAT-VAU-01",desc:"Braço gira com atrito.",sev:"Baixa",status:"Aberta",resp:"",prazo:"",fotos:[],hist:[["Aberta","Paulo Reis",addDias(-4)]]},
+  {id:"NC-004",insp:"INS-0005",eqId:"ESC-TCE-05",desc:"Degrau 14 com desgaste.",sev:"Média",status:"Aberta",resp:"",prazo:"",fotos:[],hist:[["Aberta","Marta Lima",addDias(-2)]]},
+  {id:"NC-005",insp:"INS-0005",eqId:"ESC-TCE-05",desc:"Ruído leve na descida.",sev:"Baixa",status:"Aguardando aprovação",resp:"Equipe Mecânica",prazo:addDias(3),fotos:[],hist:[["Aberta","Marta Lima",addDias(-2)],["Em tratamento","Renato Alves",addDias(-1)],["Aguardando aprovação","Equipe Mecânica",addDias(0),"Rolamento lubrificado."]]}
+ ]};
+(function seed(){let r=11;const rnd=()=>{r=(r*1103515245+12345)&0x7fffffff;return r/0x7fffffff};
+ const cd=n=>addDias(Math.min(0,n)),sevs=["Alta","Média","Baixa"],por=["Marta Lima","Paulo Reis"];
+ const dsc=["Desgaste visível no componente.","Folga acima do aceitável.","Falha intermitente no funcionamento.","Sinalização ausente ou ilegível.","Ruído anormal durante a operação."];
+ for(let k=0;k<34;k++){const e=EQUIP[Math.floor(rnd()*EQUIP.length)],dias=-(3+Math.floor(k*1.55)),id="INS-"+String(7+k).padStart(4,"0"),n=TIPOS[e.tipo].length,ncs={},p=rnd(),q=p<.5?0:p<.85?1:2;
+  for(let j=0;j<q;j++)ncs[Math.floor(rnd()*n)]=[sevs[Math.floor(rnd()*3)],dsc[Math.floor(rnd()*5)]];
+  const I={id,data:addDias(dias),est:e.est,eqId:e.id,turno:["Manhã","Tarde","Noite"][k%3],por:por[k%2],status:"Concluída",itens:mkItens(e.tipo,ncs)};S.insp.push(I);
+  Object.keys(ncs).forEach(j=>{const nid="NC-"+String(S.nseq++).padStart(3,"0"),old=-dias>18,z=rnd(),st=old?(z<.85?"Fechada":"Em tratamento"):(z<.35?"Fechada":z<.6?"Em tratamento":z<.8?"Aguardando aprovação":"Aberta"),resp=RESP[Math.floor(rnd()*4)],hist=[["Aberta",I.por,addDias(dias)]];let prazo="";
+   if(st!=="Aberta"){hist.push(["Em tratamento","Renato Alves",cd(dias+1)]);prazo=addDias(dias+7)}
+   if(st==="Aguardando aprovação")hist.push(["Aguardando aprovação","Renato Alves ("+resp+")",cd(dias+4),"Correção executada."]);
+   if(st==="Fechada"){hist.push(["Aguardando aprovação","Renato Alves ("+resp+")",cd(dias+3),"Correção executada."]);hist.push(["Fechada","Carlos Nunes",cd(dias+4+Math.floor(rnd()*5))])}
+   S.ncs.push({id:nid,insp:id,eqId:e.id,desc:ncs[j][1],sev:ncs[j][0],status:st,resp:st==="Aberta"?"":resp,prazo,fotos:[],hist})});
+  if(S.ncs.filter(c=>c.insp===id).some(c=>c.status!=="Fechada"))I.status="Em tratamento"}
+ S.seq=41})();
+/* ===== Utilidades ===== */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ic=(n,c="")=>`<svg class="ic ${c}" aria-hidden="true" focusable="false"><use href="#i-${n}"/></svg>`;
+const ST_IC={"Rascunho":"pen","Pendente de envio":"wifioff","Enviada":"check","Em tratamento":"clock","Concluída":"shield","Aberta":"alert","Aguardando aprovação":"eye","Fechada":"check"};
+const tagC=s=>({"Rascunho":"t-na","Pendente de envio":"t-warn","Enviada":"t-info","Em tratamento":"t-warn","Concluída":"t-ok","Aberta":"t-bad","Aguardando aprovação":"t-info","Fechada":"t-ok"}[s]||"t-na");
+const tag=s=>`<span class="tag ${tagC(s)}">${ic(ST_IC[s]||"info")}${esc(s)}</span>`;
+const sevTag=s=>`<span class="tag ${({"Alta":"t-bad","Média":"t-warn","Baixa":"t-info"})[s]||"t-na"}">${esc(s)}</span>`;
+const ncCount=i=>i.itens.filter(x=>x.s==="NC").length;
+const ncEst=n=>{const i=S.insp.find(x=>x.id===n.insp);return i?i.est:eq(n.eqId).est};
+const venc=n=>n.prazo&&n.status!=="Fechada"&&n.prazo<addDias(0);
+const hora=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+const user=()=>USERS.find(u=>u.id===S.uid)||USERS[0];
+const can=k=>CAPS[k].includes(S.perfil);
+function setUser(id){const u=USERS.find(x=>x.id===id);S.uid=u.id;S.perfil=u.perfil;$("#perfil").value=u.perfil}
+const dd=(a,b)=>Math.round((Date.parse(b)-Date.parse(a))/864e5);
+const minhas=()=>S.perfil==="Inspetor"?S.insp.filter(i=>i.por===user().nome):S.insp;
+const podeEd=i=>["Rascunho","Pendente de envio"].includes(i.status)&&can("nova");
+const podeDel=i=>podeEd(i)||can("delAny");
+const kpi=(i,v,l)=>`<div class="kpi"><span class="kic">${ic(i)}</span><div><b>${v}</b><small>${l}</small></div></div>`;
+const empty=(i,m)=>`<div class="card empty">${ic(i)}<div>${m}</div></div>`;
+function photoUri(n){const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="192" height="140"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#cbd5e1"/><stop offset="1" stop-color="#94a3b8"/></linearGradient></defs><rect width="192" height="140" fill="url(#g)"/><text x="96" y="76" font-size="15" text-anchor="middle" fill="#1e293b" font-family="Arial">Foto fictícia ${n}</text></svg>`;return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg)}
+/* ===== Avisos, carregamento, modais ===== */
+function toast(m,t="ok"){const el=document.createElement("div");el.className="toast "+t;el.innerHTML=ic(t==="ok"?"check":t==="err"?"alert":"info")+`<span>${esc(m)}</span><button class="ib" aria-label="Dispensar aviso">${ic("x")}</button>`;const bx=$("#toasts");bx.append(el);while(bx.children.length>3)bx.firstElementChild.remove();el.querySelector("button").onclick=()=>el.remove();setTimeout(()=>el.remove(),4300)}
+function notify(m,t="info"){S.notifs.unshift({m,t,h:hora(),un:true});toast(m,t==="warn"?"info":"ok");renderTop()}
+function busy(msg,fn,ms=MS){if(S.busy)return;S.busy=true;const b=$("#busy");b.querySelector("span").textContent=msg;b.hidden=false;setTimeout(()=>{try{fn()}finally{S.busy=false;b.hidden=true}},ms)}
+let lastFocus=null;
+function openModal(html){lastFocus=document.activeElement;$("#modal").innerHTML=html;const m=$("#modal");const f=m.querySelector("[autofocus],input:not([type=hidden]),select,textarea,button");if(f)f.focus()}
+function closeModal(){$("#modal").innerHTML="";if(lastFocus&&document.contains(lastFocus))lastFocus.focus();else{const h=$("#screen");if(h)h.focus({preventScroll:true})}lastFocus=null}
+function confirmar(msg,okLabel,fn){openModal(`<div class="modal"><div class="mbox" role="alertdialog" aria-modal="true" aria-labelledby="ct" aria-describedby="cd"><h2 id="ct" style="margin-top:0">Confirmar ação</h2><p id="cd">${esc(msg)}</p><div class="actions" style="position:static;background:none"><button class="btn sec" data-act="closemodal" autofocus>Cancelar</button><button class="btn bad" id="cok">${esc(okLabel)}</button></div></div></div>`);$("#cok").onclick=()=>{closeModal();fn()}}
+function fieldHTML(f){const v=f.value??"";const req=f.req?" (obrigatório)":"";let c;
+ if(f.type==="select")c=`<select class="in" id="f_${f.id}">${f.opt?`<option value="">Selecione</option>`:""}${f.options.map(([val,l])=>`<option value="${esc(val)}" ${val===v?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ else if(f.type==="textarea")c=`<textarea class="in" id="f_${f.id}">${esc(v)}</textarea>`;
+ else c=`<input class="in" id="f_${f.id}" type="${f.type||"text"}" value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}>`;
+ return `<label class="f" for="f_${f.id}">${esc(f.label)}${req}</label>${c}`}
+function formModal({title,fields,validate,save,msg,done,ok="Salvar"}){
+ openModal(`<div class="modal"><form class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt" novalidate><div class="mh"><h2 id="mt">${esc(title)}</h2><button type="button" class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${fields.map(fieldHTML).join("")}<div class="err" id="ferr" role="alert"></div><div class="actions" style="position:static;background:none"><button type="button" class="btn sec" data-act="closemodal">Cancelar</button><button class="btn" type="submit">${ic("save")}${esc(ok)}</button></div></form></div>`);
+ $("#modal form").addEventListener("submit",e=>{e.preventDefault();const v={};fields.forEach(f=>{v[f.id]=$("#f_"+f.id).value.trim();$("#f_"+f.id).removeAttribute("aria-invalid")});
+  const miss=fields.filter(f=>f.req&&!v[f.id]);
+  if(miss.length){miss.forEach(f=>$("#f_"+f.id).setAttribute("aria-invalid","true"));$("#ferr").textContent="Preencha: "+miss.map(f=>f.label).join(", ")+".";$("#f_"+miss[0].id).focus();return}
+  const er=validate&&validate(v);if(er){$("#ferr").textContent=er;return}
+  busy("Gravando…",()=>{save(v);closeModal();toast(msg||"Salvo com sucesso.");if(done)done();render(false)})})}
+/* ===== Navegação ===== */
+const NAV={inicio:["home","Início"],nova:["plus","Nova inspeção"],minhas:["list","Inspeções"],ocorr:["alert","Ocorrências"],painel:["chart","Indicadores"],cad:["db","Cadastros"],usuarios:["users","Usuários"],sync:["sync","Sincronização"]};
+const ROLES={Administrador:["inicio","nova","minhas","ocorr","painel","cad","usuarios"],Gestor:["inicio","minhas","ocorr","painel","cad"],Supervisor:["inicio","nova","minhas","ocorr","painel"],Inspetor:["inicio","nova","minhas"],Colaborador:["inicio","minhas","ocorr","painel"]};
+const NAMES={inicio:"Início",nova:"Nova inspeção",check:"Checklist",resumo:"Resumo e assinatura",conf:"Inspeção enviada",minhas:"Inspeções",det:"Detalhe da inspeção",ocorr:"Ocorrências",painel:"Indicadores",cad:"Cadastros",usuarios:"Usuários",sync:"Sincronização"};
+const NAVOF={check:"nova",resumo:"nova",conf:"nova",det:"minhas"};
+const BACK={check:"nova",resumo:"check",det:"minhas",conf:"inicio"};
+function go(t,focus=true){S.tela=t;if(t==="painel"){busy("Carregando painel…",()=>render(focus),Math.min(MS,450));return}render(focus)}
+/* ===== Painel "Como seria na Power Platform" ===== */
+const PP={
+ cover:{c:["Autenticação pela conta Microsoft Entra ID de quem abre o app: não existe tela de login própria","User().FullName e User().Email identificam o usuário","Perfil por papel de segurança do Dataverse ou por grupo do Entra ID"],d:"Tabela Usuário/Perfil (opcional) ou grupos do Entra ID.",n:"O botão Entrar do mockup só simula esse passo."},
+ inicio:{c:["Contêineres de layout flexível e fórmulas com App.Width e Parent.Width para celular, tablet e desktop","Screen.Size com SizeBreakpoints (padrão 600, 900 e 1200) para trocar o layout","Cartões de KPI: CountRows(Filter(...)) sobre a tabela de inspeções","Rótulo de status ligado a Connection.Connected","Notify() para avisos no topo do app"],d:"Dataverse (tabela Inspeção) ou lista SharePoint.",n:"Filtrar no servidor por data e usuário, com operadores delegáveis."},
+ nova:{c:["Listas em cascata: Items da Área = Filter(colAreas; Estação = ddEstacao.Selected.Id)","Controle Barcode reader para ler o código do equipamento","Location.Latitude e Location.Longitude para registrar o local"],d:"colEstacoes, colAreas, colEquipamentos carregadas no OnStart.",n:"O leitor de código funciona em Android, iOS e Windows, não em navegador. No mockup, o botão de leitura é simulado."},
+ check:{c:["Galeria de itens com opções Conforme, Não conforme e N/A","Add picture ou Camera para a foto da não conformidade","Validação antes de avançar: IsBlank(txtDescricao.Text)","Rascunho: Patch na tabela com Status = Rascunho"],d:"Itens do modelo na tabela Modelo de checklist; respostas na tabela Resposta de item.",n:"Camera e Add picture dependem de permissão do dispositivo. Foto ocupa espaço: considerar o limite de dados offline."},
+ resumo:{c:["Pen input (saída tipo Image) para assinatura","Campo de texto como alternativa de assinatura","Botão Enviar chamando Patch e o flow; ícone animado visível enquanto varBusy = true"],d:"Imagem da assinatura em coluna de imagem ou arquivo do Dataverse.",n:"Pen input não é acessível por teclado nem leitor de tela. Por isso este desenho adota a alternativa em texto."},
+ conf:{c:["Flow do Power Automate com gatilho Power Apps (V2) para guardar o arquivo gerado","Função PDF do Power Fx, hoje experimental e desligada por padrão","Print() abre o diálogo de impressão do navegador"],d:"Arquivo salvo em biblioteca SharePoint ou coluna de arquivo.",n:"Habilitar em Settings > Upcoming features > Experimental > PDF function. Gera o PDF no dispositivo e não suporta tile do Power BI, mapa nem gráficos. Experimental: não recomendado para produção."},
+ minhas:{c:["Galeria com pesquisa por TextInput e filtro por status","Ações por linha: ver, editar, excluir (com tela de confirmação)","Retomar rascunho: Navigate com varModo = \"retomar\""],d:"Mesma tabela Inspeção.",n:"No SharePoint, StartsWith delega e Search não; confira a tabela de delegação da fonte escolhida. Limite padrão de linhas não delegadas: 500 (máximo 10.000)."},
+ det:{c:["Formulário em modo de visualização ou galeria somente leitura","Relatório em tela com contêiner e botão Imprimir chamando Print()","Excluir: Remove / RemoveIf, com confirmação"],d:"Registro da inspeção e respostas relacionadas.",n:"Com Dataverse, a relação Inspeção → Respostas evita montar junções no app."},
+ ocorr:{c:["Galeria de não conformidades com filtro por status","Formulários de criar e editar (Patch) e Remove para excluir","Aprovação do fechamento por regra de perfil (Supervisor ou Gestor) ou fluxo de aprovação"],d:"Tabela Não conformidade e tabela Histórico de status (auditoria).",n:"A visibilidade da tela por perfil usa grupo de segurança ou papel do Dataverse. Esconder uma tela no app não substitui permissão na tabela."},
+ painel:{c:["Controle de tile do Power BI com o painel compartilhado (LoadPowerBIContent)","Cartões nativos de KPI com CountRows e Sum sobre a tabela (Dataverse agrega até 50.000 linhas)","Gráficos nativos: Column chart, Line chart e Pie chart (sem rosca nativa; até 9 séries); Label de título antes do gráfico e Legend para acessibilidade","Filtros de período, estação e tipo passados ao painel"],d:"Modelo do Power BI sobre o Dataverse.",n:"Os gráficos desta tela são ilustrativos. Recomendação oficial: poucos tiles por tela (até 3). Conferir licença de leitura do Power BI. Não suportado em alguns ambientes GCC High e DoD; indisponível na China."},
+ usuarios:{c:["Tabela Usuário com coluna Perfil (choice) e Ativo","Fórmula nomeada em App.Formulas: varPerfil = LookUp(Usuarios; Email = User().Email).Perfil (melhor que Set no OnStart, que atrasa a abertura)","Telas e botões com Visible = varPerfil in [...]; formulários de criar, editar e excluir"],d:"Tabela Usuário no Dataverse; acesso ao app por compartilhamento ou grupo do Entra ID.",n:"Esconder tela no app não é segurança: aplique também os papéis de segurança do Dataverse nas tabelas. O acesso e a licença do usuário ao app são geridos fora do app, pelo administrador do ambiente."},
+ cad:{c:["Abas de cadastro: estações, áreas, equipamentos e modelos de checklist","Formulário com validação (EditForm / SubmitForm) e Patch","Desativar sem apagar: coluna Status (statecode Ativo/Inativo, padrão do Dataverse); exclusão bloqueada com relação Referencial, Restringir exclusão"],d:"Tabelas Estação, Área, Equipamento, Modelo de checklist e Item do modelo.",n:"Para cadastros extensos, um app model-driven sobre as mesmas tabelas dá formulários e exibições prontos."},
+ sync:{c:["Sinal Connection.Connected e Connection.Sync","Dataverse: perfil offline nativo, sincroniza em segundo plano","Outras fontes: SaveData e LoadData para fila local"],d:"No Dataverse offline, a última atualização de cada coluna é gravada; falhas de sincronização ficam na tabela Sync Errors.",n:"Offline só no Power Apps Mobile, não no navegador (a chave “Simular sem rede” do mockup é só demonstração). LoadData e SaveData não resolvem conflito. Teste real em campo é obrigatório."}
+};
+function ppPanel(){$("#stage").classList.toggle("ppc",!!S.ppc);
+ return S.ppc?`<button class="ppt" data-act="pptog" aria-expanded="false" aria-controls="pp" aria-label="Expandir painel Como seria na Power Platform" title="Expandir">${ic("layers")}</button><span class="ppv" aria-hidden="true">Como seria na Power Platform</span>`:`<button class="ppt" data-act="pptog" aria-expanded="true" aria-controls="pp" aria-label="Recolher painel Como seria na Power Platform" title="Recolher">${ic("chev")}</button>`+ppHTML()}
+function ppHTML(){const k=S.logged?S.tela:"cover";const p=PP[k]||PP.inicio;
+ return `<h2>${ic("layers")}Como seria na Power Platform</h2><p style="margin:0 0 6px" class="muted">Tela: <b>${esc(S.logged?NAMES[k]:"Capa e acesso")}</b> · Canvas app, celular, tablet e desktop</p><dl><dt>Controles e fórmulas</dt><dd><ul>${p.c.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></dd><dt>Fonte de dados</dt><dd>${esc(p.d)}</dd></dl><div class="warn"><b>Atenção:</b> ${esc(p.n)}</div>`}
+/* ===== Telas ===== */
+function cardInsp(i){const e=eq(i.eqId);
+ return `<article class="card ins ${tagC(i.status)}"><div class="ins-main"><div><b>${esc(i.id)}</b> ${tag(i.status)}</div><div>${esc(e.nome)} · ${esc(estN(i.est))}</div><small class="muted">${fmt(i.data)} · ${esc(i.turno)} · ${esc(i.por)} · ${ncCount(i)} NC</small></div>
+ <div class="ins-a"><button class="btn sec sm" data-act="open" data-id="${i.id}" aria-label="${podeEd(i)?"Retomar":"Abrir"} ${i.id}">${ic(podeEd(i)?"pen":"eye")}${podeEd(i)?"Retomar":"Abrir"}</button>
+ <button class="ib" data-act="rel" data-id="${i.id}" aria-label="Relatório de ${i.id}" title="Relatório">${ic("file")}</button>
+ ${podeDel(i)?`<button class="ib dng" data-act="del" data-id="${i.id}" aria-label="Excluir ${i.id}" title="Excluir">${ic("trash")}</button>`:""}</div></article>`}
+function cardNC(n){const e=eq(n.eqId);
+ return `<article class="card ins ${tagC(n.status)}"><div class="ins-main"><div><b>${esc(n.id)}</b> ${sevTag(n.sev)} ${tag(n.status)}${venc(n)?` <span class="tag t-bad">${ic("clock")}Vencida</span>`:""}</div><div>${esc(n.desc)}</div><small class="muted">${esc(e.nome)} · ${n.resp?esc(n.resp)+" · ":""}${n.prazo?"prazo "+fmt(n.prazo):"sem prazo"}</small></div>
+ <div class="ins-a"><button class="btn sec sm" data-act="ncopen" data-id="${n.id}" aria-label="Abrir ${n.id}">${ic("eye")}Abrir</button></div></article>`}
+function vInicio(){const U=user(),m=minhas();const pend=m.filter(i=>["Rascunho","Pendente de envio"].includes(i.status));
+ const minI=new Set(m.map(i=>i.id)),mine=S.perfil==="Inspetor"?S.ncs.filter(n=>minI.has(n.insp)):S.ncs;const ab=mine.filter(n=>n.status!=="Fechada");const aprov=can("nc")?S.ncs.filter(n=>n.status==="Aguardando aprovação"):[];const vc=mine.filter(venc);
+ const atencao=[...pend.map(cardInsp),...aprov.map(cardNC),...(S.perfil==="Inspetor"?[]:vc.map(cardNC))];
+ return `<div class="inner"><section class="hero"><div><p style="opacity:.9">${esc(PERFIL_DESC[S.perfil])}</p><h1>Olá, ${esc(U.nome.split(" ")[0])}</h1><p>Quarta-feira, 04/11/2026</p></div>${can("nova")?`<button class="btn wh lg" data-act="nova">${ic("plus")}Nova inspeção</button>`:""}</section>
+ <div class="kpis">${kpi("list",m.length,"inspeções")}${kpi("alert",ab.length,"NCs abertas")}${kpi("clock",vc.length,"NCs vencidas")}${kpi("wifioff",S.fila.length,"pendentes de envio")}</div>
+ <h3>Requer sua atenção</h3>${atencao.length?atencao.join(""):empty("check","Nada pendente por aqui.")}
+ <h3>Últimas inspeções</h3>${m.slice().sort((a,b)=>(b.data+b.id).localeCompare(a.data+a.id)).slice(0,3).map(cardInsp).join("")||empty("list","Nenhuma inspeção ainda.")}</div>`}
+function vNova(){const d=S.draft||(S.draft={est:"",area:"",eqId:"",turno:"Manhã",itens:null,id:null});
+ const areas=d.est?[...new Set(EQUIP.filter(e=>e.est===d.est&&e.ativo&&AREAS.some(a=>a.nome===e.area&&a.ativo)).map(e=>e.area))]:[];const eqs=EQUIP.filter(e=>e.est===d.est&&e.area===d.area&&e.ativo);
+ return `<div class="inner"><h1>${d.id?"Editar inspeção "+esc(d.id):"Nova inspeção"}</h1><div class="card">
+ <button class="btn sec" data-act="scan">${ic("scan")}Ler código do equipamento</button>
+ <label class="f" for="fEst">Estação</label><select class="in" id="fEst" data-f="est"><option value="">Selecione</option>${STATIONS.filter(s=>s.ativo).map(s=>`<option value="${s.id}" ${d.est===s.id?"selected":""}>${esc(s.nome)}</option>`).join("")}</select>
+ <label class="f" for="fArea">Área</label><select class="in" id="fArea" data-f="area" ${areas.length?"":"disabled"}><option value="">Selecione</option>${areas.map(a=>`<option ${d.area===a?"selected":""}>${esc(a)}</option>`).join("")}</select>
+ <label class="f" for="fEq">Equipamento</label><select class="in" id="fEq" data-f="eqId" ${eqs.length?"":"disabled"}><option value="">Selecione</option>${eqs.map(e=>`<option value="${esc(e.id)}" ${d.eqId===e.id?"selected":""}>${esc(e.nome)} (${esc(e.id)})</option>`).join("")}</select>
+ <label class="f" for="fTurno">Turno</label><select class="in" id="fTurno" data-f="turno">${["Manhã","Tarde","Noite"].map(t=>`<option ${d.turno===t?"selected":""}>${t}</option>`).join("")}</select>
+ <p class="muted">${d.eqId?`Modelo de checklist: <b>${esc(eq(d.eqId).tipo)}</b> · ${TIPOS[eq(d.eqId).tipo].length} itens`:"Escolha estação, área e equipamento para continuar."}</p></div>
+ <div class="actions"><button class="btn sec" data-act="inicio">Cancelar</button><button class="btn" data-act="startcheck" ${d.eqId?"":"disabled"}>${ic("list")}Iniciar checklist</button></div></div>`}
+function vCheck(){const d=S.draft,t=eq(d.eqId);const resp=d.itens.filter(x=>x.s).length;const pct=Math.round(resp/d.itens.length*100);
+ return `<div class="inner"><h1>${esc(t.nome)}</h1><p class="muted" style="margin:0 0 8px">${esc(estN(d.est))} · ${esc(d.area)} · ${esc(d.turno)}</p>
+ <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="Progresso do checklist"><i style="width:${pct}%"></i></div><small>${resp} de ${d.itens.length} itens respondidos</small>
+ <div style="margin-top:12px">${d.itens.map((it,i)=>`<div class="item ${it.s==="NC"?"nc":""}"><fieldset style="border:0;padding:0;margin:0"><legend>${i+1}. ${esc(it.t)}</legend>
+ <div class="seg">${[["C","c","Conforme","check"],["NC","n","Não conforme","alert"],["NA","a","N/A","x"]].map(([v,c,l,ico])=>`<input type="radio" name="it${i}" id="it${i}${v}" value="${v}" data-i="${i}" ${it.s===v?"checked":""}><label class="${c}" for="it${i}${v}">${ic(ico)}${l}</label>`).join("")}</div></fieldset>
+ ${it.s==="NC"?`<label class="f" for="sev${i}">Severidade (obrigatória)</label><select class="in" id="sev${i}" data-sev="${i}"><option value="">Selecione</option>${["Alta","Média","Baixa"].map(s=>`<option ${it.sev===s?"selected":""}>${s}</option>`).join("")}</select>
+ <label class="f" for="ds${i}">Descrição do problema (obrigatória)</label><textarea class="in" id="ds${i}" data-desc="${i}">${esc(it.desc)}</textarea>
+ <label class="f" for="ob${i}">Observação</label><input class="in" id="ob${i}" data-obs="${i}" value="${esc(it.obs)}">
+ <div class="photos">${it.fotos.map((f,k)=>`<div class="ph"><img src="${f}" alt="Foto fictícia ${k+1} do item ${i+1}"><button data-act="photodel" data-i="${i}" data-k="${k}" aria-label="Remover foto ${k+1} do item ${i+1}">${ic("x")}</button></div>`).join("")}</div>
+ <button class="btn sec" style="margin-top:8px" data-act="photo" data-i="${i}" aria-label="Adicionar foto ao item ${i+1}">${ic("camera")}Adicionar foto</button>
+ ${it.err?`<div class="err" role="alert">${esc(it.err)}</div>`:""}`:""}</div>`).join("")}</div>
+ <div class="actions"><button class="btn sec" data-act="rascunho">${ic("save")}Salvar rascunho</button><button class="btn" data-act="revisar">Revisar e assinar${ic("check")}</button></div></div>`}
+function vResumo(){const d=S.draft,nc=d.itens.filter(x=>x.s==="NC"),na=d.itens.filter(x=>x.s==="NA").length;
+ return `<div class="inner"><h1>Resumo e assinatura</h1><div class="card"><b>${esc(eq(d.eqId).nome)}</b> · ${esc(estN(d.est))}<br><span class="muted">${d.itens.length-nc.length-na} conformes · <b>${nc.length} não conformes</b> · ${na} N/A</span></div>
+ ${nc.length?`<div class="card"><b>Não conformidades</b><ul>${nc.map(n=>`<li>${sevTag(n.sev)} ${esc(n.t)} — ${esc(n.desc)}</li>`).join("")}</ul></div>`:""}
+ <div class="card"><b>${ic("pen")} Assinatura</b><p class="muted" style="margin:4px 0 8px">Desenhe abaixo ou digite o nome completo (alternativa para quem não pode desenhar).</p>
+ <canvas id="sig" class="sig" width="600" height="160" aria-label="Área de assinatura por desenho"></canvas>
+ <button class="linkbtn" data-act="limpar">Limpar assinatura</button>
+ <label class="f" for="nomeAss">Nome completo (assinatura em texto)</label><input class="in" id="nomeAss" value="${esc(d.nomeAss||"")}">
+ ${d.errAss?`<div class="err" role="alert">${esc(d.errAss)}</div>`:""}</div>
+ <div class="actions"><button class="btn sec" data-act="voltar">${ic("back")}Voltar ao checklist</button><button class="btn" data-act="enviar">${ic("check")}Enviar inspeção</button></div></div>`}
+function vConf(){const i=S.sel,p=i.status==="Pendente de envio";
+ return `<div class="inner"><div class="card" style="text-align:center"><div class="big-ok" ${p?'style="background:#fdf0d0;color:#6b4500"':""}>${ic(p?"wifioff":"check")}</div><h1>${p?"Salva neste aparelho":"Inspeção enviada"}</h1><p><b>${esc(i.id)}</b> ${tag(i.status)}</p>
+ <p class="muted">${p?"Sem rede no momento. O envio acontece quando a conexão voltar.":`${ncCount(i)} não conformidade(s) enviadas ao supervisor.`}</p></div>
+ <div class="actions"><button class="btn sec" data-act="rel" data-id="${i.id}">${ic("file")}Ver relatório</button><button class="btn" data-act="nova">${ic("plus")}Nova inspeção</button></div></div>`}
+function vMinhas(){const sts=["Todas","Rascunho","Pendente de envio","Enviada","Em tratamento","Concluída"];
+ const L=minhas().filter(i=>(S.fIns==="Todas"||i.status===S.fIns)&&(S.busca===""||(i.id+eq(i.eqId).nome+estN(i.est)).toLowerCase().includes(S.busca.toLowerCase()))).sort((a,b)=>(b.data+b.id).localeCompare(a.data+a.id));
+ return `<div class="inner"><h1>Inspeções</h1><div class="sb">${ic("search")}<input class="in" id="bq" value="${esc(S.busca)}" data-busca="1" placeholder="Buscar por código, equipamento ou estação" aria-label="Buscar inspeções"></div>
+ <div class="pills" role="group" aria-label="Filtrar por status">${sts.map(s=>`<button class="pill" data-act="fins" data-v="${s}" aria-pressed="${S.fIns===s}">${s}</button>`).join("")}</div>
+ ${L.length?L.map(cardInsp).join(""):empty("search","Nenhuma inspeção com esse filtro.")}</div>`}
+function vDet(){const i=S.sel,ncs=S.ncs.filter(n=>n.insp===i.id);
+ return `<div class="inner"><h1>${esc(i.id)}</h1><div class="card">${tag(i.status)}<p style="margin:8px 0 0"><b>${esc(eq(i.eqId).nome)}</b> · ${esc(estN(i.est))}<br><span class="muted">${fmt(i.data)} · ${esc(i.turno)} · ${esc(i.por)}</span></p></div>
+ <div class="row" style="margin-bottom:12px"><div class="ins-a"><button class="btn" data-act="rel" data-id="${i.id}">${ic("file")}Ver relatório</button>${podeEd(i)?`<button class="btn sec" data-act="open" data-id="${i.id}">${ic("pen")}Editar</button>`:""}${podeDel(i)?`<button class="btn sec" data-act="del" data-id="${i.id}">${ic("trash")}Excluir</button>`:""}</div></div>
+ <h3>Itens</h3>${i.itens.map(x=>`<div class="card row"><span>${esc(x.t)}${x.s==="NC"?`<br><small class="muted">${esc(x.sev)} — ${esc(x.desc)}</small>`:""}</span><span class="tag ${x.s==="C"?"t-ok":x.s==="NC"?"t-bad":"t-na"}">${x.s==="C"?"Conforme":x.s==="NC"?"Não conforme":"N/A"}</span></div>`).join("")}
+ ${ncs.length?`<h3>Ocorrências vinculadas</h3>${ncs.map(cardNC).join("")}`:""}</div>`}
+function vOcorr(){const sts=["Todas","Aberta","Em tratamento","Aguardando aprovação","Fechada"];const nf=S.nf,L=S.ncs.filter(n=>(S.fNC==="Todas"||n.status===S.fNC)&&(!nf||(n.hist[0][2]>=nf.ini&&(nf.est==="Todas"||ncEst(n)===nf.est)&&(nf.tp==="Todos"||eq(n.eqId).tipo===nf.tp))));
+ return `<div class="inner"><div class="row"><h1>Ocorrências</h1>${can("nc")?`<button class="btn" data-act="ncnew">${ic("plus")}Nova ocorrência</button>`:""}</div>
+ ${nf?`<div class="card row"><span>${ic("info")} Filtros do painel aplicados: ${nf.dias?"últimos "+nf.dias+" dias":"todo o histórico"} · ${nf.est==="Todas"?"todas as estações":esc(estN(nf.est))} · ${nf.tp==="Todos"?"todos os tipos":esc(nf.tp)}</span><button class="btn sec" data-act="nfclear">Limpar</button></div>`:""}<div class="pills" role="group" aria-label="Filtrar por status">${sts.map(s=>`<button class="pill" data-act="fnc" data-v="${s}" aria-pressed="${S.fNC===s}">${s}</button>`).join("")}</div>
+ ${L.length?L.map(cardNC).join(""):empty("check","Nada com esse filtro.")}</div>`}
+const COL={ok:"#1a7a4a",bad:"#b3261e",warn:"#d99a00",pri:"#0067b0",gray:"#64748b",dark:"#002d55"};
+const donut=(parts,center)=>{const tot=parts.reduce((a,p)=>a+p[1],0);let acc=0;const g=parts.map(([l,v,c])=>{const a0=acc/(tot||1)*100;acc+=v;return `${c} ${a0}% ${acc/(tot||1)*100}%`}).join(",");
+ return `<div class="dn"><div class="donut" style="background:conic-gradient(${tot?g:"#e5e7eb 0 100%"})"><span>${center}</span></div><ul class="lg">${parts.map(([l,v,c,a])=>`<li>${a?`<button class="lgb" ${a}>`:`<span class="lgb">`}<i style="background:${c}"></i>${esc(l)} <b>${v}</b>${a?"</button>":"</span>"}</li>`).join("")}</ul></div>`};
+const hb=(rows,max)=>{const m=max||Math.max(1,...rows.map(r=>r[1]));return rows.map(([l,v,c,a,t])=>`<div class="hbar">${a?`<button class="lgb" ${a}>${esc(l)}</button>`:`<span>${esc(l)}</span>`}<div class="bar" title="${esc(l)}: ${t??v}"><i style="width:${v/m*100}%;background:${c||"var(--pri)"}"></i></div><b>${t??v}</b></div>`).join("")||'<div class="muted">Sem dados no filtro.</div>'};
+const colsC=rows=>{const m=Math.max(1,...rows.map(r=>r[1]));return `<div class="cols">${rows.map(([l,v])=>`<div title="${esc(l)}: ${v}"><i style="height:${v/m*90}px"></i>${v}<br><small>${esc(l)}</small></div>`).join("")}</div>`};
+const lineC=rows=>{const n=rows.length,pts=rows.map(([l,v],i)=>[10+i*(300/(n-1)),v===null?null:112-v],0);const ok=pts.filter(p=>p[1]!==null);
+ return `<svg viewBox="0 0 320 135" width="100%" role="img" aria-label="Conformidade por semana: ${rows.map(r=>r[0]+" "+(r[1]===null?"sem dados":r[1]+"%")).join(", ")}"><path d="M10 12H310M10 62H310M10 112H310" stroke="#dbe3ee"/><text x="2" y="15" font-size="9" fill="#475569">100</text><text x="2" y="65" font-size="9" fill="#475569">50</text><polyline fill="none" stroke="${COL.ok}" stroke-width="2.5" points="${ok.map(p=>p.join(",")).join(" ")}"/>${rows.map(([l,v],i)=>v===null?"":`<circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="4" fill="${COL.ok}"><title>${l}: ${v}%</title></circle>`).join("")}${rows.map(([l],i)=>`<text x="${10+i*(300/(n-1))}" y="130" font-size="9" text-anchor="middle" fill="#475569">${l}</text>`).join("")}</svg>`};
+function vPainel(){
+ const dias=+S.pPeriodo,ini=dias?addDias(-dias):"0000-00-00",est=S.painelEst,tp=S.pTipo;
+ const okI=i=>["Enviada","Em tratamento","Concluída"].includes(i.status),ft=x=>tp==="Todos"||eq(x.eqId).tipo===tp,fe=x=>est==="Todas"||(x.est||ncEst(x))===est;
+ const base=S.insp.filter(i=>okI(i)&&i.data>=ini&&fe(i)&&ft(i));
+ const ncs=S.ncs.filter(n=>n.hist[0][2]>=ini&&fe(n)&&ft(n));
+ const pc=arr=>{const it=arr.flatMap(i=>i.itens.filter(x=>x.s!=="NA"));return it.length?Math.round(it.filter(x=>x.s==="C").length/it.length*100):null};
+ const conf=pc(base),ab=ncs.filter(n=>n.status!=="Fechada"),fech=ncs.filter(n=>n.status==="Fechada");
+ const tmed=fech.length?(fech.reduce((a,n)=>a+dd(n.hist[0][2],n.hist[n.hist.length-1][2]),0)/fech.length).toFixed(1).replace(".",","):"—";
+ const nIt=base.flatMap(i=>i.itens.filter(x=>x.s!=="NA")),nNC=nIt.filter(x=>x.s==="NC").length;
+ const STS=[["Aberta",COL.bad],["Em tratamento",COL.warn],["Aguardando aprovação",COL.pri],["Fechada",COL.ok]];
+ const sev=[["Alta",COL.bad],["Média",COL.warn],["Baixa",COL.pri]];
+ const sem=[7,6,5,4,3,2,1,0].map(k=>{const a=addDias(-7*(k+1)+1),b=addDias(-7*k),w=S.insp.filter(i=>okI(i)&&i.data>=a&&i.data<=b&&fe(i)&&ft(i));return [k===0?"Atual":"-"+k+"s",w.length,pc(w)]});
+ const porEst=STATIONS.map(x=>{const w=S.insp.filter(i=>okI(i)&&i.data>=ini&&i.est===x.id&&ft(i));return [x.nome.replace("Estação ",""),pc(w),x.id]});
+ const tipos=Object.keys(TIPOS).map(t=>[t,ncs.filter(n=>eq(n.eqId).tipo===t).length]).filter(r=>r[1]).sort((a,b)=>b[1]-a[1]).slice(0,6);
+ const turnos=["Manhã","Tarde","Noite"].map((t,i)=>[t,base.filter(x=>x.turno===t).length,[COL.pri,COL.warn,COL.dark][i]]);
+ const resp={};ab.forEach(n=>{const k=n.resp||"Sem responsável";resp[k]=(resp[k]||0)+1});
+ const sel=(id,att,v,opts)=>`<select class="in" id="${id}" ${att}>${opts.map(([val,l])=>`<option value="${esc(val)}" ${v===val?"selected":""}>${esc(l)}</option>`).join("")}</select>`;
+ return `<div class="inner"><h1>Indicadores</h1>
+ <div class="grid g3"><div><label class="f" for="pd" style="margin-top:0">Período</label>${sel("pd","data-ppd=1",S.pPeriodo,[["30","Últimos 30 dias"],["60","Últimos 60 dias"],["0","Todo o histórico"]])}</div>
+ <div><label class="f" for="pe" style="margin-top:0">Estação</label>${sel("pe","data-pe=1",est,[["Todas","Todas"],...STATIONS.map(x=>[x.id,x.nome])])}</div>
+ <div><label class="f" for="ptp" style="margin-top:0">Tipo de equipamento</label>${sel("ptp","data-ptp=1",tp,[["Todos","Todos"],...Object.keys(TIPOS).map(t=>[t,t])])}</div></div>
+ <div class="kpis" style="margin-top:14px">${kpi("list",base.length,"inspeções")}${kpi("shield",conf===null?"—":conf+"%","conformidade")}${kpi("alert",ab.length,"NCs abertas")}${kpi("clock",ab.filter(venc).length,"NCs vencidas")}${kpi("check",fech.length,"NCs fechadas")}${kpi("sync",tmed,"dias até fechar (média)")}${kpi("db",EQUIP.filter(e=>e.ativo).length,"equipamentos ativos (total)")}${kpi("users",USERS.filter(u=>u.ativo).length,"usuários ativos (total)")}</div>
+ <p class="muted" style="font-size:13px">${ic("info")} Gráficos ilustrativos. No app real seriam tiles ou visuais do Power BI sobre os mesmos dados. Toque nos rótulos de situação e de estação para abrir a lista correspondente.</p>
+ <div class="cg">
+ <figure class="card ch"><figcaption>Conformidade dos itens verificados</figcaption>${donut([["Conformes",nIt.length-nNC,COL.ok],["Não conformes",nNC,COL.bad]],conf===null?"—":conf+"%")}</figure>
+ <figure class="card ch"><figcaption>Ocorrências por situação</figcaption>${hb(STS.map(([s,c])=>[s,ncs.filter(n=>n.status===s).length,c,`data-act="drill" data-v="${s}"`]))}</figure>
+ <figure class="card ch"><figcaption>Ocorrências por severidade</figcaption>${donut(sev.map(([v,c])=>[v,ncs.filter(n=>n.sev===v).length,c]),ncs.length)}</figure>
+ <figure class="card ch"><figcaption>Inspeções por semana</figcaption>${colsC(sem.map(r=>[r[0],r[1]]))}</figure>
+ <figure class="card ch"><figcaption>Conformidade por semana (%)</figcaption>${lineC(sem.map(r=>[r[0],r[2]]))}</figure>
+ <figure class="card ch"><figcaption>Conformidade por estação</figcaption>${hb(porEst.map(([n,v,id])=>[n,v??0,COL.pri,`data-act="drillest" data-id="${id}"`,v===null?"—":v+"%"]),100)}</figure>
+ <figure class="card ch"><figcaption>Ocorrências por tipo de equipamento</figcaption>${hb(tipos.map(([t,v])=>[t,v,COL.warn]))}</figure>
+ <figure class="card ch"><figcaption>Inspeções por turno</figcaption>${donut(turnos,base.length)}</figure>
+ <figure class="card ch"><figcaption>Ocorrências abertas por responsável</figcaption>${hb(Object.entries(resp).sort((a,b)=>b[1]-a[1]).map(([r,v])=>[r,v,COL.dark]))}</figure>
+ </div></div>`}
+const rowCad=(t,sub,off,acts)=>`<div class="card row" style="${off?"background:#f1f5f9":""}"><div style="min-width:0">${t}<br><small class="muted">${sub}</small></div><div class="ins-a">${off?`<span class="tag t-na">${off}</span>`:""}${acts}</div></div>`;
+const ibtn=(act,id,label,icon,cls="")=>`<button class="ib ${cls}" data-act="${act}" data-id="${esc(id)}" aria-label="${esc(label)}" title="${esc(label)}">${ic(icon)}</button>`;
+function vCad(){
+ const tabs=[["est","Estações"],["area","Áreas"],["eq","Equipamentos"],["mod","Modelos de checklist"]];
+ const novo={est:["estnew","Nova estação"],area:["areanew","Nova área"],eq:["eqnew","Novo equipamento"],mod:["modnew","Novo modelo"]}[S.tab];
+ let L="";
+ if(S.tab==="est")L=STATIONS.map(x=>rowCad(`<b>${esc(x.nome)}</b>`,`${EQUIP.filter(e=>e.est===x.id).length} equipamento(s)`,x.ativo?"":"Inativa",ibtn("estedit",x.id,"Editar "+x.nome,"pen")+ibtn("esttog",x.id,(x.ativo?"Desativar ":"Ativar ")+x.nome,x.ativo?"x":"redo")+ibtn("estdel",x.id,"Excluir "+x.nome,"trash","dng"))).join("");
+ if(S.tab==="area")L=AREAS.map(x=>rowCad(`<b>${esc(x.nome)}</b>`,`${EQUIP.filter(e=>e.area===x.nome).length} equipamento(s)`,x.ativo?"":"Inativa",ibtn("areaedit",x.id,"Editar "+x.nome,"pen")+ibtn("areatog",x.id,(x.ativo?"Desativar ":"Ativar ")+x.nome,x.ativo?"x":"redo")+ibtn("areadel",x.id,"Excluir "+x.nome,"trash","dng"))).join("");
+ if(S.tab==="eq")L=EQUIP.map(e=>rowCad(`<b>${esc(e.nome)}</b> <small class="muted">${esc(e.id)}</small>`,`${esc(estN(e.est))} · ${esc(e.area)} · ${esc(e.tipo)}`,e.ativo?"":"Inativo",ibtn("eqedit",e.id,"Editar "+e.nome,"pen")+ibtn("eqtog",e.id,(e.ativo?"Desativar ":"Ativar ")+e.nome,e.ativo?"x":"redo")+ibtn("eqdel",e.id,"Excluir "+e.nome,"trash","dng"))).join("");
+ if(S.tab==="mod")L=Object.keys(TIPOS).map(m=>rowCad(`<b>${esc(m)}</b>`,`${TIPOS[m].length} itens · usado por ${EQUIP.filter(e=>e.tipo===m).length} equipamento(s)<br>${esc(TIPOS[m].slice(0,2).join(" · "))}…`,"",ibtn("modedit",m,"Editar modelo "+m,"pen")+ibtn("moddel",m,"Excluir modelo "+m,"trash","dng"))).join("");
+ return `<div class="inner"><div class="row"><h1>Cadastros</h1><button class="btn" data-act="${novo[0]}">${ic("plus")}${novo[1]}</button></div>
+ <div class="pills" role="group" aria-label="Cadastro">${tabs.map(([k,l])=>`<button class="pill" data-act="tab" data-v="${k}" aria-pressed="${S.tab===k}">${l}</button>`).join("")}</div>${L||empty("db","Nada cadastrado.")}</div>`}
+function vUsuarios(){
+ const tabs=`<div class="pills" role="group" aria-label="Seção"><button class="pill" data-act="utab" data-v="usr" aria-pressed="${S.utab==="usr"}">Usuários</button><button class="pill" data-act="utab" data-v="perf" aria-pressed="${S.utab==="perf"}">Perfis e permissões</button></div>`;
+ if(S.utab==="perf"){const rows=[["Fazer inspeções",p=>CAPS.nova.includes(p)],["Ver inspeções de todos",p=>CAPS.todas.includes(p)],["Excluir qualquer inspeção",p=>CAPS.delAny.includes(p)],["Consultar ocorrências",p=>ROLES[p].includes("ocorr")],["Tratar e aprovar ocorrências",p=>CAPS.nc.includes(p)],["Excluir ocorrências",p=>CAPS.delAny.includes(p)],["Ver indicadores",p=>ROLES[p].includes("painel")],["Gerir cadastros",p=>CAPS.cad.includes(p)],["Gerir usuários",p=>CAPS.users.includes(p)]];
+  return `<div class="inner"><h1>Usuários</h1>${tabs}<div class="card"><div class="tw"><table class="mx"><caption class="sr">Permissões por perfil</caption><thead><tr><th scope="col">Funcionalidade</th>${PERFIS.map(p=>`<th scope="col">${p}</th>`).join("")}</tr></thead><tbody>${rows.map(([n,f])=>`<tr><th scope="row" style="text-align:left;font-weight:600">${n}</th>${PERFIS.map(p=>`<td>${f(p)?`<span class="tag t-ok" title="Permitido">${ic("check")}<span class="sr">Sim</span></span>`:`<span class="muted" title="Sem acesso">—<span class="sr">Não</span></span>`}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div><p class="muted">${PERFIS.map(p=>`<b>${p}</b>: ${PERFIL_DESC[p]}`).join(" · ")}</p></div>`}
+ const L=USERS.filter(u=>(S.uPerfil==="Todos"||u.perfil===S.uPerfil)&&(S.uBusca===""||(u.nome+u.email).toLowerCase().includes(S.uBusca.toLowerCase())));
+ return `<div class="inner"><div class="row"><h1>Usuários</h1><button class="btn" data-act="usernew">${ic("plus")}Novo usuário</button></div>${tabs}
+ <div class="sb">${ic("search")}<input class="in" id="uq" value="${esc(S.uBusca)}" data-ubusca="1" placeholder="Buscar por nome ou e-mail" aria-label="Buscar usuários"></div>
+ <div class="pills" role="group" aria-label="Filtrar por perfil">${["Todos",...PERFIS].map(p=>`<button class="pill" data-act="upf" data-v="${p}" aria-pressed="${S.uPerfil===p}">${p}${p==="Todos"?"":" ("+USERS.filter(u=>u.perfil===p).length+")"}</button>`).join("")}</div>
+ ${L.length?L.map(u=>`<article class="card ins ${u.ativo?"t-ok":"t-na"}"><div class="row" style="justify-content:flex-start;flex:1;min-width:220px;flex-wrap:nowrap"><div class="avatar" aria-hidden="true">${iniciais(u.nome)}</div><div style="min-width:0"><b>${esc(u.nome)}</b> ${u.id===S.uid?'<span class="tag t-info">Você</span>':""}<br><small class="muted" style="overflow-wrap:anywhere">${esc(u.email)}</small></div></div>
+ <div class="ins-a"><span class="tag t-info">${ic("user")}${u.perfil}</span>${u.ativo?"":'<span class="tag t-na">Inativo</span>'}${ibtn("useredit",u.id,"Editar "+u.nome,"pen")}${ibtn("usertog",u.id,(u.ativo?"Desativar ":"Ativar ")+u.nome,u.ativo?"x":"redo")}${ibtn("userdel",u.id,"Excluir "+u.nome,"trash","dng")}</div></article>`).join(""):empty("search","Nenhum usuário com esse filtro.")}</div>`}
+function vSync(){return `<div class="inner"><h1>Sincronização</h1><div class="card"><p style="margin-top:0">Conexão: <span class="tag ${S.online?"t-ok":"t-bad"}">${ic(S.online?"wifi":"wifioff")}${S.online?"Conectado":"Sem rede"}</span></p>
+ <p>${S.fila.length?`${S.fila.length} inspeção(ões) aguardando envio.`:"Nada na fila. Tudo sincronizado."}</p>${S.fila.map(id=>`<div class="card row"><b>${esc(id)}</b>${tag("Pendente de envio")}</div>`).join("")}
+ <button class="btn" data-act="sync" ${S.online&&S.fila.length?"":"disabled"}>${ic("sync")}Sincronizar agora</button>${!S.online?`<p class="muted">Ative a rede no seletor do topo para sincronizar.</p>`:""}</div></div>`}
+const V={usuarios:vUsuarios,inicio:vInicio,nova:vNova,check:vCheck,resumo:vResumo,conf:vConf,minhas:vMinhas,det:vDet,ocorr:vOcorr,painel:vPainel,cad:vCad,sync:vSync};
+/* ===== Render ===== */
+function renderTop(){if(!S.logged)return;const u=user(),un=S.notifs.filter(n=>n.un).length;
+ $("#top").innerHTML=`${BACK[S.tela]?`<button class="ib bd" data-act="goback" aria-label="Voltar">${ic("back")}</button>`:""}<div class="ttl">${esc(NAMES[S.tela])}</div>
+ <button class="chip ${S.online?"on":"off"}" data-act="gosync" aria-label="Conexão e sincronização">${ic(S.online?"wifi":"wifioff")}<span>${S.online?"Conectado":"Sem rede"}${S.fila.length?" · "+S.fila.length:""}</span></button>
+ <button class="ib bd" data-act="bell" aria-label="Notificações${un?`, ${un} novas`:""}" aria-expanded="false">${ic("bell")}${un?`<span class="badge" aria-hidden="true">${un}</span>`:""}</button>
+ <div class="usr"><div class="avatar" aria-hidden="true">${iniciais(u.nome)}</div><div class="nm"><b>${esc(u.nome)}</b><br><small class="muted">${esc(S.perfil)}</small></div><button class="ib bd" data-act="sair" aria-label="Sair">${ic("logout")}</button></div><div id="npop" hidden></div>`}
+function render(focus){
+ if(!S.logged){$("#cover").hidden=false;$("#stage").hidden=true;$("#pp").innerHTML=ppPanel();return}
+ $("#cover").hidden=true;$("#stage").hidden=false;
+ const ok=ROLES[S.perfil];const base=NAVOF[S.tela]||S.tela;if(!ok.includes(base)&&!["sync"].includes(base))S.tela="inicio";
+ $("#screen").innerHTML=V[S.tela]();
+ const cur=NAVOF[S.tela]||S.tela;const items=ok;
+ $("#snav").innerHTML=[...items,"sync"].map(t=>`<button class="nb" data-nav="${t}" aria-label="${NAV[t][1]}" title="${NAV[t][1]}" ${cur===t?'aria-current="page"':""}>${ic(NAV[t][0])}<span class="lbl">${NAV[t][1]}</span></button>`).join("");
+ const bi=items.length>=5?items.slice(0,4):items;$("#bnav").innerHTML=bi.map(t=>`<button data-nav="${t}" ${cur===t?'aria-current="page"':""}>${ic(NAV[t][0])}<span>${NAV[t][1].replace("Nova inspeção","Nova")}</span></button>`).join("")+(items.length>=5?`<button data-act="mais" ${items.slice(4).includes(cur)||cur==="sync"?'aria-current="page"':""}>${ic("more")}<span>Mais</span></button>`:"");
+ $("#sbrand").innerHTML=`${ic("train")}<span class="lbl">Via Modelo<small>Inspeção de Via</small></span>`;
+ renderTop();$("#pp").innerHTML=ppPanel();
+ if(S.tela==="resumo")initSig();
+ if(focus){const h=$("#screen h1");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}$("#screen").scrollTop=0}
+}
+function renderCover(){document.querySelector(".cv .brand").innerHTML=ic("train")+"<span>Via Modelo · Operadora fictícia</span>";
+ $("#cvlist").innerHTML=[["list","Checklist guiado por tipo de equipamento"],["camera","Foto e assinatura como evidência"],["alert","Tratativa das não conformidades até o fechamento"],["file","Relatório pronto para imprimir"]].map(([i,t])=>`<li>${ic(i)}<span>${t}</span></li>`).join("");
+ $("#entrar").innerHTML=ic("shield")+"Entrar";$("#perfil").innerHTML=PERFIS.map(p=>`<option>${p}</option>`).join("");$("#cvp").innerHTML=PERFIS.map(p=>`<button class="pill" data-act="entrarcomo" data-p="${p}">${p}</button>`).join("");$("#ppbtn").innerHTML=ic("layers")+"Power Platform"}
+/* ===== Assinatura ===== */
+function initSig(){const c=$("#sig");if(!c)return;const x=c.getContext("2d");x.lineWidth=3;x.lineCap="round";x.strokeStyle="#0f172a";
+ if(S.draft.sigImg){const im=new Image();im.onload=()=>x.drawImage(im,0,0);im.src=S.draft.sigImg}
+ let on=false;const pos=e=>{const r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]};
+ c.addEventListener("pointerdown",e=>{on=true;c.setPointerCapture(e.pointerId);const[p,q]=pos(e);x.beginPath();x.moveTo(p,q)});
+ c.addEventListener("pointermove",e=>{if(!on)return;const[p,q]=pos(e);x.lineTo(p,q);x.stroke();S.draft.ink=true});
+ const end=()=>{if(on){on=false;S.draft.sigImg=c.toDataURL()}};c.addEventListener("pointerup",end);c.addEventListener("pointercancel",end)}
+/* ===== Regras ===== */
+function validarChecklist(){const d=S.draft;let ok=true;d.itens.forEach(it=>it.err="");
+ if(d.itens.some(x=>!x.s)){toast("Responda todos os itens antes de continuar.","err");return false}
+ d.itens.forEach(it=>{if(it.s==="NC"){const m=[];if(!it.sev)m.push("severidade");if(!it.desc.trim())m.push("descrição");if(m.length){it.err="Preencha: "+m.join(" e ")+".";ok=false}}});
+ if(!ok){render(false);toast("Há não conformidades incompletas.","err")}return ok}
+function gerarNCs(i){i.itens.forEach(it=>{if(it.s==="NC")S.ncs.push({id:"NC-"+String(S.nseq++).padStart(3,"0"),insp:i.id,eqId:i.eqId,desc:it.desc,sev:it.sev,status:"Aberta",resp:"",prazo:"",fotos:it.fotos.slice(),hist:[["Aberta",i.por,addDias(0)]]})})}
+function salvarInsp(status){const d=S.draft;let i=S.insp.find(x=>x.id===d.id);if(!i){i={id:"INS-"+String(S.seq++).padStart(4,"0")};S.insp.push(i);d.id=i.id}
+ Object.assign(i,{data:addDias(0),est:d.est,eqId:d.eqId,turno:d.turno,por:d.por||user().nome,status,itens:d.itens,sig:d.nomeAss||"",sigImg:d.sigImg||""});return i}
+function abrirNC(id){const n=S.ncs.find(x=>x.id===id);if(!n)return;const e=eq(n.eqId);const gest=can("nc");
+ let acts="";
+ if(gest){
+  if(n.status==="Aberta")acts+=`<button class="btn" data-act="ncatrib" data-id="${id}">${ic("user")}Atribuir e iniciar</button>`;
+  if(n.status==="Em tratamento")acts+=`<button class="btn" data-act="nctrat" data-id="${id}">${ic("check")}Registrar tratativa</button>`;
+  if(n.status==="Aguardando aprovação")acts+=`<button class="btn sec" data-act="ncdev" data-id="${id}">${ic("back")}Devolver</button>${(n.hist[n.hist.length-1][1]||"").startsWith(user().nome)?`<span class="muted">Quem registrou a tratativa não aprova o fechamento.</span>`:`<button class="btn" data-act="ncfech" data-id="${id}">${ic("check")}Aprovar fechamento</button>`}`;
+  if(n.status!=="Fechada")acts+=`<button class="btn sec" data-act="ncedit" data-id="${id}">${ic("pen")}Editar</button>`;
+  if(can("delAny"))acts+=`<button class="btn sec" data-act="ncdel" data-id="${id}">${ic("trash")}Excluir</button>`}
+ openModal(`<div class="modal"><div class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">${esc(n.id)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>
+ <p>${sevTag(n.sev)} ${tag(n.status)}${venc(n)?` <span class="tag t-bad">${ic("clock")}Vencida</span>`:""}</p><p style="margin:6px 0"><b>${esc(n.desc)}</b></p><p class="muted" style="margin:0">${esc(e.nome)} · ${esc(estN(e.est))}<br>Responsável: ${esc(n.resp||"não atribuído")} · Prazo: ${n.prazo?fmt(n.prazo):"não definido"}${n.insp?` · Inspeção ${esc(n.insp)}`:" · Ocorrência avulsa"}</p>
+ ${n.fotos&&n.fotos.length?`<div class="photos">${n.fotos.map((f,k)=>`<div class="ph"><img src="${f}" alt="Foto ${k+1} da ${n.id}"></div>`).join("")}</div>`:""}
+ <h3>Histórico</h3><ul class="hist">${n.hist.map(h=>`<li>${fmt(h[2])} · ${esc(h[0])} · ${esc(h[1])}${h[3]?` — ${esc(h[3])}`:""}</li>`).join("")}</ul>
+ ${acts?`<div class="actions" style="position:static;background:none">${acts}</div>`:`<p class="muted">Seu perfil só consulta as ocorrências.</p>`}</div></div>`)}
+function ncForm(n){const eqs=EQUIP.filter(e=>e.ativo).map(e=>[e.id,e.nome+" · "+estN(e.est)]);const novo=!n;
+ formModal({title:novo?"Nova ocorrência":"Editar "+n.id,ok:novo?"Registrar":"Salvar",fields:[
+  ...(novo?[{id:"eq",label:"Equipamento",type:"select",options:eqs,opt:1,req:1}]:[]),
+  {id:"sev",label:"Severidade",type:"select",options:[["Alta","Alta"],["Média","Média"],["Baixa","Baixa"]],opt:1,req:1,value:n?n.sev:""},
+  {id:"desc",label:"Descrição",type:"textarea",req:1,value:n?n.desc:""},
+  {id:"resp",label:"Responsável",type:"select",options:RESP.map(r=>[r,r]),opt:1,value:n?n.resp:""},
+  {id:"prazo",label:"Prazo",type:"date",value:n?n.prazo:""}],
+  save:v=>{if(novo){const id="NC-"+String(S.nseq++).padStart(3,"0");S.ncs.push({id,insp:"",eqId:v.eq,desc:v.desc,sev:v.sev,status:v.resp?"Em tratamento":"Aberta",resp:v.resp,prazo:v.prazo,fotos:[],hist:[["Aberta",user().nome,addDias(0)]]});S.notifs.unshift({m:id+" registrada.",t:"info",h:hora(),un:true})}
+   else Object.assign(n,{sev:v.sev,desc:v.desc,resp:v.resp,prazo:v.prazo})},
+  msg:novo?"Ocorrência registrada.":"Ocorrência atualizada.",done:()=>{if(n)abrirNC(n.id)}})}
+function eqForm(e){const novo=!e;
+ formModal({title:novo?"Novo equipamento":"Editar equipamento",fields:[
+  {id:"nome",label:"Nome",req:1,value:e?e.nome:""},{id:"id",label:"Código",req:1,value:e?e.id:"",ph:"ex.: ESC-ALV-09"},
+  {id:"est",label:"Estação",type:"select",options:STATIONS.filter(s=>s.ativo||(e&&e.est===s.id)).map(s=>[s.id,s.nome]),req:1,value:e?e.est:STATIONS[0].id},
+  {id:"area",label:"Área",type:"select",options:AREAS.filter(a=>a.ativo||(e&&e.area===a.nome)).map(a=>[a.nome,a.nome]),req:1,value:e?e.area:AREAS[0].nome},
+  {id:"tipo",label:"Tipo (define o checklist)",type:"select",options:Object.keys(TIPOS).map(t=>[t,t]),req:1,value:e?e.tipo:"Escada rolante"}],
+  validate:v=>{v.id=v.id.toUpperCase();const dup=EQUIP.find(x=>x.id===v.id&&x!==e);if(dup)return "Esse código já existe.";if(e&&v.tipo!==e.tipo&&(S.insp.some(i=>i.eqId===e.id)||S.ncs.some(n=>n.eqId===e.id)))return "Equipamento com inspeções: o tipo não pode mudar. Desative este e cadastre outro.";return null},
+  save:v=>{const id=v.id.toUpperCase();if(novo)EQUIP.push({id,nome:v.nome,est:v.est,area:v.area,tipo:v.tipo,ativo:true});else{if(id!==e.id){S.insp.forEach(i=>{if(i.eqId===e.id)i.eqId=id});S.ncs.forEach(n=>{if(n.eqId===e.id)n.eqId=id})}Object.assign(e,{id,nome:v.nome,est:v.est,area:v.area,tipo:v.tipo})}},
+  msg:novo?"Equipamento adicionado.":"Equipamento atualizado."})}
+function estForm(s){const novo=!s;
+ formModal({title:novo?"Nova estação":"Editar estação",fields:[{id:"nome",label:"Nome",req:1,value:s?s.nome:""}],
+  validate:v=>STATIONS.find(x=>x.nome.toLowerCase()===v.nome.toLowerCase()&&x!==s)?"Já existe uma estação com esse nome.":null,
+  save:v=>{if(novo)STATIONS.push({id:"e"+Date.now().toString(36),nome:v.nome,ativo:true});else s.nome=v.nome},msg:novo?"Estação adicionada.":"Estação atualizada."})}
+function areaForm(x){const novo=!x;formModal({title:novo?"Nova área":"Editar área",fields:[{id:"nome",label:"Nome",req:1,value:x?x.nome:""}],
+ validate:v=>AREAS.find(a=>a.nome.toLowerCase()===v.nome.toLowerCase()&&a!==x)?"Já existe uma área com esse nome.":null,
+ save:v=>{if(novo)AREAS.push({id:"a"+Date.now().toString(36),nome:v.nome,ativo:true});else{EQUIP.forEach(e=>{if(e.area===x.nome)e.area=v.nome});x.nome=v.nome}},msg:novo?"Área adicionada.":"Área atualizada."})}
+function modForm(m){const novo=!m;formModal({title:novo?"Novo modelo de checklist":"Editar modelo",fields:[{id:"nome",label:"Nome do modelo (tipo de equipamento)",req:1,value:m||""},{id:"itens",label:"Itens do checklist (um por linha)",type:"textarea",req:1,value:m?TIPOS[m].join("\n"):""}],
+ validate:v=>{if(Object.keys(TIPOS).some(k=>k.toLowerCase()===v.nome.toLowerCase()&&k!==m))return "Já existe um modelo com esse nome.";return null},
+ save:v=>{const it=v.itens.split("\n").map(x=>x.trim()).filter(Boolean);if(novo)TIPOS[v.nome]=it;else{if(v.nome!==m){delete TIPOS[m];EQUIP.forEach(e=>{if(e.tipo===m)e.tipo=v.nome})}TIPOS[v.nome]=it}},msg:novo?"Modelo adicionado.":"Modelo atualizado. Vale para as próximas inspeções."})}
+const admins=()=>USERS.filter(u=>u.perfil==="Administrador"&&u.ativo);
+function userForm(u){const novo=!u;formModal({title:novo?"Novo usuário":"Editar usuário",fields:[{id:"nome",label:"Nome completo",req:1,value:u?u.nome:""},{id:"email",label:"E-mail",type:"email",req:1,value:u?u.email:"",ph:"nome@viamodelo.example"},{id:"perfil",label:"Perfil",type:"select",options:PERFIS.map(p=>[p,p+" · "+PERFIL_DESC[p]]),req:1,value:u?u.perfil:"Inspetor"}],
+ validate:v=>{if(USERS.some(x=>x.nome.toLowerCase()===v.nome.toLowerCase()&&x!==u))return "Já existe um usuário com esse nome.";if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email))return "Informe um e-mail válido.";if(USERS.some(x=>x.email.toLowerCase()===v.email.toLowerCase()&&x!==u))return "Esse e-mail já está cadastrado.";
+  if(u&&u.id===S.uid&&v.perfil!==u.perfil)return "Você não pode alterar o seu próprio perfil.";if(u&&u.perfil==="Administrador"&&v.perfil!=="Administrador"&&admins().length<=1)return "Mantenha ao menos um administrador ativo.";return null},
+ save:v=>{if(novo){USERS.push({id:"u"+Date.now().toString(36),nome:v.nome,email:v.email,perfil:v.perfil,ativo:true});S.notifs.unshift({m:"Usuário "+v.nome+" criado como "+v.perfil+".",t:"info",h:hora(),un:true})}else{const old=u.nome;if(old!==v.nome){S.insp.forEach(i=>{if(i.por===old)i.por=v.nome});S.ncs.forEach(n=>n.hist.forEach(h=>{if(h[1]===old||h[1].startsWith(old+" ("))h[1]=v.nome+h[1].slice(old.length)}))}Object.assign(u,{nome:v.nome,email:v.email,perfil:v.perfil})}},msg:novo?"Usuário criado.":"Usuário atualizado."})}
+/* ===== Relatório ===== */
+function relatorioHTML(i){const e=eq(i.eqId),nc=i.itens.filter(x=>x.s==="NC"),na=i.itens.filter(x=>x.s==="NA").length,c=i.itens.length-nc.length-na;const ap=i.itens.length-na;const pc=ap?Math.round(c/ap*100):0;const ncs=S.ncs.filter(n=>n.insp===i.id);
+ return `<div class="doc"><div class="hd"><div><h2>Relatório de inspeção</h2><div>Via Modelo · Inspeção de estações e equipamentos de via</div></div><div style="text-align:right"><b>${esc(i.id)}</b><br>${esc(i.status)}</div></div>
+ <table><tbody><tr><th>Equipamento</th><td>${esc(e.nome)} (${esc(e.id)})</td><th>Tipo</th><td>${esc(e.tipo)}</td></tr><tr><th>Estação</th><td>${esc(estN(i.est))}</td><th>Área</th><td>${esc(e.area)}</td></tr><tr><th>Data</th><td>${fmt(i.data)}</td><th>Turno</th><td>${esc(i.turno)}</td></tr><tr><th>Inspetor</th><td colspan="3">${esc(i.por)}</td></tr></tbody></table>
+ <h3>Resumo</h3><p>${c} conformes · ${nc.length} não conformes · ${na} N/A · conformidade de ${pc}% nos itens aplicáveis.</p>
+ <h3>Itens verificados</h3><table><thead><tr><th>#</th><th>Item</th><th>Resultado</th></tr></thead><tbody>${i.itens.map((x,k)=>`<tr><td>${k+1}</td><td>${esc(x.t)}${x.s==="NC"?`<br><small>${esc(x.sev)} — ${esc(x.desc)}${x.obs?" · Obs.: "+esc(x.obs):""}</small>`:""}</td><td>${x.s==="C"?"✔ Conforme":x.s==="NC"?"✖ Não conforme":"– N/A"}</td></tr>`).join("")}</tbody></table>
+ ${nc.length?`<h3>Evidências</h3>${nc.map(x=>x.fotos.length?`<p><small>${esc(x.t)}</small><br>${x.fotos.map((f,k)=>`<img src="${f}" alt="Evidência ${k+1}">`).join("")}</p>`:"").join("")||"<p>Sem fotos anexadas.</p>"}`:""}
+ ${ncs.length?`<h3>Ocorrências geradas</h3><table><thead><tr><th>Código</th><th>Severidade</th><th>Situação</th></tr></thead><tbody>${ncs.map(n=>`<tr><td>${esc(n.id)}</td><td>${esc(n.sev)}</td><td>${esc(n.status)}${n.prazo?" · prazo "+fmt(n.prazo):""}</td></tr>`).join("")}</tbody></table>`:""}
+ <div class="sg">${i.sigImg?`<img src="${i.sigImg}" alt="Assinatura desenhada">`:""}${i.sig?`<div style="font:italic 22px cursive">${esc(i.sig)}</div>`:""}${!i.sigImg&&!i.sig?"<div>&nbsp;</div>":""}<small>${esc(i.por)} · Inspetor · ${fmt(i.data)}</small></div>
+ <p style="margin-top:18px;font-size:11px">Documento de demonstração gerado por mockup. Dados fictícios.</p></div>`}
+function abrirRel(id){const i=S.insp.find(x=>x.id===id);if(!i)return;
+ openModal(`<div class="modal"><div class="mbox wide" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh noprint"><h2 id="mt">Relatório ${esc(id)}</h2><button class="ib" data-act="closemodal" aria-label="Fechar relatório">${ic("x")}</button></div>${relatorioHTML(i)}
+ <div class="actions noprint" style="position:static;background:none"><button class="btn sec" data-act="closemodal">Fechar</button><button class="btn" data-act="print">${ic("print")}Imprimir</button></div></div></div>`)}
+/* ===== Eventos ===== */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-act],[data-nav]");
+ if(!e.target.closest("#npop,[data-act=bell]")){const p=$("#npop");if(p&&!p.hidden){p.hidden=true}}
+ if(!t)return;if(t.dataset.nav){if($("#modal").innerHTML)closeModal();if(S.drillB&&t.dataset.nav!=="minhas"){S.busca="";S.drillB=0}S.nf=null;go(t.dataset.nav);return}
+ const a=t.dataset.act,id=t.dataset.id,d=S.draft;
+ switch(a){
+  case"entrar":case"entrarcomo":{const alvo=a==="entrar"?USERS.find(u=>u.id==="u1"):USERS.find(u=>u.perfil===t.dataset.p&&u.ativo);if(!alvo||!alvo.ativo){toast("Não há usuário ativo nesse perfil.","err");break}busy("Autenticando…",()=>{setUser(alvo.id);S.logged=true;S.draft=null;S.tela="inicio";render(true);toast("Bem-vindo(a), "+alvo.nome+".")},Math.min(MS+300,1000));break}
+  case"sair":confirmar("Deseja sair do aplicativo?","Sair",()=>{S.logged=false;S.draft=null;render(false);$("#entrar").focus()});break;
+  case"closemodal":closeModal();break;
+  case"pptog":S.ppc=!S.ppc;$("#pp").innerHTML=ppPanel();$("#pp").querySelector(".ppt").focus();break;
+  case"ppopen":openModal(`<div class="modal"><div class="mbox pp" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><span id="mt" class="sr" style="position:absolute;left:-9999px">Como seria na Power Platform</span><span></span><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${ppHTML()}</div></div>`);break;
+  case"bell":{const p=$("#npop");const open=p.hidden;if(open){S.notifs.forEach(n=>n.un=false);p.innerHTML=`<div class="row" style="padding:6px 8px"><b>Notificações</b><button class="linkbtn" data-act="clearn">Limpar</button></div>${S.notifs.length?S.notifs.map(n=>`<div class="nt">${ic(n.t==="warn"?"alert":"info")}<div><div>${esc(n.m)}</div><small class="muted">${esc(n.h)}</small></div></div>`).join(""):`<div class="empty">Sem notificações.</div>`}`;p.hidden=false;t.setAttribute("aria-expanded","true");const b=$("[data-act=bell] .badge");if(b)b.remove()}else p.hidden=true;break}
+  case"clearn":S.notifs=[];renderTop();break;
+  case"goback":go(BACK[S.tela]);break;
+  case"gosync":go("sync");break;
+  case"inicio":S.draft=null;go("inicio");break;
+  case"nova":S.draft=null;go("nova");break;
+  case"scan":{const x=eq("ESC-ALV-02");S.draft=Object.assign(d||{},{est:x.est,area:x.area,eqId:x.id,itens:null});render(false);toast("Código lido (simulado): "+x.nome+".","info");break}
+  case"startcheck":if(!d.itens||d.itensEq!==d.eqId){d.itens=TIPOS[eq(d.eqId).tipo].map(t=>({t,s:"",sev:"",desc:"",fotos:[],obs:""}));d.itensEq=d.eqId}go("check");break;
+  case"photo":{const it=d.itens[+t.dataset.i];it.fotos.push(photoUri(it.fotos.length+1));render(false);toast("Foto fictícia adicionada.");break}
+  case"photodel":d.itens[+t.dataset.i].fotos.splice(+t.dataset.k,1);render(false);toast("Foto removida.","info");break;
+  case"rascunho":busy("Salvando rascunho…",()=>{const i=salvarInsp("Rascunho");S.sel=i;S.draft=null;toast("Rascunho salvo.");go("minhas")});break;
+  case"revisar":if(validarChecklist())go("resumo");break;
+  case"voltar":d.nomeAss=($("#nomeAss").value||"").trim();go("check",false);break;
+  case"limpar":{const c=$("#sig");c.getContext("2d").clearRect(0,0,c.width,c.height);d.sigImg="";d.ink=false;break}
+  case"enviar":{const nome=($("#nomeAss").value||"").trim();d.nomeAss=nome;
+   if(!d.ink&&!d.sigImg&&!nome){d.errAss="Assine por desenho ou digite o nome completo.";render(false);$("#nomeAss").focus();return}
+   d.errAss="";busy("Gravando inspeção…",()=>{const was=S.insp.find(x=>x.id===d.id);const i=salvarInsp(S.online?"Enviada":"Pendente de envio");S.fila=S.fila.filter(x=>x!==i.id);
+    if(S.online){if(!S.ncs.some(n=>n.insp===i.id))gerarNCs(i);if(ncCount(i))notify(ncCount(i)+" ocorrência(s) criada(s) a partir de "+i.id+".")}else S.fila.push(i.id);
+    S.sel=i;S.draft=null;go("conf")});break}
+  case"sync":busy("Sincronizando…",()=>{const n=S.fila.length;S.fila.forEach(x=>{const i=S.insp.find(y=>y.id===x);i.status="Enviada";if(!S.ncs.some(c=>c.insp===i.id))gerarNCs(i)});S.fila=[];notify(n+" inspeção(ões) sincronizada(s).");render(false)},MS+500);break;
+  case"open":{const i=S.insp.find(x=>x.id===id);S.sel=i;if(podeEd(i)){S.draft={est:i.est,area:eq(i.eqId).area,eqId:i.eqId,itensEq:i.eqId,turno:i.turno,itens:JSON.parse(JSON.stringify(i.itens)),id:i.id,por:i.por,nomeAss:i.sig,sigImg:i.sigImg,ink:!!i.sigImg};go("check")}else go("det");break}
+  case"del":{const i=S.insp.find(x=>x.id===id);confirmar(`Excluir a inspeção ${id}?${S.ncs.some(n=>n.insp===id)?" As ocorrências vinculadas também serão excluídas.":""}`,"Excluir",()=>busy("Excluindo…",()=>{S.insp=S.insp.filter(x=>x.id!==id);S.ncs=S.ncs.filter(n=>n.insp!==id);S.fila=S.fila.filter(x=>x!==id);toast("Inspeção excluída.","info");if(S.tela==="det")S.tela="minhas";render(false)}));break}
+  case"rel":abrirRel(id);break;
+  case"print":try{window.print();toast("Impressão enviada ao navegador. Se nada abrir, abra o mockup em uma aba própria.","info")}catch(x){toast("Impressão indisponível neste ambiente.","err")}break;
+  case"fins":S.fIns=t.dataset.v;render(false);break;
+  case"fnc":S.fNC=t.dataset.v;render(false);break;
+  case"tab":S.tab=t.dataset.v;render(false);break;
+  case"ncopen":abrirNC(id);break;
+  case"ncnew":ncForm(null);break;
+  case"ncedit":ncForm(S.ncs.find(n=>n.id===id));break;
+  case"ncdel":confirmar(`Excluir a ocorrência ${id}?`,"Excluir",()=>busy("Excluindo…",()=>{const dn=S.ncs.find(n=>n.id===id);S.ncs=S.ncs.filter(n=>n.id!==id);if(dn){const I=S.insp.find(x=>x.id===dn.insp);if(I&&I.status==="Em tratamento"&&!S.ncs.some(c=>c.insp===I.id&&c.status!=="Fechada"))I.status="Concluída"}toast("Ocorrência excluída.","info");render(false)}));break;
+  case"ncatrib":{const n=S.ncs.find(x=>x.id===id);formModal({title:"Atribuir "+id,fields:[{id:"resp",label:"Responsável",type:"select",options:RESP.map(r=>[r,r]),opt:1,req:1},{id:"prazo",label:"Prazo",type:"date",req:1,value:addDias(5)}],save:v=>{Object.assign(n,{resp:v.resp,prazo:v.prazo,status:"Em tratamento"});n.hist.push(["Em tratamento",user().nome,addDias(0)]);const ii=S.insp.find(x=>x.id===n.insp);if(ii&&ii.status==="Enviada")ii.status="Em tratamento"},msg:"Tratativa iniciada.",done:()=>abrirNC(id),ok:"Atribuir"});break}
+  case"nctrat":{const n=S.ncs.find(x=>x.id===id);formModal({title:"Tratativa de "+id,fields:[{id:"txt",label:"Tratativa realizada",type:"textarea",req:1}],save:v=>{n.status="Aguardando aprovação";n.hist.push(["Aguardando aprovação",user().nome+" ("+n.resp+")",addDias(0),v.txt]);S.notifs.unshift({m:id+" aguarda aprovação de fechamento.",t:"info",h:hora(),un:true})},msg:"Enviada para aprovação.",done:()=>abrirNC(id)});break}
+  case"ncdev":{const n=S.ncs.find(x=>x.id===id);formModal({title:"Devolver "+id,fields:[{id:"mot",label:"Motivo da devolução",type:"textarea",req:1}],save:v=>{n.status="Em tratamento";n.hist.push(["Em tratamento",user().nome+" (devolvida)",addDias(0),v.mot])},msg:"Devolvida para tratativa.",done:()=>abrirNC(id),ok:"Devolver"});break}
+  case"ncfech":busy("Gravando…",()=>{const n=S.ncs.find(x=>x.id===id);n.status="Fechada";n.hist.push(["Fechada",user().nome,addDias(0)]);const i=S.insp.find(x=>x.id===n.insp);if(i&&S.ncs.filter(x=>x.insp===i.id).every(x=>x.status==="Fechada"))i.status="Concluída";toast("Fechamento aprovado.");render(false);abrirNC(id)});break;
+  case"eqnew":eqForm(null);break;
+  case"eqedit":eqForm(eq(id));break;
+  case"eqtog":{const x=eq(id);x.ativo=!x.ativo;render(false);toast(x.ativo?"Equipamento ativado.":"Equipamento desativado.","info");break}
+  case"eqdel":if(S.insp.some(i=>i.eqId===id)||S.ncs.some(n=>n.eqId===id)){toast("Equipamento em uso. Desative em vez de excluir.","err")}else confirmar(`Excluir o equipamento ${id}?`,"Excluir",()=>busy("Excluindo…",()=>{EQUIP.splice(EQUIP.findIndex(x=>x.id===id),1);toast("Equipamento excluído.","info");render(false)}));break;
+  case"drill":S.fNC=t.dataset.v;S.nf={dias:+S.pPeriodo,ini:+S.pPeriodo?addDias(-S.pPeriodo):"0000-00-00",est:S.painelEst,tp:S.pTipo};go("ocorr");break;
+  case"nfclear":S.nf=null;render(false);break;
+  case"drillest":S.busca=estN(id);S.drillB=1;S.fIns="Todas";go("minhas");break;
+  case"mais":openModal(`<div class="modal"><div class="mbox" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><h2 id="mt">Mais telas</h2><button class="ib" data-act="closemodal" aria-label="Fechar">${ic("x")}</button></div>${[...ROLES[S.perfil].slice(4),"sync"].map(k=>`<button class="nb" style="color:var(--tx)" data-nav="${k}">${ic(NAV[k][0])}${NAV[k][1]}</button>`).join("")}</div></div>`);break;
+  case"utab":S.utab=t.dataset.v;render(false);break;
+  case"upf":S.uPerfil=t.dataset.v;render(false);break;
+  case"usernew":userForm(null);break;
+  case"useredit":userForm(USERS.find(u=>u.id===id));break;
+  case"usertog":{const u=USERS.find(x=>x.id===id);if(u.id===S.uid){toast("Você não pode desativar o seu próprio usuário.","err");break}if(u.ativo&&u.perfil==="Administrador"&&admins().length<=1){toast("Mantenha ao menos um administrador ativo.","err");break}u.ativo=!u.ativo;render(false);toast(u.ativo?"Usuário ativado.":"Usuário desativado.","info");break}
+  case"userdel":{const u=USERS.find(x=>x.id===id);if(u.id===S.uid){toast("Você não pode excluir o seu próprio usuário.","err");break}if(u.perfil==="Administrador"&&u.ativo&&admins().length<=1){toast("Mantenha ao menos um administrador ativo.","err");break}confirmar(`Excluir o usuário ${u.nome}? O histórico das inspeções dele permanece.`,"Excluir",()=>busy("Excluindo…",()=>{USERS.splice(USERS.indexOf(u),1);toast("Usuário excluído.","info");render(false)}));break}
+  case"areanew":areaForm(null);break;
+  case"areaedit":areaForm(AREAS.find(a=>a.id===id));break;
+  case"areatog":{const a=AREAS.find(x=>x.id===id);a.ativo=!a.ativo;render(false);toast(a.ativo?"Área ativada.":"Área desativada.","info");break}
+  case"areadel":{const a=AREAS.find(x=>x.id===id);if(EQUIP.some(e=>e.area===a.nome)){toast("Área em uso. Desative em vez de excluir.","err")}else confirmar(`Excluir a área ${a.nome}?`,"Excluir",()=>busy("Excluindo…",()=>{AREAS.splice(AREAS.indexOf(a),1);toast("Área excluída.","info");render(false)}));break}
+  case"modnew":modForm(null);break;
+  case"modedit":modForm(id);break;
+  case"moddel":if(EQUIP.some(e=>e.tipo===id)){toast("Modelo em uso por equipamentos. Troque o tipo deles antes de excluir.","err")}else confirmar(`Excluir o modelo ${id}?`,"Excluir",()=>busy("Excluindo…",()=>{delete TIPOS[id];toast("Modelo excluído.","info");render(false)}));break;
+  case"estnew":estForm(null);break;
+  case"estedit":estForm(STATIONS.find(s=>s.id===id));break;
+  case"esttog":{const s=STATIONS.find(x=>x.id===id);s.ativo=!s.ativo;render(false);toast(s.ativo?"Estação ativada.":"Estação desativada.","info");break}
+  case"estdel":if(EQUIP.some(x=>x.est===id)||S.insp.some(i=>i.est===id)){toast("Estação em uso. Desative em vez de excluir.","err")}else confirmar("Excluir esta estação?","Excluir",()=>busy("Excluindo…",()=>{STATIONS.splice(STATIONS.findIndex(x=>x.id===id),1);toast("Estação excluída.","info");render(false)}));break;
+ }
+});
+document.addEventListener("change",e=>{const t=e.target;
+ if(t.id==="perfil"){const novo=t.value,alvo=USERS.find(u=>u.perfil===novo&&u.ativo);if(!alvo){toast("Não há usuário ativo nesse perfil.","err");t.value=S.perfil;return}const troca=()=>{setUser(alvo.id);S.draft=null;if(S.logged){go("inicio");toast("Perfil: "+S.perfil+" ("+user().nome+").","info")}};if(S.logged&&S.draft&&S.draft.itens){t.value=S.perfil;confirmar("Trocar de perfil descarta a inspeção em andamento. Continuar?","Trocar perfil",()=>{t.value=novo;troca()})}else troca();return}
+ if(t.id==="semrede"){S.online=!t.checked;if(S.logged)render(false);toast(S.online?"Rede restabelecida.":"Sem rede simulada.","info");return}
+ if(t.dataset.f){const d=S.draft;d[t.dataset.f]=t.value;if(t.dataset.f==="est"){d.area="";d.eqId="";d.itens=null}if(t.dataset.f==="area"){d.eqId="";d.itens=null}if(t.dataset.f==="eqId")d.itens=null;render(false);const n=$("#"+t.id);if(n)n.focus({preventScroll:true});return}
+ if(t.dataset.i!==undefined&&t.type==="radio"){S.draft.itens[+t.dataset.i].s=t.value;render(false);const n=$("#it"+t.dataset.i+t.value);if(n)n.focus({preventScroll:true});return}
+ if(t.dataset.sev!==undefined){S.draft.itens[+t.dataset.sev].sev=t.value;return}
+ if(t.dataset.pe){S.painelEst=t.value;render(false);$("#pe").focus({preventScroll:true});return}
+ if(t.dataset.ppd){S.pPeriodo=t.value;render(false);$("#pd").focus({preventScroll:true});return}
+ if(t.dataset.ptp){S.pTipo=t.value;render(false);$("#ptp").focus({preventScroll:true})}});
+document.addEventListener("input",e=>{const t=e.target;
+ if(t.dataset.desc!==undefined)S.draft.itens[+t.dataset.desc].desc=t.value;
+ if(t.dataset.obs!==undefined)S.draft.itens[+t.dataset.obs].obs=t.value;
+ if(t.dataset.ubusca){S.uBusca=t.value;const p=t.selectionStart;render(false);const n=$("#uq");n.focus({preventScroll:true});n.setSelectionRange(p,p)}
+ if(t.dataset.busca){S.busca=t.value;const p=t.selectionStart;render(false);const n=$("#bq");n.focus({preventScroll:true});n.setSelectionRange(p,p)}});
+document.addEventListener("keydown",e=>{
+ if(e.key==="Escape"&&$("#modal").innerHTML)closeModal();
+ if(e.key==="Escape"){const p=$("#npop");if(p&&!p.hidden)p.hidden=true}
+ if(e.key==="Tab"&&$("#modal").innerHTML){const f=[...$("#modal").querySelectorAll("button,input,select,textarea,[href]")].filter(x=>!x.disabled&&x.offsetParent!==null);if(!f.length)return;const a=f[0],b=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus()}else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus()}}});
+renderCover();render(false);
+</script>
+</body>
+</html>
