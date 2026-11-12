@@ -57,8 +57,12 @@ export default [
         console: 'readonly',
         process: 'readonly',
         URL: 'readonly',
+        // Os testes escrevem callbacks que rodam dentro do navegador
+        // (page.evaluate); estes globais são do navegador, não do Node.
         document: 'readonly',
         getComputedStyle: 'readonly',
+        NodeFilter: 'readonly',
+        requestAnimationFrame: 'readonly',
         structuredClone: 'readonly'
       }
     },

@@ -8,9 +8,24 @@
  * aparecem também na página de cada app ou painel (scripts/mockups.mjs).
  * Módulo sem efeito colateral: importar não grava nada, ao contrário de
  * scripts/mockups.mjs, que gera páginas ao rodar.
+ *
+ * Idiomas: todo texto daqui tem uma versão por idioma de src/idiomas.json.
+ * São três lugares, e o build para se faltar um deles (conferirDemos, no fim):
+ *
+ *   T_PA e T_BI              uma entrada por código, com as mesmas chaves do
+ *                            idioma padrão
+ *   TECNOLOGIAS              `nome` é o rótulo do idioma padrão; termo que se
+ *                            traduz leva uma chave por outro idioma (`en: '…'`)
+ *   src/data/mockups-*.json  `segmento`, `titulo`, `dor`, `solucao` e `passos`
+ *                            (e as tags escritas como objeto) com uma chave
+ *                            por código
+ *
+ * O endereço e o `lang` de cada idioma não são texto: vêm de src/idiomas.json
+ * (idiomaDe e enderecoDe, abaixo), e nenhuma tabela daqui os repete.
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { diferencasDeChaves, lerIdiomas } from './idiomas.mjs';
 
 const RAIZ = new URL('../', import.meta.url);
 const lerJson = (caminho) =>
@@ -19,7 +34,30 @@ const lerJson = (caminho) =>
 /** Caminho das páginas e dos apps, sem barra nas pontas (muda em um lugar só). */
 export const DEMOS = 'demos/power-apps';
 
-/** Os apps, na ordem de exibição. Texto PT e EN por campo. */
+/**
+ * Os idiomas de src/idiomas.json, lidos na primeira vez que alguém precisa
+ * (e não na importação: quem roda primeiro, build ou mockups, já leu a
+ * configuração com lerIdiomasOuSair e parou com a mensagem se ela estiver
+ * inválida).
+ */
+let idiomasLidos;
+const idiomas = () => (idiomasLidos ??= lerIdiomas());
+
+/**
+ * Idioma de um código, com `caminho` (a home dele: "/", "/en/") e `lang`.
+ * Código fora da configuração para com a mensagem, em vez de publicar link
+ * para "undefineddemos/…".
+ */
+export function idiomaDe(codigo) {
+  const idioma = idiomas().find((i) => i.codigo === codigo);
+  if (!idioma) throw new Error(`demos.mjs: idioma "${codigo}" não está em src/idiomas.json`);
+  return idioma;
+}
+
+/** Endereço (de raiz) de uma página de demonstração num idioma: "/en/demos/power-bi/x/". */
+export const enderecoDe = (codigo, caminho) => `${idiomaDe(codigo).caminho}${caminho}`;
+
+/** Os apps, na ordem de exibição. Um texto por idioma em cada campo. */
 export const dados = lerJson('src/data/mockups-power-apps.json');
 
 /** Os painéis de Power BI, na ordem de exibição. Mesmo formato dos apps. */
@@ -32,12 +70,12 @@ export const esc = (s) =>
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;');
 
-/** Textos fixos das páginas dos apps e do cartão, por idioma. */
+/**
+ * Textos fixos das páginas dos apps e do cartão: uma entrada por idioma de
+ * src/idiomas.json, com as mesmas chaves do idioma padrão (conferirDemos).
+ */
 const T_PA = {
   pt: {
-    base: '/',
-    home: '/',
-    lang: 'pt-BR',
     titulo: 'Apps de demonstração para Power Apps',
     selo: 'Arquitetura documentada',
     ver: 'Ver o app',
@@ -72,12 +110,10 @@ const T_PA = {
     },
     mobile: 'Em telas pequenas o app abre em tela cheia.',
     moldura: 'Demonstração navegável de',
+    nome: 'Demonstração navegável',
     desc: (t) => `${t} Demonstração navegável com dados fictícios.`
   },
   en: {
-    base: '/en/',
-    home: '/en/',
-    lang: 'en',
     titulo: 'Demo apps for Power Apps',
     selo: 'Documented architecture',
     ver: 'View the app',
@@ -110,6 +146,7 @@ const T_PA = {
     },
     mobile: 'On small screens the app opens full screen.',
     moldura: 'Clickable demo of',
+    nome: 'Clickable demo',
     desc: (t) => `${t} Clickable demo with fictitious data.`
   }
 };
@@ -117,9 +154,6 @@ const T_PA = {
 /** Textos fixos das páginas dos painéis de Power BI e do cartão, por idioma. */
 const T_BI = {
   pt: {
-    base: '/',
-    home: '/',
-    lang: 'pt-BR',
     titulo: 'Painéis de demonstração para Power BI',
     selo: 'Arquitetura documentada',
     ver: 'Ver o painel',
@@ -154,12 +188,10 @@ const T_BI = {
     },
     mobile: 'Em telas pequenas o painel abre em tela cheia.',
     moldura: 'Painel de demonstração de',
+    nome: 'Painel de demonstração',
     desc: (t) => `${t} Painel navegável com dados fictícios.`
   },
   en: {
-    base: '/en/',
-    home: '/en/',
-    lang: 'en',
     titulo: 'Demo dashboards for Power BI',
     selo: 'Documented architecture',
     ver: 'View the dashboard',
@@ -193,6 +225,7 @@ const T_BI = {
     },
     mobile: 'On small screens the dashboard opens full screen.',
     moldura: 'Demo dashboard of',
+    nome: 'Demo dashboard',
     desc: (t) => `${t} Explorable dashboard with fictitious data.`
   }
 };
@@ -242,9 +275,16 @@ export const T = T_PA;
  *
  * As tags dos painéis de Power BI entram no mesmo dicionário, depois das
  * tecnologias: tipo de painel, recurso do relatório e visual. São conceitos,
- * não produtos: todas levam ícone neutro Fluent com o nome ao lado. `en`: o
- * rótulo em inglês, quando difere do português. Nenhuma aparece no filtro
- * Tecnologia da aba Power Platform, que só lista o que algum item dela usa.
+ * não produtos: todas levam ícone neutro Fluent com o nome ao lado. Nenhuma
+ * aparece no filtro Tecnologia da aba Power Platform, que só lista o que
+ * algum item dela usa.
+ *
+ * Rótulo por idioma: `nome` é o do idioma padrão (PT-BR). Nome de produto e
+ * sigla não se traduzem e ficam só com `nome` (Power Apps, RLS, SLA). Termo
+ * que se traduz leva uma chave por código dos outros idiomas (`en: 'Tabs'`);
+ * quem traduz para um idioma precisa traduzir para todos, senão o build para
+ * dizendo qual chave falta (conferirDemos). Se o termo for igual num idioma,
+ * repita-o: a repetição é a prova de que alguém olhou.
  * ------------------------------------------------------------------------- */
 const VENDOR = 'assets/icons/vendor';
 export const TECNOLOGIAS = {
@@ -331,13 +371,24 @@ const porRotulo = new Map(
 /** Chave da tecnologia de um rótulo de tag, ou null se não for tecnologia do dicionário. */
 export const tecnologiaDe = (rotulo) => porRotulo.get(String(rotulo).toLowerCase()) ?? null;
 
+/** Chaves de uma tecnologia que não são rótulo de idioma. */
+const CAMPOS_DA_TECNOLOGIA = ['nome', 'marca', 'fluent', 'tambem'];
+
+/** Rótulo de uma tecnologia num idioma: o traduzido, se houver, ou o `nome`. */
+export const nomeDaTecnologia = (chave, lang) => {
+  const t = TECNOLOGIAS[chave];
+  return Object.hasOwn(t, lang) && !CAMPOS_DA_TECNOLOGIA.includes(lang) ? t[lang] : t.nome;
+};
+
 /**
  * Tag de app no dado: o nome de uma tecnologia ("Power Apps") ou, quando o
- * rótulo muda por idioma, `{ "tec": "apis", "pt": "API de CEP", "en":
- * "Postal code API" }`. Tag que não resolve para o dicionário para o build:
- * todo cartão de app mostra ícone, e ícone desconhecido não cai em genérico.
+ * rótulo é próprio do app, `{ "tec": "apis", "pt": "API de CEP", "en":
+ * "Postal code API" }`, com uma chave por idioma. Tag que não resolve para o
+ * dicionário para o build: todo cartão de app mostra ícone, e ícone
+ * desconhecido não cai em genérico. Devolve a chave da tecnologia e, com
+ * `lang`, o rótulo naquele idioma.
  */
-function tagDoApp(tag, c) {
+function tagDoApp(tag, c, lang) {
   if (typeof tag === 'string') {
     const tec = tecnologiaDe(tag);
     if (!tec || TECNOLOGIAS[tec].nome !== tag)
@@ -348,13 +399,17 @@ function tagDoApp(tag, c) {
           .map((t) => t.nome)
           .join(', ')})`
       );
-    return { tec, pt: tag, en: TECNOLOGIAS[tec].en ?? tag };
+    return { tec, rotulo: lang ? nomeDaTecnologia(tec, lang) : tag };
   }
-  if (!tag || !Object.hasOwn(TECNOLOGIAS, tag.tec) || !tag.pt || !tag.en)
+  if (!tag || !Object.hasOwn(TECNOLOGIAS, tag.tec))
     throw new Error(
-      `demos.mjs: app "${c.slug}", tag ${JSON.stringify(tag)} precisa de "tec" (chave de TECNOLOGIAS), "pt" e "en"`
+      `demos.mjs: app "${c.slug}", tag ${JSON.stringify(tag)} precisa de "tec" (chave de TECNOLOGIAS) e de um rótulo por idioma`
     );
-  return tag;
+  if (lang && !tag[lang])
+    throw new Error(
+      `demos.mjs: app "${c.slug}", tag ${JSON.stringify(tag)} sem o rótulo do idioma "${lang}"`
+    );
+  return { tec: tag.tec, rotulo: lang ? tag[lang] : undefined };
 }
 
 for (const c of [...dados, ...PAINEIS]) {
@@ -378,8 +433,8 @@ export function iconeTec(chave, classe = 'tag__icon') {
 export function tagsApp(lang, c) {
   return `<ul class="taglist sem-margem">${c.tags
     .map((tag) => {
-      const t = tagDoApp(tag, c);
-      return `<li class="tag">${iconeTec(t.tec)}${esc(t[lang])}</li>`;
+      const t = tagDoApp(tag, c, lang);
+      return `<li class="tag">${iconeTec(t.tec)}${esc(t.rotulo)}</li>`;
     })
     .join('')}</ul>`;
 }
@@ -414,7 +469,7 @@ export function cartaoApp(
   { nivel = 5, atributos = '', recuo = '          ', col = COLECOES.apps } = {}
 ) {
   const t = col.T[lang];
-  const href = `${t.base}${col.demos}/${c.slug}/`;
+  const href = enderecoDe(lang, `${col.demos}/${c.slug}/`);
   return [
     `${recuo}<article class="card mock-card"${atributos}>`,
     `${recuo}  <p class="case-card__status">${selo(lang, col)}</p>`,
@@ -425,4 +480,92 @@ export function cartaoApp(
     `${recuo}  <a class="btn btn--ghost" href="${href}">${t.ver}<span class="sr-only">: ${esc(c.titulo[lang])}</span></a>`,
     `${recuo}</article>`
   ].join('\n');
+}
+
+/* ---------------------------------------------------------------------------
+ * Conferência por idioma
+ * ------------------------------------------------------------------------- */
+
+/** Campos de cada app ou painel com um texto por idioma (`passos` é lista). */
+const CAMPOS_POR_IDIOMA = ['segmento', 'titulo', 'dor', 'solucao', 'passos'];
+
+/**
+ * Confere os textos das demonstrações contra a lista de idiomas, no mesmo
+ * padrão de conferirDicionario (scripts/cases.mjs): devolve a lista de
+ * problemas, cada um dizendo a tabela ou o arquivo e a chave que falta; vazia
+ * quando está tudo certo. O build e scripts/mockups.mjs param com ela.
+ *
+ * - T_PA e T_BI: uma entrada por código, com as mesmas chaves do padrão;
+ * - TECNOLOGIAS: termo traduzido para algum idioma precisa de todos;
+ * - src/data/mockups-*.json: todo campo de texto e toda tag-objeto com um
+ *   texto por código, e `passos` com a mesma quantidade do padrão.
+ *
+ * Entrada de idioma que ainda não está na configuração não é problema: é o
+ * passo natural de quem prepara um idioma novo. Os parâmetros opcionais
+ * existem para o teste de unidade conferir tabelas de mentira.
+ */
+export function conferirDemos(
+  codigos,
+  padrao,
+  { colecoes = COLECOES, tecnologias = TECNOLOGIAS } = {}
+) {
+  const problemas = [];
+  const outros = codigos.filter((codigo) => codigo !== padrao);
+
+  for (const [nome, col] of Object.entries(colecoes)) {
+    const tabela = `textos de "${nome}" (scripts/demos.mjs)`;
+    if (!Object.hasOwn(col.T, padrao)) {
+      problemas.push(`${tabela}: sem a entrada do idioma padrão "${padrao}"`);
+      continue;
+    }
+    for (const codigo of outros) {
+      if (!Object.hasOwn(col.T, codigo)) {
+        problemas.push(`${tabela}: sem a entrada "${codigo}"`);
+        continue;
+      }
+      for (const diferenca of diferencasDeChaves(col.T[padrao], col.T[codigo]))
+        problemas.push(`${tabela}, entrada "${codigo}": ${diferenca} (comparado a "${padrao}")`);
+    }
+
+    const arquivo = `src/data/${col.json}`;
+    for (const c of col.dados) {
+      const onde = `${arquivo}: "${c.slug}"`;
+      for (const campo of CAMPOS_POR_IDIOMA) {
+        const valor = c[campo];
+        if (valor === null || typeof valor !== 'object') {
+          problemas.push(`${onde}, campo "${campo}" ausente`);
+          continue;
+        }
+        for (const codigo of codigos) {
+          const texto = valor[codigo];
+          const vazio =
+            campo === 'passos'
+              ? !Array.isArray(texto) || !texto.length || texto.some((p) => !String(p).trim())
+              : typeof texto !== 'string' || !texto.trim();
+          if (vazio) problemas.push(`${onde}, falta "${campo}.${codigo}"`);
+          else if (campo === 'passos' && texto.length !== valor[padrao]?.length)
+            problemas.push(
+              `${onde}, "passos.${codigo}" com ${texto.length} passos; "passos.${padrao}" tem ${valor[padrao]?.length ?? 0}`
+            );
+        }
+      }
+      (c.tags || []).forEach((tag, i) => {
+        if (typeof tag === 'string') return;
+        for (const codigo of codigos)
+          if (typeof tag?.[codigo] !== 'string' || !tag[codigo].trim())
+            problemas.push(`${onde}, falta "tags[${i}].${codigo}" (tag "${tag?.tec}")`);
+      });
+    }
+  }
+
+  for (const [chave, t] of Object.entries(tecnologias)) {
+    const traduzido = Object.keys(t).some((campo) => !CAMPOS_DA_TECNOLOGIA.includes(campo));
+    if (!traduzido) continue;
+    for (const codigo of outros)
+      if (typeof t[codigo] !== 'string' || !t[codigo].trim())
+        problemas.push(
+          `TECNOLOGIAS (scripts/demos.mjs): falta "${chave}.${codigo}" ("${t.nome}" tem tradução em outro idioma)`
+        );
+  }
+  return problemas;
 }

@@ -10,61 +10,96 @@
  * commit anterior. Agora, se houver mudança não commitada nos arquivos que o
  * visitante recebe, a data é a de hoje; senão, a do último commit.
  *
- *   node scripts/sitemap.mjs
+ *   node scripts/sitemap.mjs           gera
+ *   node scripts/sitemap.mjs --check   confere se está atualizado
+ *
+ * O `--check` compara tudo menos o `lastmod`: a data muda sozinha a cada dia
+ * com alteração pendente, e uma conferência que acusasse isso falharia no CI
+ * sem apontar defeito. O que ele pega é o que o `build:check` já pega nas
+ * páginas: um idioma novo na configuração, ou um app ou painel novo, sem o
+ * sitemap regenerado.
  */
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
+import { realpathSync } from 'node:fs';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
-import { readFileSync } from 'node:fs';
-
-const lerDados = (arq) =>
-  JSON.parse(
-    readFileSync(join(fileURLToPath(new URL('..', import.meta.url)), 'src/data', arq), 'utf8')
-  );
-const mockups = lerDados('mockups-power-apps.json');
-const paineis = lerDados('mockups-power-bi.json');
-
-/**
- * Par pt/en da página de um app ou painel de demonstração. As antigas galerias
- * (/demos/power-apps/ e /demos/power-bi/) viraram redirecionamento noindex para
- * a home e não entram.
- */
-function urlPar(slug, demos = 'demos/power-apps') {
-  const pt = `${BASE}${demos}/${slug}`;
-  const en = `${BASE}en/${demos}/${slug}`;
-  const alt = `    <xhtml:link rel="alternate" hreflang="pt-BR" href="${pt}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`;
-  return [pt, en]
-    .map(
-      (loc) =>
-        `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n${alt}\n  </url>`
-    )
-    .join('\n');
-}
+import { COLECOES } from './demos.mjs';
+import { lerIdiomasOuSair } from './idiomas.mjs';
 
 const executar = promisify(execFile);
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
-const BASE = 'https://ildeanfreitas.github.io/';
-
-// Só arquivos que o visitante recebe. Mudança em src/ que não altere a saída
-// não deveria mexer no lastmod.
-const RASTREADOS = ['index.html', 'en/index.html', 'assets', 'demos', 'en/demos'];
 
 const hoje = () => new Date().toISOString().slice(0, 10);
 
-async function ultimaData() {
+/**
+ * As páginas de demonstração que entram no sitemap: a de cada app de Power
+ * Apps e a de cada painel de Power BI (COLECOES em scripts/demos.mjs), como
+ * caminho sem barra nas pontas ("demos/power-apps/inspecao-via"). Ficam de
+ * fora, por serem noindex: as antigas galerias (/demos/power-apps/ e
+ * /demos/power-bi/, hoje redirecionamento para a home), o player em tela
+ * cheia e os app.html.
+ */
+export const demonstracoes = () =>
+  Object.values(COLECOES).flatMap((col) => col.dados.map((c) => `${col.demos}/${c.slug}`));
+
+/**
+ * O texto do sitemap.xml: uma <url> por idioma, na ordem da configuração, e
+ * depois uma por idioma para cada página de demonstração (`demos`, lista de
+ * caminhos; ver demonstracoes). Toda página declara as mesmas alternativas:
+ * ela mesma em todos os idiomas, mais x-default no padrão (o mesmo conjunto
+ * do <head> de cada página).
+ */
+export function montarSitemap(idiomas, lastmod, demos = []) {
+  const padrao = idiomas.find((idioma) => idioma.padrao);
+  const grupo = (sufixo, prioridade) => {
+    const alternativas = [
+      ...idiomas.map(
+        (idioma) =>
+          `    <xhtml:link rel="alternate" hreflang="${idioma.lang}" href="${idioma.url}${sufixo}"/>`
+      ),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${padrao.url}${sufixo}"/>`
+    ].join('\n');
+    return idiomas.map(
+      (idioma) => `  <url>
+    <loc>${idioma.url}${sufixo}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>${prioridade(idioma)}</priority>
+${alternativas}
+  </url>`
+    );
+  };
+
+  const urls = [
+    ...grupo('', (idioma) => (idioma.padrao ? '1.0' : '0.8')),
+    ...demos.flatMap((caminho) => grupo(`${caminho}/`, () => '0.6'))
+  ].join('\n');
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls}
+</urlset>
+`;
+}
+
+/** O sitemap sem as datas (e com fim de linha LF), para comparar o que não muda sozinho. */
+export const semLastmod = (xml) =>
+  xml.replace(/\r\n/g, '\n').replace(/<lastmod>[^<]*<\/lastmod>/g, '<lastmod/>');
+
+async function ultimaData(rastreados) {
   try {
     const { stdout: pendente } = await executar(
       'git',
-      ['status', '--porcelain', '--', ...RASTREADOS],
+      ['status', '--porcelain', '--', ...rastreados],
       {
         cwd: RAIZ
       }
     );
     if (pendente.trim()) return hoje();
 
-    const { stdout } = await executar('git', ['log', '-1', '--format=%cs', '--', ...RASTREADOS], {
+    const { stdout } = await executar('git', ['log', '-1', '--format=%cs', '--', ...rastreados], {
       cwd: RAIZ
     });
     const data = stdout.trim();
@@ -75,34 +110,40 @@ async function ultimaData() {
   return hoje();
 }
 
-const lastmod = await ultimaData();
+async function principal() {
+  const IDIOMAS = lerIdiomasOuSair();
+  const caminho = join(RAIZ, 'sitemap.xml');
 
-const alternativas = `    <xhtml:link rel="alternate" hreflang="pt-BR" href="${BASE}"/>
-    <xhtml:link rel="alternate" hreflang="en" href="${BASE}en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${BASE}"/>`;
+  if (process.argv.includes('--check')) {
+    const atual = await readFile(caminho, 'utf8').catch(() => null);
+    const esperado = montarSitemap(IDIOMAS, hoje(), demonstracoes());
+    if (atual === null || semLastmod(atual) !== semLastmod(esperado)) {
+      console.error(
+        'sitemap.xml está desatualizado em relação a src/idiomas.json ou à lista de demonstrações (src/data/mockups-*.json). Rode: npm run build'
+      );
+      process.exit(1);
+    }
+    console.warn('sitemap.xml está atualizado (o lastmod não entra na comparação).');
+    return;
+  }
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  <url>
-    <loc>${BASE}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-${alternativas}
-  </url>
-  <url>
-    <loc>${BASE}en/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-${alternativas}
-  </url>
-${[
-  ...mockups.map((c) => urlPar(c.slug + '/')),
-  ...paineis.map((c) => urlPar(c.slug + '/', 'demos/power-bi'))
-].join('\n')}
-</urlset>
-`;
+  // Só arquivos que o visitante recebe: a página de cada idioma, os assets e
+  // as demonstrações. Mudança em src/ que não altere a saída não deveria mexer
+  // no lastmod.
+  const lastmod = await ultimaData([
+    ...IDIOMAS.map((idioma) => idioma.arquivo),
+    'assets',
+    ...IDIOMAS.map((idioma) => `${idioma.pasta}demos`)
+  ]);
+  await writeFile(caminho, montarSitemap(IDIOMAS, lastmod, demonstracoes()), 'utf8');
+  console.warn(`sitemap.xml gerado — lastmod ${lastmod}`);
+}
 
-await writeFile(join(RAIZ, 'sitemap.xml'), xml, 'utf8');
-console.warn(`sitemap.xml gerado — lastmod ${lastmod}`);
+// Importável pelos testes sem gerar nada: só roda quando é o arquivo executado.
+// `.native` devolve a grafia canônica do caminho (no Windows, a letra do drive
+// pode vir em caixa diferente em argv e em import.meta.url).
+if (
+  process.argv[1] &&
+  realpathSync.native(process.argv[1]) === realpathSync.native(fileURLToPath(import.meta.url))
+)
+  await principal();

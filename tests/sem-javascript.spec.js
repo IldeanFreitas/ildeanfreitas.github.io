@@ -2,6 +2,10 @@ import { test, expect } from '@playwright/test';
 import cases from '../src/data/cases.json' with { type: 'json' };
 import appsDados from '../src/data/mockups-power-apps.json' with { type: 'json' };
 import paineisDados from '../src/data/mockups-power-bi.json' with { type: 'json' };
+import { lerIdiomas } from '../scripts/idiomas.mjs';
+
+/** Todos os idiomas de src/idiomas.json passam pelas mesmas verificações. */
+const IDIOMAS = lerIdiomas();
 
 /**
  * O teste mais importante da suíte.
@@ -17,73 +21,70 @@ import paineisDados from '../src/data/mockups-power-bi.json' with { type: 'json'
  */
 test.use({ javaScriptEnabled: false });
 
-test.describe('sem JavaScript', () => {
-  test('o conteúdo revelável está visível', async ({ page }) => {
-    await page.goto('/');
+for (const idioma of IDIOMAS) {
+  test.describe(`sem JavaScript, ${idioma.lang}`, () => {
+    test('o conteúdo revelável está visível', async ({ page }) => {
+      await page.goto(idioma.caminho);
 
-    const reveals = page.locator('.reveal');
-    const total = await reveals.count();
-    expect(total, 'a página deve ter blocos .reveal').toBeGreaterThan(0);
+      const reveals = page.locator('.reveal');
+      const total = await reveals.count();
+      expect(total, 'a página deve ter blocos .reveal').toBeGreaterThan(0);
 
-    // Cada bloco precisa estar realmente visível, não apenas presente no DOM:
-    // opacity:0 mantém o elemento no layout e enganaria uma checagem de
-    // existência.
-    for (let i = 0; i < total; i++) {
-      const bloco = reveals.nth(i);
-      await expect(bloco).toBeVisible();
-      const opacidade = await bloco.evaluate((el) => getComputedStyle(el).opacity);
-      expect(Number(opacidade), `bloco .reveal[${i}] com opacity ${opacidade}`).toBeGreaterThan(
-        0.9
+      // Cada bloco precisa estar realmente visível, não apenas presente no DOM:
+      // opacity:0 mantém o elemento no layout e enganaria uma checagem de
+      // existência.
+      for (let i = 0; i < total; i++) {
+        const bloco = reveals.nth(i);
+        await expect(bloco).toBeVisible();
+        const opacidade = await bloco.evaluate((el) => getComputedStyle(el).opacity);
+        expect(Number(opacidade), `bloco .reveal[${i}] com opacity ${opacidade}`).toBeGreaterThan(
+          0.9
+        );
+      }
+    });
+
+    test('os diagramas animados aparecem inteiros e parados', async ({ page }) => {
+      await page.goto(idioma.caminho);
+      const figuras = page.locator('.architecture-diagram.diagram-anima');
+      expect(await figuras.count()).toBeGreaterThan(0);
+      const problemas = await figuras.evaluateAll((fs) =>
+        fs.flatMap((f) =>
+          [f, ...f.querySelectorAll('.diagram-node, .diagram-step, .diagram-call, .diagram-band')]
+            .filter((el) => {
+              const s = getComputedStyle(el);
+              return Number(s.opacity) < 1 || s.transform !== 'none' || s.animationName !== 'none';
+            })
+            .map((el) => el.className)
+        )
       );
-    }
-  });
+      expect(problemas, problemas.join('\n')).toEqual([]);
+    });
 
-  test('os diagramas animados aparecem inteiros e parados', async ({ page }) => {
-    await page.goto('/');
-    const figuras = page.locator('.architecture-diagram.diagram-anima');
-    expect(await figuras.count()).toBeGreaterThan(0);
-    const problemas = await figuras.evaluateAll((fs) =>
-      fs.flatMap((f) =>
-        [f, ...f.querySelectorAll('.diagram-node, .diagram-step, .diagram-call, .diagram-band')]
-          .filter((el) => {
-            const s = getComputedStyle(el);
-            return Number(s.opacity) < 1 || s.transform !== 'none' || s.animationName !== 'none';
-          })
-          .map((el) => el.className)
-      )
-    );
-    expect(problemas, problemas.join('\n')).toEqual([]);
-  });
+    test('as seções âncora continuam alcançáveis', async ({ page }) => {
+      await page.goto(idioma.caminho);
+      for (const id of [
+        'inicio',
+        'sobre',
+        'servicos',
+        'cases',
+        'cases-power-platform',
+        'cases-power-bi',
+        'cases-engenharia-dados',
+        'cases-ia',
+        'trajetoria',
+        'formacao',
+        'contato'
+      ]) {
+        await expect(page.locator(`#${id}`)).toBeAttached();
+      }
+    });
 
-  test('as seções âncora continuam alcançáveis', async ({ page }) => {
-    await page.goto('/');
-    for (const id of [
-      'inicio',
-      'sobre',
-      'servicos',
-      'cases',
-      'cases-power-platform',
-      'cases-power-bi',
-      'cases-engenharia-dados',
-      'cases-ia',
-      'trajetoria',
-      'formacao',
-      'contato'
-    ]) {
-      await expect(page.locator(`#${id}`)).toBeAttached();
-    }
-  });
-
-  for (const [pagina, rota] of [
-    ['pt', '/'],
-    ['en', '/en/']
-  ]) {
-    test(`${pagina}: a seção Cases fica empilhada, sem abas nem filtros, com tudo listado`, async ({
+    test('a seção Cases fica empilhada, sem abas nem filtros, com tudo listado', async ({
       page
     }) => {
       // Abas, busca e filtros vêm de <template> que só o JS clona; sem JS nada
       // disso existe na página e nenhum painel nasce escondido.
-      await page.goto(rota);
+      await page.goto(idioma.caminho);
       await expect(page.locator('[role="tablist"], [role="tab"], [role="tabpanel"]')).toHaveCount(
         0
       );
@@ -114,17 +115,61 @@ test.describe('sem JavaScript', () => {
       await expect(page.locator('#cases-power-bi .cases-bloco__titulo')).toHaveCount(1);
       await expect(page.locator('#cases-power-bi .cases-bloco__titulo')).toBeVisible();
     });
-  }
 
-  test('todos os cases estão no HTML servido', async ({ page }) => {
-    await page.goto('/');
-    // A contagem vem do arquivo de dados, não de um número fixo: os cases são
-    // gerados a partir dele, e travar "6" fazia o teste quebrar ao adicionar
-    // um case — sinalizando defeito onde havia só conteúdo novo.
-    //
-    // O que este teste realmente protege é que o conteúdo venha do SERVIDOR.
-    // Renderizar os cases no cliente passaria despercebido em qualquer outro
-    // teste e destruiria o SEO.
-    await expect(page.locator('.case-card')).toHaveCount(cases.length);
+    test('todos os cases estão no HTML servido', async ({ page }) => {
+      await page.goto(idioma.caminho);
+      // A contagem vem do arquivo de dados, não de um número fixo: os cases são
+      // gerados a partir dele, e travar "6" fazia o teste quebrar ao adicionar
+      // um case — sinalizando defeito onde havia só conteúdo novo.
+      //
+      // O que este teste realmente protege é que o conteúdo venha do SERVIDOR.
+      // Renderizar os cases no cliente passaria despercebido em qualquer outro
+      // teste e destruiria o SEO.
+      await expect(page.locator('.case-card')).toHaveCount(cases.length);
+    });
+
+    test('o menu de idiomas abre e os links são alcançáveis', async ({ page }) => {
+      // <details> nativo: abrir e fechar não dependem do script. Esc e clique
+      // fora são enfeite do JavaScript; aqui o que importa é chegar aos links.
+      await page.goto(idioma.caminho);
+      const menu = page.locator('#idiomas');
+      const links = menu.locator('.idiomas__link');
+      await expect(links.first()).toBeHidden();
+
+      await menu.locator('summary').click();
+      await expect(menu).toHaveAttribute('open');
+      await expect(links).toHaveCount(IDIOMAS.length);
+      for (const [i, outro] of IDIOMAS.entries()) {
+        await expect(links.nth(i)).toBeVisible();
+        await expect(links.nth(i)).toHaveAttribute('href', outro.caminho);
+      }
+      await menu.locator('summary').click();
+      await expect(menu).not.toHaveAttribute('open');
+
+      // Pelo teclado: Enter no botão abre e o Tab chega ao primeiro idioma.
+      await menu.locator('summary').focus();
+      await page.keyboard.press('Enter');
+      await expect(menu).toHaveAttribute('open');
+      await page.keyboard.press('Tab');
+      await expect(links.first()).toBeFocused();
+
+      // O teclado não pode ter tirado a página do lugar.
+      expect(new URL(page.url()).pathname, 'a página navegou durante o teste de teclado').toBe(
+        idioma.caminho
+      );
+
+      // E o link navega: outra página, servida pronta. Parte de um estado
+      // limpo e sem a animação de abertura (movimento reduzido a desliga):
+      // clicar com o painel ainda animando fazia o Playwright perder o
+      // elemento e estourar o prazo, sempre no CI e às vezes aqui.
+      const destino = IDIOMAS.find((outro) => outro !== idioma);
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(idioma.caminho);
+      await menu.locator('summary').click();
+      const link = menu.locator(`.idiomas__link[hreflang="${destino.lang}"]`);
+      await expect(link).toBeVisible();
+      await link.click();
+      await expect(page.locator('html')).toHaveAttribute('lang', destino.lang);
+    });
   });
-});
+}

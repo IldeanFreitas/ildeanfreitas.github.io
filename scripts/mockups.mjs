@@ -1,30 +1,54 @@
 #!/usr/bin/env node
 /**
  * Gera uma página por demonstração (app de Power Apps ou painel de Power BI) e
- * o player em tela cheia (pt e en), mais o redirecionamento das antigas
- * galerias. Depende de index.html e en/index.html já gerados (reaproveita CSS,
- * cabeçalho, rodapé e scripts), então roda DEPOIS de scripts/build.mjs.
+ * o player em tela cheia, em cada idioma de src/idiomas.json, mais o
+ * redirecionamento das antigas galerias. Depende da página de cada idioma já
+ * gerada (index.html, en/index.html…: reaproveita CSS, cabeçalho, rodapé e
+ * scripts), então roda DEPOIS de scripts/build.mjs.
  *
  * As galerias vivem na home, na seção Cases (cartão em scripts/demos.mjs,
  * montado por scripts/cases.mjs): os apps na aba Power Platform desde
  * 11/11/2026, os painéis na aba Power BI desde 12/11/2026. As URLs antigas
- * /demos/power-apps/, /demos/power-bi/ e as equivalentes em /en/ viram
- * redirecionamento para lá.
+ * /demos/power-apps/, /demos/power-bi/ e as equivalentes de cada idioma
+ * (/en/…) viram redirecionamento para lá.
  *
  * Saída, por coleção (COLECOES em scripts/demos.mjs): demos/<coleção>/index.html
  * (redirecionamento), demos/<coleção>/<slug>/index.html, .../tela-cheia/index.html
- * e as equivalentes em en/. Os apps e painéis (app.html) ficam versionados ao lado.
+ * e as equivalentes na pasta de cada outro idioma (en/…). Os apps e painéis
+ * (app.html) ficam versionados ao lado, uma vez só: são em português por
+ * decisão, e as páginas dos outros idiomas avisam (`notaIdioma`).
  * `--check` só confere se os arquivos gerados estão em dia.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { COLECOES, avisoApps, esc, selo, tagsApp } from './demos.mjs';
+import { COLECOES, avisoApps, conferirDemos, enderecoDe, esc, selo, tagsApp } from './demos.mjs';
 import { spriteFluent } from './cases.mjs';
+import { lerIdiomasOuSair } from './idiomas.mjs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ler = (p) => readFileSync(join(RAIZ, p), 'utf8');
 const MODO_CHECK = process.argv.includes('--check');
+
+/**
+ * Os idiomas do site, na ordem do menu (ver scripts/idiomas.mjs). Cada página
+ * daqui sai uma vez por idioma, e cada uma aponta para a equivalente nos outros.
+ */
+const IDIOMAS = lerIdiomasOuSair();
+const PADRAO = IDIOMAS.find((idioma) => idioma.padrao);
+
+/* Textos das demonstrações: todo idioma da configuração precisa dos seus. O
+ * build já confere; aqui a conferência vale para quem roda só este script. */
+{
+  const problemas = conferirDemos(
+    IDIOMAS.map((idioma) => idioma.codigo),
+    PADRAO.codigo
+  );
+  if (problemas.length) {
+    console.error(`Textos das demonstrações incompletos:\n  ${problemas.join('\n  ')}`);
+    process.exit(1);
+  }
+}
 
 /**
  * Coleção em geração (apps de Power Apps ou painéis de Power BI; COLECOES em
@@ -44,32 +68,42 @@ function pedacos(htmlGerado) {
   const header = htmlGerado.match(/<header class="site-header">[\s\S]*?<\/header>/)[0];
   const footer = htmlGerado.match(/<footer class="site-footer">[\s\S]*?<\/footer>/)[0];
   const scripts = [...htmlGerado.matchAll(/<script>\n([\s\S]*?)\n<\/script>/g)].map((m) => m[1]);
-  return { css, header, footer, ini: scripts[0], principal: scripts[scripts.length - 1] };
+  // O link "pular para o conteúdo" já está traduzido no template de cada idioma.
+  const pular = htmlGerado.match(/<a class="skip" href="#conteudo">[^<]*<\/a>/)?.[0];
+  if (!pular) throw new Error('pedacos: link "pular para o conteúdo" (a.skip) não encontrado.');
+  return { css, header, footer, pular, ini: scripts[0], principal: scripts[scripts.length - 1] };
 }
 
 /**
- * Âncoras da home viram links para a home; o link de idioma (botão do cabeçalho e item
- * do rodapé) passa a apontar para a página par no outro idioma. Se nenhum link de
- * idioma for reescrito, o cabeçalho ou o rodapé mudou (a F2a troca o alternador por um
- * menu de idiomas): falha alto em vez de publicar páginas que levam à home do outro idioma.
+ * Âncoras da home viram links para a home do idioma; os links de idioma passam
+ * a apontar para a página par em cada idioma (`enderecos`: `lang` → endereço).
+ *
+ * Link de idioma é todo `<a … href hreflang lang>` que o build gera a partir de
+ * src/idiomas.json: os itens do menu `<details class="idiomas">` do cabeçalho
+ * (um por idioma, o atual com aria-current="page") e os do rodapé (um por
+ * outro idioma). `esperados` é quantos o trecho precisa ter. Se a contagem não
+ * bater, a marcação do menu mudou: falha alto em vez de publicar página de
+ * demonstração cujo menu leva à home do outro idioma.
  */
-function ajustarNav(trecho, lang, urlOutroIdioma, onde) {
-  const t = T[lang];
-  let idioma = 0;
+function ajustarNav(trecho, idioma, enderecos, onde, esperados) {
+  let reescritos = 0;
   const html = trecho
-    .replace(/href="#inicio"/g, `href="${t.home}"`)
-    .replace(/href="#([a-z]+)"/g, `href="${t.home}#$1"`)
-    .replace(/(<a class="icon-btn icon-btn--text lang-toggle" href=")[^"]*"/, (_, a) => {
-      idioma++;
-      return `${a}${urlOutroIdioma}"`;
-    })
-    .replace(/(<li><a href=")[^"]*(" hreflang="(?:en|pt-BR)")/, (_, a, b) => {
-      idioma++;
-      return `${a}${urlOutroIdioma}${b}`;
-    });
-  if (!idioma) {
+    .replace(/href="#inicio"/g, `href="${idioma.caminho}"`)
+    .replace(/href="#([a-z]+)"/g, `href="${idioma.caminho}#$1"`)
+    .replace(
+      /(<a\b[^>]*?) href="[^"]*"( hreflang="([^"]+)" lang="[^"]+")/g,
+      (tudo, antes, depois, lang) => {
+        if (!enderecos.has(lang))
+          throw new Error(
+            `ajustarNav: link de idioma "${lang}" no ${onde} (${idioma.codigo}) não está em src/idiomas.json.`
+          );
+        reescritos++;
+        return `${antes} href="${enderecos.get(lang)}"${depois}`;
+      }
+    );
+  if (reescritos !== esperados) {
     throw new Error(
-      `ajustarNav: nenhum link de idioma reescrito no ${onde} (${lang}). O markup do alternador mudou; adapte scripts/mockups.mjs.`
+      `ajustarNav: ${reescritos} links de idioma reescritos no ${onde} (${idioma.codigo}), esperados ${esperados}. A marcação do menu de idiomas mudou; adapte scripts/mockups.mjs.`
     );
   }
   return html;
@@ -83,21 +117,28 @@ function ajustarNav(trecho, lang, urlOutroIdioma, onde) {
 const SANDBOX =
   'allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox';
 
-function pagina(lang, p, { titulo, descricao, canonico, alternativo, corpo }) {
-  const t = T[lang];
-  const alt =
-    lang === 'pt' ? ['pt-BR', canonico, 'en', alternativo] : ['pt-BR', alternativo, 'en', canonico];
+/**
+ * Página de um app ou painel. `caminho`: o da página sem o idioma
+ * ("demos/power-apps/inspecao-via/"), igual em todos. Canonical, hreflang e
+ * menu saem da lista de idiomas, como na home: a página aponta para ela mesma
+ * em cada idioma, e x-default para a do idioma padrão.
+ */
+function pagina(idioma, p, { titulo, descricao, caminho, corpo }) {
+  const enderecos = new Map(IDIOMAS.map((i) => [i.lang, enderecoDe(i.codigo, caminho)]));
+  const alternativas = [
+    ...IDIOMAS.map((i) => `<link rel="alternate" hreflang="${i.lang}" href="${i.url}${caminho}">`),
+    `<link rel="alternate" hreflang="x-default" href="${PADRAO.url}${caminho}">`
+  ].join('\n');
   return `<!DOCTYPE html>
 <!-- ARQUIVO GERADO por scripts/mockups.mjs a partir de src/data/${CFG.json}. Não edite. -->
-<html lang="${t.lang}" data-theme="dark">
+<html lang="${idioma.lang}" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(titulo)} | Ildean Freitas</title>
 <meta name="description" content="${esc(descricao)}">
-<link rel="canonical" href="https://ildeanfreitas.github.io${canonico}">
-<link rel="alternate" hreflang="${alt[0]}" href="https://ildeanfreitas.github.io${alt[1]}">
-<link rel="alternate" hreflang="${alt[2]}" href="https://ildeanfreitas.github.io${alt[3]}">
+<link rel="canonical" href="${idioma.url}${caminho}">
+${alternativas}
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -111,14 +152,14 @@ ${p.ini}
 </head>
 
 <body>
-<a class="skip" href="#conteudo">${lang === 'pt' ? 'Pular para o conteúdo' : 'Skip to content'}</a>
-${ajustarNav(p.header, lang, alternativo, 'cabeçalho')}
+${p.pular}
+${ajustarNav(p.header, idioma, enderecos, 'cabeçalho', IDIOMAS.length)}
 
 <main id="conteudo">
 ${corpo}
 </main>
 
-${ajustarNav(p.footer, lang, alternativo, 'rodapé')}
+${ajustarNav(p.footer, idioma, enderecos, 'rodapé', IDIOMAS.length - 1)}
 
 <script>
 ${p.principal}
@@ -128,14 +169,15 @@ ${p.principal}
 `;
 }
 
-function detalhe(lang, c) {
+function detalhe(idioma, c) {
+  const lang = idioma.codigo;
   const t = T[lang];
   const app = `/${DEMOS}/${c.slug}/app.html`;
   const tags = tagsApp(lang, c);
   return `${spriteFluent(tags)}
   <section class="section">
     <div class="wrap">
-      <a class="mock-voltar" href="${t.home}${CFG.secao}">${t.voltar}</a>
+      <a class="mock-voltar" href="${idioma.caminho}${CFG.secao}">${t.voltar}</a>
       <p class="eyebrow mock-kicker">${esc(c.segmento[lang])} ${CFG.sep} ${esc(c.empresa)}</p>
       <h1>${esc(c.titulo[lang])}</h1>
       ${avisoApps(lang, '      ', CFG)}
@@ -151,7 +193,7 @@ function detalhe(lang, c) {
 ${c.passos[lang].map((s) => `        <li>${esc(s)}</li>`).join('\n')}
       </ol>
       <div class="mock-acoes">
-        <a class="btn btn--primary" href="${t.base}${DEMOS}/${c.slug}/tela-cheia/">${t.cheia}</a>
+        <a class="btn btn--primary" href="${enderecoDe(lang, `${DEMOS}/${c.slug}/tela-cheia/`)}">${t.cheia}</a>
       </div>
       <p class="mock-so-mobile sem-margem">${t.mobile}</p>
       <iframe class="mock-moldura mock-so-desktop" src="${app}" title="${t.moldura} ${esc(c.empresa)}" loading="lazy" allow="fullscreen" sandbox="${SANDBOX}"></iframe>
@@ -160,25 +202,26 @@ ${c.passos[lang].map((s) => `        <li>${esc(s)}</li>`).join('\n')}
 }
 
 /**
- * As antigas galerias (/demos/power-apps/, /demos/power-bi/ e as equivalentes em
- * /en/): os apps agora ficam na aba Power Platform da home e os painéis, na aba
- * Power BI. Redirecionamento por meta refresh (vale
- * sem JS) e location.replace (não deixa a página no histórico), noindex,
- * canonical para a home e um link visível para quem o navegador não levar.
+ * As antigas galerias (/demos/power-apps/, /demos/power-bi/ e as equivalentes de
+ * cada idioma, /en/…): os apps agora ficam na aba Power Platform da home e os
+ * painéis, na aba Power BI. Redirecionamento por meta refresh (vale sem JS) e
+ * location.replace (não deixa a página no histórico), noindex, canonical para a
+ * home do mesmo idioma e um link visível para quem o navegador não levar. Sem
+ * hreflang nem menu de idiomas: a página não é indexada e ninguém fica nela.
  */
-function redirecionamento(lang) {
-  const t = T[lang];
-  const destino = `${t.home}${CFG.secao}`;
+function redirecionamento(idioma) {
+  const t = T[idioma.codigo];
+  const destino = `${idioma.caminho}${CFG.secao}`;
   return `<!DOCTYPE html>
 <!-- ARQUIVO GERADO por scripts/mockups.mjs. Não edite. A galeria agora vive na home. -->
-<html lang="${t.lang}" data-theme="dark">
+<html lang="${idioma.lang}" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta http-equiv="refresh" content="0; url=${destino}">
 <title>${esc(t.titulo)} | Ildean Freitas</title>
-<link rel="canonical" href="https://ildeanfreitas.github.io${t.home}">
+<link rel="canonical" href="${idioma.url}">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <script>
 ${TEMA_JS}
@@ -247,15 +290,15 @@ main{padding:2rem 1.25rem;text-align:center}
 a{color:var(--accent);font-weight:600;text-underline-offset:.22em}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}`;
 
-function player(lang, c) {
-  const t = T[lang];
+function player(idioma, c) {
+  const t = T[idioma.codigo];
   const p = t.player;
   const app = `/${DEMOS}/${c.slug}/app.html`;
-  const voltar = `${t.base}${DEMOS}/${c.slug}/`;
-  const titulo = `${c.empresa} ${CFG.sep} ${t.moldura.replace(/ de$| of$/, '')}`;
+  const voltar = enderecoDe(idioma.codigo, `${DEMOS}/${c.slug}/`);
+  const titulo = `${c.empresa} ${CFG.sep} ${t.nome}`;
   return `<!DOCTYPE html>
 <!-- ARQUIVO GERADO por scripts/mockups.mjs. Não edite. -->
-<html lang="${t.lang}" data-theme="dark">
+<html lang="${idioma.lang}" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -336,24 +379,22 @@ for (const col of Object.values(COLECOES)) {
   dados = col.dados;
   T = col.T;
   CFG = col;
-  for (const lang of ['pt', 'en']) {
+  for (const idioma of IDIOMAS) {
+    const lang = idioma.codigo;
     const t = T[lang];
-    const gerado = ler(lang === 'pt' ? 'index.html' : 'en/index.html');
-    const p = pedacos(gerado);
-    const pre = lang === 'pt' ? '' : 'en/';
-    saidas.set(`${pre}${DEMOS}/index.html`, redirecionamento(lang));
+    const p = pedacos(ler(idioma.arquivo));
+    const pre = idioma.pasta;
+    saidas.set(`${pre}${DEMOS}/index.html`, redirecionamento(idioma));
     for (const c of dados) {
-      saidas.set(`${pre}${DEMOS}/${c.slug}/tela-cheia/index.html`, player(lang, c));
-      const u = `${t.base}${DEMOS}/${c.slug}/`;
-      const uo = `${T[lang === 'pt' ? 'en' : 'pt'].base}${DEMOS}/${c.slug}/`;
+      const caminho = `${DEMOS}/${c.slug}/`;
+      saidas.set(`${pre}${caminho}tela-cheia/index.html`, player(idioma, c));
       saidas.set(
-        `${pre}${DEMOS}/${c.slug}/index.html`,
-        pagina(lang, p, {
+        `${pre}${caminho}index.html`,
+        pagina(idioma, p, {
           titulo: c.titulo[lang],
           descricao: t.desc(c.solucao[lang]),
-          canonico: u,
-          alternativo: uo,
-          corpo: detalhe(lang, c)
+          caminho,
+          corpo: detalhe(idioma, c)
         })
       );
     }
@@ -382,4 +423,6 @@ for (const col of Object.values(COLECOES)) {
   }
 }
 if (MODO_CHECK && defasados) process.exit(1);
-console.log(`${saidas.size} páginas ${MODO_CHECK ? 'conferidas' : 'geradas'}.`);
+console.log(
+  `${saidas.size} páginas ${MODO_CHECK ? 'conferidas' : 'geradas'} (${IDIOMAS.length} idiomas).`
+);

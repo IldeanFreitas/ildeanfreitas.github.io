@@ -1,12 +1,12 @@
 node_modules/
 test-results/
 
-# O template só tem o marcador <!--{{ CSS }}--> dentro do <style>. O CSS de
-# verdade mora em src/css/ e é verificado lá.
-src/index.template.html
+# Os templates só têm o marcador <!--{{ CSS }}--> dentro do <style>. O CSS de
+# verdade mora em src/css/ e é verificado lá. O padrão cobre o template de
+# cada idioma (src/index.template.html, src/index.en.template.html…).
+src/index*.template.html
 src/404.template.html
 
-# O template em inglês também só tem o marcador dentro do <style>.
-src/index.en.template.html
+# Demonstrações (páginas geradas e app.html), na raiz e na pasta de cada
+# idioma: demos/, en/demos/…
 demos/
-en/demos/

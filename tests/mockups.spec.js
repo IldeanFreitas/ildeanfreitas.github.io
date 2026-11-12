@@ -231,18 +231,9 @@ test('todo app.html, todo player e o redirecionamento da galeria têm noindex', 
   }
 });
 
-test('o link de idioma das páginas de app leva à página par', async ({ page }) => {
-  const pt = '/demos/power-apps/obra/';
-  const en = '/en/demos/power-apps/obra/';
-  for (const [de, para] of [
-    [pt, en],
-    [en, pt]
-  ]) {
-    await page.goto(de);
-    await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
-    await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
-  }
-});
+// O menu de idiomas, o canonical e o hreflang das páginas de app (cada uma
+// apontando para a equivalente em cada idioma) são conferidos em
+// tests/idiomas.spec.js, para todos os apps e painéis de uma vez.
 
 test.describe('sandbox do iframe', () => {
   test.skip(({ viewport }) => viewport.width < 1024, 'o iframe da página só aparece no desktop');

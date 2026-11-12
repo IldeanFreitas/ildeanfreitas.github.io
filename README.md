@@ -12,12 +12,13 @@ Site estático em HTML, CSS e JavaScript puros. **Zero dependência de runtime**
 
 O que existe de ferramental serve para desenvolver e verificar; nada disso chega ao navegador.
 
-> **`index.html`, `en/index.html` e `404.html` são gerados.** Editá-los funciona até o próximo `npm run build`, que sobrescreve tudo. A fonte fica em `src/`.
+> **`index.html`, a página de cada idioma (`en/index.html`…) e `404.html` são gerados.** Editá-los funciona até o próximo `npm run build`, que sobrescreve tudo. A fonte fica em `src/`.
 
 ```
 .
 ├── src/                    FONTE — é aqui que se edita
-│   ├── index.template.html estrutura da página, com marcadores
+│   ├── idiomas.json        a lista de idiomas (ordem do menu, idioma padrão)
+│   ├── index.template.html estrutura da página em PT-BR, com marcadores
 │   ├── index.en.template.html  a mesma estrutura em inglês (o build exige esqueleto idêntico)
 │   ├── 404.template.html   página de erro
 │   ├── css/
@@ -28,7 +29,8 @@ O que existe de ferramental serve para desenvolver e verificar; nada disso chega
 │       ├── inicializacao.js roda no <head>, antes da primeira pintura
 │       └── principal.js     roda no fim do <body>
 ├── scripts/
-│   ├── build.mjs           monta index.html e 404.html
+│   ├── build.mjs           monta uma página por idioma e a 404.html
+│   ├── idiomas.mjs         lê e confere src/idiomas.json (ver docs/ARQUITETURA.md, "Idiomas")
 │   ├── sitemap.mjs         lastmod a partir do último commit
 │   ├── serve.mjs           servidor local para auditoria
 │   └── extrair.mjs         registro da separação original

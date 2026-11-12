@@ -3,6 +3,7 @@
   "base/tokens.css",
   "base/elementos.css",
   "componentes/cabecalho.css",
+  "componentes/idiomas.css",
   "componentes/botoes.css",
   "componentes/hero.css",
   "componentes/cartoes.css",

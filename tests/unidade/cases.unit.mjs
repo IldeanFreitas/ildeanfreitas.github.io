@@ -24,10 +24,14 @@ import {
   iconesDasAreas
 } from '../../scripts/cases.mjs';
 import { PAINEIS, TECNOLOGIAS, dados as APPS, tagsApp } from '../../scripts/demos.mjs';
+import { lerIdiomas } from '../../scripts/idiomas.mjs';
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url));
 const ler = (arquivo) => JSON.parse(readFileSync(RAIZ + arquivo, 'utf8'));
+/** Os cases de cada idioma de src/idiomas.json; os testes de erro usam o PT-BR. */
+const POR_IDIOMA = lerIdiomas().map((idioma) => [idioma.codigo, ler(idioma.cases)]);
 const PT = ler('src/data/cases.json');
+/** Os testes das abas conferem frases fixas, escritas aqui em PT-BR e em inglês. */
 const EN = ler('src/data/cases.en.json');
 
 const doCase = (id, fonte = PT) => structuredClone(fonte.find((c) => c.id === id));
@@ -44,14 +48,14 @@ function deveFalhar(caso, ...padroes) {
   );
 }
 
-test('os dados publicados (PT e EN) renderizam sem erro', () => {
-  assert.ok(renderizarCases(PT, 'pt').length > 0);
-  assert.ok(renderizarCases(EN, 'en').length > 0);
+test('os dados publicados renderizam sem erro, em todos os idiomas', () => {
+  for (const [codigo, cases] of POR_IDIOMA)
+    assert.ok(renderizarCases(cases, codigo).length > 0, codigo);
 });
 
 test('todo selo usado nos dados é conhecido e tem regra CSS', () => {
   const css = readFileSync(RAIZ + 'src/css/componentes/cartoes.css', 'utf8');
-  for (const c of [...PT, ...EN]) {
+  for (const c of POR_IDIOMA.flatMap(([, cases]) => cases)) {
     assert.ok(SELOS.includes(c.status.variante), `${c.id}: ${c.status.variante}`);
     assert.ok(css.includes(`.status--${c.status.variante}{`), `sem CSS para ${c.status.variante}`);
   }
@@ -412,7 +416,7 @@ test('as abas saem num <template>, com o ícone do cartão de Especialidades de 
 
 test('toda tag de app e de painel tem ícone do dicionário; Canvas não é tag', () => {
   for (const c of [...APPS, ...PAINEIS])
-    for (const idioma of ['pt', 'en']) {
+    for (const [idioma] of POR_IDIOMA) {
       const html = tagsApp(idioma, c);
       const tags = [
         ...html.matchAll(

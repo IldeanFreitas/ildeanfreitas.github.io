@@ -267,16 +267,8 @@ test('todo app.html, todo player de painel e o redirecionamento da galeria têm 
   }
 });
 
-test('o link de idioma das páginas de painéis leva à página par', async ({ page }) => {
-  for (const [de, para] of [
-    [`${RAIZ}seguros/`, `/en${RAIZ}seguros/`],
-    [`/en${RAIZ}seguros/`, `${RAIZ}seguros/`]
-  ]) {
-    await page.goto(de);
-    await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
-    await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
-  }
-});
+// O menu de idiomas, o canonical e o hreflang das páginas de painel são
+// conferidos em tests/idiomas.spec.js, para todos os apps e painéis de uma vez.
 
 test.describe('painel dentro do iframe', () => {
   test.skip(({ viewport }) => viewport.width < 1024, 'o iframe da página só aparece no desktop');

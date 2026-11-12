@@ -65,8 +65,8 @@
     var rotulo = document.getElementById('navToggleLabel');
     if (!nav || !botao || !rotulo) return;
 
-    /* Os rótulos vêm do HTML (data-abrir/data-fechar): o mesmo script serve a
-       página em português e a em inglês. */
+    /* Os rótulos vêm do HTML (data-abrir/data-fechar): o mesmo script serve
+       as páginas de todos os idiomas. */
     var ABRIR = botao.getAttribute('data-abrir') || 'Abrir menu';
     var FECHAR = botao.getAttribute('data-fechar') || 'Fechar menu';
 
@@ -92,6 +92,49 @@
         fechar();
         botao.focus();
       }
+    });
+
+    /* Um painel por vez: abrir o menu de idiomas fecha este. */
+    var idiomas = document.getElementById('idiomas');
+    if (idiomas) {
+      idiomas.addEventListener('toggle', function () {
+        if (idiomas.open) fechar();
+      });
+    }
+  });
+
+  iniciar('idiomas', function () {
+    /* O menu é <details>: abrir e fechar por clique, Enter e Espaço já
+       funciona sem este script. Aqui entra só o que o elemento nativo não
+       faz: Esc fecha e devolve o foco ao botão; clique fora fecha (inclusive
+       no botão do menu compacto, o que deixa um painel aberto por vez); e o
+       painel fecha quando o foco sai dele, para não cobrir o elemento que
+       recebeu o foco. */
+    var menu = document.getElementById('idiomas');
+    var botao = menu && menu.querySelector('summary');
+    if (!menu || !botao) return;
+
+    function fechar(devolverFoco) {
+      if (!menu.open) return;
+      menu.open = false;
+      if (devolverFoco) botao.focus();
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.open) fechar(true);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target)) fechar(false);
+    });
+
+    menu.addEventListener('focusout', function (e) {
+      if (e.relatedTarget && !menu.contains(e.relatedTarget)) fechar(false);
+    });
+
+    /* Voltar pelo histórico restaura a página do cache com o painel aberto. */
+    window.addEventListener('pagehide', function () {
+      menu.open = false;
     });
   });
 
