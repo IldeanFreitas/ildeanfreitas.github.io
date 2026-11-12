@@ -26,7 +26,11 @@ const lerDados = (arq) =>
 const mockups = lerDados('mockups-power-apps.json');
 const paineis = lerDados('mockups-power-bi.json');
 
-/** Par pt/en de uma página de demonstração (galeria quando o slug é vazio). */
+/**
+ * Par pt/en da página de um app ou painel de demonstração. As antigas galerias
+ * (/demos/power-apps/ e /demos/power-bi/) viraram redirecionamento noindex para
+ * a home e não entram.
+ */
 function urlPar(slug, demos = 'demos/power-apps') {
   const pt = `${BASE}${demos}/${slug}`;
   const en = `${BASE}en/${demos}/${slug}`;
@@ -94,9 +98,7 @@ ${alternativas}
 ${alternativas}
   </url>
 ${[
-  urlPar(''),
   ...mockups.map((c) => urlPar(c.slug + '/')),
-  urlPar('', 'demos/power-bi'),
   ...paineis.map((c) => urlPar(c.slug + '/', 'demos/power-bi'))
 ].join('\n')}
 </urlset>

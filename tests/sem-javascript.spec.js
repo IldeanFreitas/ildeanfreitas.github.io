@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import cases from '../src/data/cases.json' with { type: 'json' };
+import appsDados from '../src/data/mockups-power-apps.json' with { type: 'json' };
+import paineisDados from '../src/data/mockups-power-bi.json' with { type: 'json' };
 
 /**
  * O teste mais importante da suíte.
@@ -71,6 +73,48 @@ test.describe('sem JavaScript', () => {
       await expect(page.locator(`#${id}`)).toBeAttached();
     }
   });
+
+  for (const [pagina, rota] of [
+    ['pt', '/'],
+    ['en', '/en/']
+  ]) {
+    test(`${pagina}: a seção Cases fica empilhada, sem abas nem filtros, com tudo listado`, async ({
+      page
+    }) => {
+      // Abas, busca e filtros vêm de <template> que só o JS clona; sem JS nada
+      // disso existe na página e nenhum painel nasce escondido.
+      await page.goto(rota);
+      await expect(page.locator('[role="tablist"], [role="tab"], [role="tabpanel"]')).toHaveCount(
+        0
+      );
+      await expect(page.locator('.cases-filtros, input[type="search"], .mock-filtros')).toHaveCount(
+        0
+      );
+      await expect(page.locator('#cases [hidden]')).toHaveCount(0);
+      for (const id of ['power-platform', 'power-bi', 'engenharia-dados', 'ia']) {
+        await expect(page.locator(`#cases-${id}`)).toBeVisible();
+        await expect(page.locator(`#cases-${id} > h3`)).toBeVisible();
+      }
+      const apps = page.locator('#cases-power-platform .mock-card');
+      await expect(apps).toHaveCount(appsDados.length);
+      for (const card of await apps.all()) await expect(card).toBeVisible();
+      for (const card of await page.locator('.case-card').all()) await expect(card).toBeVisible();
+      await expect(page.locator('#cases-power-platform .mock-aviso')).toBeVisible();
+      await expect(page.locator('#cases-power-platform .cases-bloco__titulo')).toHaveCount(2);
+      // Os painéis de Power BI, do mesmo jeito: todos listados, com o aviso, o
+      // título do bloco e o botão de cada um.
+      const paineis = page.locator('#cases-power-bi .mock-card');
+      await expect(paineis).toHaveCount(paineisDados.length);
+      for (const card of await paineis.all()) {
+        await expect(card).toBeVisible();
+        await expect(card.locator('a.btn')).toBeVisible();
+        await expect(card.locator('.tag').first()).toBeVisible();
+      }
+      await expect(page.locator('#cases-power-bi .mock-aviso')).toBeVisible();
+      await expect(page.locator('#cases-power-bi .cases-bloco__titulo')).toHaveCount(1);
+      await expect(page.locator('#cases-power-bi .cases-bloco__titulo')).toBeVisible();
+    });
+  }
 
   test('todos os cases estão no HTML servido', async ({ page }) => {
     await page.goto('/');

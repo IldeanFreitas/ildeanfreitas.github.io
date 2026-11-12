@@ -645,8 +645,20 @@
       "retrievedOn": "2026-10-17",
       "license": "MIT",
       "licenseFile": "assets/icons/neutral/fluent/LICENSE",
-      "usage": "Conceitos das tags da seção Especialidades (fórmula, agente, modelo de linguagem, processamento distribuído); família única, variante 24 regular; obtidos de https://raw.githubusercontent.com/microsoft/fluentui-system-icons/main/ sem alteração.",
+      "usage": "Conceitos das tags da seção Especialidades (fórmula, agente, modelo de linguagem, processamento distribuído) e das tags e do filtro Tecnologia dos apps de demonstração (sistema corporativo/ERP para SAP, planilha para Excel; incluídos em 2026-11-11); família única, variante 24 regular; obtidos de https://raw.githubusercontent.com/microsoft/fluentui-system-icons/main/ sem alteração (o pacote @fluentui/svg-icons 1.1.345 traz o mesmo desenho, minificado).",
       "files": [
+        {
+          "path": "assets/icons/neutral/fluent/building.svg",
+          "sourcePath": "assets/Building/SVG/ic_fluent_building_24_regular.svg",
+          "retrievedOn": "2026-11-11",
+          "sha256": "4aff30b09a9ec19c711f8824e36adb79e5def9018cfc2234106692bd5d7458ae"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/document-table.svg",
+          "sourcePath": "assets/Document Table/SVG/ic_fluent_document_table_24_regular.svg",
+          "retrievedOn": "2026-11-11",
+          "sha256": "c76eaa00d41479ae85c10053b7a8b0cb1f24ba5d9f57eb82456b2f201c56a271"
+        },
         {
           "path": "assets/icons/neutral/fluent/math-formula.svg",
           "sourcePath": "assets/Math Formula/SVG/ic_fluent_math_formula_24_regular.svg",
@@ -666,6 +678,132 @@
           "path": "assets/icons/neutral/fluent/flash.svg",
           "sourcePath": "assets/Flash/SVG/ic_fluent_flash_24_regular.svg",
           "sha256": "675a6af0b74a43001de66d67c952fe0c2257fecf4bd0b19e17d4cf19f1e2591f"
+        }
+      ]
+    },
+    {
+      "id": "fluent-neutral-set-paineis",
+      "source": "fluent-system-icons",
+      "type": "neutral-concept-icons",
+      "retrievedOn": "2026-11-12",
+      "license": "MIT",
+      "licenseFile": "assets/icons/neutral/fluent/LICENSE",
+      "usage": "Conceitos das tags dos painéis de demonstração Power BI (tipo de painel, recurso do relatório e visual), na aba Power BI da seção Cases e na página de cada painel; família única, variante 24 regular; obtidos de https://raw.githubusercontent.com/microsoft/fluentui-system-icons/main/ sem alteração.",
+      "files": [
+        {
+          "path": "assets/icons/neutral/fluent/data-trending.svg",
+          "sourcePath": "assets/Data Trending/SVG/ic_fluent_data_trending_24_regular.svg",
+          "sha256": "4d22547f90e294bd9483a05027cbb5fd370602a9ce8e471c6cd186a37b171d8a"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/gauge.svg",
+          "sourcePath": "assets/Gauge/SVG/ic_fluent_gauge_24_regular.svg",
+          "sha256": "7f5b7f577f212401083fc5584ce661b04e12eaa5dc227f0cd1fa1232f3904b51"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/money.svg",
+          "sourcePath": "assets/Money/SVG/ic_fluent_money_24_regular.svg",
+          "sha256": "4975ed74ad81f0ed84a8ce9eb20da8b8bc8f540cbfbbc85ab25652ea633d1876"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/calendar.svg",
+          "sourcePath": "assets/Calendar/SVG/ic_fluent_calendar_24_regular.svg",
+          "sha256": "7bb2e8004c34326c241d2d796c355d257e99fa1a5209178fb3d032cc429a8221"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/shield-checkmark.svg",
+          "sourcePath": "assets/Shield Checkmark/SVG/ic_fluent_shield_checkmark_24_regular.svg",
+          "sha256": "d25f0805ecf71295565592d2a4677fdc30eb8894922882fc8c1d8fdcd5f2140f"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/map.svg",
+          "sourcePath": "assets/Map/SVG/ic_fluent_map_24_regular.svg",
+          "sha256": "ac43f3df51eed35c55bfeb65d505975ac39317b29581f967aa83dfba68c4f4a7"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/headset.svg",
+          "sourcePath": "assets/Headset/SVG/ic_fluent_headset_24_regular.svg",
+          "sha256": "ca596c54f3243e3caaca9bf11f4cbf2aadc31e6c38b3117fa2ce624350a07fca"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/options.svg",
+          "sourcePath": "assets/Options/SVG/ic_fluent_options_24_regular.svg",
+          "sha256": "1738b2ee6e1d07119ac9e3b2faac51897bc451f248a42a2e65af882a4a3da858"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/zoom-in.svg",
+          "sourcePath": "assets/Zoom In/SVG/ic_fluent_zoom_in_24_regular.svg",
+          "sha256": "bfa7c14efab4004ee394d4937c6f448442017c2c305ab5c9e7ffafab3ab9eca7"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/arrow-sort-down-lines.svg",
+          "sourcePath": "assets/Arrow Sort Down Lines/SVG/ic_fluent_arrow_sort_down_lines_24_regular.svg",
+          "sha256": "076533567c71579c2efc5ff122450fb2eda40246bb5be357d2f01fcedb5b2a4d"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/panel-left.svg",
+          "sourcePath": "assets/Panel Left/SVG/ic_fluent_panel_left_24_regular.svg",
+          "sha256": "4f9e2178b40bfcf45e1319490d8c18a21371de42877888ce167f2af79c773176"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/tabs.svg",
+          "sourcePath": "assets/Tabs/SVG/ic_fluent_tabs_24_regular.svg",
+          "sha256": "28ca1e420b3fe1718e6be8918be20c3f194fd24bc9a259701fa1c182832118c5"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/compass-northwest.svg",
+          "sourcePath": "assets/Compass Northwest/SVG/ic_fluent_compass_northwest_24_regular.svg",
+          "sha256": "7a69752460c66df7d9a6565fec6c0bd52523a9ad9819b08e88a68aa185828bd3"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/apps-list.svg",
+          "sourcePath": "assets/Apps List/SVG/ic_fluent_apps_list_24_regular.svg",
+          "sha256": "9fc94ddf01b7ab8c4ba4ea0f0ca1f32fcb75492817df6fa49113d587b779336c"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/people-team.svg",
+          "sourcePath": "assets/People Team/SVG/ic_fluent_people_team_24_regular.svg",
+          "sha256": "73bdeaa93eb574bbb2f960679e580918a3411a191ee17933d37a1e6aa912b0c3"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/hourglass.svg",
+          "sourcePath": "assets/Hourglass/SVG/ic_fluent_hourglass_24_regular.svg",
+          "sha256": "02976c49ad76017ca0352bfb57ec6582dee1a4372c19a0be3c943ed0ee4b96db"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/target.svg",
+          "sourcePath": "assets/Target/SVG/ic_fluent_target_24_regular.svg",
+          "sha256": "acb929d0874089fc101b2955ccca97d7bd5a34ac3557ac6ebc64d5493d3faccf"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/arrow-swap.svg",
+          "sourcePath": "assets/Arrow Swap/SVG/ic_fluent_arrow_swap_24_regular.svg",
+          "sha256": "c3b7c9b71cc5af4b7ddedf9f756c0b3749139bd773cedb0bed84ede0d2eb140c"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/data-line.svg",
+          "sourcePath": "assets/Data Line/SVG/ic_fluent_data_line_24_regular.svg",
+          "sha256": "5284f4ad688300c6ed0125dcf95e3e9ffb8ab367934328cf96e92b1dfd0cc8d8"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/data-waterfall.svg",
+          "sourcePath": "assets/Data Waterfall/SVG/ic_fluent_data_waterfall_24_regular.svg",
+          "sha256": "1f8abf23b854bd8650682be581b5914020f820f855be71a217e816ecc367b34e"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/grid.svg",
+          "sourcePath": "assets/Grid/SVG/ic_fluent_grid_24_regular.svg",
+          "sha256": "206c7049fc72a2072f0c429a958f4bb7021a96418879565ea7bcc8b528ad0dc3"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/timeline.svg",
+          "sourcePath": "assets/Timeline/SVG/ic_fluent_timeline_24_regular.svg",
+          "sha256": "de6cd0c8945eb18f66698f1cd210e956091d31de4f3cbe187f24573b452771fa"
+        },
+        {
+          "path": "assets/icons/neutral/fluent/board.svg",
+          "sourcePath": "assets/Board/SVG/ic_fluent_board_24_regular.svg",
+          "sha256": "05da669886959645d4ce4b91325e33e7b062b8f6db6b64a60d4eff5d7a10c94a"
         }
       ]
     }

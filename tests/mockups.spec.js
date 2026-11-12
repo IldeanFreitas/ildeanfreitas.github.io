@@ -9,13 +9,13 @@ const DADOS = JSON.parse(
 const SLUGS = DADOS.map((c) => c.slug);
 const N = DADOS.length;
 
-/** Galeria e páginas dos apps de demonstração Power Apps (pt e en). */
-const PAGINAS = [
-  '/demos/power-apps/',
-  '/demos/power-apps/obra/',
-  '/en/demos/power-apps/',
-  '/en/demos/power-apps/ouvidoria/'
-];
+/**
+ * Apps de demonstração Power Apps. Desde 11/11/2026 a lista dos apps vive na
+ * home, na aba Power Platform da seção Cases (comportamento da aba em
+ * cases-abas.spec.js); aqui ficam a página de cada app, o player e o
+ * redirecionamento da antiga galeria.
+ */
+const PAGINAS = ['/demos/power-apps/obra/', '/en/demos/power-apps/ouvidoria/'];
 
 for (const url of PAGINAS) {
   test(`${url} sem violações de acessibilidade e sem erros`, async ({ page }) => {
@@ -32,21 +32,14 @@ for (const url of PAGINAS) {
   });
 }
 
-test('galeria lista todos os apps e o filtro por segmento funciona', async ({ page }) => {
-  await page.goto('/demos/power-apps/');
-  await expect(page.locator('.mock-card')).toHaveCount(N);
-  const saude = DADOS.filter((c) => c.segmento.pt === 'Saúde').length;
-  expect(saude).toBeGreaterThan(0);
-  await page.click('.mock-filtros button[data-seg="Saúde"]');
-  await expect(page.locator('.mock-card:not([hidden])')).toHaveCount(saude);
-  await expect(page.locator('#mock-contagem')).toHaveText(
-    `${saude} ${saude === 1 ? 'app' : 'apps'}`
-  );
-});
-
-test('toda página de app aponta para um app.html existente', async ({ page, request }) => {
-  await page.goto('/demos/power-apps/');
-  const links = await page.locator('.mock-card a').evaluateAll((as) => as.map((a) => a.href));
+test('a aba Power Platform da home lista os apps e cada um aponta para um app.html existente', async ({
+  page,
+  request
+}) => {
+  await page.goto('/');
+  const links = await page
+    .locator('#cases-power-platform .mock-card a')
+    .evaluateAll((as) => as.map((a) => a.href));
   expect(links).toHaveLength(N);
   for (const l of links) {
     const r = await request.get(l + 'app.html');
@@ -76,43 +69,50 @@ test('player em tela cheia carrega o app e troca o formato', async ({ page }) =>
 
 const TEXTOS = {
   pt: {
+    home: '/',
     raiz: '/demos/power-apps/',
-    h1: 'Apps de demonstração para Power Apps',
-    ficticia: '(fictícia)',
     cenario: 'Cenário fictício',
     mostra: 'O que a demonstração mostra',
-    aviso: 'Não é trabalho entregue nem resultado medido.',
+    aviso: 'Empresas e dados mockados.',
+    voltar: '← Todos os apps de demonstração',
     escopo: 'Execução na Power Platform: nenhuma. Protótipo em HTML com dados fictícios.'
   },
   en: {
+    home: '/en/',
     raiz: '/en/demos/power-apps/',
-    h1: 'Demo apps for Power Apps',
-    ficticia: '(fictitious)',
     cenario: 'Fictitious scenario',
     mostra: 'What the demo shows',
-    aviso: 'It is not delivered work or a measured result.',
+    aviso: 'Mock companies and data.',
+    voltar: '← All demo apps',
     escopo: 'Execution on Power Platform: none. HTML prototype with fictional data.'
   }
 };
 
 for (const [lang, t] of Object.entries(TEXTOS)) {
-  test(`${lang}: galeria com título, selo em pill, empresa fictícia e aviso`, async ({ page }) => {
-    await page.goto(t.raiz);
-    await expect(page.locator('h1')).toHaveText(t.h1);
-    await expect(page).toHaveTitle(new RegExp(`^${t.h1}`));
-    await expect(page.locator('.mock-card .status.status--designed')).toHaveCount(N);
-    await expect(page.locator('.mock-card .mock-ficticia')).toHaveCount(N);
-    await expect(page.locator('.mock-card .mock-ficticia').first()).toHaveText(t.ficticia);
-    await expect(page.locator('.mock-aviso')).toContainText(t.aviso);
-  });
-
-  test(`${lang}: página do app mostra o aviso antes do cenário, o escopo e a empresa fictícia`, async ({
+  test(`${lang}: página do app mostra o aviso antes do cenário, o escopo e volta à aba da home`, async ({
     page
   }) => {
     await page.goto(`${t.raiz}clinica/`);
-    await expect(page.locator('.eyebrow')).toContainText(t.ficticia);
+    // O aviso já diz que a empresa é mockada: o kicker leva só segmento e nome.
+    const c = DADOS.find((x) => x.slug === 'clinica');
+    await expect(page.locator('.eyebrow')).toHaveText(`${c.segmento[lang]} · ${c.empresa}`);
+    await expect(page.locator('main')).not.toContainText(/\(fictícia\)|\(fictitious\)/);
+    await expect(page.locator('.mock-aviso > p').first()).toHaveText(t.aviso);
+    await expect(page.locator('.mock-aviso')).not.toContainText(
+      /Não é trabalho entregue|not delivered work/
+    );
     await expect(page.locator('.status.status--designed')).toHaveCount(1);
     await expect(page.locator('.scope')).toHaveText(t.escopo);
+    // Tags com ícone, como nos cartões da home.
+    const tags = page.locator('main .taglist .tag');
+    await expect(tags).toHaveCount(c.tags.length);
+    for (const tag of await tags.all()) await expect(tag.locator('.tag__icon')).toHaveCount(1);
+    // "← Todos os apps de demonstração" leva à aba Power Platform da home.
+    await expect(page.locator('.mock-voltar')).toHaveText(t.voltar);
+    await expect(page.locator('.mock-voltar')).toHaveAttribute(
+      'href',
+      `${t.home}#cases-power-platform`
+    );
     const [aviso, cenario, mostra] = await Promise.all([
       page.locator('.mock-aviso').boundingBox(),
       page.getByRole('heading', { level: 2, name: t.cenario }).boundingBox(),
@@ -123,26 +123,66 @@ for (const [lang, t] of Object.entries(TEXTOS)) {
     expect(aviso.y).toBeLessThan(cenario.y);
     expect(cenario.y).toBeLessThan(mostra.y);
   });
+
+  test(`${lang}: a antiga galeria redireciona para a aba Power Platform da home`, async ({
+    page,
+    request
+  }) => {
+    const html = await (await request.get(t.raiz)).text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    expect(head).toContain('<meta name="robots" content="noindex">');
+    expect(head).toContain(
+      `<meta http-equiv="refresh" content="0; url=${t.home}#cases-power-platform">`
+    );
+    expect(head).toContain(
+      `<link rel="canonical" href="https://ildeanfreitas.github.io${t.home}">`
+    );
+    expect(html).toContain(`<a href="${t.home}#cases-power-platform">`);
+    await page.goto(t.raiz);
+    await page.waitForURL(`**${t.home}#cases-power-platform`);
+    await expect(page.locator('#aba-power-platform')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('#cases-power-platform .mock-card').first()).toBeVisible();
+  });
 }
 
-test('a nota de idioma aparece só nas páginas em inglês, dentro do aviso', async ({ page }) => {
-  const nota = 'The demo apps are in Portuguese.';
-  for (const url of ['/en/demos/power-apps/', '/en/demos/power-apps/ordens-servico/']) {
-    await page.goto(url);
-    await expect(page.locator('.mock-aviso .mock-nota')).toHaveText(nota);
+test.describe('sem JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('a antiga galeria redireciona pelo meta refresh', async ({ page }) => {
+    await page.goto('/demos/power-apps/');
+    await page.waitForURL('**/#cases-power-platform');
+    await expect(page.locator('#cases-power-platform .mock-card')).toHaveCount(N);
+  });
+});
+
+test('o sitemap lista as páginas dos apps e não a antiga galeria', async () => {
+  const xml = readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf8');
+  expect(xml).not.toMatch(/demos\/power-apps\/<\/loc>/);
+  for (const s of SLUGS) {
+    expect(xml).toContain(`/demos/power-apps/${s}/</loc>`);
+    expect(xml).toContain(`/en/demos/power-apps/${s}/</loc>`);
   }
-  for (const url of ['/demos/power-apps/', '/demos/power-apps/ordens-servico/']) {
+});
+
+test('a nota de idioma aparece só em inglês, dentro do aviso (home e página do app)', async ({
+  page
+}) => {
+  const nota = 'The demo apps are in Portuguese.';
+  // Na home a aba Power BI tem o próprio aviso (paineis.spec.js): aqui, o dos apps.
+  await page.goto('/en/');
+  await expect(page.locator('#cases-power-platform .mock-aviso .mock-nota')).toHaveText(nota);
+  await page.goto('/en/demos/power-apps/ordens-servico/');
+  await expect(page.locator('.mock-aviso .mock-nota')).toHaveText(nota);
+  for (const url of ['/', '/demos/power-apps/ordens-servico/']) {
     await page.goto(url);
     await expect(page.locator('.mock-nota')).toHaveCount(0);
   }
 });
 
-test('o texto da galeria e das páginas não usa a palavra "case"', async ({ page }) => {
-  for (const url of [
-    '/demos/power-apps/',
-    '/en/demos/power-apps/',
-    ...SLUGS.flatMap((s) => [`/demos/power-apps/${s}/`, `/en/demos/power-apps/${s}/`])
-  ]) {
+test('o texto das páginas dos apps não usa a palavra "case"', async ({ page }) => {
+  for (const url of SLUGS.flatMap((s) => [
+    `/demos/power-apps/${s}/`,
+    `/en/demos/power-apps/${s}/`
+  ])) {
     await page.goto(url);
     // o menu do site leva "Cases" para a seção da home; o miolo da página não.
     await expect(page.locator('main'), url).not.toContainText(/\bcases?\b/i);
@@ -172,53 +212,35 @@ test('nenhum dos apps faz requisição para fora do próprio site', async ({ pag
   expect(externas).toEqual([]);
 });
 
-test('o botão da home leva à galeria, em PT e em EN', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveText(
-    'Ver os 12 apps de demonstração (dados fictícios)'
-  );
-  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveAttribute(
-    'href',
-    '/demos/power-apps/'
-  );
-  await page.goto('/en/');
-  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveText(
-    'See the 12 demo apps (fictitious data)'
-  );
-  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveAttribute(
-    'href',
-    '/en/demos/power-apps/'
-  );
-});
-
-test('todo app.html e todo player têm noindex', async ({ request }) => {
-  for (const slug of SLUGS) {
-    for (const url of [
+test('todo app.html, todo player e o redirecionamento da galeria têm noindex', async ({
+  request
+}) => {
+  const urls = [
+    '/demos/power-apps/',
+    '/en/demos/power-apps/',
+    ...SLUGS.flatMap((slug) => [
       `/demos/power-apps/${slug}/app.html`,
       `/demos/power-apps/${slug}/tela-cheia/`,
       `/en/demos/power-apps/${slug}/tela-cheia/`
-    ]) {
-      const html = await (await request.get(url)).text();
-      const head = html.slice(0, html.indexOf('</head>'));
-      expect(head, url).toContain('<meta name="robots" content="noindex">');
-    }
+    ])
+  ];
+  for (const url of urls) {
+    const html = await (await request.get(url)).text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    expect(head, url).toContain('<meta name="robots" content="noindex">');
   }
 });
 
-test('o link de idioma das páginas de demos leva à página par', async ({ page }) => {
-  const pares = [
-    ['/demos/power-apps/', '/en/demos/power-apps/'],
-    ['/demos/power-apps/obra/', '/en/demos/power-apps/obra/']
-  ];
-  for (const [pt, en] of pares) {
-    for (const [de, para] of [
-      [pt, en],
-      [en, pt]
-    ]) {
-      await page.goto(de);
-      await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
-      await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
-    }
+test('o link de idioma das páginas de app leva à página par', async ({ page }) => {
+  const pt = '/demos/power-apps/obra/';
+  const en = '/en/demos/power-apps/obra/';
+  for (const [de, para] of [
+    [pt, en],
+    [en, pt]
+  ]) {
+    await page.goto(de);
+    await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
+    await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
   }
 });
 

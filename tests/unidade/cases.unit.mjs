@@ -20,8 +20,10 @@ import {
   SELOS,
   FLUENT,
   SEQ_MAX,
-  AREAS
+  AREAS,
+  iconesDasAreas
 } from '../../scripts/cases.mjs';
+import { PAINEIS, TECNOLOGIAS, dados as APPS, tagsApp } from '../../scripts/demos.mjs';
 
 const RAIZ = fileURLToPath(new URL('../../', import.meta.url));
 const ler = (arquivo) => JSON.parse(readFileSync(RAIZ + arquivo, 'utf8'));
@@ -234,10 +236,32 @@ test('sessão vazia mostra só título e "Em preparação", sem selo, grade nem 
   assert.match(en[1], /<p class="cases-area__abertura">In preparation: /);
 });
 
-test('sessão Power BI sem case mostra a abertura e o botão dos painéis, sem selo nem grade', () => {
-  for (const [dados, idioma, destino] of [
-    [PT, 'pt', '/demos/power-bi/'],
-    [EN, 'en', '/en/demos/power-bi/']
+test('a sessão Power BI: busca e filtro de segmento num <template>, os painéis num bloco, sem o botão da galeria', () => {
+  for (const [dados, idioma, t] of [
+    [
+      PT,
+      'pt',
+      {
+        base: '/',
+        bloco: 'Painéis de demonstração',
+        segmento: 'Segmento',
+        aviso: 'Empresas e dados mockados.',
+        ver: 'Ver o painel',
+        fora: ['Tecnologia', 'Tipo']
+      }
+    ],
+    [
+      EN,
+      'en',
+      {
+        base: '/en/',
+        bloco: 'Demo dashboards',
+        segmento: 'Segment',
+        aviso: 'Mock companies and data.',
+        ver: 'View the dashboard',
+        fora: ['Technology', 'Type']
+      }
+    ]
   ]) {
     const bi = sessao(renderizarCases(dados, idioma), 'cases-power-bi');
     assert.ok(bi, `${idioma}: sem a sessão Power BI`);
@@ -245,34 +269,167 @@ test('sessão Power BI sem case mostra a abertura e o botão dos painéis, sem s
     assert.match(bi[1], /<p class="cases-area__abertura">/);
     assert.doesNotMatch(
       bi[1],
-      /Em preparação|In preparation/,
-      `${idioma}: Power BI ainda "em preparação"`
+      /Em preparação|In preparation|demos-mais|\(fictícia\)|\(fictitious\)|Não é trabalho entregue|not delivered work/,
+      idioma
     );
-    assert.match(
-      bi[1],
-      new RegExp(`<p class="demos-mais"><a [^>]*href="${destino}"`),
-      `${idioma}: sem o botão`
+    // Busca e um filtro só (Segmento): as tags dos painéis não são tecnologia
+    // e a área não tem projeto documentado para o filtro Tipo.
+    const modelo = bi[1].match(/<template class="cases-filtros-modelo">([\s\S]*?)<\/template>/);
+    assert.ok(modelo, `${idioma}: sem o template de busca e filtros`);
+    assert.match(modelo[1], /<input [^>]*type="search" id="cases-busca-power-bi"/);
+    assert.deepEqual(
+      [...modelo[1].matchAll(/data-filtro="(\w+)"/g)].map((m) => m[1]),
+      ['segmento'],
+      idioma
     );
-    assert.doesNotMatch(bi[1], /status|case-grid/);
+    assert.ok(modelo[1].includes(`id="cases-filtro-power-bi-segmento">${t.segmento}</p>`), idioma);
+    for (const r of t.fora) assert.ok(!modelo[1].includes(`>${r}</p>`), `${idioma}: ${r}`);
+    const segmentos = [...new Set(PAINEIS.map((c) => c.segmento[idioma]))];
+    assert.deepEqual(
+      [...modelo[1].matchAll(/data-valor="([^"]+)"/g)].map((m) => m[1]),
+      segmentos,
+      idioma
+    );
+    // Um bloco só, com o aviso e um cartão por painel (título em h5 sob o h4).
+    assert.deepEqual(
+      [...bi[1].matchAll(/<div class="cases-bloco" data-bloco="(\w+)">/g)].map((m) => m[1]),
+      ['demo']
+    );
+    assert.ok(bi[1].includes(`<h4 class="cases-bloco__titulo">${t.bloco}</h4>`), idioma);
+    assert.ok(bi[1].includes(`<p>${t.aviso}</p>`), `${idioma}: aviso`);
+    assert.equal(
+      [...bi[1].matchAll(/<article class="card mock-card" data-filtro-item data-tipo="demo"/g)]
+        .length,
+      PAINEIS.length
+    );
+    assert.equal([...bi[1].matchAll(/<h5 class="mock-card__titulo">/g)].length, PAINEIS.length);
+    for (const c of PAINEIS) {
+      assert.ok(
+        bi[1].includes(
+          `<a class="btn btn--ghost" href="${t.base}demos/power-bi/${c.slug}/">${t.ver}<span class="sr-only">`
+        ),
+        `${idioma}: botão de ${c.slug}`
+      );
+      assert.ok(bi[1].includes(`>${c.segmento[idioma]} | ${c.empresa}</p>`), c.slug);
+    }
+    assert.doesNotMatch(bi[1], /case-grid|data-tecs/);
   }
 });
 
-test('níveis de título: sessão h3, case h4, fatos h5', () => {
-  const html = renderizarCases([doCase('case-dataops')], 'pt');
+test('busca e filtros das duas abas não repetem id', () => {
+  for (const [dados, idioma] of [
+    [PT, 'pt'],
+    [EN, 'en']
+  ]) {
+    const ids = [...renderizarCases(dados, idioma).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+    const repetidos = ids.filter((id, i) => ids.indexOf(id) !== i);
+    assert.deepEqual(repetidos, [], idioma);
+  }
+});
+
+test('níveis de título: sessão h3, case h4 e fatos h5; na sessão Power Platform, bloco h4, case e app h5, fatos h6', () => {
+  const html = renderizarCases([doCase('case-dataops'), doCase('case-fiscal-orchestration')], 'pt');
   assert.match(html, /<h3 class="cases-area__titulo">Engenharia de Dados<\/h3>/);
-  assert.match(html, /<h4>Laboratório DataOps/);
+  assert.match(html, /<h4 class="case-card__titulo">Laboratório DataOps/);
   assert.match(html, /<h5>Decisões técnicas<\/h5>/);
+  const pp = html.match(/id="cases-power-platform">([\s\S]*?)<\/section>\n\n/)[1];
+  assert.match(pp, /<h4 class="cases-bloco__titulo">Apps de demonstração<\/h4>/);
+  assert.match(pp, /<h4 class="cases-bloco__titulo">Projetos documentados<\/h4>/);
+  assert.match(pp, /<h5 class="case-card__titulo">Orquestração de Processamento Fiscal/);
+  assert.match(pp, /<h6>Decisões técnicas<\/h6>/);
+  assert.equal([...pp.matchAll(/<h5 class="mock-card__titulo">/g)].length, APPS.length);
   assert.doesNotMatch(html, /<h3>|<h4>(Meu papel|Decisões|Resultado|Aprendizados)/);
 });
 
-test('o link das demonstrações fecha a sessão Power Platform, no idioma da página', () => {
-  const pt = renderizarCases(PT, 'pt');
-  const en = renderizarCases(EN, 'en');
-  assert.match(
-    pt,
-    /<p class="demos-mais"><a class="btn btn--secondary" href="\/demos\/power-apps\/">[^<]+<\/a><\/p>\n {6}<\/section>\n\n {6}<section class="cases-area" id="cases-power-bi">/
+test('a sessão Power Platform: busca e filtros num <template>, apps e projetos em blocos, sem o botão da galeria', () => {
+  for (const [dados, idioma, rotulos] of [
+    [PT, 'pt', ['Tecnologia', 'Tipo', 'Segmento dos apps', 'Empresas e dados mockados.']],
+    [EN, 'en', ['Technology', 'Type', 'App segment', 'Mock companies and data.']]
+  ]) {
+    const html = renderizarCases(dados, idioma);
+    const pp = html.match(/id="cases-power-platform">([\s\S]*?)<\/section>\n\n/)[1];
+    const modelo = pp.match(/<template class="cases-filtros-modelo">([\s\S]*?)<\/template>/);
+    assert.ok(modelo, `${idioma}: sem o template de busca e filtros`);
+    for (const r of rotulos.slice(0, 3))
+      assert.ok(modelo[1].includes(`>${r}</p>`), `${idioma}: ${r}`);
+    assert.ok(pp.includes(rotulos[3]), `${idioma}: aviso`);
+    assert.doesNotMatch(pp, /demos-mais|fictícia|fictitious/);
+    // Nenhum hidden no HTML: esconder é só do JS.
+    assert.doesNotMatch(html, /\shidden[\s>=]/);
+    const blocos = [...pp.matchAll(/<div class="cases-bloco" data-bloco="(\w+)">/g)].map(
+      (m) => m[1]
+    );
+    assert.deepEqual(blocos, ['demo', 'projeto']);
+    assert.equal(
+      [...pp.matchAll(/<article class="card mock-card" data-filtro-item data-tipo="demo"/g)].length,
+      APPS.length
+    );
+    assert.equal(
+      [
+        ...pp.matchAll(
+          /<article class="card case-card[^"]*" id="[^"]+" data-filtro-item data-tipo="projeto"/g
+        )
+      ].length,
+      dados.filter((c) => c.area === 'power-platform').length
+    );
+  }
+});
+
+test('as abas saem num <template>, com o ícone do cartão de Especialidades de cada área', () => {
+  const template = readFileSync(RAIZ + 'src/index.template.html', 'utf8');
+  const icones = iconesDasAreas(template);
+  assert.deepEqual(Object.keys(icones).sort(), ['engenharia-dados', 'ia', 'power-platform']);
+  const html = renderizarCases(PT, 'pt', { iconesArea: icones });
+  const modelo = html.match(/<template class="cases-abas-modelo">([\s\S]*?)<\/template>/);
+  assert.ok(modelo, 'sem o template das abas');
+  const abas = [
+    ...modelo[1].matchAll(
+      /<button [^>]*role="tab" id="aba-([\w-]+)" aria-controls="cases-([\w-]+)"[^>]*>(.*?)<\/button>/g
+    )
+  ];
+  assert.deepEqual(
+    abas.map((m) => m[1]),
+    AREAS
   );
-  assert.match(en, /href="\/en\/demos\/power-apps\/">See the 12 demo apps/);
+  assert.deepEqual(
+    abas.map((m) => m[2]),
+    AREAS
+  );
+  for (const [, area, , corpo] of abas)
+    assert.match(
+      corpo,
+      area === 'power-bi'
+        ? /<img class="cases-aba__icone" src="\/assets\/icons\/vendor\/power-bi\//
+        : /<svg class="cases-aba__icone" aria-hidden="true"/,
+      area
+    );
+  // Sem cartão de Especialidades para uma área, o build para.
+  assert.throws(
+    () => renderizarCases(PT, 'pt', { iconesArea: { 'power-platform': '<svg></svg>' } }),
+    /sem ícone para a aba "engenharia-dados"/
+  );
+});
+
+test('toda tag de app e de painel tem ícone do dicionário; Canvas não é tag', () => {
+  for (const c of [...APPS, ...PAINEIS])
+    for (const idioma of ['pt', 'en']) {
+      const html = tagsApp(idioma, c);
+      const tags = [
+        ...html.matchAll(
+          /<li class="tag">(<img [^>]*>|<svg [^>]*><use href="#i-[\w-]+"><\/use><\/svg>)([^<]+)<\/li>/g
+        )
+      ];
+      assert.equal(tags.length, c.tags.length, `${c.slug} (${idioma})`);
+      assert.ok(!c.tags.includes('Canvas'), c.slug);
+    }
+  // As tags dos painéis são conceitos: ícone neutro com o nome, nunca logotipo;
+  // em inglês sai o rótulo traduzido do dicionário.
+  for (const c of PAINEIS) assert.doesNotMatch(tagsApp('pt', c), /<img/, c.slug);
+  assert.match(tagsApp('pt', PAINEIS[0]), />Executiva<\/li>/);
+  assert.match(tagsApp('en', PAINEIS[0]), />Executive<\/li>/);
+  // Todo ícone neutro do dicionário está na lista do sprite.
+  for (const [chave, t] of Object.entries(TECNOLOGIAS))
+    if (t.fluent) assert.ok(FLUENT.includes(t.fluent), chave);
 });
 
 test('bloco com "produto" e "icone" ao mesmo tempo falha', () => {

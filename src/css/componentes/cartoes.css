@@ -75,9 +75,11 @@ svg.tag__icon{fill:currentColor}
    quê?" — em vez de um parágrafo que responde às três de uma vez. */
 .case-facts{display:grid;gap:1.1rem;margin:0 0 1.5rem;padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
 /* Títulos e marcadores neutros: o lime fica para o destaque do diagrama e o CTA.
-   Níveis: sessão h3, título do case h4 (com o corpo de h3), fatos h5. */
-.case-card__intro>h4{font-size:var(--size-h3);line-height:1.2}
-.case-facts h5{margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
+   Níveis: sessão h3; título do case h4 e fatos h5, ou, na aba Power Platform
+   (sob o bloco "Projetos documentados", h4), título h5 e fatos h6. O estilo
+   vai pela classe e pelos dois níveis, então a aparência é a mesma. */
+.case-card__titulo{font-size:var(--size-h3);line-height:1.2}
+.case-facts :is(h5,h6){margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
 .card .case-facts p{margin:0;font-size:.88rem;color:var(--text-muted)}
 .case-facts ul{display:grid;gap:.45rem;padding-left:1.1rem;list-style:disc}
 .case-facts li{font-size:.88rem;line-height:1.5;color:var(--text-muted)}

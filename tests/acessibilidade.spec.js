@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { emCadaAba } from './apoio-abas.js';
 
 /**
  * Portão de acessibilidade. Roda nos dois temas: o tema claro recalcula o
@@ -29,6 +30,35 @@ for (const tema of ['dark', 'light']) {
 
     // Mensagem legível no log em vez de um objeto cru enorme.
     const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
+    expect(resumo, resumo.join('\n')).toEqual([]);
+  });
+}
+
+/**
+ * O axe só olha o que está visível, e com JS a seção Cases mostra uma aba por
+ * vez: sem este teste, três das quatro abas (e os diagramas de Engenharia de
+ * Dados) ficariam fora da varredura.
+ */
+for (const [pagina, rota, tema] of [
+  ['pt', '/', 'dark'],
+  ['pt', '/', 'light'],
+  ['en', '/en/', 'dark']
+]) {
+  test(`${pagina}: cada aba da seção Cases sem violações — tema ${tema}`, async ({ page }) => {
+    // Quatro varreduras do axe num teste só: com a suíte inteira em paralelo,
+    // passava dos 30 s padrão no desktop (tempo, não violação).
+    test.slow();
+    await page.goto(rota);
+    await semTransicoes(page);
+    await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
+    const resumo = [];
+    await emCadaAba(page, async (painel) => {
+      const { violations } = await new AxeBuilder({ page })
+        .include('#cases')
+        .withTags(PADROES)
+        .analyze();
+      resumo.push(...violations.map((v) => `${painel}: ${v.id} (${v.nodes.length}x): ${v.help}`));
+    });
     expect(resumo, resumo.join('\n')).toEqual([]);
   });
 }
@@ -88,6 +118,16 @@ const AMOSTRA = [
   '.case-facts h5',
   '.cases-area__titulo',
   '.cases-area__abertura',
+  // Abas, busca, filtros e cartões das demonstrações (abas Power Platform e
+  // Power BI).
+  '.cases-aba',
+  '.cases-filtros__rotulo',
+  '.cases-filtros__contagem',
+  '.mock-filtros button',
+  '.cases-bloco__titulo',
+  '.mock-aviso p',
+  '.mock-card__seg',
+  '.mock-card__titulo',
   '.card__acao',
   '.status-natureza',
   '.scope',
@@ -204,23 +244,25 @@ test('nenhum texto abaixo de 11px em nenhuma largura', async ({ page }) => {
     document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible'))
   );
   const piso = 11.1;
-  const pequenos = await page.evaluate((min) => {
-    const folhas = [...document.querySelectorAll('main *')].filter(
-      (e) => !e.children.length && e.textContent.trim() && e.getBoundingClientRect().width > 0
-    );
-    return [
-      ...new Set(
-        folhas
-          .map((e) => ({ tam: parseFloat(getComputedStyle(e).fontSize), e }))
-          .filter((x) => x.tam < min)
-          .map(
-            (x) =>
-              `${x.tam.toFixed(1)}px ${x.e.tagName}.${String(x.e.className).split(' ')[0]} "${x.e.textContent.trim().slice(0, 30)}"`
-          )
-      )
-    ].slice(0, 15);
-  }, piso);
-  expect(pequenos, pequenos.join('\n')).toEqual([]);
+  // Só o visível é medido; com JS a seção Cases mostra uma aba por vez, então
+  // a medida passa por todas.
+  const pequenos = new Set();
+  await emCadaAba(page, async () => {
+    const achados = await page.evaluate((min) => {
+      const folhas = [...document.querySelectorAll('main *')].filter(
+        (e) => !e.children.length && e.textContent.trim() && e.getBoundingClientRect().width > 0
+      );
+      return folhas
+        .map((e) => ({ tam: parseFloat(getComputedStyle(e).fontSize), e }))
+        .filter((x) => x.tam < min)
+        .map(
+          (x) =>
+            `${x.tam.toFixed(1)}px ${x.e.tagName}.${String(x.e.className).split(' ')[0]} "${x.e.textContent.trim().slice(0, 30)}"`
+        );
+    }, piso);
+    achados.forEach((a) => pequenos.add(a));
+  });
+  expect([...pequenos].slice(0, 15), [...pequenos].join('\n')).toEqual([]);
 });
 
 test('404 sem violações de acessibilidade', async ({ page }) => {

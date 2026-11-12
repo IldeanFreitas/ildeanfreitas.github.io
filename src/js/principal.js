@@ -218,13 +218,245 @@
     });
   });
 
+  iniciar('busca e filtros dos cases', function () {
+    /* As abas com demonstrações têm busca e filtros próprios: a Power
+       Platform (busca; Tecnologia, Tipo, Segmento dos apps) e a Power BI
+       (busca; Segmento). O build gera um <template> em cada uma: sem JS não
+       aparecem e tudo fica listado. Rótulos e opções vêm do HTML; nada de
+       texto ou lista fixa aqui. Cada conjunto só enxerga os itens do seu
+       painel. */
+    Array.prototype.forEach.call(
+      document.querySelectorAll('template.cases-filtros-modelo'),
+      montar
+    );
+
+    function montar(modelo) {
+      if (!modelo.content || !modelo.content.firstElementChild) return;
+      var painel = modelo.parentNode;
+      var itens = Array.prototype.slice.call(painel.querySelectorAll('[data-filtro-item]'));
+      if (!itens.length) return;
+
+      var filtros = modelo.content.firstElementChild.cloneNode(true);
+      var busca = filtros.querySelector('input[type="search"]');
+      var contagem = filtros.querySelector('.cases-filtros__contagem');
+      var vazio = filtros.querySelector('.cases-filtros__vazio');
+      var textoDaContagem = contagem ? contagem.getAttribute('data-modelo') || '' : '';
+      var blocos = Array.prototype.slice.call(painel.querySelectorAll('[data-bloco]'));
+      var estado = {};
+
+      /* Sem acento e sem caixa: "saude" acha "Saúde". */
+      function normalizar(texto) {
+        return String(texto)
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+      /* A busca olha nome, segmento (com a empresa) e tecnologias de cada item. */
+      var CAMPOS = '.mock-card__titulo, .mock-card__seg, .case-card__titulo, .tag';
+      var textos = itens.map(function (item) {
+        return normalizar(
+          Array.prototype.map
+            .call(item.querySelectorAll(CAMPOS), function (el) {
+              return el.textContent;
+            })
+            .join(' ')
+        );
+      });
+
+      /* data-tecs é uma lista separada por espaço; tipo e segmento, valor único.
+       Item sem o atributo (projeto não tem segmento) sai quando o filtro está
+       ativo. */
+      function casa(item, chave, valor) {
+        if (!valor) return true;
+        var atual = item.getAttribute('data-' + chave);
+        if (atual === null) return false;
+        return chave === 'tecs'
+          ? (' ' + atual + ' ').indexOf(' ' + valor + ' ') >= 0
+          : atual === valor;
+      }
+
+      function aplicar() {
+        var termo = busca ? normalizar(busca.value) : '';
+        var visiveis = 0;
+        itens.forEach(function (item, i) {
+          var ok = textos[i].indexOf(termo) >= 0;
+          Object.keys(estado).forEach(function (chave) {
+            ok = ok && casa(item, chave, estado[chave]);
+          });
+          item.hidden = !ok;
+          if (ok) visiveis++;
+        });
+        /* Bloco sem item visível some com o título e o aviso. */
+        blocos.forEach(function (bloco) {
+          bloco.hidden = !bloco.querySelector('[data-filtro-item]:not([hidden])');
+        });
+        if (contagem)
+          contagem.textContent = textoDaContagem
+            .replace('{n}', visiveis)
+            .replace('{total}', itens.length);
+        if (vazio) vazio.hidden = visiveis > 0;
+      }
+
+      Array.prototype.forEach.call(filtros.querySelectorAll('[data-filtro]'), function (grupo) {
+        var chave = grupo.getAttribute('data-filtro');
+        var botoes = Array.prototype.slice.call(grupo.querySelectorAll('button[data-valor]'));
+        estado[chave] = '';
+        botoes.forEach(function (botao) {
+          botao.addEventListener('click', function () {
+            botoes.forEach(function (outro) {
+              outro.setAttribute('aria-pressed', String(outro === botao));
+            });
+            estado[chave] = botao.getAttribute('data-valor');
+            aplicar();
+          });
+        });
+      });
+      if (busca) busca.addEventListener('input', aplicar);
+
+      /* No celular cada grupo é uma faixa rolável: o botão focado pelo teclado
+       vem inteiro para dentro dela, com margem para o contorno de foco. */
+      filtros.addEventListener('focusin', function (e) {
+        var botao = e.target;
+        var faixa = botao.parentNode;
+        if (!faixa || !faixa.hasAttribute || !faixa.hasAttribute('data-filtro')) return;
+        window.requestAnimationFrame(function () {
+          if (faixa.scrollWidth <= faixa.clientWidth) return;
+          var f = faixa.getBoundingClientRect();
+          var b = botao.getBoundingClientRect();
+          var margem = 12;
+          if (b.left < f.left + margem) faixa.scrollLeft -= f.left + margem - b.left;
+          else if (b.right > f.right - margem) faixa.scrollLeft += b.right - (f.right - margem);
+        });
+      });
+
+      /* Aplica antes de inserir: a região aria-live entra já com o texto e não
+       anuncia nada na carga. */
+      aplicar();
+      painel.replaceChild(filtros, modelo);
+    }
+  });
+
+  iniciar('abas dos cases', function () {
+    /* Padrão ARIA de abas (tablist/tab/tabpanel, setas, Home/End, tabindex
+       rolante). A lista vem de um <template> gerado no build; sem JS não há
+       aba nem painel escondido, e as sessões ficam empilhadas. Um link para
+       uma sessão (#cases-<área>) ou para algo dentro dela abre a aba certa:
+       no clique (antes da navegação padrão), no hashchange e na carga. */
+    var modelo = document.querySelector('template.cases-abas-modelo');
+    if (!modelo || !modelo.content || !modelo.content.firstElementChild) return;
+    var grupo = modelo.parentNode;
+    var lista = modelo.content.firstElementChild.cloneNode(true);
+    var abas = Array.prototype.slice.call(lista.querySelectorAll('[role="tab"]'));
+    var paineis = abas.map(function (aba) {
+      return document.getElementById(aba.getAttribute('aria-controls'));
+    });
+    if (!abas.length || paineis.indexOf(null) >= 0) return;
+
+    function ativar(i, focar) {
+      abas.forEach(function (aba, j) {
+        var sel = i === j;
+        aba.setAttribute('aria-selected', String(sel));
+        aba.tabIndex = sel ? 0 : -1;
+        paineis[j].hidden = !sel;
+      });
+      if (focar) abas[i].focus();
+    }
+
+    /* Painel sem nada focável (IA aplicada) entra na ordem do Tab,
+       como pede o padrão. Os outros não: o Tab vai da aba ao primeiro
+       controle (a busca, um link), e o painel focável seria focado pelo
+       próprio navegador ao abrir a página com #cases-<área>, com o contorno
+       de foco em volta da aba inteira. */
+    var FOCAVEL = 'a[href], button, input, select, textarea, [tabindex]';
+    paineis.forEach(function (painel, i) {
+      painel.setAttribute('role', 'tabpanel');
+      painel.setAttribute('aria-labelledby', abas[i].id);
+      if (!painel.querySelector(FOCAVEL)) painel.tabIndex = 0;
+    });
+    abas.forEach(function (aba, i) {
+      aba.addEventListener('click', function () {
+        ativar(i);
+      });
+      aba.addEventListener('keydown', function (e) {
+        var n = abas.length;
+        var j =
+          e.key === 'ArrowRight'
+            ? (i + 1) % n
+            : e.key === 'ArrowLeft'
+              ? (i - 1 + n) % n
+              : e.key === 'Home'
+                ? 0
+                : e.key === 'End'
+                  ? n - 1
+                  : -1;
+        if (j < 0) return;
+        e.preventDefault();
+        ativar(j, true);
+      });
+    });
+
+    function alvoDe(hash) {
+      if (!hash || hash.length < 2) return null;
+      try {
+        return document.getElementById(decodeURIComponent(hash.slice(1)));
+      } catch (erro) {
+        return null;
+      }
+    }
+    function painelDe(alvo) {
+      for (var i = 0; i < paineis.length; i++) if (alvo && paineis[i].contains(alvo)) return i;
+      return -1;
+    }
+    /* Abre a aba que contém o alvo; devolve true se precisou trocar. */
+    function abrirPara(alvo) {
+      var i = painelDe(alvo);
+      if (i < 0 || !paineis[i].hidden) return false;
+      ativar(i);
+      return true;
+    }
+
+    grupo.replaceChild(lista, modelo);
+    grupo.classList.add('cases-areas--abas');
+
+    /* Altura da lista de abas: o painel a usa em scroll-margin-top, para a
+       rolagem até ele deixar as abas à vista. */
+    function medir() {
+      grupo.style.setProperty('--cases-abas-altura', lista.offsetHeight + 'px');
+    }
+
+    var inicial = alvoDe(window.location.hash);
+    var i0 = painelDe(inicial);
+    ativar(i0 >= 0 ? i0 : 0);
+    medir();
+    if (window.ResizeObserver) new window.ResizeObserver(medir).observe(lista);
+    if (i0 >= 0) {
+      try {
+        inicial.scrollIntoView({ block: 'start', behavior: 'instant' });
+      } catch (erro) {
+        inicial.scrollIntoView(true);
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (link) abrirPara(alvoDe(link.getAttribute('href')));
+    });
+    window.addEventListener('hashchange', function () {
+      var alvo = alvoDe(window.location.hash);
+      if (abrirPara(alvo)) alvo.scrollIntoView({ block: 'start' });
+    });
+  });
+
   iniciar('foco na âncora', function () {
     document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
       if (!link) return;
       var alvo = document.querySelector(link.getAttribute('href'));
       if (!alvo) return;
-      alvo.setAttribute('tabindex', '-1');
+      /* Só torna focável o que não é: o painel de aba já tem tabindex 0. */
+      if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
 
       function focar() {
         alvo.focus({ preventScroll: true });

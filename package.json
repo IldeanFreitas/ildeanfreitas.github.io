@@ -21,7 +21,7 @@
     "build:check": "node scripts/build.mjs --check && node scripts/mockups.mjs --check",
     "serve": "node scripts/serve.mjs",
     "dev": "node scripts/serve.mjs --watch",
-    "test": "npm run test:unit && playwright test tests/comportamento.spec.js tests/acessibilidade.spec.js tests/sem-javascript.spec.js tests/movimento-reduzido.spec.js tests/mockups.spec.js tests/paineis.spec.js",
+    "test": "npm run test:unit && playwright test tests/comportamento.spec.js tests/acessibilidade.spec.js tests/sem-javascript.spec.js tests/movimento-reduzido.spec.js tests/mockups.spec.js tests/paineis.spec.js tests/cases-abas.spec.js",
     "test:unit": "node --test tests/unidade/cases.unit.mjs",
     "test:visual": "playwright test tests/visual.spec.js",
     "test:ui": "playwright test --ui",

@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFileSync } from 'node:fs';
+import { TECNOLOGIAS, tecnologiaDe } from '../scripts/demos.mjs';
 
 /** Fonte única: slugs, contagens e segmentos vêm do JSON, não do teste. */
 const DADOS = JSON.parse(
@@ -9,9 +10,15 @@ const DADOS = JSON.parse(
 const SLUGS = DADOS.map((c) => c.slug);
 const N = DADOS.length;
 const RAIZ = '/demos/power-bi/';
+const ABA = '#cases-power-bi';
 
-/** Galeria e páginas dos painéis de demonstração Power BI (pt e en). */
-for (const url of [RAIZ, `${RAIZ}varejo/`, `/en${RAIZ}`, `/en${RAIZ}atendimento-ti/`]) {
+/**
+ * Painéis de demonstração Power BI (pt e en). Desde 12/11/2026 a lista dos
+ * painéis vive na home, na aba Power BI da seção Cases (comportamento da aba em
+ * cases-abas.spec.js); aqui ficam a página de cada painel, o player, o painel
+ * dentro do iframe e o redirecionamento da antiga galeria.
+ */
+for (const url of [`${RAIZ}varejo/`, `/en${RAIZ}atendimento-ti/`]) {
   test(`${url} sem violações de acessibilidade e sem erros`, async ({ page }) => {
     const erros = [];
     page.on('pageerror', (e) => erros.push(e.message));
@@ -26,26 +33,26 @@ for (const url of [RAIZ, `${RAIZ}varejo/`, `/en${RAIZ}`, `/en${RAIZ}atendimento-
   });
 }
 
-test('galeria lista todos os painéis e o filtro por segmento funciona', async ({ page }) => {
-  await page.goto(RAIZ);
-  await expect(page.locator('.mock-card')).toHaveCount(N);
-  const saude = DADOS.filter((c) => c.segmento.pt === 'Saúde').length;
-  expect(saude).toBeGreaterThan(0);
-  await page.click('.mock-filtros button[data-seg="Saúde"]');
-  await expect(page.locator('.mock-card:not([hidden])')).toHaveCount(saude);
-  await expect(page.locator('#mock-contagem')).toHaveText(
-    `${saude} ${saude === 1 ? 'painel' : 'painéis'}`
-  );
-});
-
-test('toda página de painel aponta para um app.html existente', async ({ page, request }) => {
-  await page.goto(RAIZ);
-  const links = await page.locator('.mock-card a').evaluateAll((as) => as.map((a) => a.href));
+test('a aba Power BI da home lista os painéis e cada um aponta para um app.html existente', async ({
+  page,
+  request
+}) => {
+  await page.goto('/');
+  const links = await page
+    .locator(`${ABA} .mock-card a`)
+    .evaluateAll((as) => as.map((a) => a.href));
   expect(links).toHaveLength(N);
   for (const l of links) {
     const r = await request.get(l + 'app.html');
     expect(r.status(), l).toBe(200);
   }
+  // As páginas em inglês usam o mesmo app.html (fica só em /demos/).
+  await page.goto('/en/');
+  const paginas = await page
+    .locator(`${ABA} .mock-card a`)
+    .evaluateAll((as) => as.map((a) => a.getAttribute('href')));
+  expect(paginas).toEqual(SLUGS.map((s) => `/en${RAIZ}${s}/`));
+  for (const p of paginas) expect((await request.get(p)).status(), p).toBe(200);
 });
 
 test('player em tela cheia carrega o painel e troca o formato', async ({ page }) => {
@@ -64,68 +71,163 @@ test('player em tela cheia carrega o painel e troca o formato', async ({ page })
 
 const TEXTOS = {
   pt: {
+    home: '/',
     raiz: RAIZ,
-    h1: 'Painéis de demonstração para Power BI',
-    ficticia: '(fictícia)',
+    titulo: 'Painéis de demonstração para Power BI',
     cenario: 'Cenário fictício',
     mostra: 'O que o painel mostra',
-    aviso: 'Não é trabalho entregue nem resultado medido.',
+    aviso: 'Empresas e dados mockados.',
+    voltar: 'Voltar a todos os painéis de demonstração',
     escopo: /^Execução no Power BI: nenhuma\. Protótipo em HTML com dados fictícios/
   },
   en: {
+    home: '/en/',
     raiz: `/en${RAIZ}`,
-    h1: 'Demo dashboards for Power BI',
-    ficticia: '(fictitious)',
+    titulo: 'Demo dashboards for Power BI',
     cenario: 'Fictitious scenario',
     mostra: 'What the dashboard shows',
-    aviso: 'It is not delivered work or a measured result.',
+    aviso: 'Mock companies and data.',
+    voltar: 'Back to all demo dashboards',
     escopo: /^Execution in Power BI: none\. HTML prototype with fictional data/
   }
 };
 
 for (const [lang, t] of Object.entries(TEXTOS)) {
-  test(`${lang}: galeria de painéis com título, selo, empresa fictícia e aviso`, async ({
+  test(`${lang}: página do painel mostra o aviso antes do cenário, o escopo e volta à aba da home`, async ({
     page
   }) => {
-    await page.goto(t.raiz);
-    await expect(page.locator('h1')).toHaveText(t.h1);
-    await expect(page).toHaveTitle(new RegExp(`^${t.h1}`));
-    await expect(page.locator('.mock-card .status.status--designed')).toHaveCount(N);
-    await expect(page.locator('.mock-card .mock-ficticia')).toHaveCount(N);
-    await expect(page.locator('.mock-card .mock-ficticia').first()).toHaveText(t.ficticia);
-    await expect(page.locator('.mock-aviso')).toContainText(t.aviso);
-  });
-
-  test(`${lang}: página do painel mostra o aviso antes do cenário e o escopo`, async ({ page }) => {
     await page.goto(`${t.raiz}clinicas/`);
-    await expect(page.locator('.eyebrow')).toContainText(t.ficticia);
+    // O aviso já diz que a empresa é mockada: o kicker leva só segmento e nome.
+    const c = DADOS.find((x) => x.slug === 'clinicas');
+    await expect(page.locator('.eyebrow')).toHaveText(`${c.segmento[lang]} | ${c.empresa}`);
+    await expect(page.locator('main')).not.toContainText(/\(fictícia\)|\(fictitious\)/);
+    await expect(page.locator('.mock-aviso > p').first()).toHaveText(t.aviso);
+    await expect(page.locator('.mock-aviso')).not.toContainText(
+      /Não é trabalho entregue|not delivered work|gerados por script|generated by a script/
+    );
+    await expect(page.locator('.status.status--designed')).toHaveCount(1);
     await expect(page.locator('.scope')).toHaveText(t.escopo);
-    const [aviso, cenario, mostra] = await Promise.all([
+    // Tags com ícone, como nos cartões da home: uma por tag do dado, com o
+    // rótulo do idioma e o símbolo do sprite desenhado na própria página.
+    const tags = page.locator('main .taglist .tag');
+    await expect(tags).toHaveText(
+      c.tags.map((tag) => {
+        const tec = TECNOLOGIAS[tecnologiaDe(tag)];
+        return lang === 'en' ? (tec.en ?? tec.nome) : tec.nome;
+      })
+    );
+    const ruins = await tags.evaluateAll((lista) =>
+      lista
+        .filter((tag) => {
+          const icones = tag.querySelectorAll('.tag__icon');
+          if (icones.length !== 1 || icones[0].tagName === 'IMG') return true;
+          const id = icones[0].querySelector('use')?.getAttribute('href')?.replace(/^#/, '');
+          const simbolo = id && document.getElementById(id);
+          const caixa = icones[0].getBoundingClientRect();
+          return !(
+            simbolo?.tagName === 'symbol' &&
+            simbolo.querySelector('path') &&
+            caixa.width >= 12
+          );
+        })
+        .map((tag) => tag.textContent.trim())
+    );
+    expect(ruins).toEqual([]);
+    // "Voltar a todos os painéis" leva à aba Power BI da home.
+    await expect(page.locator('.mock-voltar')).toHaveText(t.voltar);
+    await expect(page.locator('.mock-voltar')).toHaveAttribute('href', `${t.home}${ABA}`);
+    const [h1, aviso, cenario, mostra] = await Promise.all([
+      page.locator('h1').boundingBox(),
       page.locator('.mock-aviso').boundingBox(),
       page.getByRole('heading', { level: 2, name: t.cenario }).boundingBox(),
       page.getByRole('heading', { level: 2, name: t.mostra }).boundingBox()
     ]);
+    expect(h1.y).toBeLessThan(aviso.y);
     expect(aviso.y).toBeLessThan(cenario.y);
     expect(cenario.y).toBeLessThan(mostra.y);
   });
+
+  test(`${lang}: "voltar" da página do painel abre a aba Power BI da home`, async ({ page }) => {
+    await page.goto(`${t.raiz}gas/`);
+    await page.locator('.mock-voltar').click();
+    await page.waitForURL(`**${t.home}${ABA}`);
+    await expect(page.locator('#aba-power-bi')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator(`${ABA} .mock-card`).first()).toBeVisible();
+  });
+
+  test(`${lang}: a antiga galeria de painéis redireciona para a aba Power BI da home`, async ({
+    page,
+    request
+  }) => {
+    const html = await (await request.get(t.raiz)).text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    expect(head).toContain('<meta name="robots" content="noindex">');
+    expect(head).toContain(`<meta http-equiv="refresh" content="0; url=${t.home}${ABA}">`);
+    expect(head).toContain(
+      `<link rel="canonical" href="https://ildeanfreitas.github.io${t.home}">`
+    );
+    expect(head).toContain(`<title>${t.titulo} | Ildean Freitas</title>`);
+    expect(html).toContain(`<a href="${t.home}${ABA}">`);
+    await page.goto(t.raiz);
+    await page.waitForURL(`**${t.home}${ABA}`);
+    await expect(page.locator('#aba-power-bi')).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator(`${ABA} .mock-card`).first()).toBeVisible();
+  });
 }
 
-test('a nota de idioma dos painéis aparece só em inglês', async ({ page }) => {
+test.describe('sem JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('a antiga galeria de painéis redireciona pelo meta refresh', async ({ page }) => {
+    await page.goto(RAIZ);
+    await page.waitForURL(`**/${ABA}`);
+    await expect(page.locator(`${ABA} .mock-card`)).toHaveCount(N);
+    await expect(page.locator(`${ABA} .mock-card`).first()).toBeVisible();
+  });
+});
+
+test('o sitemap lista as páginas dos painéis e não a antiga galeria', async () => {
+  const xml = readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf8');
+  expect(xml).not.toMatch(/demos\/power-bi\/<\/loc>/);
+  expect(xml).not.toContain('tela-cheia');
+  for (const s of SLUGS) {
+    expect(xml).toContain(`<loc>https://ildeanfreitas.github.io${RAIZ}${s}/</loc>`);
+    expect(xml).toContain(`<loc>https://ildeanfreitas.github.io/en${RAIZ}${s}/</loc>`);
+  }
+});
+
+test('a nota de idioma dos painéis aparece só em inglês, dentro do aviso (home e página)', async ({
+  page
+}) => {
+  const nota = 'The demo dashboards are in Portuguese.';
+  await page.goto('/en/');
+  await expect(page.locator(`${ABA} .mock-aviso .mock-nota`)).toHaveText(nota);
   await page.goto(`/en${RAIZ}gas/`);
-  await expect(page.locator('.mock-aviso .mock-nota')).toHaveText(
-    'The demo dashboards are in Portuguese.'
-  );
+  await expect(page.locator('.mock-aviso .mock-nota')).toHaveText(nota);
+  await page.goto('/');
+  await expect(page.locator(`${ABA} .mock-nota`)).toHaveCount(0);
   await page.goto(`${RAIZ}gas/`);
   await expect(page.locator('.mock-nota')).toHaveCount(0);
 });
 
-test('as páginas dos painéis não usam ponto médio, travessão nem seta no texto', async ({
+test('as páginas dos painéis não usam ponto médio, travessão nem seta no texto, nem a palavra "case"', async ({
   page
 }) => {
-  for (const url of [RAIZ, `/en${RAIZ}`, ...SLUGS.map((s) => `${RAIZ}${s}/`)]) {
+  for (const url of SLUGS.flatMap((s) => [`${RAIZ}${s}/`, `/en${RAIZ}${s}/`])) {
     await page.goto(url);
-    await expect(page.locator('main'), url).not.toContainText(/[·—–→]/);
+    await expect(page.locator('main'), url).not.toContainText(/[·—–→←]/);
     await expect(page.locator('main'), url).not.toContainText(/\bcases?\b/i);
+    expect(
+      await page.locator('head meta[name="description"]').getAttribute('content'),
+      url
+    ).not.toMatch(/\bcases?\b/i);
+    expect(await page.title(), url).not.toMatch(/\bcases?\b/i);
+  }
+  // O mesmo vale para os cartões da aba Power BI da home.
+  for (const url of ['/', '/en/']) {
+    await page.goto(url);
+    const bloco = page.locator(`${ABA} [data-bloco="demo"]`);
+    expect(await bloco.textContent(), url).not.toMatch(/[·—–→←]/);
+    expect(await bloco.textContent(), url).not.toMatch(/\bcases?\b/i);
   }
 });
 
@@ -146,24 +248,22 @@ test('nenhum painel faz requisição para fora do próprio site', async ({ page,
   expect(externas).toEqual([]);
 });
 
-test('o botão da sessão Power BI da home leva à galeria, em PT e em EN', async ({ page }) => {
-  await page.goto('/');
-  const pt = page.locator('#cases-power-bi .demos-mais a');
-  await expect(pt).toHaveText('Ver os 10 painéis de demonstração (dados fictícios)');
-  await expect(pt).toHaveAttribute('href', RAIZ);
-  await page.goto('/en/');
-  const en = page.locator('#cases-power-bi .demos-mais a');
-  await expect(en).toHaveText('See the 10 demo dashboards (fictitious data)');
-  await expect(en).toHaveAttribute('href', `/en${RAIZ}`);
-});
-
-test('todo app.html e todo player de painel têm noindex', async ({ request }) => {
-  for (const slug of SLUGS) {
-    for (const url of [`${RAIZ}${slug}/app.html`, `${RAIZ}${slug}/tela-cheia/`]) {
-      const html = await (await request.get(url)).text();
-      const head = html.slice(0, html.indexOf('</head>'));
-      expect(head, url).toContain('<meta name="robots" content="noindex">');
-    }
+test('todo app.html, todo player de painel e o redirecionamento da galeria têm noindex', async ({
+  request
+}) => {
+  const urls = [
+    RAIZ,
+    `/en${RAIZ}`,
+    ...SLUGS.flatMap((slug) => [
+      `${RAIZ}${slug}/app.html`,
+      `${RAIZ}${slug}/tela-cheia/`,
+      `/en${RAIZ}${slug}/tela-cheia/`
+    ])
+  ];
+  for (const url of urls) {
+    const html = await (await request.get(url)).text();
+    const head = html.slice(0, html.indexOf('</head>'));
+    expect(head, url).toContain('<meta name="robots" content="noindex">');
   }
 });
 
@@ -174,6 +274,7 @@ test('o link de idioma das páginas de painéis leva à página par', async ({ p
   ]) {
     await page.goto(de);
     await expect(page.locator('.site-header .lang-toggle'), de).toHaveAttribute('href', para);
+    await expect(page.locator('.site-footer a[hreflang]'), de).toHaveAttribute('href', para);
   }
 });
 
