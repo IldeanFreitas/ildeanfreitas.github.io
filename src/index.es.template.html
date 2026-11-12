@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<!--
+  ARCHIVO GENERADO: no lo edites.
+
+  Montado por `npm run build` a partir de src/. Editar aquí funciona hasta el
+  próximo build, que lo sobrescribe todo sin avisar.
+
+  Dónde editar:
+    estilos         src/css/          (orden en src/css/ordem.json)
+    comportamiento  src/js/
+    estructura      src/index.es.template.html   (una plantilla por idioma, mismo esqueleto:
+                    src/index.<código>.template.html; lista en src/idiomas.json)
+
+  Traducido del portugués (src/index.template.html es la fuente).
+-->
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ildean Freitas — Data &amp; AI Engineer | Ingeniería de Datos, Power Platform e IA aplicada</title>
+<meta name="description" content="Portafolio de Ildean Freitas, Data &amp; AI Engineer: pipelines, modelado dimensional, Power Platform e IA aplicada. Arquitectura, decisiones técnicas y casos documentados, cada uno con un sello que dice hasta dónde llegó.">
+<meta name="author" content="Ildean Freitas">
+<!--{{ IDIOMAS_LINKS }}-->
+
+<meta property="og:type" content="profile">
+<!--{{ IDIOMAS_OG_LOCALE }}-->
+<meta property="og:site_name" content="Ildean Freitas">
+<meta property="og:title" content="Ildean Freitas — Data &amp; AI Engineer | Ingeniería de Datos, Power Platform e IA aplicada">
+<meta property="og:description" content="Arquitectura, decisiones técnicas y casos documentados. Cada proyecto lleva un sello que dice hasta dónde llegó.">
+<!--{{ IDIOMAS_OG_URL }}-->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ildean Freitas, Data &amp; AI Engineer — el puente entre el proceso y el dato confiable. Ingeniería de Datos, Power Platform e IA aplicada.">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- El tema oscuro es el predeterminado en cualquier sistema; el script principal
+     cambia este color cuando el visitante elige el claro. -->
+<meta name="theme-color" content="#000000">
+
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23c4df00'/%3E%3Cg fill='%230b1200'%3E%3Crect x='8' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='3.4' height='14' rx='1'/%3E%3Crect x='15' y='9' width='9' height='3.2' rx='1'/%3E%3Crect x='15' y='14.6' width='7' height='3' rx='1'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org","@type":"Person","name":"Ildean Freitas",
+  "jobTitle":"Data & AI Engineer",
+  "description":"Ingeniería de Datos, Power Platform e IA aplicada.",
+  "url":"https://ildeanfreitas.github.io/es/",
+  "sameAs":["https://github.com/IldeanFreitas","https://www.linkedin.com/in/ildean-freitas-0aa7352b/"],
+  "address":{"@type":"PostalAddress","addressLocality":"Marabá","addressRegion":"PA","addressCountry":"BR"},
+  "knowsAbout":["Power Apps","Power Automate","Power Automate Desktop","Power BI","Ingeniería de Datos","SQL","dbt","Airflow","Azure Databricks","Modelado dimensional","Dataverse","Inteligencia Artificial"],
+  "alumniOf":[
+    {"@type":"EducationalOrganization","name":"XP Educação"},
+    {"@type":"EducationalOrganization","name":"Faculdade Metropolitana"},
+    {"@type":"EducationalOrganization","name":"Uniasselvi"}
+  ]
+}
+</script>
+
+<!-- Preload de los dos pesos de mayor volumen en la página. Los 600 y 800 aparecen
+     en pocos elementos y el CSS puede descubrirlos sin costo visible. -->
+<link rel="preload" href="/assets/fonts/mona-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/mona-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+<style>
+<!--{{ CSS }}-->
+</style>
+<script>
+<!--{{ JS_INICIALIZACAO }}-->
+</script>
+<noscript><style>.js-anima .reveal{opacity:1;transform:none}</style></noscript>
+</head>
+
+<body>
+<a class="skip" href="#conteudo">Saltar al contenido</a>
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="brand" href="#inicio">
+      <svg width="27" height="27" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="9" fill="#c4df00"/>
+        <g fill="#0b1200">
+          <rect x="8" y="9" width="3.4" height="14" rx="1"/>
+          <rect x="15" y="9" width="3.4" height="14" rx="1"/>
+          <rect x="15" y="9" width="9" height="3.2" rx="1"/>
+          <rect x="15" y="14.6" width="7" height="3" rx="1"/>
+        </g>
+      </svg>
+      Ildean Freitas
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Navegación principal">
+      <ul class="nav__list">
+        <li><a class="nav__link" href="#sobre">Sobre mí</a></li>
+        <li><a class="nav__link" href="#servicos">Especialidades</a></li>
+        <li><a class="nav__link" href="#cases">Casos</a></li>
+        <li><a class="nav__link" href="#trajetoria">Trayectoria</a></li>
+        <li><a class="nav__link" href="#formacao">Formación</a></li>
+        <li><a class="nav__link" href="#contato">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- Menú de idiomas, generado en el build a partir de src/idiomas.json. Cada
+         idioma es otra página, para que el contenido exista en el HTML servido
+         (SEO y uso sin JS); el menú es un <details> y se abre sin JavaScript. -->
+    <!--{{ IDIOMAS_MENU }}-->
+
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" data-abrir="Abrir menú" data-fechar="Cerrar menú">
+      <span class="sr-only" id="navToggleLabel">Abrir menú</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+
+    <button class="icon-btn" id="themeToggle" type="button" aria-pressed="true">
+      <span class="sr-only">Cambiar entre tema claro y oscuro</span>
+      <svg id="themeIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="inicio">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <p class="eyebrow">Ingeniería de Datos + Power Platform + IA aplicada</p>
+
+          <h1 class="hero__title">El puente entre el proceso y el <em>dato confiable</em>.</h1>
+
+          <p class="hero__desc">
+            Soy Ildean Freitas, Data &amp; AI Engineer. Desde hace unos diez años construyo el camino completo
+            del dato: la aplicación en Power Apps que lo recoge, la automatización que lo mueve y el pipeline que
+            lo entrega confiable a quien decide.
+          </p>
+
+          <div class="actions">
+            <a class="btn btn--primary" href="#cases">
+              Ver los casos
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+            <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Qué hago</h2>
+          <ul>
+            <li><strong>Ingeniería de Datos:</strong> pipelines en capas, Data Warehouse y Databricks; dbt, Airflow, Airbyte y Snowflake en laboratorio</li>
+            <li><strong>Power BI:</strong> modelado dimensional, modelo semántico, DAX y Power Query</li>
+            <li><strong>Power Apps:</strong> aplicaciones corporativas con reglas de negocio y componentes reutilizables</li>
+            <li><strong>Power Automate:</strong> flujos en la nube, RPA con Power Automate Desktop, conectores personalizados y APIs REST</li>
+            <li><strong>SharePoint y Dataverse:</strong> elección de la base de cada aplicación por volumen y delegación, seguridad por registro y licencia</li>
+            <li><strong>IA aplicada:</strong> modelos de lenguaje, RAG y agentes sobre Python y APIs; LangGraph en laboratorio</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- dt antes de dd, como exige la gramática del <dl>; el CSS invierte el
+           orden visual para que el número quede encima del rótulo. -->
+      <dl class="stats">
+        <div><dt>Años en sistemas y datos</dt><dd>10</dd></div>
+        <div><dt>Usuarios atendidos</dt><dd>+10 mil</dd></div>
+        <div><dt>Aplicaciones Power Platform</dt><dd>+40</dd></div>
+        <div><dt>Paneles de Power BI que mantengo y amplío</dt><dd>68</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ SOBRE MÍ ============ -->
+  <section class="section" id="sobre">
+    <div class="wrap">
+      <p class="eyebrow">Sobre mí</p>
+      <h2>Datos con visión de <span class="nowrap">extremo a extremo</span></h2>
+
+      <div class="grid grid--2 mt-10">
+        <div>
+          <p class="lead">
+            Mi trayectoria atraviesa las capas de un entorno corporativo: infraestructura y ERP,
+            aplicaciones y automatización, Business Intelligence y, hoy, ingeniería de datos e IA
+            aplicada. Esa visión de <span class="nowrap">extremo a extremo</span> me ayuda a diseñar
+            soluciones que funcionan en la práctica, de los sistemas de origen al panel de quien decide.
+          </p>
+
+          <h3 class="segmentos__titulo">Segmentos en los que he trabajado</h3>
+          <ul class="taglist segmentos">
+            <li class="tag">Energía (petróleo y gas)</li>
+            <li class="tag">Gas natural</li>
+            <li class="tag">Minería</li>
+            <li class="tag">Administración pública federal</li>
+            <li class="tag">Aeroespacial</li>
+            <li class="tag">Salud</li>
+            <li class="tag">Mercado financiero</li>
+            <li class="tag">Transporte metropolitano</li>
+            <li class="tag">Gestión de residuos</li>
+            <li class="tag">Industria de electrodomésticos</li>
+            <li class="tag">Logística de graneles químicos</li>
+            <li class="tag">Comercio minorista y mayorista</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Cómo funciona este portafolio</h3>
+          <p>
+            Cada caso lleva un sello que dice hasta dónde llegó. Aquí nada afirma ejecución, métrica o
+            impacto sin evidencia.
+          </p>
+          <ul class="lista-empilhada">
+            <li><span class="status status--done sem-margem">Entregado</span> <span class="muted">implementado y ejecutado</span></li>
+            <li><span class="status status--lab sem-margem">Laboratorio completado</span> <span class="muted">ejecutado de extremo a extremo en un entorno de laboratorio</span></li>
+            <li><span class="status status--designed sem-margem">Arquitectura documentada</span> <span class="muted">proyecto documentado; ejecución parcial o nula, declarada en el caso</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ESPECIALIDADES ============ -->
+  <section class="section section--alt" id="servicos">
+    <div class="wrap">
+      <p class="eyebrow">Especialidades</p>
+      <h2>Donde el dato se convierte en decisión</h2>
+      <p class="lead">
+        Trabajo en tres áreas que se complementan: Power Platform para crear las aplicaciones y
+        automatizaciones donde ocurre el proceso, ingeniería de datos para organizar y modelar la
+        información, e IA aplicada para responder preguntas y automatizar tareas con modelos de
+        lenguaje. Juntas o por separado, el objetivo es el mismo: información confiable en manos de
+        quien decide.
+      </p>
+
+      <!-- Orden de las tarjetas = orden de las sesiones de la sección Casos (AREAS en
+           scripts/cases.mjs); el botón de cada una lleva a su sesión. -->
+      <div class="grid grid--3 mt-12">
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
+          </div>
+          <h3>Power Platform</h3>
+          <p>
+            Aplicaciones corporativas y automatización de procesos: reglas de negocio, componentes
+            reutilizables, conectores personalizados e integración entre sistemas mediante APIs REST.
+          </p>
+          <ul class="taglist">
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-apps/PowerApps_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Apps</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-automate/PowerAutomate_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power Automate</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-laptop"></use></svg>Power Automate Desktop</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/dataverse/Dataverse_scalable.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Dataverse</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-math-formula"></use></svg>Power Fx</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/sharepoint/sharepoint_48x1.svg" alt="" width="16" height="16" loading="lazy" decoding="async">SharePoint</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-plug-connected"></use></svg>APIs REST</li>
+          </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-power-platform">Ver casos de Power Platform</a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg>
+          </div>
+          <h3>Ingeniería de Datos</h3>
+          <p>
+            Pipelines de ingesta y transformación, modelado dimensional y capas de consumo: del
+            dato en bruto al panel que la operación consulta.
+          </p>
+          <ul class="taglist">
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-database"></use></svg>SQL</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/databricks/databricks-symbol-color.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Databricks</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-flash"></use></svg>Apache Spark</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/dbt/dbt-bit-standalone.png" alt="" width="16" height="16" loading="lazy" decoding="async">dbt</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/airflow/airflow-icon.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Airflow</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-database-arrow-right"></use></svg>Airbyte</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/snowflake/bug-sno-blue.png" alt="" width="16" height="16" loading="lazy" decoding="async">Snowflake</li>
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/power-bi/power_bi_48_color.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Power BI</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-math-formula"></use></svg>DAX</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-cube"></use></svg>Modelado dimensional</li>
+          </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-engenharia-dados">Ver casos de Ingeniería de Datos</a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5q0 8 8 8q-8 0-8 8q0-8-8-8q8 0 8-8z"/><path d="M19 2.5v5M16.5 5h5"/></svg>
+          </div>
+          <h3>IA aplicada</h3>
+          <p>
+            Aplicaciones sobre Python y APIs con modelos de lenguaje: RAG para anclar las respuestas en los
+            documentos de la propia empresa; agentes y automatización de tareas.
+          </p>
+          <ul class="taglist">
+            <li class="tag"><img class="tag__icon" src="/assets/icons/vendor/python/python-logo-only.svg" alt="" width="16" height="16" loading="lazy" decoding="async">Python</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-plug-connected"></use></svg>APIs</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-brain-circuit"></use></svg>LLMs</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-database-search"></use></svg>RAG</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-flow"></use></svg>LangGraph</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-bot"></use></svg>Agentes de IA</li>
+            <li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-arrow-sync"></use></svg>Automatización</li>
+          </ul>
+          <a class="btn btn--secondary btn--sm card__acao" href="#cases-ia">Ver casos de IA aplicada</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASOS ============ -->
+  <section class="section" id="cases">
+    <div class="wrap">
+      <p class="eyebrow">Casos</p>
+      <h2>Proyectos y arquitecturas</h2>
+
+      <!-- Sesiones por área (Power Platform, Power BI, Ingeniería de Datos, IA
+           aplicada), generadas por scripts/cases.mjs a partir del campo "area" de
+           cada caso. Con JS se vuelven pestañas (icono de cada pestaña = el de la
+           tarjeta de Especialidades del área); la pestaña Power Platform reúne
+           búsqueda, filtros, las aplicaciones de demostración y los proyectos; la
+           pestaña Power BI, búsqueda, filtro y los paneles de demostración. Sin
+           JS, quedan apiladas. -->
+<!--{{ CASES }}-->
+
+      <p class="note">
+        En los casos, las cifras vienen del repositorio o del registro de ejecución; en la franja
+        superior, suman lo descrito en la Trayectoria.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ TRAYECTORIA ============ -->
+  <section class="section section--alt" id="trajetoria">
+    <div class="wrap">
+      <p class="eyebrow">Trayectoria</p>
+      <h2>De la implantación de ERP a la ingeniería de datos</h2>
+
+      <!-- No se nombra ninguna empresa (decisión del 01/10/2026): empleadores y
+           clientes aparecen por el segmento. -->
+      <ol class="timeline">
+        <li data-current>
+          <time datetime="2024-05">Mayo de 2024 – actualidad</time>
+          <h3>Analista de Desarrollo de Software Sénior | Energía (petróleo y gas)</h3>
+          <p>
+            A través de una consultora, en un cliente del sector de <b>energía (petróleo y gas)</b>. Integración y modelado de
+            datos de SAP Datasphere, SAP BW, SAP HANA, Analysis Services, SQL Server, Oracle y Azure
+            Databricks. Mantenimiento y ampliación de <b>68 paneles de Power BI</b> y de
+            <b>8 aplicaciones corporativas</b>, que <b>más de 10 mil colaboradores</b> usan como base
+            de decisión. Flujos en Power Automate sobre SharePoint. Equipos ágiles con SAFe, Scrum y
+            Kanban. Remoto.
+          </p>
+        </li>
+        <li>
+          <time datetime="2023-08">Agosto de 2023 – mayo de 2024</time>
+          <h3>Analista de Desarrollo de Software (nivel intermedio) | Administración pública federal</h3>
+          <p>
+            A través de una consultora, en un organismo de la <b>administración pública federal</b>. <b>Más de 10 aplicaciones</b>
+            en Power Apps sobre Dataverse y SharePoint, con flujos en Power Automate y
+            conectores personalizados, y paneles en Power BI. Brasília/DF.
+          </p>
+        </li>
+        <li>
+          <time datetime="2020-07">Julio de 2020 – agosto de 2023</time>
+          <h3>Analista de Desarrollo de Software | Minería</h3>
+          <p>
+            Construcción del Data Warehouse corporativo de una empresa minera, con <b>10 áreas</b>:
+            recursos humanos, finanzas, inventario, logística, facturación, geología, laboratorio,
+            movimiento de material, telemetría de flota y horas de operación de maquinaria.
+            El modelo unificó el ERP, el rastreo de vehículos y el control de carga de combustible, que
+            hasta entonces solo existían por separado. En paralelo, <b>más de 15 aplicaciones</b> en Power Apps
+            y las automatizaciones que las alimentaban. Power Automate, Power BI y Report Builder sobre
+            SQL Server y Firebird. Marabá/PA.
+          </p>
+        </li>
+        <li>
+          <time datetime="2017-11">Noviembre de 2017 – marzo de 2020</time>
+          <h3>Analista de Desarrollo de Software | Comercio mayorista y distribución</h3>
+          <p>
+            Introducción de Power Apps y de Flow (hoy Power Automate) en una distribuidora:
+            <b>más de 10 aplicaciones</b> que
+            digitalizaron procesos que hasta entonces se llevaban fuera de cualquier sistema, integradas con el ERP TOTVS y con la
+            plataforma de venta externa de Máxima. Informes de apoyo a la decisión para dirección,
+            gerencia y equipo de ventas en campo. Soporte de los entornos de TI y administración de
+            SQL Server, Oracle y Firebird. Marabá/PA.
+          </p>
+        </li>
+        <li>
+          <time datetime="2016-04">Abril de 2016 – agosto de 2017</time>
+          <h3>Analista de Desarrollo de Software | Comercio minorista de supermercados</h3>
+          <p>
+            Conducción de la sustitución del ERP de una cadena de hipermercados en <b>4 tiendas</b> (casa matriz
+            y 3 sucursales), cada una con <b>60 cajas</b>, por WinThor/TOTVS, concluida en
+            <b>3 meses</b>. Rol de gestor del proyecto: requisitos, homologación, corte del sistema
+            anterior y soporte posterior a la implantación. Capacitación de <b>más de 200 colaboradores</b> en
+            operación de caja, finanzas, cuentas por pagar y por cobrar, compras y movimiento de
+            inventario. Parauapebas/PA.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FORMACIÓN ============ -->
+  <section class="section" id="formacao">
+    <div class="wrap">
+      <p class="eyebrow">Formación y certificaciones</p>
+      <h2>Base académica y credenciales</h2>
+
+      <div class="grid grid--2 mt-12">
+
+        <div class="card">
+          <h3>Formación académica</h3>
+          <ul class="stack-list">
+            <li>
+              <b>Posgrado Lato Sensu | Especialización en Ingeniería y Arquitectura de Datos con Énfasis en IA</b>
+              <div class="meta"><span>XP Educação</span><span class="when">nov 2024 – nov 2025</span></div>
+            </li>
+            <li>
+              <b>MBA | Ciencia de Datos y Big Data Analytics</b>
+              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">ene 2022 – ene 2023</span></div>
+            </li>
+            <li>
+              <b>Posgrado | Gobernanza de TI</b>
+              <div class="meta"><span>Uniasselvi</span><span class="when">2016 – 2018</span></div>
+            </li>
+            <li>
+              <b>Grado universitario | Sistemas de Información</b>
+              <div class="meta"><span>Faculdade Metropolitana</span><span class="when">2009 – 2013</span></div>
+            </li>
+          </ul>
+          <h3 class="stack-list__subtitulo">Formación complementaria</h3>
+          <ul class="stack-list">
+            <li>
+              <b>Formación Ingeniero DataOps 4.0</b>
+              <div class="meta"><span>Data Science Academy | 436 horas</span><span class="when">sep 2026</span></div>
+            </li>
+            <li>
+              <b>Formación Ingeniero de IA Generativa 2026: IA en la Práctica</b>
+              <div class="meta"><span>Udemy Business | 103 horas</span><span class="when">ago 2026</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Certificaciones y certificados</h3>
+          <p>Cada elemento trae el código de credencial y el enlace de verificación. Los títulos de los cursos de Data Science Academy están traducidos del portugués.</p>
+          <ul class="stack-list">
+            <li>
+              <b>Pipelines de ETL y Machine Learning con Apache Spark</b>
+              <div class="meta"><span>Data Science Academy | credencial <code>66988a9124e55d6651053e47</code> <span class="nowrap">| <a href="https://mycourse.app/4c3gVU6M1uXl514uP" target="_blank" rel="noopener">verificar<span class="sr-only"> credencial Apache Spark (se abre en una pestaña nueva)</span></a></span></span><span class="when">sep 2026</span></div>
+            </li>
+            <li>
+              <b>Orquestación de Flujos de Datos con Apache Airflow</b>
+              <div class="meta"><span>Data Science Academy | credencial <code>66988f19eeb23b30cf0198f5</code> <span class="nowrap">| <a href="https://mycourse.app/lKjmWwcEXMU5YFOSI" target="_blank" rel="noopener">verificar<span class="sr-only"> credencial Apache Airflow (se abre en una pestaña nueva)</span></a></span></span><span class="when">sep 2026</span></div>
+            </li>
+            <li>
+              <b>Infraestructura como Código con Terraform, AWS, Azure y Databricks</b>
+              <div class="meta"><span>Data Science Academy | credencial <code>661dd7b4d0aad5496a0f8f9b</code> <span class="nowrap">| <a href="https://mycourse.app/1oMDN5Wci4hBsUDkF" target="_blank" rel="noopener">verificar<span class="sr-only"> credencial Infraestructura como Código (se abre en una pestaña nueva)</span></a></span></span><span class="when">ago 2026</span></div>
+            </li>
+            <li>
+              <b>Ingeniería de Datos con Airbyte, dbt y SQL</b>
+              <div class="meta"><span>Data Science Academy | credencial <code>67352a79cd1ad941e10835fc</code> <span class="nowrap">| <a href="https://mycourse.app/HJWd5XhJ7MMdB0FBl" target="_blank" rel="noopener">verificar<span class="sr-only"> credencial Airbyte, dbt y SQL (se abre en una pestaña nueva)</span></a></span></span><span class="when">ago 2026</span></div>
+            </li>
+            <li>
+              <b>Microsoft Certified: Azure Fundamentals (AZ-900)</b>
+              <div class="meta"><span>Microsoft | credencial <code>5516EB957F5566A1</code> <span class="nowrap">| <a href="https://learn.microsoft.com/api/credentials/share/es-es/IldeanFreitasMouradeBrito-2990/5516EB957F5566A1" target="_blank" rel="noopener">verificar<span class="sr-only"> credencial Azure Fundamentals (se abre en una pestaña nueva)</span></a></span></span><span class="when">ene 2025</span></div>
+            </li>
+          </ul>
+          <p class="dim texto-miudo sem-margem mt-5">
+            Idiomas: portugués (nativo) e inglés (intermedio).
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="section section--alt contact" id="contato">
+    <div class="wrap">
+      <p class="eyebrow">Contacto</p>
+      <h2>Para vacantes y proyectos de datos e IA</h2>
+      <p class="lead">
+        LinkedIn es el canal más rápido; GitHub tiene el código de los casos públicos.
+      </p>
+      <div class="actions">
+        <a class="btn btn--primary" href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">Hablar por LinkedIn<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+        <a class="btn btn--ghost" href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">Ver GitHub<span class="sr-only"> (se abre en una pestaña nueva)</span></a>
+      </div>
+      <p class="dim texto-miudo mt-9">
+        Marabá, Pará, Brasil | disponible para trabajo remoto
+      </p>
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p class="sem-margem">© <span id="ano">2026</span> Ildean Freitas | Contenido propio, sin datos corporativos. Traducido del portugués.</p>
+    <ul class="footer-links">
+      <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (se abre en una pestaña nueva)</span></a></li>
+      <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (se abre en una pestaña nueva)</span></a></li>
+      <!--{{ IDIOMAS_RODAPE }}-->
+      <li><a href="#inicio">Arriba</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+<!--{{ JS_PRINCIPAL }}-->
+</script>
+</body>
+</html>

@@ -148,6 +148,45 @@ const T_PA = {
     moldura: 'Clickable demo of',
     nome: 'Clickable demo',
     desc: (t) => `${t} Clickable demo with fictitious data.`
+  },
+  es: {
+    titulo: 'Aplicaciones de demostración para Power Apps',
+    selo: 'Arquitectura documentada',
+    ver: 'Ver la aplicación',
+    voltar: '← Todas las aplicaciones de demostración',
+    dor: 'Escenario ficticio',
+    solucao: 'Qué muestra la demostración',
+    roteiro: 'Pruébala en 3 pasos',
+    aviso: 'Empresas y datos simulados.',
+    notaIdioma: 'Las aplicaciones de demostración están en portugués.',
+    escopoRot: 'Ejecución en Power Platform:',
+    escopo: 'ninguna. Prototipo en HTML con datos ficticios.',
+    cheia: 'Abrir en pantalla completa',
+    redirecionamento: {
+      texto: 'Las aplicaciones de demostración ahora están en la página de inicio.',
+      link: 'Ver las aplicaciones de demostración'
+    },
+    player: {
+      voltar: '← Volver a la página de la aplicación',
+      janela: 'Ajustar a la ventana',
+      tablet: 'Tablet 16:9',
+      celular: 'Teléfono móvil',
+      modos: 'Formato de visualización',
+      tela: 'Pantalla completa',
+      nota: 'Simulación de la aplicación abierta en el navegador. Datos ficticios.',
+      dica: {
+        janela:
+          'La aplicación ocupa toda la ventana, como una aplicación adaptable (Scale to fit desactivado).',
+        tablet:
+          'Proporción fija 16:9, reducida para caber, como una aplicación de tablet con Scale to fit activado.',
+        celular:
+          'Proporción de teléfono móvil en vertical, con barras laterales, como en el navegador.'
+      }
+    },
+    mobile: 'En pantallas pequeñas la aplicación se abre en pantalla completa.',
+    moldura: 'Demostración navegable de',
+    nome: 'Demostración navegable',
+    desc: (t) => `${t} Demostración navegable con datos ficticios.`
   }
 };
 
@@ -227,6 +266,45 @@ const T_BI = {
     moldura: 'Demo dashboard of',
     nome: 'Demo dashboard',
     desc: (t) => `${t} Explorable dashboard with fictitious data.`
+  },
+  es: {
+    titulo: 'Paneles de demostración para Power BI',
+    selo: 'Arquitectura documentada',
+    ver: 'Ver el panel',
+    voltar: 'Volver a todos los paneles de demostración',
+    dor: 'Escenario ficticio',
+    solucao: 'Qué muestra el panel',
+    roteiro: 'Pruébalo en 3 pasos',
+    aviso: 'Empresas y datos simulados.',
+    notaIdioma: 'Los paneles de demostración están en portugués.',
+    escopoRot: 'Ejecución en Power BI:',
+    escopo:
+      'ninguna. Prototipo en HTML con datos ficticios; el panel "Como seria no Power BI" (cómo sería en Power BI) de cada página trae objetos visuales, medidas DAX y modelo, con fuente en Microsoft Learn o marcado "a confirmar" (por confirmar).',
+    cheia: 'Abrir en pantalla completa',
+    redirecionamento: {
+      texto: 'Los paneles de demostración ahora están en la página de inicio.',
+      link: 'Ver los paneles de demostración'
+    },
+    player: {
+      voltar: 'Volver a la página del panel',
+      janela: 'Ajustar a la ventana',
+      tablet: 'Portátil 1366 x 768',
+      celular: 'Teléfono móvil',
+      modos: 'Formato de visualización',
+      tela: 'Pantalla completa',
+      nota: 'Simulación del informe abierto en el navegador. Datos ficticios.',
+      dica: {
+        janela:
+          'El panel ocupa toda la ventana y se ajusta a la página, como en el servicio de Power BI.',
+        tablet: 'Pantalla de portátil de 1366 x 768, reducida para caber.',
+        celular:
+          'Teléfono móvil en vertical: el panel muestra su diseño propio para pantallas pequeñas.'
+      }
+    },
+    mobile: 'En pantallas pequeñas el panel se abre en pantalla completa.',
+    moldura: 'Panel de demostración de',
+    nome: 'Panel de demostración',
+    desc: (t) => `${t} Panel navegable con datos ficticios.`
   }
 };
 
@@ -308,42 +386,89 @@ export const TECNOLOGIAS = {
   apis: { nome: 'APIs', fluent: 'plug-connected', tambem: ['REST', 'APIs REST'] },
 
   /* Painéis de Power BI: tipo de painel */
-  executiva: { nome: 'Executiva', en: 'Executive', fluent: 'data-trending' },
-  operacional: { nome: 'Operacional', en: 'Operational', fluent: 'gauge' },
-  financeira: { nome: 'Financeira', en: 'Financial', fluent: 'money' },
-  temporal: { nome: 'Temporal', en: 'Time-based', fluent: 'calendar' },
-  governanca: { nome: 'Governança', en: 'Governance', fluent: 'shield-checkmark' },
-  geografica: { nome: 'Geográfica', en: 'Geographic', fluent: 'map' },
-  'qualidade-servico': { nome: 'Qualidade de serviço', en: 'Service quality', fluent: 'headset' },
+  executiva: { nome: 'Executiva', en: 'Executive', es: 'Ejecutiva', fluent: 'data-trending' },
+  operacional: { nome: 'Operacional', en: 'Operational', es: 'Operativa', fluent: 'gauge' },
+  financeira: { nome: 'Financeira', en: 'Financial', es: 'Financiera', fluent: 'money' },
+  temporal: { nome: 'Temporal', en: 'Time-based', es: 'Temporal', fluent: 'calendar' },
+  governanca: {
+    nome: 'Governança',
+    en: 'Governance',
+    es: 'Gobernanza',
+    fluent: 'shield-checkmark'
+  },
+  geografica: { nome: 'Geográfica', en: 'Geographic', es: 'Geográfica', fluent: 'map' },
+  'qualidade-servico': {
+    nome: 'Qualidade de serviço',
+    en: 'Service quality',
+    es: 'Calidad de servicio',
+    fluent: 'headset'
+  },
   /* Painéis de Power BI: recurso do relatório. RLS é controle de acesso, o
    * mesmo conceito do `shield-lock` dos diagramas; SLA é prazo, o do `timer`. */
-  'parametro-campo': { nome: 'Parâmetro de campo', en: 'Field parameter', fluent: 'options' },
+  'parametro-campo': {
+    nome: 'Parâmetro de campo',
+    en: 'Field parameter',
+    es: 'Parámetro de campo',
+    fluent: 'options'
+  },
   rls: { nome: 'RLS', fluent: 'shield-lock' },
   'drill-through': { nome: 'Drill-through', fluent: 'zoom-in' },
   'top-n': { nome: 'Top N', fluent: 'arrow-sort-down-lines' },
-  'menu-lateral': { nome: 'Menu lateral', en: 'Side menu', fluent: 'panel-left' },
-  abas: { nome: 'Abas', en: 'Tabs', fluent: 'tabs' },
+  'menu-lateral': {
+    nome: 'Menu lateral',
+    en: 'Side menu',
+    es: 'Menú lateral',
+    fluent: 'panel-left'
+  },
+  abas: { nome: 'Abas', en: 'Tabs', es: 'Pestañas', fluent: 'tabs' },
   'navegador-indicadores': {
     nome: 'Navegador de indicadores',
     en: 'KPI navigator',
+    es: 'Navegador de indicadores',
     fluent: 'compass-northwest'
   },
-  'trilho-icones': { nome: 'Trilho de ícones', en: 'Icon rail', fluent: 'apps-list' },
+  'trilho-icones': {
+    nome: 'Trilho de ícones',
+    en: 'Icon rail',
+    es: 'Barra de iconos',
+    fluent: 'apps-list'
+  },
   sla: { nome: 'SLA', fluent: 'timer' },
   safe: { nome: 'SAFe', fluent: 'people-team' },
   aging: { nome: 'Aging', fluent: 'hourglass' },
   'previsto-realizado': {
     nome: 'Previsto x realizado',
     en: 'Forecast vs. actual',
+    es: 'Previsto frente a real',
     fluent: 'target'
   },
-  'ano-contra-ano': { nome: 'Ano contra ano', en: 'Year over year', fluent: 'arrow-swap' },
+  'ano-contra-ano': {
+    nome: 'Ano contra ano',
+    en: 'Year over year',
+    es: 'Interanual',
+    fluent: 'arrow-swap'
+  },
   /* Painéis de Power BI: visual */
-  'carta-controle': { nome: 'Carta de controle', en: 'Control chart', fluent: 'data-line' },
-  cascata: { nome: 'Cascata', en: 'Waterfall', fluent: 'data-waterfall' },
-  matriz: { nome: 'Matriz', en: 'Matrix', fluent: 'grid' },
-  'diagrama-linear': { nome: 'Diagrama linear', en: 'Linear diagram', fluent: 'timeline' },
-  'multiplos-pequenos': { nome: 'Múltiplos pequenos', en: 'Small multiples', fluent: 'board' }
+  'carta-controle': {
+    nome: 'Carta de controle',
+    en: 'Control chart',
+    es: 'Gráfico de control',
+    fluent: 'data-line'
+  },
+  cascata: { nome: 'Cascata', en: 'Waterfall', es: 'Cascada', fluent: 'data-waterfall' },
+  matriz: { nome: 'Matriz', en: 'Matrix', es: 'Matriz', fluent: 'grid' },
+  'diagrama-linear': {
+    nome: 'Diagrama linear',
+    en: 'Linear diagram',
+    es: 'Diagrama lineal',
+    fluent: 'timeline'
+  },
+  'multiplos-pequenos': {
+    nome: 'Múltiplos pequenos',
+    en: 'Small multiples',
+    es: 'Múltiplos pequeños',
+    fluent: 'board'
+  }
 };
 
 /* Todo logotipo do dicionário precisa estar no manifesto, com o arquivo no

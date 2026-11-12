@@ -173,6 +173,76 @@ export const DICIONARIO = {
     },
     contagem: '{n} of {total} items',
     vazio: 'Nothing found. Clear the search or choose another filter.'
+  },
+  /* Espanhol neutro, traduzido do pt (nunca do en). Glossário aprovado na
+   * skill portfolio-idiomas: aplicativo = aplicación, painel = panel,
+   * relatório = informe. */
+  es: {
+    verRepositorio: 'Ver repositorio y evidencias',
+    novaAba: '(se abre en una pestaña nueva)',
+    papel: 'Mi rol',
+    decisoes: 'Decisiones técnicas',
+    resultado: 'Resultado',
+    aprendizados: 'Aprendizajes',
+    fluxoDeDados: 'Flujo de datos',
+    controleEGovernanca: 'Control y gobernanza (sin datos)',
+    planoDeControle: 'Plano de control',
+    subfluxos: 'Subflujos',
+    operacao: 'Operación',
+    chamadasHttp: 'Llamadas HTTP',
+    interacoesNavegador: 'Interacciones en el navegador',
+    http: 'HTTP',
+    navegador: 'Navegador',
+    passo6: 'El paso 6 solo ocurre después del login',
+    porQueNaoPost: 'Por qué no basta con un',
+    porQueNaoPostAria: 'Por qué no basta con un POST de token',
+    janelas: 'Ventanas de tiempo que condicionan el diseño',
+    situacao: { documentado: 'Documentado', previsto: 'Previsto en el contrato' },
+    legendaSituacao: {
+      documentado: 'Documentado, sin ejecución',
+      previsto: 'Previsto en el contrato, todavía sin implementar'
+    },
+    areas: {
+      'power-platform': {
+        titulo: 'Power Platform',
+        abertura:
+          'Aplicaciones y automatizaciones con Power Apps, Power Automate, Dataverse y SharePoint.',
+        demos: {
+          bloco: 'Aplicaciones de demostración',
+          dica: 'Buscar por nombre, segmento o tecnología',
+          segmento: 'Segmento de las aplicaciones'
+        }
+      },
+      'power-bi': {
+        titulo: 'Power BI',
+        abertura: 'Paneles interactivos con datos ficticios, navegables como un informe publicado.',
+        demos: {
+          bloco: 'Paneles de demostración',
+          dica: 'Buscar por nombre, segmento o función',
+          segmento: 'Segmento'
+        }
+      },
+      'engenharia-dados': {
+        titulo: 'Ingeniería de Datos',
+        abertura: 'Pipelines, lakehouse y modelado para análisis.'
+      },
+      ia: {
+        titulo: 'IA aplicada',
+        abertura: 'En preparación: casos de RAG y agentes con modelos de lenguaje.'
+      }
+    },
+    abas: 'Proyectos por área',
+    blocos: { projeto: 'Proyectos documentados' },
+    busca: { rotulo: 'Buscar' },
+    filtros: {
+      tecnologia: 'Tecnología',
+      tipo: 'Tipo',
+      todos: 'Todos',
+      todas: 'Todas',
+      projetos: 'Proyectos'
+    },
+    contagem: '{n} de {total} elementos',
+    vazio: 'No se encontró nada. Borra la búsqueda o elige otro filtro.'
   }
 };
 

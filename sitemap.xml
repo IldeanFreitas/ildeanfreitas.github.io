@@ -7,6 +7,7 @@
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/"/>
   </url>
   <url>
@@ -16,6 +17,17 @@
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/"/>
   </url>
   <url>
@@ -25,6 +37,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
   </url>
   <url>
@@ -34,6 +47,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/inspecao-via/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/inspecao-via/"/>
   </url>
   <url>
@@ -43,6 +67,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ordens-servico/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
   </url>
   <url>
@@ -52,6 +77,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/ordens-servico/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ordens-servico/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ordens-servico/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ordens-servico/"/>
   </url>
   <url>
@@ -61,6 +97,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/reserva-frota/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
   </url>
   <url>
@@ -70,6 +107,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/reserva-frota/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/reserva-frota/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/reserva-frota/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/reserva-frota/"/>
   </url>
   <url>
@@ -79,6 +127,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/compras/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
   </url>
   <url>
@@ -88,6 +137,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/compras/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/compras/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/compras/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/compras/"/>
   </url>
   <url>
@@ -97,6 +157,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/estoque/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
   </url>
   <url>
@@ -106,6 +167,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/estoque/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/estoque/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/estoque/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/estoque/"/>
   </url>
   <url>
@@ -115,6 +187,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/chamados/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
   </url>
   <url>
@@ -124,6 +197,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/chamados/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/chamados/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/chamados/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/chamados/"/>
   </url>
   <url>
@@ -133,6 +217,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/clinica/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
   </url>
   <url>
@@ -142,6 +227,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/clinica/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/clinica/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/clinica/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/clinica/"/>
   </url>
   <url>
@@ -151,6 +247,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/obra/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
   </url>
   <url>
@@ -160,6 +257,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/obra/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/obra/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/obra/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/obra/"/>
   </url>
   <url>
@@ -169,6 +277,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/permissao-trabalho/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
   </url>
   <url>
@@ -178,6 +287,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/permissao-trabalho/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/permissao-trabalho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/permissao-trabalho/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/permissao-trabalho/"/>
   </url>
   <url>
@@ -187,6 +307,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/contas-pagar/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
   </url>
   <url>
@@ -196,6 +317,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/contas-pagar/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/contas-pagar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/contas-pagar/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/contas-pagar/"/>
   </url>
   <url>
@@ -205,6 +337,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/rebanho/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
   </url>
   <url>
@@ -214,6 +347,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/rebanho/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/rebanho/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/rebanho/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/rebanho/"/>
   </url>
   <url>
@@ -223,6 +367,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ouvidoria/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
   </url>
   <url>
@@ -232,6 +377,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-apps/ouvidoria/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-apps/ouvidoria/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-apps/ouvidoria/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-apps/ouvidoria/"/>
   </url>
   <url>
@@ -241,6 +397,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/varejo/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/varejo/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
   </url>
   <url>
@@ -250,6 +407,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/varejo/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/varejo/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/varejo/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/varejo/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/varejo/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/varejo/"/>
   </url>
   <url>
@@ -259,6 +427,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/mineracao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/mineracao/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
   </url>
   <url>
@@ -268,6 +437,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/mineracao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/mineracao/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/mineracao/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/mineracao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/mineracao/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/"/>
   </url>
   <url>
@@ -277,6 +457,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/manutencao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/manutencao/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
   </url>
   <url>
@@ -286,6 +467,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/manutencao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/manutencao/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/manutencao/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/manutencao/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/manutencao/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/manutencao/"/>
   </url>
   <url>
@@ -295,6 +487,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/financeiro/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/financeiro/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
   </url>
   <url>
@@ -304,6 +497,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/financeiro/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/financeiro/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/financeiro/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/financeiro/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/financeiro/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/financeiro/"/>
   </url>
   <url>
@@ -313,6 +517,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/safe/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/safe/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
   </url>
   <url>
@@ -322,6 +527,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/safe/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/safe/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/safe/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/safe/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/safe/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/safe/"/>
   </url>
   <url>
@@ -331,6 +547,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/gas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/gas/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
   </url>
   <url>
@@ -340,6 +557,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/gas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/gas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/gas/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/gas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/gas/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/gas/"/>
   </url>
   <url>
@@ -349,6 +577,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/seguros/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/seguros/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
   </url>
   <url>
@@ -358,6 +587,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/seguros/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/seguros/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/seguros/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/seguros/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/seguros/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/seguros/"/>
   </url>
   <url>
@@ -367,6 +607,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
   </url>
   <url>
@@ -376,6 +617,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/inspecao-via/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/inspecao-via/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/inspecao-via/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/inspecao-via/"/>
   </url>
   <url>
@@ -385,6 +637,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/clinicas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/clinicas/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
   </url>
   <url>
@@ -394,6 +647,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/clinicas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/clinicas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/clinicas/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/clinicas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/clinicas/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/clinicas/"/>
   </url>
   <url>
@@ -403,6 +667,7 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/atendimento-ti/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/atendimento-ti/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
   </url>
   <url>
@@ -412,6 +677,17 @@
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/atendimento-ti/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/atendimento-ti/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
+  </url>
+  <url>
+    <loc>https://ildeanfreitas.github.io/es/demos/power-bi/atendimento-ti/</loc>
+    <lastmod>2026-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/atendimento-ti/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/demos/power-bi/atendimento-ti/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/atendimento-ti/"/>
   </url>
 </urlset>

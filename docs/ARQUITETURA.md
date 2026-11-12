@@ -196,8 +196,8 @@ nenhuma mudança de conteúdo — o `build:check` acusaria diferença para sempr
 
 ## Idiomas: uma configuração, um esqueleto
 
-Cada idioma é outra página gerada no build (`/` em PT-BR, `/en/` em inglês),
-não troca de strings no cliente. O motivo é o mesmo dos cases: o conteúdo
+Cada idioma é outra página gerada no build (`/` em PT-BR, `/en/` em inglês,
+`/es/` em espanhol), não troca de strings no cliente. O motivo é o mesmo dos cases: o conteúdo
 precisa estar no HTML que o servidor entrega, para o buscador e para quem
 navega sem JavaScript.
 
@@ -246,6 +246,12 @@ passo a passo abaixo diz em que ordem cada falta aparece.
 | `caminho`   | endereço servido; `/` no padrão e `/<codigo>/` nos outros (conferido)   |
 | `padrao`    | `true` em exatamente um idioma: o PT-BR, fonte da verdade e `x-default` |
 | `interface` | rótulos dos componentes gerados (hoje só o nome acessível do menu)      |
+
+O `ogLocale` é `idioma_REGIÃO`, com a região em duas letras (`pt_BR`, `en_US`)
+ou em três dígitos da tabela UN M.49 (`es_419`). A validação aceita as duas
+formas e recusa o resto. O espanhol do site é neutro e usa `es_LA`, o valor que
+a lista de localidades do Facebook tem para o espanhol da América Latina: quem
+lê `og:locale` são as redes de compartilhamento, e `es_419` não está nela.
 
 Os arquivos de cada idioma saem por **convenção de nome**, não por caminho
 escrito na configuração. Caminho livre deixaria o template de um idioma
@@ -321,7 +327,7 @@ configuração e a lista de demonstrações gerariam, **ignorando o `lastmod`** 
 data muda sozinha a cada dia com alteração pendente). Um idioma novo, ou um
 app ou painel novo, sem `npm run build` deixa de passar no CI. O sitemap traz
 a home de cada idioma e a página de cada app e de cada painel em cada idioma
-(hoje 46 URLs: 2 + 22 × 2), todas com o `hreflang` de todos os idiomas e
+(hoje 69 URLs: 3 + 22 × 3), todas com o `hreflang` de todos os idiomas e
 `x-default` no PT-BR. Redirecionamento, player e `app.html` são `noindex` e
 ficam fora.
 
@@ -352,7 +358,8 @@ texto por idioma escrito nele:
   leva a páginas do mesmo idioma.
 - **Os `app.html` existem uma vez só, em português**, por decisão: o mockup
   não é traduzido. As páginas dos outros idiomas avisam com a chave
-  `notaIdioma` de `T_PA`/`T_BI` ("The demo apps are in Portuguese."), e o
+  `notaIdioma` de `T_PA`/`T_BI` ("The demo apps are in Portuguese.", "Las
+  aplicaciones de demostración están en portugués."), e o
   roteiro de teste cita os rótulos do app em português com a tradução entre
   parênteses. Idioma novo precisa da sua `notaIdioma`.
 
@@ -400,9 +407,25 @@ como referência, e tornar o `__inner` posicionado o estreitaria. O anel de foco
 do item fica dentro da linha (`outline-offset: -2px`); o padrão (3px para
 fora) ficava a 1px da borda do painel.
 
+### A nota de tradução
+
+O espanhol é tradução do PT-BR e a página diz isso: o rodapé de
+`src/index.es.template.html` termina com "Traducido del portugués.", na mesma
+linha do aviso de conteúdo. É texto do template, sem marcador nem campo na
+configuração; como as páginas de app e de painel reaproveitam o rodapé da
+home do idioma, a nota aparece em todas as páginas em espanhol que têm rodapé
+(o player e o redirecionamento não têm, em nenhum idioma). A linha de idiomas
+da Formação é a mesma em todos: página traduzida não declara proficiência. O
+inglês não leva nota. Idioma novo que for tradução leva a sua, no mesmo lugar.
+
+A 404 é do idioma padrão e traz uma linha por outro idioma (`<p lang="en">`,
+`<p lang="es">`), escrita à mão em `src/404.template.html`; o botão de cada
+idioma sai de `IDIOMAS_404`.
+
 ### Como adicionar um idioma
 
-Exemplo com espanhol (`es`). Texto novo segue o protocolo da skill
+Exemplo com espanhol (`es`), que entrou por este passo a passo em 12/11/2026.
+Texto novo segue o protocolo da skill
 `portfolio-idiomas` (traduzir sempre do PT-BR e passar pela aprovação do
 Ildean antes de entrar em `src/`).
 
@@ -418,7 +441,9 @@ abaixo).
    `og:image:alt`, `aria-label`, `alt`, `data-abrir`/`data-fechar` e o
    JSON-LD (`description`, `knowsAbout`). Troque `<html lang>` pelo `lang` da
    configuração e a `url` do JSON-LD por `https://ildeanfreitas.github.io/es/`.
-   Não escreva link de idioma: os marcadores cuidam.
+   Não escreva link de idioma: os marcadores cuidam. Se o
+   idioma for tradução, a nota vai no rodapé ("A nota de tradução", acima), e
+   a 404 ganha a linha dele.
 2. **Cases.** `src/data/cases.es.json`, com os mesmos cases, `id`, `area` e
    ordem do `cases.json`.
 3. **Dicionário dos diagramas e das abas.** Chave `es` no `DICIONARIO` de
