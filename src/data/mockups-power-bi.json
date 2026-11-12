@@ -1,0 +1,302 @@
+[
+  {
+    "slug": "varejo",
+    "empresa": "Esquadro",
+    "segmento": { "pt": "Varejo", "en": "Retail" },
+    "titulo": {
+      "pt": "Rede de lojas que cresce, mas não bate a meta",
+      "en": "A store chain that grows but misses its target"
+    },
+    "dor": {
+      "pt": "A Esquadro tem 12 lojas de material de construção em 4 regionais. A receita sobe contra o ano anterior, mas parte das lojas fica abaixo da meta e a margem de algumas categorias cai sem que ninguém veja a tempo.",
+      "en": "Esquadro runs 12 building-supply stores in 4 regions. Revenue is up on last year, but some stores miss their target and the margin of some categories drops before anyone notices."
+    },
+    "solucao": {
+      "pt": "Painel comercial com receita contra ano anterior e meta, gap por loja, curva ABC, margem por categoria e participação do e-commerce. A meta não existe por produto nem por canal, e o painel mostra n/d nesses recortes em vez de inventar o número.",
+      "en": "A sales dashboard with revenue against last year and target, gap by store, ABC curve, margin by category and the e-commerce share. The target does not exist by product or channel, so the dashboard shows n/d in those cuts instead of making up a number."
+    },
+    "tags": ["Executiva", "Parâmetro de campo", "RLS"],
+    "passos": {
+      "pt": [
+        "Na capa, clique em Abrir o relatório e leia a faixa Leitura e ação da Visão geral.",
+        "Em Lojas e regionais, clique com o botão direito numa loja e abra o Detalhe da loja (drill-through); use Voltar.",
+        "Em Ver como, escolha Gerente de loja (Sabiá) e abra Como seria no Power BI para ver a medida de cada visual."
+      ],
+      "en": [
+        "On the cover, click Abrir o relatório (open the report) and read the Leitura e ação (reading and action) strip on Visão geral (overview).",
+        "On Lojas e regionais (stores and regions), right-click a store and open Detalhe da loja (store detail, a drill-through); use Voltar (back).",
+        "In Ver como (view as), pick Gerente de loja (Sabiá) and open Como seria no Power BI (how it would be in Power BI) to see each visual's measure."
+      ]
+    }
+  },
+  {
+    "slug": "mineracao",
+    "empresa": "Cota Zero",
+    "segmento": { "pt": "Mineração", "en": "Mining" },
+    "titulo": {
+      "pt": "Mina que perde toneladas sem saber em qual frente",
+      "en": "A mine losing tonnes without knowing at which pit face"
+    },
+    "dor": {
+      "pt": "A Cota Zero opera 2 cavas e 6 frentes de lavra. O plano do mês fecha abaixo do previsto e a reunião de turno discute a média, não a frente, o equipamento ou o dia em que o teor saiu do controle.",
+      "en": "Cota Zero runs 2 pits and 6 mining faces. The monthly plan closes short and the shift meeting talks about the average, not the face, the equipment or the day the ore grade went out of control."
+    },
+    "solucao": {
+      "pt": "Painel operacional com produção contra plano por frente, disponibilidade e utilização da frota, motivos de parada e carta de controle do teor com limites pela amplitude móvel. Cada ponto fora do limite leva à ficha do equipamento ou ao dia.",
+      "en": "An operations dashboard with output against plan by face, fleet availability and utilization, downtime reasons and an ore-grade control chart with moving-range limits. Each out-of-limit point leads to the equipment record or the day."
+    },
+    "tags": ["Operacional", "Carta de controle", "Cascata"],
+    "passos": {
+      "pt": [
+        "Abra o relatório e, em Visão da operação, clique numa frente da cascata para filtrar as outras páginas.",
+        "Em Teor e qualidade, passe o mouse nos pontos fora do limite da carta de controle.",
+        "Em Ver como, escolha Supervisor do turno B e veja o plano virar n/d, com a explicação no painel Como seria no Power BI."
+      ],
+      "en": [
+        "Open the report and, on Visão da operação (operations overview), click a face in the waterfall to filter the other pages.",
+        "On Teor e qualidade (grade and quality), hover over the out-of-limit points of the control chart.",
+        "In Ver como (view as), pick Supervisor do turno B (shift B supervisor) and watch the plan turn into n/d, explained in the Como seria no Power BI (how it would be in Power BI) panel."
+      ]
+    }
+  },
+  {
+    "slug": "manutencao",
+    "empresa": "Sextante Industrial",
+    "segmento": { "pt": "Indústria", "en": "Manufacturing" },
+    "titulo": {
+      "pt": "Carteira de manutenção que envelhece sem dono",
+      "en": "A maintenance backlog that ages with no owner"
+    },
+    "dor": {
+      "pt": "A Sextante tem 2 plantas e 48 ativos. As ordens de serviço vencidas se acumulam em algumas áreas, a preventiva escorrega para o mês seguinte e o MTTR é discutido sem separar o reparo da espera.",
+      "en": "Sextante has 2 plants and 48 assets. Overdue work orders pile up in some areas, preventive work slips to the next month, and MTTR is discussed without separating repair time from waiting time."
+    },
+    "solucao": {
+      "pt": "Painel de manutenção com carteira por idade, OS vencidas por área e equipe, prazo por prioridade, MTTR, MTBF e disponibilidade, aderência da preventiva e custo por tipo de OS. A carteira é um retrato no último dia selecionado.",
+      "en": "A maintenance dashboard with backlog by age, overdue work orders by area and crew, due-date compliance by priority, MTTR, MTBF and availability, preventive compliance and cost by work-order type. The backlog is a snapshot on the last selected day."
+    },
+    "tags": ["Operacional", "Drill-through", "Top N"],
+    "passos": {
+      "pt": [
+        "Abra o relatório e, em Carteira de OS, clique em Filtrar no botão da faixa Leitura e ação.",
+        "Em Confiabilidade, clique com o botão direito num ativo da dispersão e abra a Ficha do ativo.",
+        "Em Ver como, escolha Líder da equipe Elétrica e veja quais medidas ficam fora do acesso."
+      ],
+      "en": [
+        "Open the report and, on Carteira de OS (work-order backlog), click the filter button in the Leitura e ação (reading and action) strip.",
+        "On Confiabilidade (reliability), right-click an asset in the scatter chart and open Ficha do ativo (asset record).",
+        "In Ver como (view as), pick Líder da equipe Elétrica (electrical crew lead) and see which measures fall outside that access."
+      ]
+    }
+  },
+  {
+    "slug": "financeiro",
+    "empresa": "Zênite Atacadista",
+    "segmento": { "pt": "Financeiro", "en": "Finance" },
+    "titulo": {
+      "pt": "Caixa do atacado apertado pela cobrança",
+      "en": "A wholesaler's cash squeezed by collections"
+    },
+    "dor": {
+      "pt": "A Zênite vende a prazo por 3 filiais. Quando os clientes atrasam, o caixa do mês fecha negativo e a empresa passa a pagar fornecedores fora do vencimento, sem uma visão única do que entra e sai nos próximos 30 dias.",
+      "en": "Zênite sells on credit through 3 branches. When customers pay late, the month's cash goes negative and the company starts paying suppliers after the due date, with no single view of what comes in and goes out over the next 30 days."
+    },
+    "solucao": {
+      "pt": "Painel financeiro com contas a receber e a pagar por faixa de atraso, caixa projetado por janela de vencimento, prazo médio de recebimento, pagamento em dia por mês e previsto contra realizado por filial.",
+      "en": "A finance dashboard with receivables and payables by days past due, projected cash by due-date window, days sales outstanding, on-time payment by month and forecast against actual by branch."
+    },
+    "tags": ["Financeira", "Aging", "Previsto x realizado"],
+    "passos": {
+      "pt": [
+        "Abra o relatório e, em Posição financeira, veja o caixa projetado em 30 dias.",
+        "Em Contas a pagar, leia a faixa Leitura e ação: ela cita o mês com menos pagamento em dia e o caixa daquele mês.",
+        "Em Ver como, escolha Analista de cobrança e confira que o a pagar e o previsto ficam fora do acesso."
+      ],
+      "en": [
+        "Open the report and, on Posição financeira (financial position), look at the projected cash for the next 30 days.",
+        "On Contas a pagar (payables), read the Leitura e ação (reading and action) strip: it names the month with the lowest on-time payment and that month's cash.",
+        "In Ver como (view as), pick Analista de cobrança (collections analyst) and check that payables and forecast are outside that access."
+      ]
+    }
+  },
+  {
+    "slug": "safe",
+    "empresa": "Aldrava Tecnologia",
+    "segmento": { "pt": "Tecnologia", "en": "Technology" },
+    "titulo": {
+      "pt": "Trens ágeis que planejam mais do que entregam",
+      "en": "Agile release trains that plan more than they deliver"
+    },
+    "dor": {
+      "pt": "A Aldrava organiza o desenvolvimento em trens e times com SAFe. Os times seguem sobrecarregados, os riscos ficam sem resolução e uma dependência atrasada de um trem segura a entrega de outros.",
+      "en": "Aldrava organizes development into trains and teams with SAFe. Teams stay overloaded, risks stay unresolved and a late dependency from one train holds back the delivery of others."
+    },
+    "solucao": {
+      "pt": "Painel de entrega com previsibilidade por PI, velocidade e carga sem as iterações de inovação e planejamento, matriz de risco ROAM e a matriz de quem atrasa quem entre trens, com o efeito do bloqueio na previsibilidade.",
+      "en": "A delivery dashboard with predictability by PI, velocity and load excluding innovation and planning iterations, a ROAM risk matrix and a who-delays-whom matrix between trains, with the effect of blockers on predictability."
+    },
+    "tags": ["Executiva", "SAFe", "Matriz"],
+    "passos": {
+      "pt": [
+        "Abra o relatório e, em Riscos, procure o trem fornecedor com mais dependências atrasadas na matriz Quem atrasa quem.",
+        "Em Capacidade, veja a carga por iteração com as iterações de inovação e planejamento em branco.",
+        "Em Ver como, escolha Líder do Time Zeta e abra Como seria no Power BI para ver como o perfil limita os riscos."
+      ],
+      "en": [
+        "Open the report and, on Riscos (risks), find the supplying train with the most late dependencies in the Quem atrasa quem (who delays whom) matrix.",
+        "On Capacidade (capacity), look at load by iteration, with innovation and planning iterations left blank.",
+        "In Ver como (view as), pick Líder do Time Zeta (Team Zeta lead) and open Como seria no Power BI (how it would be in Power BI) to see how the profile limits risks."
+      ]
+    }
+  },
+  {
+    "slug": "gas",
+    "empresa": "Enseada Gás",
+    "segmento": { "pt": "Energia", "en": "Energy" },
+    "titulo": {
+      "pt": "Balanço de gás que não fecha em dias seguidos",
+      "en": "A gas balance that fails to close on consecutive days"
+    },
+    "dor": {
+      "pt": "A Enseada recebe gás de 4 origens e entrega a 4 segmentos. Por 16 dias seguidos o balanço entre o que entrou, o que saiu, as perdas e o empacotamento ficou fora da tolerância, e a causa só aparece cruzando a origem com o dia.",
+      "en": "Enseada receives gas from 4 sources and delivers to 4 segments. For 16 days in a row the balance between what came in, what went out, losses and line pack was out of tolerance, and the cause only shows when the source is crossed with the day."
+    },
+    "solucao": {
+      "pt": "Painel temporal com volume diário, cascata do balanço do recebido até a diferença não explicada, dias acima da capacidade por origem, sazonalidade por segmento e a parte de cada origem na janela dos dias fora.",
+      "en": "A time-based dashboard with daily volume, a balance waterfall from receipts to the unexplained difference, days above capacity by source, seasonality by segment and each source's share in the out-of-tolerance window."
+    },
+    "tags": ["Temporal", "Cascata", "Navegador de indicadores"],
+    "passos": {
+      "pt": [
+        "Na capa, clique em Ir ao balanço de abril e maio.",
+        "Em Balanço, leia a cascata e passe o mouse no último degrau, a diferença não explicada.",
+        "Em Ver como, escolha Gerente regional Vargem e veja o aviso que substitui os visuais sem acesso."
+      ],
+      "en": [
+        "On the cover, click Ir ao balanço de abril e maio (go to the April and May balance).",
+        "On Balanço (balance), read the waterfall and hover over the last step, the unexplained difference.",
+        "In Ver como (view as), pick Gerente regional Vargem (Vargem regional manager) and see the notice that replaces the visuals outside that access."
+      ]
+    }
+  },
+  {
+    "slug": "seguros",
+    "empresa": "Baluarte Seguros",
+    "segmento": { "pt": "Seguros", "en": "Insurance" },
+    "titulo": {
+      "pt": "Seguradora com exceções de alçada concentradas",
+      "en": "An insurer with approval-limit exceptions in one place"
+    },
+    "dor": {
+      "pt": "A Baluarte vende 4 ramos por filiais. Descontos fora da alçada, sinistros que passam do prazo de regulação e achados de auditoria vencidos se concentram em poucos lugares, mas o relatório mensal mostra só a média da rede.",
+      "en": "Baluarte sells 4 lines of insurance through branches. Discounts above the approval limit, claims past the settlement deadline and overdue audit findings are concentrated in a few places, but the monthly report shows only the network average."
+    },
+    "solucao": {
+      "pt": "Painel de governança com taxa de exceção por filial e ramo, desconto dentro e fora da alçada, sinistralidade de exemplo, sinistros atrasados por mês e achados de auditoria por faixa de atraso e gravidade.",
+      "en": "A governance dashboard with exception rate by branch and line, discount inside and above the approval limit, an example loss ratio, late claims by month and audit findings by days overdue and severity."
+    },
+    "tags": ["Governança", "Menu lateral", "RLS"],
+    "passos": {
+      "pt": [
+        "Na capa, clique em Ir ao ponto crítico: Serra.",
+        "Em Sinistros, clique num mês com atraso e veja os outros visuais filtrarem.",
+        "Em Ver como, escolha Analista de sinistros Auto e abra Como seria no Power BI para ver a regra de acesso por ramo."
+      ],
+      "en": [
+        "On the cover, click Ir ao ponto crítico: Serra (go to the critical point: Serra).",
+        "On Sinistros (claims), click a month with delays and watch the other visuals filter.",
+        "In Ver como (view as), pick Analista de sinistros Auto (motor claims analyst) and open Como seria no Power BI (how it would be in Power BI) to see the access rule by line."
+      ]
+    }
+  },
+  {
+    "slug": "inspecao-via",
+    "empresa": "Ferrovia Taboquara",
+    "segmento": { "pt": "Infraestrutura", "en": "Infrastructure" },
+    "titulo": {
+      "pt": "Defeitos de via vistos trecho a trecho",
+      "en": "Track defects seen section by section"
+    },
+    "dor": {
+      "pt": "A Taboquara inspeciona 3 linhas em trechos de 10 km. Defeitos abertos, restrições de velocidade e inspeções atrasadas ficam em planilhas por supervisão, sem uma visão da malha que mostre onde a via se desgasta mais do que a carga explica.",
+      "en": "Taboquara inspects 3 lines in 10 km sections. Open defects, speed restrictions and late inspections sit in spreadsheets per supervision area, with no network view of where the track wears more than the traffic explains."
+    },
+    "solucao": {
+      "pt": "Painel geográfico com diagrama linear da malha, defeitos por severidade e prazo, aderência das inspeções por tipo e supervisão e defeitos por carga em MGT por trecho, com a ficha de cada trecho.",
+      "en": "A geographic dashboard with a straight-line diagram of the network, defects by severity and deadline, inspection compliance by type and supervision area, and defects per MGT of traffic by section, with a record for each section."
+    },
+    "tags": ["Geográfica", "Diagrama linear", "Trilho de ícones"],
+    "passos": {
+      "pt": [
+        "Abra o relatório e, em Malha, clique num trecho do diagrama para ver a sua situação.",
+        "Em Carga e desgaste, procure os trechos acima do esperado para a carga.",
+        "Em Ver como, escolha Inspetor do Ramal Porto e veja o painel se restringir ao ramal."
+      ],
+      "en": [
+        "Open the report and, on Malha (network), click a section of the diagram to see its status.",
+        "On Carga e desgaste (traffic and wear), look for sections above what their traffic predicts.",
+        "In Ver como (view as), pick Inspetor do Ramal Porto (Porto branch inspector) and watch the dashboard narrow to that branch line."
+      ]
+    }
+  },
+  {
+    "slug": "clinicas",
+    "empresa": "Olmara Clínicas",
+    "segmento": { "pt": "Saúde", "en": "Healthcare" },
+    "titulo": {
+      "pt": "Agenda cheia, mas paciente que falta",
+      "en": "A full schedule, but patients who do not show up"
+    },
+    "dor": {
+      "pt": "A Olmara tem unidades e especialidades com agenda própria. As faltas sobem numa unidade, a espera longa aumenta o absenteísmo e os retornos indicados não acontecem em 30 dias, sem que a gestão veja onde agir.",
+      "en": "Olmara has units and specialties with their own schedules. No-shows rise at one unit, long waits drive absenteeism up and recommended follow-ups do not happen within 30 days, while management cannot see where to act."
+    },
+    "solucao": {
+      "pt": "Painel temporal com ocupação da agenda, destino de cada vaga, absenteísmo por espera, canal e especialidade e retorno em 30 dias, comparando o ano com o anterior. Só agregados fictícios, sem dado de paciente.",
+      "en": "A time-based dashboard with schedule occupancy, what happened to each slot, absenteeism by waiting time, channel and specialty, and 30-day follow-up, comparing the year with the previous one. Fictitious aggregates only, no patient data."
+    },
+    "tags": ["Temporal", "Ano contra ano", "Múltiplos pequenos"],
+    "passos": {
+      "pt": [
+        "Na capa, clique em Ir ao ponto crítico: Norte.",
+        "Em Absenteísmo, clique numa faixa de espera e veja as faltas por canal mudarem.",
+        "Em Ver como, escolha Coordenação de Dermatologia e abra Como seria no Power BI."
+      ],
+      "en": [
+        "On the cover, click Ir ao ponto crítico: Norte (go to the critical point: Norte).",
+        "On Absenteísmo (absenteeism), click a waiting-time band and watch no-shows by channel change.",
+        "In Ver como (view as), pick Coordenação de Dermatologia (dermatology coordination) and open Como seria no Power BI (how it would be in Power BI)."
+      ]
+    }
+  },
+  {
+    "slug": "atendimento-ti",
+    "empresa": "Centro Universitário Arandela",
+    "segmento": { "pt": "Educação", "en": "Education" },
+    "titulo": {
+      "pt": "SLA de TI que cai na matrícula",
+      "en": "An IT service level that drops during enrollment"
+    },
+    "dor": {
+      "pt": "A Arandela atende chamados de TI e manifestações de ouvidoria em vários campi. Na matrícula o SLA cai, a fila envelhece, a satisfação despenca nos chamados fora do prazo e as manifestações sobre TI sobem logo depois.",
+      "en": "Arandela handles IT tickets and ombudsman complaints across several campuses. During enrollment the service level drops, the queue ages, satisfaction falls on tickets past the deadline and complaints about IT rise right after."
+    },
+    "solucao": {
+      "pt": "Painel de qualidade de serviço com SLA por mês e equipe, fila por prioridade e idade, satisfação por canal e prazo e ouvidoria respondida no prazo por campus e assunto, com denúncias em sigilo.",
+      "en": "A service-quality dashboard with service level by month and team, queue by priority and age, satisfaction by channel and deadline, and ombudsman responses on time by campus and subject, with whistleblower reports kept confidential."
+    },
+    "tags": ["Qualidade de serviço", "SLA", "Abas"],
+    "passos": {
+      "pt": [
+        "Na capa, clique em Ir ao ponto crítico: matrícula de julho e agosto.",
+        "Em Fila e prioridade, clique numa prioridade e veja a fila vencida.",
+        "Em Ver como, escolha Líder da equipe de Sistemas e veja a ouvidoria sair do acesso."
+      ],
+      "en": [
+        "On the cover, click Ir ao ponto crítico: matrícula de julho e agosto (go to the critical point: July and August enrollment).",
+        "On Fila e prioridade (queue and priority), click a priority and see the overdue queue.",
+        "In Ver como (view as), pick Líder da equipe de Sistemas (systems team lead) and watch the ombudsman data drop out of that access."
+      ]
+    }
+  }
+]

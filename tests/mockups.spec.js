@@ -174,13 +174,21 @@ test('nenhum dos apps faz requisição para fora do próprio site', async ({ pag
 
 test('o botão da home leva à galeria, em PT e em EN', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.demos-mais a')).toHaveText(
+  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveText(
     'Ver os 12 apps de demonstração (dados fictícios)'
   );
-  await expect(page.locator('.demos-mais a')).toHaveAttribute('href', '/demos/power-apps/');
+  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveAttribute(
+    'href',
+    '/demos/power-apps/'
+  );
   await page.goto('/en/');
-  await expect(page.locator('.demos-mais a')).toHaveText('See the 12 demo apps (fictitious data)');
-  await expect(page.locator('.demos-mais a')).toHaveAttribute('href', '/en/demos/power-apps/');
+  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveText(
+    'See the 12 demo apps (fictitious data)'
+  );
+  await expect(page.locator('#cases-power-platform .demos-mais a')).toHaveAttribute(
+    'href',
+    '/en/demos/power-apps/'
+  );
 });
 
 test('todo app.html e todo player têm noindex', async ({ request }) => {

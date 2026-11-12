@@ -177,16 +177,17 @@ for (const [pagina, rota, botoes, emPreparacao] of [
       await expect(sessao.locator(':scope > :first-child')).toHaveJSProperty('tagName', 'H3');
       const ids = await sessao.locator('.case-card').evaluateAll((els) => els.map((e) => e.id));
       expect(ids, area).toEqual(cases.filter((c) => c.area === area).map((c) => c.id));
-      if (!ids.length) {
-        // Sessão vazia: só título e a linha "Em preparação", sem selo (a
-        // legenda de selos do Sobre lista só os selos dos cases).
+      if (!ids.length && !(await sessao.locator('.demos-mais').count())) {
+        // Sessão vazia e sem demonstrações: só título e a linha "Em preparação",
+        // sem selo (a legenda de selos do Sobre lista só os selos dos cases).
         await expect(sessao.locator('.cases-area__abertura')).toHaveText(emPreparacao);
         await expect(sessao.locator('.status')).toHaveCount(0);
       }
     }
-    // O botão das demonstrações fecha a sessão Power Platform.
+    // O botão das demonstrações fecha as sessões Power Platform e Power BI.
     await expect(page.locator('#cases-power-platform > :last-child')).toHaveClass('demos-mais');
-    await expect(page.locator('.demos-mais')).toHaveCount(1);
+    await expect(page.locator('#cases-power-bi > :last-child')).toHaveClass('demos-mais');
+    await expect(page.locator('.demos-mais')).toHaveCount(2);
   });
 
   test(`${pagina}: cada cartão de Especialidades leva à sua sessão de Cases`, async ({ page }) => {

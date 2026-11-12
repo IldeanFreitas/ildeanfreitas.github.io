@@ -55,7 +55,12 @@ const DICIONARIO = {
       },
       'power-bi': {
         titulo: 'Power BI',
-        abertura: 'Em preparação: painéis interativos com dados fictícios.'
+        abertura:
+          'Painéis interativos com dados fictícios, navegáveis como um relatório publicado.',
+        link: {
+          href: '/demos/power-bi/',
+          texto: 'Ver os 10 painéis de demonstração (dados fictícios)'
+        }
       },
       'engenharia-dados': {
         titulo: 'Engenharia de Dados',
@@ -103,7 +108,12 @@ const DICIONARIO = {
       },
       'power-bi': {
         titulo: 'Power BI',
-        abertura: 'In preparation: interactive dashboards with fictitious data.'
+        abertura:
+          'Interactive dashboards with fictitious data, explorable like a published report.',
+        link: {
+          href: '/en/demos/power-bi/',
+          texto: 'See the 10 demo dashboards (fictitious data)'
+        }
       },
       'engenharia-dados': {
         titulo: 'Data Engineering',
