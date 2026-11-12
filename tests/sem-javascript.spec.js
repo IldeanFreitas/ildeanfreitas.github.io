@@ -153,9 +153,22 @@ for (const idioma of IDIOMAS) {
       await page.keyboard.press('Tab');
       await expect(links.first()).toBeFocused();
 
-      // E o link navega: outra página, servida pronta.
+      // O teclado não pode ter tirado a página do lugar.
+      expect(new URL(page.url()).pathname, 'a página navegou durante o teste de teclado').toBe(
+        idioma.caminho
+      );
+
+      // E o link navega: outra página, servida pronta. Parte de um estado
+      // limpo e sem a animação de abertura (movimento reduzido a desliga):
+      // clicar com o painel ainda animando fazia o Playwright perder o
+      // elemento e estourar o prazo, sempre no CI e às vezes aqui.
       const destino = IDIOMAS.find((outro) => outro !== idioma);
-      await menu.locator(`.idiomas__link[hreflang="${destino.lang}"]`).click();
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(idioma.caminho);
+      await menu.locator('summary').click();
+      const link = menu.locator(`.idiomas__link[hreflang="${destino.lang}"]`);
+      await expect(link).toBeVisible();
+      await link.click();
       await expect(page.locator('html')).toHaveAttribute('lang', destino.lang);
     });
   });
