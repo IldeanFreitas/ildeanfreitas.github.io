@@ -19,17 +19,17 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { readFileSync } from 'node:fs';
 
-const mockups = JSON.parse(
-  readFileSync(
-    join(fileURLToPath(new URL('..', import.meta.url)), 'src/data/mockups-power-apps.json'),
-    'utf8'
-  )
-);
+const lerDados = (arq) =>
+  JSON.parse(
+    readFileSync(join(fileURLToPath(new URL('..', import.meta.url)), 'src/data', arq), 'utf8')
+  );
+const mockups = lerDados('mockups-power-apps.json');
+const paineis = lerDados('mockups-power-bi.json');
 
-/** Par pt/en de uma página dos apps de demonstração Power Apps (galeria quando o slug é vazio). */
-function urlPar(slug) {
-  const pt = `${BASE}demos/power-apps/${slug}`;
-  const en = `${BASE}en/demos/power-apps/${slug}`;
+/** Par pt/en de uma página de demonstração (galeria quando o slug é vazio). */
+function urlPar(slug, demos = 'demos/power-apps') {
+  const pt = `${BASE}${demos}/${slug}`;
+  const en = `${BASE}en/${demos}/${slug}`;
   const alt = `    <xhtml:link rel="alternate" hreflang="pt-BR" href="${pt}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${en}"/>`;
   return [pt, en]
     .map(
@@ -93,7 +93,12 @@ ${alternativas}
     <priority>0.8</priority>
 ${alternativas}
   </url>
-${[urlPar(''), ...mockups.map((c) => urlPar(c.slug + '/'))].join('\n')}
+${[
+  urlPar(''),
+  ...mockups.map((c) => urlPar(c.slug + '/')),
+  urlPar('', 'demos/power-bi'),
+  ...paineis.map((c) => urlPar(c.slug + '/', 'demos/power-bi'))
+].join('\n')}
 </urlset>
 `;
 

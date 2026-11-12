@@ -219,15 +219,42 @@ test('os cases saem em sessões por área, na ordem de AREAS, com a ordem do JSO
   }
 });
 
-test('sessão vazia mostra só título e "Em preparação", sem selo nem grade', () => {
-  const html = renderizarCases(PT, 'pt');
-  const bi = html.match(/<section class="cases-area" id="cases-power-bi">([\s\S]*?)<\/section>/);
-  assert.ok(bi, 'sem a sessão Power BI');
-  assert.match(bi[1], /<h3 class="cases-area__titulo">Power BI<\/h3>/);
-  assert.match(bi[1], /<p class="cases-area__abertura">Em preparação: /);
-  assert.doesNotMatch(bi[1], /status|case-grid/);
-  const en = renderizarCases(EN, 'en');
-  assert.match(en, /id="cases-ia">\s*<h3 class="cases-area__titulo">Applied AI<\/h3>/);
+const sessao = (html, id) =>
+  html.match(new RegExp(`<section class="cases-area" id="${id}">([\\s\\S]*?)</section>`));
+
+test('sessão vazia mostra só título e "Em preparação", sem selo, grade nem botão', () => {
+  const ia = sessao(renderizarCases(PT, 'pt'), 'cases-ia');
+  assert.ok(ia, 'sem a sessão IA aplicada');
+  assert.match(ia[1], /<h3 class="cases-area__titulo">IA aplicada<\/h3>/);
+  assert.match(ia[1], /<p class="cases-area__abertura">Em preparação: /);
+  assert.doesNotMatch(ia[1], /status|case-grid|demos-mais/);
+  const en = sessao(renderizarCases(EN, 'en'), 'cases-ia');
+  assert.ok(en, 'en: sem a sessão IA aplicada');
+  assert.match(en[1], /<h3 class="cases-area__titulo">Applied AI<\/h3>/);
+  assert.match(en[1], /<p class="cases-area__abertura">In preparation: /);
+});
+
+test('sessão Power BI sem case mostra a abertura e o botão dos painéis, sem selo nem grade', () => {
+  for (const [dados, idioma, destino] of [
+    [PT, 'pt', '/demos/power-bi/'],
+    [EN, 'en', '/en/demos/power-bi/']
+  ]) {
+    const bi = sessao(renderizarCases(dados, idioma), 'cases-power-bi');
+    assert.ok(bi, `${idioma}: sem a sessão Power BI`);
+    assert.match(bi[1], /<h3 class="cases-area__titulo">Power BI<\/h3>/);
+    assert.match(bi[1], /<p class="cases-area__abertura">/);
+    assert.doesNotMatch(
+      bi[1],
+      /Em preparação|In preparation/,
+      `${idioma}: Power BI ainda "em preparação"`
+    );
+    assert.match(
+      bi[1],
+      new RegExp(`<p class="demos-mais"><a [^>]*href="${destino}"`),
+      `${idioma}: sem o botão`
+    );
+    assert.doesNotMatch(bi[1], /status|case-grid/);
+  }
 });
 
 test('níveis de título: sessão h3, case h4, fatos h5', () => {
