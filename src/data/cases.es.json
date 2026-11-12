@@ -1,0 +1,913 @@
+[
+  {
+    "id": "case-dataops",
+    "area": "engenharia-dados",
+    "status": {
+      "variante": "lab",
+      "rotulo": "Laboratorio completado"
+    },
+    "natureza": "Laboratorio propio | repositorio privado",
+    "titulo": "Laboratorio DataOps: pipeline analítico de extremo a extremo",
+    "descricao": "Laboratorio de cierre de la formación en Ingeniería de Datos: pipeline analítico ejecutado de extremo a extremo sobre una base transaccional en PostgreSQL, en contenedor Docker. Airbyte replica las tablas en la capa RAW de Snowflake; dbt estandariza los datos en STAGING, donde también quedan las vistas intermedias, y construye el modelo dimensional en DW. Airflow coordina el ciclo (frescura de la fuente, sincronización, reconciliación contra el origen y dbt build) antes del consumo en Power BI.",
+    "escopo": "laboratorio ejecutado de extremo a extremo, de la base de origen al panel, con una ejecución manual completa del DAG en Airflow. La ejecución manual completa se hizo antes de que entraran la reconciliación y la instalación de dependencias; en la versión actual, las cuatro tareas que no dependen de Airbyte se ejecutaron una por una. Son 22 modelos dbt sobre una tabla de hechos de 16.044 filas, y el dbt build cierra con 114 pruebas aprobadas y ninguna advertencia en los dos entornos de ejecución, local y en contenedor. Calle, código postal y teléfono de los clientes quedan fuera del modelo analítico, y cada capa se ejecuta con el mínimo privilegio necesario. El repositorio es privado, así que estas cifras no son verificables públicamente; las demuestro en una conversación.",
+    "escopoRotulo": "Evidencias y límites:",
+    "papel": "Proyecto propio e individual: laboratorio de cierre de la formación en Ingeniería de Datos, de la infraestructura en Docker al panel.",
+    "decisoes": [
+      {
+        "titulo": "Capas separadas en Snowflake.",
+        "texto": "RAW conserva lo que Airbyte entregó; dbt reconstruye STAGING y DW. El origen queda auditable y el consumo, estable."
+      },
+      {
+        "titulo": "Reconciliar contra el origen, no entre capas.",
+        "texto": "El DAG compara el recuento de las 15 tablas en PostgreSQL con RAW y falla si hay divergencia. La reconciliación interna comparaba dos lados de la misma carga: si Airbyte trajera el 90% de los alquileres, los dos lados coincidirían en el 90%."
+      },
+      {
+        "titulo": "Dos targets en dbt.",
+        "texto": "Un build local escribía directamente en los esquemas que Power BI consume. Con dev y prod separados, una prueba no sobrescribe lo que el informe lee."
+      },
+      {
+        "titulo": "Un usuario de servicio por herramienta, con clave RSA.",
+        "texto": "Airbyte y dbt tienen usuarios distintos, sin contraseña, con el mínimo privilegio de cada capa."
+      },
+      {
+        "titulo": "Calle, código postal y teléfono fuera del DW.",
+        "texto": "La dimensión de clientes dejó de publicar esos tres campos: ninguna medida los usaba, y el rol de lectura de Power BI los veía por inercia. Quedaron el nombre, el barrio, la ciudad y el país, que sostienen el análisis geográfico sin localizar la residencia de nadie."
+      }
+    ],
+    "resultado": "114 pruebas dbt: claves, 21 relaciones entre modelos de staging, granularidad de las tablas puente, reglas de negocio y reconciliación. Frescura de las 15 fuentes con alerta a las 24 h y error a las 48 h. Panel de Power BI con 15 medidas DAX.",
+    "aprendizados": [
+      "Un calendario derivado de las fechas observadas deja huecos y hace que DATEADD devuelva un valor erróneo sin aviso; la dimensión de fechas tiene que cubrir todos los días, sin lagunas, con una prueba que impida la regresión.",
+      "Comprobar la frescura después de la sincronización mide la hora que la propia sincronización acaba de escribir, y solo falla si esta ya falló. Hecha antes, la comprobación mide el desfase real de la fuente."
+    ],
+    "tags": ["PostgreSQL", "Docker", "Airbyte", "Snowflake", "dbt", "Airflow", "Power BI"],
+    "destaqueVisual": true,
+    "diagrama": {
+      "alt": "Vista lógica del laboratorio DataOps: Airbyte replica PostgreSQL en la capa RAW de Snowflake; dbt estandariza los datos en STAGING, donde también quedan las vistas intermedias, y construye el Data Warehouse; Power BI consume el modelo. Airflow es el plano de control, y gobernanza, seguridad y calidad son capacidades transversales.",
+      "resumo": "El dato sale de PostgreSQL, entra en Snowflake por Airbyte y se estandariza y se prueba en el STAGING de dbt antes de llegar a Power BI, con Airflow coordinando el ciclo.",
+      "etiqueta": "Arquitectura de datos",
+      "titulo": "Ejecución local en Docker",
+      "forma": "trilha",
+      "controle": {
+        "titulo": "Airflow",
+        "nota": "Frescura de la fuente, sincronización, reconciliación y dbt build",
+        "resumo": "Orquesta el flujo; la transformación es de dbt",
+        "produto": "airflow",
+        "orquestra": [0, 1, 2]
+      },
+      "zonas": [
+        {
+          "titulo": "Fuentes",
+          "papel": "fonte",
+          "nos": [
+            {
+              "tipo": "Origen",
+              "titulo": "PostgreSQL",
+              "nota": "Base transaccional en Docker",
+              "produto": "postgresql"
+            }
+          ]
+        },
+        {
+          "titulo": "Ingesta",
+          "papel": "ingestao",
+          "nos": [
+            {
+              "tipo": "Replicación",
+              "titulo": "Airbyte",
+              "nota": "Sincroniza el origen con RAW",
+              "produto": "airbyte"
+            }
+          ]
+        },
+        {
+          "titulo": "Almacenamiento y transformación",
+          "papel": "armazenamento",
+          "nos": [
+            {
+              "tipo": "Persistencia",
+              "titulo": "Snowflake RAW",
+              "nota": "Datos tal como llegaron",
+              "sigla": "RAW",
+              "produto": "snowflake"
+            },
+            {
+              "tipo": "Transformación",
+              "titulo": "dbt · capas analíticas",
+              "nota": "22 modelos, probados en cada build",
+              "produto": "dbt",
+              "etapas": [
+                {
+                  "sigla": "STG",
+                  "titulo": "STAGING",
+                  "nota": "Estandarización y pruebas",
+                  "icone": "filter",
+                  "destaque": true
+                },
+                {
+                  "sigla": "INT",
+                  "titulo": "Intermedia",
+                  "nota": "Reglas y joins en vistas de STAGING",
+                  "icone": "merge"
+                },
+                {
+                  "sigla": "DW",
+                  "titulo": "Data Warehouse",
+                  "nota": "Modelo dimensional",
+                  "icone": "cube"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Consumo",
+          "papel": "consumo",
+          "nos": [
+            {
+              "tipo": "Analytics",
+              "titulo": "Power BI",
+              "nota": "Panel con 15 medidas DAX",
+              "produto": "power-bi"
+            }
+          ]
+        }
+      ],
+      "governanca": {
+        "titulo": "Capacidades transversales",
+        "itens": [
+          {
+            "nome": "Gobernanza",
+            "valor": "Linaje de dbt y CI con gitleaks, dbt parse y sqlfluff",
+            "icone": "branch"
+          },
+          {
+            "nome": "Seguridad",
+            "valor": "Roles de mínimo privilegio y par de claves RSA por servicio",
+            "icone": "key"
+          },
+          {
+            "nome": "Calidad",
+            "valor": "Pruebas dbt, frescura y reconciliación con el origen",
+            "icone": "database-checkmark"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "case-camara-lakehouse",
+    "area": "engenharia-dados",
+    "status": {
+      "variante": "done",
+      "rotulo": "Entregado"
+    },
+    "natureza": "Proyecto académico | repositorio público",
+    "titulo": "Cámara de Diputados de Brasil: Pipeline Lakehouse",
+    "descricao": "Lakehouse implementado en Databricks para datos abiertos de la Cámara de Diputados de Brasil. Un recolector Python consulta 17 endpoints configurados en YAML, escribe el payload en bruto con metadatos de auditoría y promueve los datos por Bronze, Silver y Gold hasta tablas analíticas listas para el consumo en BI y SQL.",
+    "escopo": "el Lakehouse opera en Databricks con Unity Catalog Volume, PySpark y Delta; el entorno local apoya el desarrollo y las pruebas.",
+    "escopoRotulo": "Evidencias:",
+    "papel": "Proyecto final individual del programa de Ingeniería de Datos (Upskill Tiller, cohorte 2): recolección, modelado, pruebas, documentación y publicación.",
+    "decisoes": [
+      {
+        "titulo": "Medallón en lugar de ELT directo o Data Vault.",
+        "texto": "Bronze guarda el payload en bruto de la última recolección, así que reprocesar Silver y Gold no exige volver a la API. Data Vault sería excesivo para el volumen y la cadencia."
+      },
+      {
+        "titulo": "Catálogo de endpoints en YAML.",
+        "texto": "Los 17 endpoints se declaran en YAML, fuera del código del recolector: añadir uno es agregar un bloque, validado en dataclass cuando se carga el catálogo."
+      },
+      {
+        "titulo": "PySpark en Databricks, pandas en el CI.",
+        "texto": "Los notebooks reimplementan la lógica en PySpark nativo; localmente, la misma secuencia (renombrar, convertir tipos, deduplicar) se ejecuta en pandas, y el CI la prueba en unos 6 segundos, sin Spark ni JDK en la máquina. La contrapartida es mantener la lógica en dos lugares, y las pruebas solo cubren la versión pandas."
+      },
+      {
+        "titulo": "Auditoría integrada por registro.",
+        "texto": "Cada fila Bronze lleva instante de ingesta, endpoint, URL de origen, página, identificador de la ejecución y hash del payload; el linaje no depende de un join con una tabla de control."
+      }
+    ],
+    "resultado": "Seis entregables analíticos obligatorios y dos opcionales (consulta periódica de votaciones e historial de tramitación con vigencia por proposición, derivado de los eventos), 48 pruebas automatizadas en seis módulos y validación continua en GitHub Actions. Repositorio público.",
+    "aprendizados": [
+      "La recolección de la API queda fuera del clúster: consultar la API lleva segundos, y un clúster encendido que espera un reintento cobra por el tiempo parado.",
+      "El watermark no es atributo del registro: la auditoría viaja en cada fila, y el último valor visto por endpoint queda en un estado de control aparte."
+    ],
+    "tags": ["Python", "PySpark", "Delta Lake", "Databricks", "Data Quality", "GitHub Actions"],
+    "diagrama": {
+      "alt": "Vista lógica del Lakehouse Databricks de la Cámara de Diputados de Brasil: la API pública alimenta un recolector Python que escribe una landing auditable en Unity Catalog Volume; los datos recorren las capas Delta Bronze, Silver y Gold, y las tablas Gold, en Delta o Parquet, quedan listas para el consumo en BI y SQL. El flujo se apoya en linaje, reprocesamiento a partir de Bronze, calidad y pruebas.",
+      "resumo": "La recolección se ejecuta fuera del clúster y escribe una landing auditable; Databricks promueve los datos por Bronze, Silver y Gold hasta tablas listas para BI y SQL.",
+      "etiqueta": "Lakehouse público",
+      "titulo": "Databricks Lakehouse · Delta",
+      "forma": "trilha",
+      "zonas": [
+        {
+          "titulo": "Fuentes",
+          "papel": "fonte",
+          "nos": [
+            {
+              "tipo": "Fuente pública",
+              "titulo": "API de la Cámara",
+              "nota": "17 endpoints en YAML",
+              "icone": "globe"
+            }
+          ]
+        },
+        {
+          "titulo": "Ingesta",
+          "papel": "ingestao",
+          "nos": [
+            {
+              "tipo": "Recolección fuera del clúster",
+              "titulo": "Worker Python",
+              "nota": "Paginación y reintentos",
+              "produto": "python"
+            }
+          ]
+        },
+        {
+          "titulo": "Almacenamiento y procesamiento",
+          "papel": "armazenamento",
+          "nos": [
+            {
+              "tipo": "Landing auditable",
+              "titulo": "Unity Catalog Volume",
+              "nota": "JSONL por endpoint",
+              "icone": "folder"
+            },
+            {
+              "tipo": "Medallón",
+              "titulo": "Capas Delta",
+              "nota": "PySpark en Databricks",
+              "produto": "databricks",
+              "etapas": [
+                {
+                  "sigla": "BRZ",
+                  "titulo": "Bronze",
+                  "nota": "Payload en bruto y auditoría por registro",
+                  "icone": "archive",
+                  "destaque": true
+                },
+                {
+                  "sigla": "SLV",
+                  "titulo": "Silver",
+                  "nota": "Tipado y deduplicación",
+                  "icone": "filter"
+                },
+                {
+                  "sigla": "GLD",
+                  "titulo": "Gold",
+                  "nota": "6 dimensiones, 3 hechos + tramitación",
+                  "icone": "table"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "titulo": "Consumo",
+          "papel": "consumo",
+          "nos": [
+            {
+              "tipo": "Listo para el consumo",
+              "titulo": "Tablas Gold",
+              "nota": "Delta o Parquet, para BI y SQL",
+              "icone": "table-search"
+            }
+          ]
+        }
+      ],
+      "governanca": {
+        "titulo": "Controles transversales",
+        "itens": [
+          {
+            "nome": "Linaje",
+            "valor": "source_url, hash del payload y run_id",
+            "icone": "flow"
+          },
+          {
+            "nome": "Reprocesamiento",
+            "valor": "Silver y Gold reescritos a partir de Bronze",
+            "icone": "history"
+          },
+          {
+            "nome": "Calidad",
+            "valor": "PKs, expectations y validación de CNPJ",
+            "icone": "database-checkmark"
+          },
+          {
+            "nome": "Validación",
+            "valor": "48 pruebas pytest y GitHub Actions",
+            "icone": "beaker"
+          }
+        ]
+      },
+      "ambientes": {
+        "titulo": "Entornos de ejecución",
+        "itens": [
+          {
+            "nome": "Desarrollo local",
+            "valor": "Python · JSONL · Parquet · pruebas y experimentación",
+            "icone": "laptop"
+          },
+          {
+            "nome": "Lakehouse Databricks",
+            "valor": "PySpark · Unity Catalog Volume · Delta",
+            "produto": "databricks"
+          }
+        ]
+      }
+    },
+    "repositorio": "https://github.com/IldeanFreitas/fast-track-engenharia-v3"
+  },
+  {
+    "id": "plataforma-dados-aws",
+    "area": "engenharia-dados",
+    "status": {
+      "variante": "designed",
+      "rotulo": "Arquitectura documentada"
+    },
+    "natureza": "Estudio individual | sin repositorio público",
+    "titulo": "Lakehouse de ventas en AWS",
+    "descricao": "Estudio de un pipeline Medallón en AWS con dos archivos de ejemplo: pedidos en CSV y clientes en JSON. Los archivos llegan a raw/ en Amazon S3, un Glue Crawler registra el esquema en el Data Catalog y jobs Glue en PySpark escriben Bronze y Silver en Parquet. La Gold es una tabla Iceberg actualizada por MERGE en Athena, y el consumo pasa por Athena, Redshift Serverless y Power BI. Step Functions encadena los jobs Glue de Bronze y Silver; Lake Formation, IAM y CloudWatch se ocupan del acceso y la supervisión.",
+    "escopoRotulo": "Declaración de alcance:",
+    "escopo": "el estudio reúne el diagrama de la arquitectura y guías paso a paso por servicio. Las notas del estudio registran la ejecución en una cuenta AWS personal hasta la Silver: archivos en raw/ en S3, crawler, consultas en Athena sobre la capa cruda y los jobs Glue de Bronze y Silver. Gold en Iceberg, Redshift, Power BI, Step Functions, Lake Formation y CloudWatch están documentados, sin ejecución, y llevan la etiqueta \"Documentado\" en el diagrama. Los datos son ficticios (8 pedidos) y no hay evidencia pública de la ejecución.",
+    "decisoes": [
+      {
+        "titulo": "Gold en Iceberg, actualizada por MERGE.",
+        "texto": "El MERGE en Athena (engine v3) también escribe archivos nuevos y delete files; la ventaja de Iceberg es el commit atómico en los metadatos. La Gold pasa de un snapshot al siguiente de una vez, y quien consulta nunca ve el cambio a medias. Con Parquet puro, la salida sería INSERT OVERWRITE o recrear la tabla, sin ese aislamiento."
+      },
+      {
+        "titulo": "Parquet ya en la Bronze.",
+        "texto": "Athena cobra por TB leído, y el formato columnar reduce lo que lee cada consulta; con el CSV hasta la Silver, toda consulta leería el archivo entero. La Bronze cambia solo el formato y sigue fiel al origen, para permitir el reprocesamiento."
+      },
+      {
+        "titulo": "Una subcarpeta por dataset en raw/.",
+        "texto": "El crawler cataloga por carpeta. Apuntado por encima de las subcarpetas, y con los resultados de Athena escritos en la raíz del bucket, creó tablas basura en el Data Catalog. Apuntado a raw/pedidos/ y raw/clientes/, crea una tabla por dataset, que es de donde lee el job de la Bronze."
+      },
+      {
+        "titulo": "Step Functions Standard, con .sync.",
+        "texto": "El .sync hace que el estado espere a que el job Glue termine antes de seguir, y solo el tipo Standard ofrece ese patrón; el Express no lo admite. Sin él, la Silver leería lo que la Bronze aún no ha escrito. Cada estado tiene Retry y Catch."
+      },
+      {
+        "titulo": "Lake Formation en lugar del acceso directo a S3.",
+        "texto": "La regla de columna solo vale si nadie lee el bucket por fuera. IAM deja de conceder s3:GetObject directo en las capas, y la lectura pasa por los motores integrados (Athena, Glue, Redshift), que reciben de Lake Formation credenciales temporales limitadas a lo concedido. La concesión es por columna y por LF-Tag de capa (bronze, silver, gold), y el hybrid access mode mantiene los accesos IAM existentes durante la migración."
+      }
+    ],
+    "resultado": "Arquitectura y guías documentadas. Ejecución registrada hasta la Silver: ingreso total de 13.728,80 comprobado en Athena sobre la capa cruda, 8 pedidos en la Bronze y el job de la Silver ejecutado, con el recuento de la Silver aún por comprobar. Gold, orquestación, Redshift y gobernanza sin ejecución.",
+    "aprendizados": [
+      "En la ejecución, el catálogo dio más trabajo que el ETL. El Data Catalog es regional, así que una tabla que \"desaparece\" suele ser la consola en otra región; el crawler necesita las subcarpetas exactas; y los resultados de Athena necesitan un prefijo propio (athena-results/); si no, el crawler los cataloga como tabla."
+    ],
+    "tags": [
+      "Amazon S3",
+      "AWS Glue",
+      "PySpark",
+      "Apache Iceberg",
+      "Amazon Athena",
+      "Amazon Redshift",
+      "AWS Step Functions",
+      "Lake Formation"
+    ],
+    "diagrama": {
+      "alt": "Pipeline Medallón de ventas en AWS, como arquitectura documentada: los archivos pedidos.csv y clientes.json llegan a raw/ en Amazon S3; el Glue Crawler registra el esquema en el Data Catalog; jobs Glue en PySpark escriben Bronze y Silver en Parquet; la Gold es una tabla Iceberg actualizada por MERGE en Athena; el consumo pasa por Amazon Athena y por Redshift Serverless, que alimenta Power BI. AWS Step Functions encadena los jobs Glue de Bronze y Silver sin transportar datos, y Lake Formation, IAM y CloudWatch se ocupan del acceso y la supervisión. Ejecutado hasta la Silver; Gold, Redshift, Power BI, Step Functions, Lake Formation y CloudWatch solo documentados.",
+      "resumo": "Ejecutado hasta la Silver (archivos en raw/, jobs Glue que escriben Bronze y Silver); Gold en Iceberg, Redshift, Power BI, Step Functions, Lake Formation y CloudWatch están solo documentados.",
+      "etiqueta": "Estudio documentado",
+      "titulo": "AWS Lakehouse · S3 + Iceberg",
+      "forma": "trilha",
+      "controle": {
+        "titulo": "AWS Step Functions",
+        "nota": "StartJobRun .sync: job Bronze, después job Silver",
+        "resumo": "Standard, con Retry y Catch; el MERGE de la Gold se ejecuta en Athena",
+        "produto": "aws-step-functions",
+        "situacao": "documentado",
+        "orquestra": [2]
+      },
+      "zonas": [
+        {
+          "titulo": "Fuentes",
+          "papel": "fonte",
+          "nos": [
+            {
+              "tipo": "Archivos",
+              "titulo": "pedidos.csv y clientes.json",
+              "nota": "Ejemplo con 8 pedidos ficticios",
+              "icone": "document-text"
+            }
+          ],
+          "peso": 4
+        },
+        {
+          "titulo": "Ingesta",
+          "papel": "ingestao",
+          "nos": [
+            {
+              "tipo": "Landing",
+              "titulo": "Amazon S3 raw/",
+              "nota": "Una subcarpeta por dataset",
+              "produto": "aws-s3",
+              "ligaAoProximo": true
+            },
+            {
+              "tipo": "Catálogo",
+              "titulo": "Glue Crawler",
+              "nota": "Esquema en el Data Catalog",
+              "produto": "aws-glue"
+            }
+          ],
+          "empilhada": true,
+          "peso": 4
+        },
+        {
+          "titulo": "ETL",
+          "papel": "processamento",
+          "nos": [
+            {
+              "tipo": "PySpark",
+              "titulo": "Jobs Glue",
+              "nota": "Bronze y Silver · 2 workers G.1X",
+              "produto": "aws-glue"
+            }
+          ],
+          "peso": 3
+        },
+        {
+          "titulo": "Almacenamiento",
+          "papel": "armazenamento",
+          "nos": [
+            {
+              "tipo": "Lakehouse",
+              "titulo": "Amazon S3",
+              "nota": "Capas por prefijo",
+              "produto": "aws-s3",
+              "etapas": [
+                {
+                  "sigla": "BRZ",
+                  "titulo": "Bronze",
+                  "nota": "Parquet, fiel al origen",
+                  "icone": "archive"
+                },
+                {
+                  "sigla": "SLV",
+                  "titulo": "Silver",
+                  "nota": "Deduplicada y filtrada",
+                  "icone": "filter"
+                },
+                {
+                  "sigla": "GLD",
+                  "titulo": "Gold · Iceberg",
+                  "nota": "MERGE en Athena, commit atómico",
+                  "icone": "merge",
+                  "destaque": true,
+                  "situacao": "documentado"
+                }
+              ]
+            }
+          ],
+          "peso": 11
+        },
+        {
+          "titulo": "Consumo",
+          "papel": "consumo",
+          "empilhada": true,
+          "nos": [
+            {
+              "tipo": "SQL ad hoc",
+              "titulo": "Amazon Athena",
+              "nota": "Cobra por dato leído",
+              "produto": "aws-athena"
+            },
+            {
+              "tipo": "Data warehouse",
+              "titulo": "Redshift Serverless",
+              "nota": "Consultas de BI recurrentes",
+              "produto": "aws-redshift",
+              "situacao": "documentado",
+              "ligaAoProximo": true
+            },
+            {
+              "tipo": "Dashboards",
+              "titulo": "Power BI",
+              "nota": "Lee de Redshift",
+              "produto": "power-bi",
+              "situacao": "documentado"
+            }
+          ],
+          "peso": 4
+        }
+      ],
+      "governanca": {
+        "titulo": "Gobernanza y operación",
+        "itens": [
+          {
+            "nome": "Lake Formation",
+            "valor": "Acceso por columna y LF-Tags por capa",
+            "produto": "aws-lake-formation",
+            "situacao": "documentado"
+          },
+          {
+            "nome": "IAM",
+            "valor": "Usuario con MFA y perfil por servicio",
+            "produto": "aws-iam"
+          },
+          {
+            "nome": "CloudWatch",
+            "valor": "Logs de los jobs y alarma de fallo",
+            "produto": "aws-cloudwatch",
+            "situacao": "documentado"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "id": "case-fiscal-orchestration",
+    "area": "power-platform",
+    "status": {
+      "variante": "done",
+      "rotulo": "Entregado"
+    },
+    "natureza": "Proyecto corporativo | repositorio con la arquitectura objetivo",
+    "titulo": "Orquestación de Procesamiento Fiscal",
+    "descricao": "El operador importa la hoja de cálculo fiscal en una aplicación Power Apps Canvas. Un cloud flow lee el archivo; la aplicación muestra la vista previa, separa las filas con error y guarda las válidas en Dataverse, en lotes (uno por establecimiento), con cada factura identificada por clave propia. Al cerrar el lote, la aplicación deja en él tres estados que lo marcan como listo. El orquestador, un cloud flow de activación manual, toma un lote listo e inicia un robot Power Automate Desktop desatendido, que procesa las facturas del lote en el portal nacional de NFS-e. El contrato de estados prevé que el robot devuelva el resultado al lote. El operador sigue los estados en la aplicación.",
+    "escopo": "lo que se describe aquí es la versión en producción: un robot desatendido, lotes seleccionados por tres estados y deduplicación por clave de factura. El repositorio público es la arquitectura objetivo de la próxima evolución, reconstruida sin datos de cliente: reserva de lote con plazo, workers por categoría de portal, evidencias protegidas y liberación automática de una ejecución bloqueada. Nada en él se exportó del entorno real.",
+    "escopoRotulo": "Declaración de alcance:",
+    "papel": "Con mi equipo, hice la importación, la aplicación en Power Apps, el modelo de datos en Dataverse y el contrato de estados con el robot. El orquestador y el robot son de otro equipo, el de automatización; frente a ellos, respondí por lo que la aplicación entrega y por lo que el robot lee.",
+    "decisoes": [
+      {
+        "titulo": "Clave alternativa por factura, sin el período fiscal.",
+        "texto": "La deduplicación queda en la factura (fecha de emisión, establecimiento, proveedor y número), y no en el archivo ni en el lote. Reimportar la misma hoja de cálculo no duplica facturas. El período fiscal quedó fuera de la clave porque no viene de la fila de la factura: se indica en la importación, y la misma factura importada con otro período se convertiría en duplicado."
+      },
+      {
+        "titulo": "Guardado desde la aplicación, después de la vista previa.",
+        "texto": "La aplicación guarda lotes y facturas con Patch, en lugar del flujo de guardado en el servidor, que quedó en borrador. La vista previa muestra las filas antes de guardar, y una factura con error no llega a Dataverse. La contrapartida es la pantalla ocupada mientras se guarda un lote grande."
+      },
+      {
+        "titulo": "Tres estados por lote.",
+        "texto": "Antes había un estado por importación, con la lista de lotes en un campo de texto que superaba el límite de 500 caracteres. Ahora cada lote tiene los suyos: la aplicación lo cierra con estructura concluida, procesamiento concluido y registro pendiente, y el orquestador solo selecciona ese trío. El contrato prevé que el robot, al terminar, marque el registro como concluido; del lado del robot, ese retorno aún no se ha implementado."
+      },
+      {
+        "titulo": "Payload solo con el lote y el entorno.",
+        "texto": "El orquestador pasa al robot el nombre del lote y el entorno, y el robot busca las facturas por el vínculo con el lote, en lugar de recibirlas en la llamada."
+      }
+    ],
+    "resultado": "En producción: importación desde la aplicación, lotes y facturas en Dataverse, lotes listos procesados por el robot y estados de los lotes en la pantalla del operador. El volumen y el tiempo de ciclo no se publican.",
+    "aprendizados": [
+      "Entre dos equipos, tres estados acordados por lote alinearon más que el documento de arquitectura: el robot que entró en producción era más simple que el diseño, y el contrato siguió vigente.",
+      "Dos activaciones seguidas toman el mismo lote: el filtro de los tres estados trae solo el primero, y el estado solo cambia cuando el lote termina. Un lote a la vez basta con un robot y una activación a la vez; con concurrencia, entra la reserva con plazo de la arquitectura objetivo."
+    ],
+    "tags": [
+      "Power Apps Canvas",
+      "Dataverse",
+      "Power Automate",
+      "Power Automate Desktop",
+      "Idempotencia"
+    ],
+    "diagrama": {
+      "alt": "Arquitectura en producción de la orquestación fiscal: el operador importa la hoja de cálculo en Power Apps, que valida las filas en la vista previa y guarda lotes y facturas en Dataverse, con clave por factura y tres estados por lote. El orquestador, un cloud flow de activación manual del equipo de automatización, toma un lote listo e inicia el robot Power Automate Desktop desatendido, que procesa las facturas en el portal nacional de NFS-e. El retorno del resultado al lote está previsto en el contrato de estados y aún no se ha implementado en el robot.",
+      "resumo": "Los tres estados del lote en Dataverse son el contrato entre los dos equipos: la aplicación deja el lote listo, el orquestador lo selecciona y el retorno del robot al lote está previsto, todavía sin implementar.",
+      "etiqueta": "En producción",
+      "titulo": "Lotes, orquestador y robot",
+      "forma": "trilha",
+      "controle": {
+        "titulo": "Orquestador",
+        "nota": "Cloud flow del equipo de automatización, con activación manual: toma un lote listo por los tres estados e inicia el robot",
+        "resumo": "Pasa al robot solo el nombre del lote y el entorno",
+        "produto": "power-automate",
+        "orquestra": [1, 2]
+      },
+      "zonas": [
+        {
+          "titulo": "Importación",
+          "papel": "fonte",
+          "nos": [
+            {
+              "tipo": "Canvas · mi equipo",
+              "titulo": "Power Apps",
+              "nota": "Lee la hoja de cálculo, valida en la vista previa y guarda las facturas válidas",
+              "produto": "power-apps"
+            }
+          ]
+        },
+        {
+          "titulo": "Cola",
+          "papel": "armazenamento",
+          "nos": [
+            {
+              "tipo": "Dataverse · mi equipo",
+              "titulo": "Lotes y facturas",
+              "nota": "Clave por factura; tres estados por lote",
+              "produto": "dataverse",
+              "destaque": true
+            }
+          ]
+        },
+        {
+          "titulo": "Ejecución",
+          "papel": "processamento",
+          "nos": [
+            {
+              "tipo": "Otro equipo · desatendido",
+              "titulo": "Robot Power Automate Desktop",
+              "nota": "Un robot; procesa las facturas del lote",
+              "produto": "power-automate",
+              "externo": true
+            }
+          ]
+        },
+        {
+          "titulo": "Portal",
+          "papel": "externo",
+          "nos": [
+            {
+              "tipo": "Sistema externo",
+              "titulo": "Portal nacional de NFS-e",
+              "nota": "Se accede por el navegador del robot",
+              "icone": "globe",
+              "externo": true
+            }
+          ]
+        }
+      ],
+      "retorno": {
+        "titulo": "Retorno del estado",
+        "nos": [
+          {
+            "tipo": "Robot",
+            "titulo": "Devuelve el resultado",
+            "nota": "Marca el registro del lote como concluido",
+            "produto": "power-automate",
+            "externo": true
+          },
+          {
+            "tipo": "Dataverse",
+            "titulo": "Lote concluido",
+            "nota": "Sale de la selección del orquestador",
+            "produto": "dataverse"
+          },
+          {
+            "tipo": "Power Apps",
+            "titulo": "El operador ve el resultado",
+            "nota": "En la pantalla de procesamientos de la aplicación",
+            "produto": "power-apps"
+          }
+        ],
+        "situacao": "previsto"
+      },
+      "governanca": {
+        "titulo": "Protecciones por etapa",
+        "itens": [
+          {
+            "nome": "Idempotencia",
+            "valor": "Clave alternativa por factura: reimportar no duplica",
+            "icone": "arrow-sync-checkmark"
+          },
+          {
+            "nome": "Contrato",
+            "valor": "Tres estados por lote le dicen al orquestador qué está listo",
+            "icone": "document-text"
+          },
+          {
+            "nome": "Resiliencia",
+            "valor": "El robot repite la etapa que falló hasta 5 intentos. Un lote con fallo vuelve en la próxima activación y, como la consulta no ordena, un lote que siempre falla puede bloquear la cola",
+            "icone": "arrow-clockwise"
+          },
+          {
+            "nome": "Seguridad",
+            "valor": "Payload solo con el nombre del lote y el entorno, sin credencial",
+            "icone": "shield-lock"
+          }
+        ]
+      }
+    },
+    "repositorio": "https://github.com/IldeanFreitas/fiscal-process-orchestrator-case"
+  },
+  {
+    "id": "case-rpa-oidc",
+    "area": "power-platform",
+    "status": {
+      "variante": "done",
+      "rotulo": "Entregado"
+    },
+    "natureza": "Proyecto corporativo | caso anonimizado",
+    "titulo": "RPA de autenticación OTP y persistencia OIDC",
+    "descricao": "Robot en Power Automate Desktop que renueva tokens OIDC para múltiples cuentas. Usa HTTP donde existe API y recurre al navegador solo para login, OTP y captura del token; entrega el token al servicio de tokens de otro equipo, que lo mantiene con TTL, y comprueba la escritura volviendo a leerlo.",
+    "escopo": "en producción, después de validarse de extremo a extremo en homologación, con procesamiento multicuenta, fallos aislados por cuenta y clasificación operativa de errores. El caso público preserva la anonimización de entornos, portales, endpoints y credenciales.",
+    "escopoRotulo": "Evidencias y límites:",
+    "decisoes": [
+      {
+        "titulo": "HTTP donde existe API, navegador solo donde no existe.",
+        "texto": "Autenticación OAuth2, lista de cuentas, consulta del OTP y escritura del token son llamadas HTTP; el navegador entra para login, OTP y lectura del localStorage. Cada paso fuera de él es un paso que no se rompe cuando el portal cambia una clase CSS."
+      },
+      {
+        "titulo": "Fallo aislado por cuenta.",
+        "texto": "Cada cuenta se ejecuta en un bloque de manejo de errores: una contraseña inválida o un OTP ausente no interrumpe la ronda, y el resumen final clasifica los fallos por causa."
+      },
+      {
+        "titulo": "Comprobación después de escribir.",
+        "texto": "Después del PUT, un GET confirma que el token quedó legible para las integraciones: la persistencia solo cuenta cuando se vuelve a leer."
+      }
+    ],
+    "resultado": "En producción. En la validación en homologación, la ronda cubrió unas doce cuentas, con un ciclo de aproximadamente 70 segundos por cuenta. El volumen real en producción no se publica.",
+    "aprendizados": [
+      "Con ROPG bloqueado, token nacido en el navegador y OTP de ventana corta, solo hay un orden posible (login, desafío, consulta e introducción del código), y el flujo entero se diseñó a partir de él.",
+      "Mapear en la validación lo que la API ya resolvía dejó la mitad de los pasos fuera del navegador."
+    ],
+    "tags": [
+      "Power Automate Desktop",
+      "JavaScript",
+      "OAuth2 / OIDC",
+      "REST",
+      "Automatización de navegador",
+      "Node.js + jsdom"
+    ],
+    "diagrama": {
+      "alt": "Diagrama de tres zonas de la automatización OIDC. A la izquierda, el servicio de tokens de otro equipo, con proveedor OAuth2, API de cuentas y OTP y caché con TTL. En el centro, el robot en Power Automate Desktop, de activación manual, con log por ejecución y secreto en variable sensible. A la derecha, un portal externo en el navegador con login, desafío OTP y localStorage. Diez etapas numeradas alternan llamadas HTTP e interacciones en el navegador; tres restricciones explican por qué no hay una solución solo por API.",
+      "resumo": "El paso 6 define el proyecto: el código de verificación solo aparece en la API después de que el login en el navegador ya se envió.",
+      "etiqueta": "RPA de autenticación con OTP",
+      "titulo": "Anatomía de una cuenta",
+      "subtitulo": "Ciclo de aproximadamente 70 segundos por cuenta",
+      "forma": "rpa-detailed",
+      "zonas": {
+        "servico": {
+          "externo": true,
+          "icone": "cloud",
+          "subtitulo": "Red interna",
+          "tipo": "Sistema externo",
+          "titulo": "Servicio de tokens de otro equipo",
+          "nota": "Recibe el token y lo mantiene con TTL",
+          "itens": [
+            {
+              "titulo": "Proveedor OAuth2",
+              "nota": "Credenciales de servicio",
+              "icone": "key"
+            },
+            {
+              "titulo": "API de cuentas y OTP",
+              "nota": "Cuentas, código y comprobación",
+              "icone": "plug-connected"
+            },
+            {
+              "titulo": "Caché con TTL",
+              "nota": "Entrega el token a las integraciones",
+              "icone": "database"
+            }
+          ]
+        },
+        "portal": {
+          "externo": true,
+          "icone": "window",
+          "subtitulo": "Navegador",
+          "tipo": "Sistema externo",
+          "titulo": "Portal externo",
+          "nota": "Donde ocurre la autenticación",
+          "itens": [
+            {
+              "titulo": "Pantalla de login",
+              "nota": "Sesión y credenciales",
+              "icone": "password"
+            },
+            {
+              "titulo": "Pantalla del código",
+              "nota": "Desafío OTP con seis campos",
+              "icone": "dialpad"
+            },
+            {
+              "titulo": "localStorage",
+              "nota": "Donde el SDK escribe el OIDC",
+              "icone": "storage"
+            }
+          ]
+        }
+      },
+      "robo": {
+        "produto": "power-automate",
+        "subtitulo": "Robot",
+        "tipo": "Automatización de escritorio",
+        "titulo": "Power Automate Desktop",
+        "nota": "Main y ocho subflujos, una cuenta a la vez",
+        "subfluxos": [
+          "Main",
+          "Autenticar API",
+          "Buscar cuentas",
+          "Login en el portal",
+          "Resolver OTP",
+          "Capturar OIDC",
+          "Persistir token",
+          "Log y manejo de errores"
+        ],
+        "operacao": [
+          {
+            "titulo": "Activación manual",
+            "nota": "Ronda iniciada por quien opera el robot",
+            "icone": "cursor-click"
+          },
+          {
+            "titulo": "Log por ejecución",
+            "nota": "Una línea por cuenta, fallo clasificado por causa",
+            "icone": "document-text"
+          },
+          {
+            "titulo": "Secreto en variable sensible",
+            "nota": "Fuera del log y del panel de variables",
+            "icone": "eye-off"
+          }
+        ],
+        "rodape": "Manejo de errores por cuenta · un fallo no interrumpe la ronda"
+      },
+      "chamadas": [
+        {
+          "numero": "1",
+          "meio": "http",
+          "rotulo": "POST de autenticación",
+          "nota": "Client credentials"
+        },
+        {
+          "numero": "2",
+          "meio": "http",
+          "rotulo": "GET de la lista de cuentas",
+          "nota": "OTP inicialmente vacío"
+        },
+        {
+          "numero": "3",
+          "meio": "navegador",
+          "rotulo": "Cierra la sesión anterior",
+          "nota": "Limpieza antes del login"
+        },
+        {
+          "numero": "4",
+          "meio": "navegador",
+          "rotulo": "Usuario y contraseña",
+          "nota": "Interacción con la pantalla"
+        },
+        {
+          "numero": "5",
+          "meio": "navegador",
+          "rotulo": "Pantalla del código",
+          "nota": "Seis campos de OTP"
+        },
+        {
+          "numero": "6",
+          "meio": "http",
+          "rotulo": "GET de la lista de cuentas",
+          "nota": "OTP completado tras el desafío · polling controlado",
+          "destaque": true
+        },
+        {
+          "numero": "7",
+          "meio": "navegador",
+          "rotulo": "Introduce y confirma el OTP",
+          "nota": "Espera los redirects"
+        },
+        {
+          "numero": "8",
+          "meio": "navegador",
+          "rotulo": "Lee la clave OIDC",
+          "nota": "Captura en el localStorage"
+        },
+        {
+          "numero": "9",
+          "meio": "http",
+          "rotulo": "PUT del token",
+          "nota": "Payload normalizado · confirmación 204"
+        },
+        {
+          "numero": "10",
+          "meio": "http",
+          "rotulo": "GET de comprobación",
+          "nota": "Registro legible · confirmación 200"
+        }
+      ],
+      "restricoes": [
+        {
+          "titulo": "ROPG bloqueado",
+          "nota": "Sin autenticación directa por API",
+          "icone": "shield-dismiss"
+        },
+        {
+          "titulo": "El token nace en el navegador",
+          "nota": "El SDK lo escribe en el localStorage",
+          "icone": "window"
+        },
+        {
+          "titulo": "El OTP solo existe en el desafío",
+          "nota": "Código disponible durante una ventana corta",
+          "icone": "timer"
+        }
+      ],
+      "janelas": [
+        {
+          "titulo": "Código disponible en la API",
+          "valor": "aprox. 30 s",
+          "icone": "timer"
+        },
+        {
+          "titulo": "auth_time aceptado en la escritura",
+          "valor": "30 min",
+          "icone": "clock"
+        },
+        {
+          "titulo": "Validez del token OIDC",
+          "valor": "pocas horas",
+          "icone": "history"
+        }
+      ]
+    }
+  }
+]

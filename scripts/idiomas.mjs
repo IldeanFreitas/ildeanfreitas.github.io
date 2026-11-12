@@ -137,8 +137,15 @@ export function validarIdiomas(
       );
     if (typeof idioma.lang === 'string' && !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(idioma.lang))
       problemas.push(`${onde}: lang "${idioma.lang}" não é uma etiqueta BCP 47 (ex.: "pt-BR")`);
-    if (typeof idioma.ogLocale === 'string' && !/^[a-z]{2,3}_[A-Z]{2}$/.test(idioma.ogLocale))
-      problemas.push(`${onde}: ogLocale "${idioma.ogLocale}" fora do formato "pt_BR"`);
+    // Região: duas letras (ISO 3166, "pt_BR") ou três dígitos (UN M.49, "es_419":
+    // América Latina e Caribe), para idioma que não é de um país só.
+    if (
+      typeof idioma.ogLocale === 'string' &&
+      !/^[a-z]{2,3}_(?:[A-Z]{2}|\d{3})$/.test(idioma.ogLocale)
+    )
+      problemas.push(
+        `${onde}: ogLocale "${idioma.ogLocale}" fora do formato "pt_BR" (ou "es_419", com região numérica)`
+      );
     if (idioma.padrao !== undefined && typeof idioma.padrao !== 'boolean')
       problemas.push(`${onde}: "padrao" precisa ser true ou false`);
     if (!ehObjeto(idioma.interface)) problemas.push(`${onde}: bloco "interface" ausente`);

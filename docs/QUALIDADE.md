@@ -52,7 +52,8 @@ costuma falhar:
   nomes dos idiomas no menu (elementos com `lang` próprio) ficam de fora.
   O teste lê a home de cada idioma, com as quatro abas. **Os `app.html` dos
   apps e dos painéis não entram**: são em português por decisão, e as páginas
-  dos outros idiomas avisam ("The demo apps are in Portuguese."). As páginas
+  dos outros idiomas avisam ("The demo apps are in Portuguese.", "Las
+  aplicaciones de demostración están en portugués."). As páginas
   de app e de painel também não: o roteiro de teste de cada uma cita os
   rótulos do app em português, com a tradução entre parênteses.
 - **Paridade estrutural dos cases** (`tests/unidade/idiomas.unit.mjs`): os

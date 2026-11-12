@@ -179,6 +179,19 @@ test('o dicionário dos diagramas tem as mesmas chaves em todos os idiomas', () 
   assert.deepEqual(conferirDicionario(codigos, PADRAO.codigo), []);
 });
 
+test('ogLocale aceita região de duas letras ou numérica (UN M.49) e recusa o resto', () => {
+  for (const valido of ['es_ES', 'es_419', 'fil_PH']) {
+    const lista = base();
+    lista[1].ogLocale = valido;
+    assert.equal(validarIdiomas(lista, tudoExiste)[1].ogLocale, valido);
+  }
+  for (const invalido of ['es', 'es-419', 'es_41', 'es_4190', 'es_es', 'ES_419', 'es_4A9']) {
+    const lista = base();
+    lista[1].ogLocale = invalido;
+    deveFalhar(lista, tudoExiste, /ogLocale ".*" fora do formato/);
+  }
+});
+
 test('ogLocale repetido falha, com os dois idiomas nomeados', () => {
   const lista = base();
   lista[1].ogLocale = 'pt_BR';

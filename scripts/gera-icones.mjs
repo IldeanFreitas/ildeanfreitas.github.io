@@ -38,6 +38,14 @@ const EN = {
   sub: 'Data & AI Engineer. Architecture, technical decisions and cases with real status.',
   tags: TAGS
 };
+const ES = {
+  eyebrow: 'Ingeniería de Datos + Power Platform + IA aplicada',
+  linha1: 'El puente entre el proceso',
+  linha2: 'y el',
+  destaque: 'dato confiable',
+  sub: 'Data & AI Engineer. Arquitectura, decisiones técnicas y casos con estado real.',
+  tags: TAGS
+};
 
 /* Texto da imagem de compartilhamento por código de idioma. O arquivo de
  * destino sai da configuração (og-image.png no padrão, og-image-<código>.png
@@ -51,7 +59,7 @@ const EN = {
  * A configuração é lida SEM exigir o PNG do idioma (exigirImagem: false):
  * este script é quem cria esse arquivo, e exigi-lo trancaria o idioma novo.
  * O build, o sitemap e o lint de HTML continuam exigindo. */
-const TEXTOS = { pt: PT, en: EN };
+const TEXTOS = { pt: PT, en: EN, es: ES };
 const IDIOMAS = lerIdiomasOuSair({ exigirImagem: false });
 const semTexto = IDIOMAS.filter((idioma) => !TEXTOS[idioma.codigo]).map((i) => i.codigo);
 if (semTexto.length) {

@@ -727,7 +727,13 @@ for (const idioma of OUTROS) {
  */
 const REGRAS_DE_IDIOMA = {
   // Inglês não usa nenhuma letra acentuada.
-  en: { letras: /[À-ÖØ-öø-ÿ]/, lugares: ['Marabá', 'Pará', 'Brasília'] }
+  en: { letras: /[À-ÖØ-öø-ÿ]/, lugares: ['Marabá', 'Pará', 'Brasília'] },
+  // Espanhol usa á é í ó ú ü ñ; não usa til em vogal, cedilha, circunflexo
+  // nem acento grave. As palavras-função do PT-BR (PALAVRAS_DO_PT_BR, abaixo)
+  // não existem em espanhol ("não" é "no", "uma" é "una", "onde" é "donde"),
+  // então o piso padrão vale. Os topônimos da página (Marabá, Pará, Brasília)
+  // só têm letras que o espanhol usa e dispensam `lugares`.
+  es: { letras: /[ãõçâêôàèìòù]/i }
 };
 
 const PALAVRAS_DO_PT_BR =

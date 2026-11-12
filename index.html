@@ -21,11 +21,13 @@
 <link rel="canonical" href="https://ildeanfreitas.github.io/">
 <link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/">
 <link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/">
+<link rel="alternate" hreflang="es" href="https://ildeanfreitas.github.io/es/">
 <link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/">
 
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="es_LA">
 <meta property="og:site_name" content="Ildean Freitas">
 <meta property="og:title" content="Ildean Freitas — Data &amp; AI Engineer | Engenharia de Dados, Power Platform e IA aplicada">
 <meta property="og:description" content="Arquitetura, decisões técnicas e cases documentados. Cada projeto leva um selo que diz até onde chegou.">
@@ -471,6 +473,15 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   text-decoration:underline;text-decoration-color:var(--accent-solid);
   text-decoration-thickness:.06em;text-underline-offset:.12em;text-decoration-skip-ink:none
 }
+/* O destaque não quebra no meio: onde não cabe no resto da linha, desce
+   inteiro para a seguinte ("dato confiable" e "dado confiável" se partiam em
+   duas linhas, com o sublinhado em dois pedaços, a 375, a 768 e de 980 a
+   1280px; "trustworthy data", de 1440px em diante). Onde já cabia, nada muda.
+   Só a partir de 345px: abaixo disso o destaque mais largo ("trustworthy
+   data", 301px) não cabe nos 280px úteis de uma tela de 320px, e ali ele
+   continua podendo quebrar. Medido de 345 a 1920px nos três idiomas: sem
+   rolagem lateral e a pelo menos 72px do painel ao lado. */
+@media (min-width:345px){.hero__title em{white-space:nowrap}}
 /* Um acento por vista. O protagonista do hero é o botão principal (lime
    sólido, herdado de .btn--primary): é a ação da página. O realce do h1 fica
    sutil -- texto na cor do título, só um sublinhado fino em lime. Etiqueta,
@@ -1288,6 +1299,7 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
       <ul class="idiomas__lista">
         <li><a class="idiomas__link" aria-current="page" href="/" hreflang="pt-BR" lang="pt-BR">Português</a></li>
         <li><a class="idiomas__link" href="/en/" hreflang="en" lang="en">English</a></li>
+        <li><a class="idiomas__link" href="/es/" hreflang="es" lang="es">Español</a></li>
       </ul>
     </details>
 
@@ -2245,6 +2257,7 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
       <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (abre em nova aba)</span></a></li>
       <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (abre em nova aba)</span></a></li>
       <li><a href="/en/" hreflang="en" lang="en">English</a></li>
+      <li><a href="/es/" hreflang="es" lang="es">Español</a></li>
       <li><a href="#inicio">Topo</a></li>
     </ul>
   </div>

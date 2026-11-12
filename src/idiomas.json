@@ -21,5 +21,16 @@
     "interface": {
       "escolherIdioma": "choose language"
     }
+  },
+  {
+    "codigo": "es",
+    "lang": "es",
+    "ogLocale": "es_LA",
+    "rotulo": "Español",
+    "sigla": "ES",
+    "caminho": "/es/",
+    "interface": {
+      "escolherIdioma": "elegir idioma"
+    }
   }
 ]

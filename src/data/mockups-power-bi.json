@@ -2,18 +2,25 @@
   {
     "slug": "varejo",
     "empresa": "Esquadro",
-    "segmento": { "pt": "Varejo", "en": "Retail" },
+    "segmento": {
+      "pt": "Varejo",
+      "en": "Retail",
+      "es": "Comercio minorista"
+    },
     "titulo": {
       "pt": "Rede de lojas que cresce, mas não bate a meta",
-      "en": "A store chain that grows but misses its target"
+      "en": "A store chain that grows but misses its target",
+      "es": "Cadena de tiendas que crece, pero no alcanza la meta"
     },
     "dor": {
       "pt": "A Esquadro tem 12 lojas de material de construção em 4 regionais. A receita sobe contra o ano anterior, mas parte das lojas fica abaixo da meta e a margem de algumas categorias cai sem que ninguém veja a tempo.",
-      "en": "Esquadro runs 12 building-supply stores in 4 regions. Revenue is up on last year, but some stores miss their target and the margin of some categories drops before anyone notices."
+      "en": "Esquadro runs 12 building-supply stores in 4 regions. Revenue is up on last year, but some stores miss their target and the margin of some categories drops before anyone notices.",
+      "es": "Esquadro tiene 12 tiendas de materiales de construcción en 4 regiones. Los ingresos suben frente al año anterior, pero parte de las tiendas queda por debajo de la meta y el margen de algunas categorías cae sin que nadie lo vea a tiempo."
     },
     "solucao": {
       "pt": "Painel comercial com receita contra ano anterior e meta, gap por loja, curva ABC, margem por categoria e participação do e-commerce. A meta não existe por produto nem por canal, e o painel mostra n/d nesses recortes em vez de inventar o número.",
-      "en": "A sales dashboard with revenue against last year and target, gap by store, ABC curve, margin by category and the e-commerce share. The target does not exist by product or channel, so the dashboard shows n/d in those cuts instead of making up a number."
+      "en": "A sales dashboard with revenue against last year and target, gap by store, ABC curve, margin by category and the e-commerce share. The target does not exist by product or channel, so the dashboard shows n/d in those cuts instead of making up a number.",
+      "es": "Panel comercial con ingresos frente al año anterior y a la meta, brecha por tienda, curva ABC, margen por categoría y participación del comercio electrónico. La meta no existe por producto ni por canal, y el panel muestra n/d en esos desgloses en lugar de inventar la cifra."
     },
     "tags": ["Executiva", "Parâmetro de campo", "RLS"],
     "passos": {
@@ -26,24 +33,36 @@
         "On the cover, click Abrir o relatório (open the report) and read the Leitura e ação (reading and action) strip on Visão geral (overview).",
         "On Lojas e regionais (stores and regions), right-click a store and open Detalhe da loja (store detail, a drill-through); use Voltar (back).",
         "In Ver como (view as), pick Gerente de loja (Sabiá) and open Como seria no Power BI (how it would be in Power BI) to see each visual's measure."
+      ],
+      "es": [
+        "En la portada, haz clic en Abrir o relatório (abrir el informe) y lee la franja Leitura e ação (lectura y acción) de Visão geral (visión general).",
+        "En Lojas e regionais (tiendas y regiones), haz clic con el botón derecho en una tienda y abre Detalhe da loja (detalle de la tienda, un drill-through); usa Voltar (volver).",
+        "En Ver como, elige Gerente de loja (gerente de tienda, Sabiá) y abre Como seria no Power BI (cómo sería en Power BI) para ver la medida de cada visual."
       ]
     }
   },
   {
     "slug": "mineracao",
     "empresa": "Cota Zero",
-    "segmento": { "pt": "Mineração", "en": "Mining" },
+    "segmento": {
+      "pt": "Mineração",
+      "en": "Mining",
+      "es": "Minería"
+    },
     "titulo": {
       "pt": "Mina que perde toneladas sem saber em qual frente",
-      "en": "A mine losing tonnes without knowing at which pit face"
+      "en": "A mine losing tonnes without knowing at which pit face",
+      "es": "Mina que pierde toneladas sin saber en qué frente"
     },
     "dor": {
       "pt": "A Cota Zero opera 2 cavas e 6 frentes de lavra. O plano do mês fecha abaixo do previsto e a reunião de turno discute a média, não a frente, o equipamento ou o dia em que o teor saiu do controle.",
-      "en": "Cota Zero runs 2 pits and 6 mining faces. The monthly plan closes short and the shift meeting talks about the average, not the face, the equipment or the day the ore grade went out of control."
+      "en": "Cota Zero runs 2 pits and 6 mining faces. The monthly plan closes short and the shift meeting talks about the average, not the face, the equipment or the day the ore grade went out of control.",
+      "es": "Cota Zero opera 2 tajos y 6 frentes de explotación. El plan del mes cierra por debajo de lo previsto y la reunión de turno discute el promedio, no el frente, el equipo o el día en que la ley salió de control."
     },
     "solucao": {
       "pt": "Painel operacional com produção contra plano por frente, disponibilidade e utilização da frota, motivos de parada e carta de controle do teor com limites pela amplitude móvel. Cada ponto fora do limite leva à ficha do equipamento ou ao dia.",
-      "en": "An operations dashboard with output against plan by face, fleet availability and utilization, downtime reasons and an ore-grade control chart with moving-range limits. Each out-of-limit point leads to the equipment record or the day."
+      "en": "An operations dashboard with output against plan by face, fleet availability and utilization, downtime reasons and an ore-grade control chart with moving-range limits. Each out-of-limit point leads to the equipment record or the day.",
+      "es": "Panel operativo con producción frente al plan por frente, disponibilidad y utilización de la flota, motivos de parada y gráfico de control de la ley con límites por el rango móvil. Cada punto fuera del límite lleva a la ficha del equipo o al día."
     },
     "tags": ["Operacional", "Carta de controle", "Cascata"],
     "passos": {
@@ -56,24 +75,36 @@
         "Open the report and, on Visão da operação (operations overview), click a face in the waterfall to filter the other pages.",
         "On Teor e qualidade (grade and quality), hover over the out-of-limit points of the control chart.",
         "In Ver como (view as), pick Supervisor do turno B (shift B supervisor) and watch the plan turn into n/d, explained in the Como seria no Power BI (how it would be in Power BI) panel."
+      ],
+      "es": [
+        "Abre el informe y, en Visão da operação (visión de la operación), haz clic en un frente de la cascada para filtrar las otras páginas.",
+        "En Teor e qualidade (ley y calidad), pasa el cursor por los puntos fuera del límite del gráfico de control.",
+        "En Ver como, elige Supervisor do turno B (supervisor del turno B) y mira cómo el plan pasa a n/d, con la explicación en el panel Como seria no Power BI (cómo sería en Power BI)."
       ]
     }
   },
   {
     "slug": "manutencao",
     "empresa": "Sextante Industrial",
-    "segmento": { "pt": "Indústria", "en": "Manufacturing" },
+    "segmento": {
+      "pt": "Indústria",
+      "en": "Manufacturing",
+      "es": "Industria"
+    },
     "titulo": {
       "pt": "Carteira de manutenção que envelhece sem dono",
-      "en": "A maintenance backlog that ages with no owner"
+      "en": "A maintenance backlog that ages with no owner",
+      "es": "Cartera de mantenimiento que envejece sin responsable"
     },
     "dor": {
       "pt": "A Sextante tem 2 plantas e 48 ativos. As ordens de serviço vencidas se acumulam em algumas áreas, a preventiva escorrega para o mês seguinte e o MTTR é discutido sem separar o reparo da espera.",
-      "en": "Sextante has 2 plants and 48 assets. Overdue work orders pile up in some areas, preventive work slips to the next month, and MTTR is discussed without separating repair time from waiting time."
+      "en": "Sextante has 2 plants and 48 assets. Overdue work orders pile up in some areas, preventive work slips to the next month, and MTTR is discussed without separating repair time from waiting time.",
+      "es": "Sextante tiene 2 plantas y 48 activos. Las órdenes de trabajo vencidas se acumulan en algunas áreas, la preventiva se pospone al mes siguiente y el MTTR se discute sin separar la reparación de la espera."
     },
     "solucao": {
       "pt": "Painel de manutenção com carteira por idade, OS vencidas por área e equipe, prazo por prioridade, MTTR, MTBF e disponibilidade, aderência da preventiva e custo por tipo de OS. A carteira é um retrato no último dia selecionado.",
-      "en": "A maintenance dashboard with backlog by age, overdue work orders by area and crew, due-date compliance by priority, MTTR, MTBF and availability, preventive compliance and cost by work-order type. The backlog is a snapshot on the last selected day."
+      "en": "A maintenance dashboard with backlog by age, overdue work orders by area and crew, due-date compliance by priority, MTTR, MTBF and availability, preventive compliance and cost by work-order type. The backlog is a snapshot on the last selected day.",
+      "es": "Panel de mantenimiento con cartera por antigüedad, OT vencidas por área y equipo, plazo por prioridad, MTTR, MTBF y disponibilidad, cumplimiento de la preventiva y costo por tipo de OT. La cartera es una foto del último día seleccionado."
     },
     "tags": ["Operacional", "Drill-through", "Top N"],
     "passos": {
@@ -86,24 +117,36 @@
         "Open the report and, on Carteira de OS (work-order backlog), click the filter button in the Leitura e ação (reading and action) strip.",
         "On Confiabilidade (reliability), right-click an asset in the scatter chart and open Ficha do ativo (asset record).",
         "In Ver como (view as), pick Líder da equipe Elétrica (electrical crew lead) and see which measures fall outside that access."
+      ],
+      "es": [
+        "Abre el informe y, en Carteira de OS (cartera de órdenes de trabajo), haz clic en Filtrar en el botón de la franja Leitura e ação (lectura y acción).",
+        "En Confiabilidade (confiabilidad), haz clic con el botón derecho en un activo del gráfico de dispersión y abre Ficha do ativo (ficha del activo).",
+        "En Ver como, elige Líder da equipe Elétrica (líder del equipo eléctrico) y mira qué medidas quedan fuera del acceso."
       ]
     }
   },
   {
     "slug": "financeiro",
     "empresa": "Zênite Atacadista",
-    "segmento": { "pt": "Financeiro", "en": "Finance" },
+    "segmento": {
+      "pt": "Financeiro",
+      "en": "Finance",
+      "es": "Finanzas"
+    },
     "titulo": {
       "pt": "Caixa do atacado apertado pela cobrança",
-      "en": "A wholesaler's cash squeezed by collections"
+      "en": "A wholesaler's cash squeezed by collections",
+      "es": "Caja del mayorista presionada por la cobranza"
     },
     "dor": {
       "pt": "A Zênite vende a prazo por 3 filiais. Quando os clientes atrasam, o caixa do mês fecha negativo e a empresa passa a pagar fornecedores fora do vencimento, sem uma visão única do que entra e sai nos próximos 30 dias.",
-      "en": "Zênite sells on credit through 3 branches. When customers pay late, the month's cash goes negative and the company starts paying suppliers after the due date, with no single view of what comes in and goes out over the next 30 days."
+      "en": "Zênite sells on credit through 3 branches. When customers pay late, the month's cash goes negative and the company starts paying suppliers after the due date, with no single view of what comes in and goes out over the next 30 days.",
+      "es": "Zênite vende a crédito a través de 3 sucursales. Cuando los clientes se atrasan, la caja del mes cierra en negativo y la empresa empieza a pagar a los proveedores fuera del vencimiento, sin una visión única de lo que entra y sale en los próximos 30 días."
     },
     "solucao": {
       "pt": "Painel financeiro com contas a receber e a pagar por faixa de atraso, caixa projetado por janela de vencimento, prazo médio de recebimento, pagamento em dia por mês e previsto contra realizado por filial.",
-      "en": "A finance dashboard with receivables and payables by days past due, projected cash by due-date window, days sales outstanding, on-time payment by month and forecast against actual by branch."
+      "en": "A finance dashboard with receivables and payables by days past due, projected cash by due-date window, days sales outstanding, on-time payment by month and forecast against actual by branch.",
+      "es": "Panel financiero con cuentas por cobrar y por pagar por tramo de atraso, caja proyectada por ventana de vencimiento, plazo medio de cobro, pago al día por mes y previsto frente a real por sucursal."
     },
     "tags": ["Financeira", "Aging", "Previsto x realizado"],
     "passos": {
@@ -116,24 +159,36 @@
         "Open the report and, on Posição financeira (financial position), look at the projected cash for the next 30 days.",
         "On Contas a pagar (payables), read the Leitura e ação (reading and action) strip: it names the month with the lowest on-time payment and that month's cash.",
         "In Ver como (view as), pick Analista de cobrança (collections analyst) and check that payables and forecast are outside that access."
+      ],
+      "es": [
+        "Abre el informe y, en Posição financeira (posición financiera), mira la caja proyectada a 30 días.",
+        "En Contas a pagar (cuentas por pagar), lee la franja Leitura e ação (lectura y acción): cita el mes con menos pagos al día y la caja de ese mes.",
+        "En Ver como, elige Analista de cobrança (analista de cobranza) y comprueba que las cuentas por pagar y lo previsto quedan fuera del acceso."
       ]
     }
   },
   {
     "slug": "safe",
     "empresa": "Aldrava Tecnologia",
-    "segmento": { "pt": "Tecnologia", "en": "Technology" },
+    "segmento": {
+      "pt": "Tecnologia",
+      "en": "Technology",
+      "es": "Tecnología"
+    },
     "titulo": {
       "pt": "Trens ágeis que planejam mais do que entregam",
-      "en": "Agile release trains that plan more than they deliver"
+      "en": "Agile release trains that plan more than they deliver",
+      "es": "Trenes ágiles que planifican más de lo que entregan"
     },
     "dor": {
       "pt": "A Aldrava organiza o desenvolvimento em trens e times com SAFe. Os times seguem sobrecarregados, os riscos ficam sem resolução e uma dependência atrasada de um trem segura a entrega de outros.",
-      "en": "Aldrava organizes development into trains and teams with SAFe. Teams stay overloaded, risks stay unresolved and a late dependency from one train holds back the delivery of others."
+      "en": "Aldrava organizes development into trains and teams with SAFe. Teams stay overloaded, risks stay unresolved and a late dependency from one train holds back the delivery of others.",
+      "es": "Aldrava organiza el desarrollo en trenes y equipos con SAFe. Los equipos siguen sobrecargados, los riesgos quedan sin resolver y una dependencia atrasada de un tren frena la entrega de otros."
     },
     "solucao": {
       "pt": "Painel de entrega com previsibilidade por PI, velocidade e carga sem as iterações de inovação e planejamento, matriz de risco ROAM e a matriz de quem atrasa quem entre trens, com o efeito do bloqueio na previsibilidade.",
-      "en": "A delivery dashboard with predictability by PI, velocity and load excluding innovation and planning iterations, a ROAM risk matrix and a who-delays-whom matrix between trains, with the effect of blockers on predictability."
+      "en": "A delivery dashboard with predictability by PI, velocity and load excluding innovation and planning iterations, a ROAM risk matrix and a who-delays-whom matrix between trains, with the effect of blockers on predictability.",
+      "es": "Panel de entrega con previsibilidad por PI, velocidad y carga sin las iteraciones de innovación y planificación, matriz de riesgo ROAM y la matriz de quién atrasa a quién entre trenes, con el efecto del bloqueo en la previsibilidad."
     },
     "tags": ["Executiva", "SAFe", "Matriz"],
     "passos": {
@@ -146,24 +201,36 @@
         "Open the report and, on Riscos (risks), find the supplying train with the most late dependencies in the Quem atrasa quem (who delays whom) matrix.",
         "On Capacidade (capacity), look at load by iteration, with innovation and planning iterations left blank.",
         "In Ver como (view as), pick Líder do Time Zeta (Team Zeta lead) and open Como seria no Power BI (how it would be in Power BI) to see how the profile limits risks."
+      ],
+      "es": [
+        "Abre el informe y, en Riscos (riesgos), busca el tren proveedor con más dependencias atrasadas en la matriz Quem atrasa quem (quién atrasa a quién).",
+        "En Capacidade (capacidad), mira la carga por iteración con las iteraciones de innovación y planificación en blanco.",
+        "En Ver como, elige Líder do Time Zeta (líder del Equipo Zeta) y abre Como seria no Power BI (cómo sería en Power BI) para ver cómo el perfil limita los riesgos."
       ]
     }
   },
   {
     "slug": "gas",
     "empresa": "Enseada Gás",
-    "segmento": { "pt": "Energia", "en": "Energy" },
+    "segmento": {
+      "pt": "Energia",
+      "en": "Energy",
+      "es": "Energía"
+    },
     "titulo": {
       "pt": "Balanço de gás que não fecha em dias seguidos",
-      "en": "A gas balance that fails to close on consecutive days"
+      "en": "A gas balance that fails to close on consecutive days",
+      "es": "Balance de gas que no cierra durante días seguidos"
     },
     "dor": {
       "pt": "A Enseada recebe gás de 4 origens e entrega a 4 segmentos. Por 16 dias seguidos o balanço entre o que entrou, o que saiu, as perdas e o empacotamento ficou fora da tolerância, e a causa só aparece cruzando a origem com o dia.",
-      "en": "Enseada receives gas from 4 sources and delivers to 4 segments. For 16 days in a row the balance between what came in, what went out, losses and line pack was out of tolerance, and the cause only shows when the source is crossed with the day."
+      "en": "Enseada receives gas from 4 sources and delivers to 4 segments. For 16 days in a row the balance between what came in, what went out, losses and line pack was out of tolerance, and the cause only shows when the source is crossed with the day.",
+      "es": "Enseada recibe gas de 4 orígenes y lo entrega a 4 segmentos. Durante 16 días seguidos el balance entre lo que entró, lo que salió, las pérdidas y el empaque de línea quedó fuera de la tolerancia, y la causa solo aparece al cruzar el origen con el día."
     },
     "solucao": {
       "pt": "Painel temporal com volume diário, cascata do balanço do recebido até a diferença não explicada, dias acima da capacidade por origem, sazonalidade por segmento e a parte de cada origem na janela dos dias fora.",
-      "en": "A time-based dashboard with daily volume, a balance waterfall from receipts to the unexplained difference, days above capacity by source, seasonality by segment and each source's share in the out-of-tolerance window."
+      "en": "A time-based dashboard with daily volume, a balance waterfall from receipts to the unexplained difference, days above capacity by source, seasonality by segment and each source's share in the out-of-tolerance window.",
+      "es": "Panel temporal con volumen diario, cascada del balance desde lo recibido hasta la diferencia no explicada, días por encima de la capacidad por origen, estacionalidad por segmento y la parte de cada origen en la ventana de los días fuera de tolerancia."
     },
     "tags": ["Temporal", "Cascata", "Navegador de indicadores"],
     "passos": {
@@ -176,24 +243,36 @@
         "On the cover, click Ir ao balanço de abril e maio (go to the April and May balance).",
         "On Balanço (balance), read the waterfall and hover over the last step, the unexplained difference.",
         "In Ver como (view as), pick Gerente regional Vargem (Vargem regional manager) and see the notice that replaces the visuals outside that access."
+      ],
+      "es": [
+        "En la portada, haz clic en Ir ao balanço de abril e maio (ir al balance de abril y mayo).",
+        "En Balanço (balance), lee la cascada y pasa el cursor por el último escalón, la diferencia no explicada.",
+        "En Ver como, elige Gerente regional Vargem (gerente regional de Vargem) y mira el aviso que sustituye a los visuales sin acceso."
       ]
     }
   },
   {
     "slug": "seguros",
     "empresa": "Baluarte Seguros",
-    "segmento": { "pt": "Seguros", "en": "Insurance" },
+    "segmento": {
+      "pt": "Seguros",
+      "en": "Insurance",
+      "es": "Seguros"
+    },
     "titulo": {
       "pt": "Seguradora com exceções de alçada concentradas",
-      "en": "An insurer with approval-limit exceptions in one place"
+      "en": "An insurer with approval-limit exceptions in one place",
+      "es": "Aseguradora con excepciones de autorización concentradas"
     },
     "dor": {
       "pt": "A Baluarte vende 4 ramos por filiais. Descontos fora da alçada, sinistros que passam do prazo de regulação e achados de auditoria vencidos se concentram em poucos lugares, mas o relatório mensal mostra só a média da rede.",
-      "en": "Baluarte sells 4 lines of insurance through branches. Discounts above the approval limit, claims past the settlement deadline and overdue audit findings are concentrated in a few places, but the monthly report shows only the network average."
+      "en": "Baluarte sells 4 lines of insurance through branches. Discounts above the approval limit, claims past the settlement deadline and overdue audit findings are concentrated in a few places, but the monthly report shows only the network average.",
+      "es": "Baluarte vende 4 ramos a través de sucursales. Los descuentos fuera del nivel de autorización, los siniestros que superan el plazo de liquidación y los hallazgos de auditoría vencidos se concentran en pocos lugares, pero el informe mensual muestra solo el promedio de la red."
     },
     "solucao": {
       "pt": "Painel de governança com taxa de exceção por filial e ramo, desconto dentro e fora da alçada, sinistralidade de exemplo, sinistros atrasados por mês e achados de auditoria por faixa de atraso e gravidade.",
-      "en": "A governance dashboard with exception rate by branch and line, discount inside and above the approval limit, an example loss ratio, late claims by month and audit findings by days overdue and severity."
+      "en": "A governance dashboard with exception rate by branch and line, discount inside and above the approval limit, an example loss ratio, late claims by month and audit findings by days overdue and severity.",
+      "es": "Panel de gobernanza con tasa de excepción por sucursal y ramo, descuento dentro y fuera del nivel de autorización, siniestralidad de ejemplo, siniestros atrasados por mes y hallazgos de auditoría por tramo de atraso y gravedad."
     },
     "tags": ["Governança", "Menu lateral", "RLS"],
     "passos": {
@@ -206,24 +285,36 @@
         "On the cover, click Ir ao ponto crítico: Serra (go to the critical point: Serra).",
         "On Sinistros (claims), click a month with delays and watch the other visuals filter.",
         "In Ver como (view as), pick Analista de sinistros Auto (motor claims analyst) and open Como seria no Power BI (how it would be in Power BI) to see the access rule by line."
+      ],
+      "es": [
+        "En la portada, haz clic en Ir ao ponto crítico: Serra (ir al punto crítico: Serra).",
+        "En Sinistros (siniestros), haz clic en un mes con atraso y mira cómo se filtran los otros visuales.",
+        "En Ver como, elige Analista de sinistros Auto (analista de siniestros de automóviles) y abre Como seria no Power BI (cómo sería en Power BI) para ver la regla de acceso por ramo."
       ]
     }
   },
   {
     "slug": "inspecao-via",
     "empresa": "Ferrovia Taboquara",
-    "segmento": { "pt": "Infraestrutura", "en": "Infrastructure" },
+    "segmento": {
+      "pt": "Infraestrutura",
+      "en": "Infrastructure",
+      "es": "Infraestructura"
+    },
     "titulo": {
       "pt": "Defeitos de via vistos trecho a trecho",
-      "en": "Track defects seen section by section"
+      "en": "Track defects seen section by section",
+      "es": "Defectos de vía vistos tramo a tramo"
     },
     "dor": {
       "pt": "A Taboquara inspeciona 3 linhas em trechos de 10 km. Defeitos abertos, restrições de velocidade e inspeções atrasadas ficam em planilhas por supervisão, sem uma visão da malha que mostre onde a via se desgasta mais do que a carga explica.",
-      "en": "Taboquara inspects 3 lines in 10 km sections. Open defects, speed restrictions and late inspections sit in spreadsheets per supervision area, with no network view of where the track wears more than the traffic explains."
+      "en": "Taboquara inspects 3 lines in 10 km sections. Open defects, speed restrictions and late inspections sit in spreadsheets per supervision area, with no network view of where the track wears more than the traffic explains.",
+      "es": "Taboquara inspecciona 3 líneas en tramos de 10 km. Los defectos abiertos, las restricciones de velocidad y las inspecciones atrasadas están en hojas de cálculo por supervisión, sin una visión de la red que muestre dónde la vía se desgasta más de lo que la carga explica."
     },
     "solucao": {
       "pt": "Painel geográfico com diagrama linear da malha, defeitos por severidade e prazo, aderência das inspeções por tipo e supervisão e defeitos por carga em MGT por trecho, com a ficha de cada trecho.",
-      "en": "A geographic dashboard with a straight-line diagram of the network, defects by severity and deadline, inspection compliance by type and supervision area, and defects per MGT of traffic by section, with a record for each section."
+      "en": "A geographic dashboard with a straight-line diagram of the network, defects by severity and deadline, inspection compliance by type and supervision area, and defects per MGT of traffic by section, with a record for each section.",
+      "es": "Panel geográfico con diagrama lineal de la red, defectos por severidad y plazo, cumplimiento de las inspecciones por tipo y supervisión y defectos por carga en MGT por tramo, con la ficha de cada tramo."
     },
     "tags": ["Geográfica", "Diagrama linear", "Trilho de ícones"],
     "passos": {
@@ -236,24 +327,36 @@
         "Open the report and, on Malha (network), click a section of the diagram to see its status.",
         "On Carga e desgaste (traffic and wear), look for sections above what their traffic predicts.",
         "In Ver como (view as), pick Inspetor do Ramal Porto (Porto branch inspector) and watch the dashboard narrow to that branch line."
+      ],
+      "es": [
+        "Abre el informe y, en Malha (red), haz clic en un tramo del diagrama para ver su situación.",
+        "En Carga e desgaste (carga y desgaste), busca los tramos por encima de lo esperado para la carga.",
+        "En Ver como, elige Inspetor do Ramal Porto (inspector del Ramal Porto) y mira cómo el panel se restringe al ramal."
       ]
     }
   },
   {
     "slug": "clinicas",
     "empresa": "Olmara Clínicas",
-    "segmento": { "pt": "Saúde", "en": "Healthcare" },
+    "segmento": {
+      "pt": "Saúde",
+      "en": "Healthcare",
+      "es": "Salud"
+    },
     "titulo": {
       "pt": "Agenda cheia, mas paciente que falta",
-      "en": "A full schedule, but patients who do not show up"
+      "en": "A full schedule, but patients who do not show up",
+      "es": "Agenda llena, pero pacientes que faltan"
     },
     "dor": {
       "pt": "A Olmara tem unidades e especialidades com agenda própria. As faltas sobem numa unidade, a espera longa aumenta o absenteísmo e os retornos indicados não acontecem em 30 dias, sem que a gestão veja onde agir.",
-      "en": "Olmara has units and specialties with their own schedules. No-shows rise at one unit, long waits drive absenteeism up and recommended follow-ups do not happen within 30 days, while management cannot see where to act."
+      "en": "Olmara has units and specialties with their own schedules. No-shows rise at one unit, long waits drive absenteeism up and recommended follow-ups do not happen within 30 days, while management cannot see where to act.",
+      "es": "Olmara tiene unidades y especialidades con agenda propia. Las ausencias suben en una unidad, la espera larga aumenta la inasistencia y las consultas de seguimiento indicadas no se realizan en 30 días, sin que la gestión vea dónde actuar."
     },
     "solucao": {
       "pt": "Painel temporal com ocupação da agenda, destino de cada vaga, absenteísmo por espera, canal e especialidade e retorno em 30 dias, comparando o ano com o anterior. Só agregados fictícios, sem dado de paciente.",
-      "en": "A time-based dashboard with schedule occupancy, what happened to each slot, absenteeism by waiting time, channel and specialty, and 30-day follow-up, comparing the year with the previous one. Fictitious aggregates only, no patient data."
+      "en": "A time-based dashboard with schedule occupancy, what happened to each slot, absenteeism by waiting time, channel and specialty, and 30-day follow-up, comparing the year with the previous one. Fictitious aggregates only, no patient data.",
+      "es": "Panel temporal con ocupación de la agenda, destino de cada horario, inasistencia por espera, canal y especialidad y seguimiento en 30 días, que compara el año con el anterior. Solo agregados ficticios, sin datos de pacientes."
     },
     "tags": ["Temporal", "Ano contra ano", "Múltiplos pequenos"],
     "passos": {
@@ -266,24 +369,36 @@
         "On the cover, click Ir ao ponto crítico: Norte (go to the critical point: Norte).",
         "On Absenteísmo (absenteeism), click a waiting-time band and watch no-shows by channel change.",
         "In Ver como (view as), pick Coordenação de Dermatologia (dermatology coordination) and open Como seria no Power BI (how it would be in Power BI)."
+      ],
+      "es": [
+        "En la portada, haz clic en Ir ao ponto crítico: Norte (ir al punto crítico: Norte).",
+        "En Absenteísmo (inasistencia), haz clic en un tramo de espera y mira cómo cambian las ausencias por canal.",
+        "En Ver como, elige Coordenação de Dermatologia (coordinación de Dermatología) y abre Como seria no Power BI (cómo sería en Power BI)."
       ]
     }
   },
   {
     "slug": "atendimento-ti",
     "empresa": "Centro Universitário Arandela",
-    "segmento": { "pt": "Educação", "en": "Education" },
+    "segmento": {
+      "pt": "Educação",
+      "en": "Education",
+      "es": "Educación"
+    },
     "titulo": {
       "pt": "SLA de TI que cai na matrícula",
-      "en": "An IT service level that drops during enrollment"
+      "en": "An IT service level that drops during enrollment",
+      "es": "SLA de TI que cae en la matrícula"
     },
     "dor": {
       "pt": "A Arandela atende chamados de TI e manifestações de ouvidoria em vários campi. Na matrícula o SLA cai, a fila envelhece, a satisfação despenca nos chamados fora do prazo e as manifestações sobre TI sobem logo depois.",
-      "en": "Arandela handles IT tickets and ombudsman complaints across several campuses. During enrollment the service level drops, the queue ages, satisfaction falls on tickets past the deadline and complaints about IT rise right after."
+      "en": "Arandela handles IT tickets and ombudsman complaints across several campuses. During enrollment the service level drops, the queue ages, satisfaction falls on tickets past the deadline and complaints about IT rise right after.",
+      "es": "Arandela atiende tickets de TI y solicitudes de defensoría en varios campus. En la matrícula el SLA cae, la cola envejece, la satisfacción se desploma en los tickets fuera de plazo y las solicitudes sobre TI suben poco después."
     },
     "solucao": {
       "pt": "Painel de qualidade de serviço com SLA por mês e equipe, fila por prioridade e idade, satisfação por canal e prazo e ouvidoria respondida no prazo por campus e assunto, com denúncias em sigilo.",
-      "en": "A service-quality dashboard with service level by month and team, queue by priority and age, satisfaction by channel and deadline, and ombudsman responses on time by campus and subject, with whistleblower reports kept confidential."
+      "en": "A service-quality dashboard with service level by month and team, queue by priority and age, satisfaction by channel and deadline, and ombudsman responses on time by campus and subject, with whistleblower reports kept confidential.",
+      "es": "Panel de calidad de servicio con SLA por mes y equipo, cola por prioridad y antigüedad, satisfacción por canal y plazo y defensoría respondida en plazo por campus y asunto, con denuncias bajo reserva."
     },
     "tags": ["Qualidade de serviço", "SLA", "Abas"],
     "passos": {
@@ -296,6 +411,11 @@
         "On the cover, click Ir ao ponto crítico: matrícula de julho e agosto (go to the critical point: July and August enrollment).",
         "On Fila e prioridade (queue and priority), click a priority and see the overdue queue.",
         "In Ver como (view as), pick Líder da equipe de Sistemas (systems team lead) and watch the ombudsman data drop out of that access."
+      ],
+      "es": [
+        "En la portada, haz clic en Ir ao ponto crítico: matrícula de julho e agosto (ir al punto crítico: matrícula de julio y agosto).",
+        "En Fila e prioridade (cola y prioridad), haz clic en una prioridad y mira la cola vencida.",
+        "En Ver como, elige Líder da equipe de Sistemas (líder del equipo de Sistemas) y mira cómo la defensoría sale del acceso."
       ]
     }
   }
