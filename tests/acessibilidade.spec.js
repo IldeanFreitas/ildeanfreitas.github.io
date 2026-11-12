@@ -1,13 +1,27 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { emCadaAba } from './apoio-abas.js';
+import { lerIdiomas } from '../scripts/idiomas.mjs';
 
 /**
  * Portão de acessibilidade. Roda nos dois temas: o tema claro recalcula o
  * acento para #4a5600 justamente por causa de contraste, e uma regressão ali
  * não apareceria na varredura do tema escuro.
+ *
+ * Os idiomas vêm de src/idiomas.json. O idioma padrão passa nos dois temas;
+ * os outros, no escuro (o CSS é o mesmo; o que muda entre idiomas é texto,
+ * atributo de idioma e comprimento de rótulo).
  */
 const PADROES = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
+const IDIOMAS = lerIdiomas();
+const PADRAO = IDIOMAS.find((idioma) => idioma.padrao);
+const OUTROS = IDIOMAS.filter((idioma) => !idioma.padrao);
+
+async function violacoes(page) {
+  const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
+  // Mensagem legível no log em vez de um objeto cru enorme.
+  return violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
+}
 
 /**
  * Desliga as transições antes de medir. O tema muda por `data-theme` e os links
@@ -22,14 +36,19 @@ async function semTransicoes(page) {
 
 for (const tema of ['dark', 'light']) {
   test(`index sem violações de acessibilidade — tema ${tema}`, async ({ page }) => {
-    await page.goto('/');
+    await page.goto(PADRAO.caminho);
     await semTransicoes(page);
     await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
+    const resumo = await violacoes(page);
+    expect(resumo, resumo.join('\n')).toEqual([]);
+  });
+}
 
-    const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
-
-    // Mensagem legível no log em vez de um objeto cru enorme.
-    const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
+for (const idioma of OUTROS) {
+  test(`versão ${idioma.lang} sem violações de acessibilidade`, async ({ page }) => {
+    await page.goto(idioma.caminho);
+    await semTransicoes(page);
+    const resumo = await violacoes(page);
     expect(resumo, resumo.join('\n')).toEqual([]);
   });
 }
@@ -39,37 +58,49 @@ for (const tema of ['dark', 'light']) {
  * vez: sem este teste, três das quatro abas (e os diagramas de Engenharia de
  * Dados) ficariam fora da varredura.
  */
-for (const [pagina, rota, tema] of [
-  ['pt', '/', 'dark'],
-  ['pt', '/', 'light'],
-  ['en', '/en/', 'dark']
-]) {
-  test(`${pagina}: cada aba da seção Cases sem violações — tema ${tema}`, async ({ page }) => {
-    // Quatro varreduras do axe num teste só: com a suíte inteira em paralelo,
-    // passava dos 30 s padrão no desktop (tempo, não violação).
-    test.slow();
-    await page.goto(rota);
-    await semTransicoes(page);
-    await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
-    const resumo = [];
-    await emCadaAba(page, async (painel) => {
-      const { violations } = await new AxeBuilder({ page })
-        .include('#cases')
-        .withTags(PADROES)
-        .analyze();
-      resumo.push(...violations.map((v) => `${painel}: ${v.id} (${v.nodes.length}x): ${v.help}`));
+for (const idioma of IDIOMAS) {
+  for (const tema of idioma.padrao ? ['dark', 'light'] : ['dark']) {
+    test(`${idioma.codigo}: cada aba da seção Cases sem violações — tema ${tema}`, async ({
+      page
+    }) => {
+      // Quatro varreduras do axe num teste só: com a suíte inteira em paralelo,
+      // passava dos 30 s padrão no desktop (tempo, não violação).
+      test.slow();
+      await page.goto(idioma.caminho);
+      await semTransicoes(page);
+      await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
+      const resumo = [];
+      await emCadaAba(page, async (painel) => {
+        const { violations } = await new AxeBuilder({ page })
+          .include('#cases')
+          .withTags(PADROES)
+          .analyze();
+        resumo.push(...violations.map((v) => `${painel}: ${v.id} (${v.nodes.length}x): ${v.help}`));
+      });
+      expect(resumo, resumo.join('\n')).toEqual([]);
     });
-    expect(resumo, resumo.join('\n')).toEqual([]);
-  });
+  }
 }
 
-test('versão em inglês sem violações de acessibilidade', async ({ page }) => {
-  await page.goto('/en/');
-  await semTransicoes(page);
-  const { violations } = await new AxeBuilder({ page }).withTags(PADROES).analyze();
-  const resumo = violations.map((v) => `${v.id} (${v.nodes.length}x): ${v.help}`);
-  expect(resumo, resumo.join('\n')).toEqual([]);
-});
+/**
+ * O menu de idiomas aberto: o painel sobrepõe o hero e tem links com `lang`
+ * de outro idioma. Fechado, o axe nem enxerga o conteúdo do <details>.
+ */
+for (const idioma of IDIOMAS) {
+  for (const tema of idioma.padrao ? ['dark', 'light'] : ['dark']) {
+    test(`menu de idiomas aberto sem violações — ${idioma.lang}, tema ${tema}`, async ({
+      page
+    }) => {
+      await page.goto(idioma.caminho);
+      await semTransicoes(page);
+      await page.evaluate((t) => document.documentElement.setAttribute('data-theme', t), tema);
+      await page.locator('#idiomas > summary').click();
+      await expect(page.locator('#idiomas .idiomas__lista')).toBeVisible();
+      const resumo = await violacoes(page);
+      expect(resumo, resumo.join('\n')).toEqual([]);
+    });
+  }
+}
 
 /**
  * Contraste medido à mão, e não é redundância com o axe.
@@ -134,7 +165,10 @@ const AMOSTRA = [
   '.tag',
   '.hero__desc',
   '.panel li',
-  '.status'
+  '.status',
+  // Cabeçalho: o botão e os links do menu de idiomas (aberto no teste).
+  '.idiomas__botao',
+  '.idiomas__link'
 ];
 
 for (const tema of ['dark', 'light']) {
@@ -147,6 +181,9 @@ for (const tema of ['dark', 'light']) {
     await page.evaluate(() =>
       document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible'))
     );
+    await page.evaluate(() => {
+      document.getElementById('idiomas').open = true;
+    });
 
     const reprovados = await page.evaluate((seletores) => {
       const lum = (cor) => {
@@ -176,22 +213,34 @@ for (const tema of ['dark', 'light']) {
        *    em `background-color`, e é justamente aí que o axe desiste. Como as
        *    superfícies deste site são gradientes de duas paradas, a média
        *    delas é uma aproximação boa o bastante para servir de portão.
+       * 3. `color-mix()` (fundo do cabeçalho) volta do navegador como
+       *    `color(srgb r g b / a)`, com canais de 0 a 1, e era lido como
+       *    quase preto. E um painel opaco com gradiente por cima (o menu de
+       *    idiomas) tem a cor sólida embaixo do gradiente, não a página.
        */
+      const canais = (cor) => {
+        const m = cor && cor.match(/[\d.]+/g);
+        if (!m || m.length < 3) return null;
+        const v = m.map(Number);
+        const escala = cor.startsWith('color(srgb') ? 255 : 1;
+        return { r: v[0] * escala, g: v[1] * escala, b: v[2] * escala, a: v.length > 3 ? v[3] : 1 };
+      };
       const camadaDe = (estilo) => {
         const grad = estilo.backgroundImage;
         const paradas = grad && grad !== 'none' ? grad.match(/rgba?\([^)]+\)/g) : null;
-        const cor = estilo.backgroundColor;
+        const cor = canais(estilo.backgroundColor);
 
         if (paradas && paradas.length) {
           const vals = paradas.map((p) => p.match(/[\d.]+/g).map(Number));
           const med = (i) => vals.reduce((s, v) => s + v[i], 0) / vals.length;
           const a = vals.reduce((s, v) => s + (v.length > 3 ? v[3] : 1), 0) / vals.length;
+          if (cor && cor.a >= 0.999) {
+            const sobre = (i, c) => a * med(i) + (1 - a) * c;
+            return { r: sobre(0, cor.r), g: sobre(1, cor.g), b: sobre(2, cor.b), a: 1 };
+          }
           return { r: med(0), g: med(1), b: med(2), a };
         }
-        const m = cor && cor.match(/[\d.]+/g);
-        if (!m) return null;
-        const a = m.length > 3 ? parseFloat(m[3]) : 1;
-        return a > 0 ? { r: +m[0], g: +m[1], b: +m[2], a } : null;
+        return cor && cor.a > 0 ? cor : null;
       };
 
       const fundoOpaco = (el) => {
@@ -234,36 +283,38 @@ for (const tema of ['dark', 'light']) {
   });
 }
 
-test('nenhum texto abaixo de 11px em nenhuma largura', async ({ page }) => {
-  // A avaliação de 2026-09-17 achou 155 dos 406 textos da página com menos
-  // de 10px — quase todos nos diagramas. Piso de 11.2px (0.7rem) em qualquer
-  // largura para rótulos; em telas estreitas os diagramas empilham e o texto
-  // corrido deles sobe para 12.8px (ver o bloco de 560px em diagrama.css).
-  await page.goto('/');
-  await page.evaluate(() =>
-    document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible'))
-  );
-  const piso = 11.1;
-  // Só o visível é medido; com JS a seção Cases mostra uma aba por vez, então
-  // a medida passa por todas.
-  const pequenos = new Set();
-  await emCadaAba(page, async () => {
-    const achados = await page.evaluate((min) => {
-      const folhas = [...document.querySelectorAll('main *')].filter(
-        (e) => !e.children.length && e.textContent.trim() && e.getBoundingClientRect().width > 0
-      );
-      return folhas
-        .map((e) => ({ tam: parseFloat(getComputedStyle(e).fontSize), e }))
-        .filter((x) => x.tam < min)
-        .map(
-          (x) =>
-            `${x.tam.toFixed(1)}px ${x.e.tagName}.${String(x.e.className).split(' ')[0]} "${x.e.textContent.trim().slice(0, 30)}"`
+for (const idioma of IDIOMAS) {
+  test(`nenhum texto abaixo de 11px em nenhuma largura, ${idioma.lang}`, async ({ page }) => {
+    // A avaliação de 2026-09-17 achou 155 dos 406 textos da página com menos
+    // de 10px — quase todos nos diagramas. Piso de 11.2px (0.7rem) em qualquer
+    // largura para rótulos; em telas estreitas os diagramas empilham e o texto
+    // corrido deles sobe para 12.8px (ver o bloco de 560px em diagrama.css).
+    await page.goto(idioma.caminho);
+    await page.evaluate(() =>
+      document.querySelectorAll('.reveal').forEach((e) => e.classList.add('is-visible'))
+    );
+    const piso = 11.1;
+    // Só o visível é medido; com JS a seção Cases mostra uma aba por vez, então
+    // a medida passa por todas.
+    const pequenos = new Set();
+    await emCadaAba(page, async () => {
+      const achados = await page.evaluate((min) => {
+        const folhas = [...document.querySelectorAll('main *')].filter(
+          (e) => !e.children.length && e.textContent.trim() && e.getBoundingClientRect().width > 0
         );
-    }, piso);
-    achados.forEach((a) => pequenos.add(a));
+        return folhas
+          .map((e) => ({ tam: parseFloat(getComputedStyle(e).fontSize), e }))
+          .filter((x) => x.tam < min)
+          .map(
+            (x) =>
+              `${x.tam.toFixed(1)}px ${x.e.tagName}.${String(x.e.className).split(' ')[0]} "${x.e.textContent.trim().slice(0, 30)}"`
+          );
+      }, piso);
+      achados.forEach((a) => pequenos.add(a));
+    });
+    expect([...pequenos].slice(0, 15), [...pequenos].join('\n')).toEqual([]);
   });
-  expect([...pequenos].slice(0, 15), [...pequenos].join('\n')).toEqual([]);
-});
+}
 
 test('404 sem violações de acessibilidade', async ({ page }) => {
   await page.goto('/404.html');
@@ -273,16 +324,18 @@ test('404 sem violações de acessibilidade', async ({ page }) => {
   expect(resumo, resumo.join('\n')).toEqual([]);
 });
 
-test('a hierarquia de títulos começa em h1 único', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('h1')).toHaveCount(1);
-});
+for (const idioma of IDIOMAS) {
+  test(`a hierarquia de títulos começa em h1 único, ${idioma.lang}`, async ({ page }) => {
+    await page.goto(idioma.caminho);
+    await expect(page.locator('h1')).toHaveCount(1);
+  });
 
-test('toda imagem tem texto alternativo', async ({ page }) => {
-  await page.goto('/');
-  const semAlt = await page.locator('img:not([alt])').count();
-  expect(semAlt).toBe(0);
-});
+  test(`toda imagem tem texto alternativo, ${idioma.lang}`, async ({ page }) => {
+    await page.goto(idioma.caminho);
+    const semAlt = await page.locator('img:not([alt])').count();
+    expect(semAlt).toBe(0);
+  });
+}
 
 test('a lista de definições do hero está na ordem da gramática', async ({ page }) => {
   // <dt> antes de <dd>: o leitor de tela anuncia o rótulo e depois o valor.

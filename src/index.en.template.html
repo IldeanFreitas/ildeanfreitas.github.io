@@ -8,7 +8,8 @@
   Where to edit:
     styles         src/css/          (order in src/css/ordem.json)
     behavior       src/js/
-    structure      src/index.en.template.html   (Portuguese version: src/index.template.html)
+    structure      src/index.en.template.html   (one template per language, same skeleton:
+                   src/index.<code>.template.html; list in src/idiomas.json)
 -->
 <html lang="en" data-theme="dark">
 <head>
@@ -17,19 +18,14 @@
 <title>Ildean Freitas — Data &amp; AI Engineer | Data Engineering, Power Platform and Applied AI</title>
 <meta name="description" content="Portfolio of Ildean Freitas, Data &amp; AI Engineer: pipelines, dimensional modeling, Power Platform and Applied AI. Architecture, technical decisions and documented cases, each with a badge that says how far it got.">
 <meta name="author" content="Ildean Freitas">
-<link rel="canonical" href="https://ildeanfreitas.github.io/en/">
-<link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/">
-<link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/">
-<link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/">
+<!--{{ IDIOMAS_LINKS }}-->
 
 <meta property="og:type" content="profile">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="pt_BR">
+<!--{{ IDIOMAS_OG_LOCALE }}-->
 <meta property="og:site_name" content="Ildean Freitas">
 <meta property="og:title" content="Ildean Freitas — Data &amp; AI Engineer | Data Engineering, Power Platform and Applied AI">
 <meta property="og:description" content="Architecture, technical decisions and documented cases. Every project carries a badge that says how far it got.">
-<meta property="og:url" content="https://ildeanfreitas.github.io/en/">
-<meta property="og:image" content="https://ildeanfreitas.github.io/assets/img/og-image-en.png">
+<!--{{ IDIOMAS_OG_URL }}-->
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Ildean Freitas, Data &amp; AI Engineer — the bridge between the process and trustworthy data. Data Engineering, Power Platform and Applied AI.">
@@ -103,9 +99,10 @@
       </ul>
     </nav>
 
-    <!-- A link, not a button: the Portuguese version is another page, built
-         at build time, so the content exists in the served HTML (SEO, no-JS). -->
-    <a class="icon-btn icon-btn--text lang-toggle" href="/" hreflang="pt-BR" lang="pt-BR" aria-label="PT — ler esta página em português">PT</a>
+    <!-- Language menu, built from src/idiomas.json. Each language is another
+         page, so the content exists in the served HTML (SEO, no-JS); the
+         menu is a <details> and opens without JavaScript. -->
+    <!--{{ IDIOMAS_MENU }}-->
 
     <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" data-abrir="Open menu" data-fechar="Close menu">
       <span class="sr-only" id="navToggleLabel">Open menu</span>
@@ -500,7 +497,7 @@
     <ul class="footer-links">
       <li><a href="https://www.linkedin.com/in/ildean-freitas-0aa7352b/" target="_blank" rel="noopener">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a></li>
       <li><a href="https://github.com/IldeanFreitas" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a></li>
-      <li><a href="/" hreflang="pt-BR" lang="pt-BR">Português</a></li>
+      <!--{{ IDIOMAS_RODAPE }}-->
       <li><a href="#inicio">Top</a></li>
     </ul>
   </div>

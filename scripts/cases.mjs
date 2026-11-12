@@ -1,5 +1,6 @@
 /**
- * Renderiza os cases a partir de src/data/cases.json (ou cases.en.json).
+ * Renderiza os cases a partir de src/data/cases.json (e de cases.<código>.json,
+ * um por idioma de src/idiomas.json).
  *
  * Roda em TEMPO DE BUILD, não no navegador. Montar os cases no cliente
  * resolveria a duplicação e destruiria o SEO: o conteúdo precisa estar no HTML
@@ -9,9 +10,9 @@
  * O texto dos cases vem do JSON; as poucas frases fixas dos diagramas (rótulos
  * de legenda, "Plano de controle", títulos de bloco) e o título e a abertura
  * de cada sessão da seção (ver AREAS) vêm do dicionário abaixo, escolhido pelo
- * idioma que o build passa. Assim a versão em inglês usa o
- * mesmo renderizador — e qualquer divergência estrutural entre as duas
- * páginas é impossível por construção.
+ * idioma que o build passa. Assim toda página de idioma usa o mesmo
+ * renderizador — e qualquer divergência estrutural entre elas é impossível
+ * por construção.
  */
 
 import { readFileSync } from 'node:fs';
@@ -22,11 +23,18 @@ import {
   avisoApps,
   cartaoApp,
   iconeTec,
+  nomeDaTecnologia,
   tecnologiaDe,
   tecsDoApp
 } from './demos.mjs';
+import { diferencasDeChaves } from './idiomas.mjs';
 
-const DICIONARIO = {
+/**
+ * Uma entrada por idioma de src/idiomas.json, com as mesmas chaves do idioma
+ * padrão em todos os níveis. O build confere (conferirDicionario, abaixo) e
+ * para se faltar idioma ou chave.
+ */
+export const DICIONARIO = {
   pt: {
     verRepositorio: 'Ver repositório e evidências',
     novaAba: '(abre em nova aba)',
@@ -170,6 +178,29 @@ const DICIONARIO = {
 
 let T = DICIONARIO.pt;
 let idiomaAtual = 'pt';
+
+/**
+ * Confere o dicionário contra a lista de idiomas: uma entrada para cada
+ * código e, em cada entrada, as mesmas chaves (recursivamente) que a do
+ * idioma padrão. Devolve a lista de problemas; vazia quando está tudo certo.
+ * Entrada de idioma que ainda não está na configuração não é problema: é o
+ * passo natural de quem prepara um idioma novo.
+ */
+export function conferirDicionario(codigos, padrao, dicionario = DICIONARIO) {
+  if (!Object.hasOwn(dicionario, padrao))
+    return [`DICIONARIO sem a entrada do idioma padrão "${padrao}"`];
+  const problemas = [];
+  for (const codigo of codigos) {
+    if (codigo === padrao) continue;
+    if (!Object.hasOwn(dicionario, codigo)) {
+      problemas.push(`DICIONARIO sem a entrada "${codigo}"`);
+      continue;
+    }
+    for (const diferenca of diferencasDeChaves(dicionario[padrao], dicionario[codigo]))
+      problemas.push(`DICIONARIO.${codigo}: ${diferenca} (comparado a "${padrao}")`);
+  }
+  return problemas;
+}
 
 /** Escapa o que vai para dentro de um atributo HTML. */
 const attr = (s) =>
@@ -382,8 +413,9 @@ export function spriteFluent(html) {
  * título traduzido ou reescrito não pode trocar o logotipo em silêncio.
  * ------------------------------------------------------------------------- */
 
-/* A marcação sai com caminho absoluto (/assets/...), comum a / e a /en/; o
- * build o reescreve como relativo por página (relativizar em build.mjs). */
+/* A marcação sai com caminho absoluto (/assets/...), comum a todas as páginas
+ * de idioma; o build o reescreve como relativo por página (relativizar em
+ * build.mjs). */
 const VENDOR = 'assets/icons/vendor';
 
 export const MARCAS = {
@@ -1138,7 +1170,7 @@ function modeloDosFiltros(area, { tecs, nDemos, nProjetos, segmentos }) {
     ...(tecs
       ? grupo('tecs', F.tecnologia, [
           botao('', F.todas, true),
-          ...tecs.map((k) => botao(k, `${iconeTec(k)}${texto(TECNOLOGIAS[k].nome)}`))
+          ...tecs.map((k) => botao(k, `${iconeTec(k)}${texto(nomeDaTecnologia(k, idiomaAtual))}`))
         ])
       : []),
     ...(nProjetos

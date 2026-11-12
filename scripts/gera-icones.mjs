@@ -1,6 +1,6 @@
 /* Gera favicon.ico, apple-touch-icon.png, as imagens de compartilhamento
- * (pt-BR e en) e o banner do README de perfil a partir da marca e dos tokens
- * do próprio site.
+ * (uma por idioma de src/idiomas.json) e o banner do README de perfil a
+ * partir da marca e dos tokens do próprio site.
  *
  *   node scripts/gera-icones.mjs                 # favicon, apple-touch-icon e OG
  *   node scripts/gera-icones.mjs --banner <png>  # só o banner 1280×400 do perfil
@@ -9,17 +9,61 @@
  * não injetadas com setContent(): a partir de about:blank o Chromium bloqueia
  * @font-face em file://, e o resultado saía em Segoe UI sem nenhum aviso. */
 import { chromium } from 'playwright';
-import { writeFile, readFile, mkdtemp, rm } from 'node:fs/promises';
+import { writeFile, readFile, mkdtemp } from 'node:fs/promises';
+import { rmSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
 import { tmpdir } from 'node:os';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { join } from 'node:path';
+import { lerIdiomasOuSair } from './idiomas.mjs';
 
 const RAIZ = fileURLToPath(new URL('..', import.meta.url));
 const args = process.argv.slice(2);
 const soBanner = args.indexOf('--banner');
+
+const TAGS = ['Databricks', 'dbt', 'Power BI', 'Power Apps'];
+const PT = {
+  eyebrow: 'Engenharia de Dados + Power Platform + IA aplicada',
+  linha1: 'A ponte entre o processo',
+  linha2: 'e o',
+  destaque: 'dado confiável',
+  sub: 'Data & AI Engineer. Arquitetura, decisões técnicas e cases com status real.',
+  tags: TAGS
+};
+const EN = {
+  eyebrow: 'Data Engineering + Power Platform + Applied AI',
+  linha1: 'The bridge between the process',
+  linha2: 'and',
+  destaque: 'trustworthy data',
+  sub: 'Data & AI Engineer. Architecture, technical decisions and cases with real status.',
+  tags: TAGS
+};
+
+/* Texto da imagem de compartilhamento por código de idioma. O arquivo de
+ * destino sai da configuração (og-image.png no padrão, og-image-<código>.png
+ * nos outros).
+ *
+ * Tudo o que pode parar o script (configuração inválida, idioma sem texto
+ * aqui) acontece ANTES de abrir o navegador e de criar a pasta temporária:
+ * um process.exit depois disso deixava um portfolio-og-* no tmpdir a cada
+ * tentativa.
+ *
+ * A configuração é lida SEM exigir o PNG do idioma (exigirImagem: false):
+ * este script é quem cria esse arquivo, e exigi-lo trancaria o idioma novo.
+ * O build, o sitemap e o lint de HTML continuam exigindo. */
+const TEXTOS = { pt: PT, en: EN };
+const IDIOMAS = lerIdiomasOuSair({ exigirImagem: false });
+const semTexto = IDIOMAS.filter((idioma) => !TEXTOS[idioma.codigo]).map((i) => i.codigo);
+if (semTexto.length) {
+  console.error(
+    `sem texto da imagem de compartilhamento para ${semTexto.join(', ')} (TEXTOS em scripts/gera-icones.mjs)`
+  );
+  process.exit(1);
+}
+
 const browser = await chromium.launch();
 const temp = await mkdtemp(join(tmpdir(), 'portfolio-og-'));
+process.on('exit', () => rmSync(temp, { recursive: true, force: true }));
 
 const MARCA = (tam) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${tam}" height="${tam}" viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#c4df00"/><g fill="#0b1200"><rect x="8" y="9" width="3.4" height="14" rx="1"/><rect x="15" y="9" width="3.4" height="14" rx="1"/><rect x="15" y="9" width="9" height="3.2" rx="1"/><rect x="15" y="14.6" width="7" height="3" rx="1"/></g></svg>`;
@@ -81,24 +125,6 @@ h1 em{font-style:normal;color:#c4df00}
 <div class="sub">${sub}</div>
 <div class="foot"><span>ildeanfreitas.github.io</span><div class="tags">${tags.map((t) => `<span>${t}</span>`).join('')}</div></div>
 </div></body></html>`;
-
-const TAGS = ['Databricks', 'dbt', 'Power BI', 'Power Apps'];
-const PT = {
-  eyebrow: 'Engenharia de Dados + Power Platform + IA aplicada',
-  linha1: 'A ponte entre o processo',
-  linha2: 'e o',
-  destaque: 'dado confiável',
-  sub: 'Data & AI Engineer. Arquitetura, decisões técnicas e cases com status real.',
-  tags: TAGS
-};
-const EN = {
-  eyebrow: 'Data Engineering + Power Platform + Applied AI',
-  linha1: 'The bridge between the process',
-  linha2: 'and',
-  destaque: 'trustworthy data',
-  sub: 'Data & AI Engineer. Architecture, technical decisions and cases with real status.',
-  tags: TAGS
-};
 
 if (soBanner >= 0) {
   const destino = args[soBanner + 1];
@@ -163,19 +189,13 @@ if (soBanner >= 0) {
   await writeFile(join(RAIZ, 'apple-touch-icon.png'), p180);
   console.log('favicon.ico (32+48) e apple-touch-icon.png (180) gerados');
 
-  await capturar(
-    composicao({ largura: 1200, altura: 630, escala: 1, ...PT }),
-    1200,
-    630,
-    join(RAIZ, 'assets/img/og-image.png')
-  );
-  await capturar(
-    composicao({ largura: 1200, altura: 630, escala: 1, ...EN }),
-    1200,
-    630,
-    join(RAIZ, 'assets/img/og-image-en.png')
-  );
+  for (const idioma of IDIOMAS)
+    await capturar(
+      composicao({ largura: 1200, altura: 630, escala: 1, ...TEXTOS[idioma.codigo] }),
+      1200,
+      630,
+      join(RAIZ, idioma.ogImagem)
+    );
 }
 
 await browser.close();
-await rm(temp, { recursive: true, force: true });

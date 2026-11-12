@@ -987,7 +987,7 @@ document.addEventListener("input",e=>{const t=e.target.closest("[data-live]");if
 document.addEventListener("change",e=>{const el=e.target;
  if(el.id==="perfil"){const id=el.value;if(S.busy){el.value=S.uid;toast("Aguarde a ação em andamento terminar antes de trocar de usuário.","err");return}if(!S.logged){S.cv=id;renderCover();return}const alvo=U(id);if(!alvo||!alvo.ativo){toast("Usuário inativo.","err");el.value=S.uid;return}if($("#modal").innerHTML){S.zsel=null;closeModal()}setUser(id);S.pq="";S.rd="";S.vw=false;S.more=false;S.tela=telaInicial();S.volta=S.tela;render(true);toast("Agora você é "+alvo.nome+" ("+PNOME[alvo.perfil]+").","info");return}
  if(el.dataset.fl){S[el.dataset.fl]=el.value;S.lim=25;render(false);const n=$("#"+el.id);if(n)n.focus();return}
- if(el.dataset.conf){if(S.perfil!=="Administrador")return;const k=el.dataset.conf;if(el.value)S.R.conf[k]=el.value;else delete S.R.conf[k];toast("Regra de conflito atualizada. Vale para as próximas liberações.");const idd=el.id;render(false);const n=$("#"+idd);if(n)n.focus()}});
+ if(el.dataset.conf){if(S.perfil!=="Administrador")return;const k=el.dataset.conf;if(el.value)S.R.conf[k]=el.value;else delete S.R.conf[k];toast("Regra de conflito atualizada. Válida para as próximas liberações.");const idd=el.id;render(false);const n=$("#"+idd);if(n)n.focus()}});
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;const p=$("#npop");if(p&&!p.hidden){p.hidden=true;const b=$("#hdr [data-act=bell]");if(b){b.setAttribute("aria-expanded","false");b.focus()}return}
  if(S.vw||S.more){const w=S.vw?"vw":"more";S.vw=false;S.more=false;renderCmd();const b=$("#cmd [data-act="+w+"]");if(b)b.focus();return}
  if($("#modal").innerHTML&&!S.busy){S.zsel=null;cancelModal()}});

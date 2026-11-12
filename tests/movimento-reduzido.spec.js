@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 import cases from '../src/data/cases.json' with { type: 'json' };
 import { abrirAbaDe } from './apoio-abas.js';
+import { lerIdiomas } from '../scripts/idiomas.mjs';
+
+/** O menu de idiomas existe em todas as páginas; cada uma entra nos testes dele. */
+const IDIOMAS = lerIdiomas();
 
 /**
  * Os diagramas animam a entrada (etapas acendendo, pulso nas conexões,
@@ -58,10 +62,58 @@ async function percorrerDiagramas(page) {
   return relatorio;
 }
 
+/**
+ * Abre o menu de idiomas e devolve o que está animando nele. Abre pela
+ * propriedade `open` e espera dois quadros dentro da própria página: abrir por
+ * clique e consultar depois deixaria a animação de 160 ms terminar antes da
+ * leitura, e o teste dependeria da velocidade da máquina.
+ */
+function abrirMenuDeIdiomas(page) {
+  return page.evaluate(async () => {
+    const menu = document.getElementById('idiomas');
+    menu.open = true;
+    await new Promise((fim) => requestAnimationFrame(() => requestAnimationFrame(fim)));
+    const alvos = [
+      menu.querySelector('summary'),
+      menu.querySelector('.idiomas__lista'),
+      ...menu.querySelectorAll('.idiomas__link')
+    ];
+    const segundos = (texto) => texto.split(',').map((valor) => parseFloat(valor) || 0);
+    return {
+      animacoes: menu.getAnimations({ subtree: true }).map((a) => ({
+        nome: a.animationName || a.transitionProperty,
+        duracao: Number(a.effect.getComputedTiming().duration)
+      })),
+      // Maior duração de transição e de animação declarada nos alvos, em ms.
+      transicaoMaxima:
+        Math.max(...alvos.flatMap((el) => segundos(getComputedStyle(el).transitionDuration))) *
+        1000,
+      animacaoDaLista: getComputedStyle(menu.querySelector('.idiomas__lista')).animationName
+    };
+  });
+}
+
 test.describe('com movimento reduzido', () => {
   // reducedMotion não é opção de fixture do Playwright: passada direto em
   // test.use, seria ignorada em silêncio. Vai pelas opções do contexto.
   test.use({ contextOptions: { reducedMotion: 'reduce' } });
+
+  for (const idioma of IDIOMAS) {
+    test(`o menu de idiomas aberto não anima nem faz transição, ${idioma.lang}`, async ({
+      page
+    }) => {
+      await page.goto(idioma.caminho);
+      const menu = await abrirMenuDeIdiomas(page);
+      // O CSS global de movimento reduzido encurta tudo para 0,001 ms; o que
+      // não pode existir é movimento com duração perceptível.
+      const perceptiveis = menu.animacoes.filter((a) => a.duracao > 1);
+      expect(perceptiveis, `animação rodando: ${JSON.stringify(perceptiveis)}`).toEqual([]);
+      expect(menu.animacaoDaLista, 'a lista ainda tem animação declarada').toBe('none');
+      expect(menu.transicaoMaxima, 'transição com duração perceptível (ms)').toBeLessThanOrEqual(1);
+      await expect(page.locator('#idiomas .idiomas__lista')).toBeVisible();
+      await expect(page.locator('#idiomas .idiomas__lista')).toHaveCSS('opacity', '1');
+    });
+  }
 
   test('todo diagrama fica parado e completo', async ({ page }) => {
     await page.goto('/');
@@ -87,6 +139,15 @@ test.describe('com movimento reduzido', () => {
 
 test.describe('sem preferência de movimento', () => {
   test.use({ contextOptions: { reducedMotion: 'no-preference' } });
+
+  // A contraprova do teste de cima: sem a preferência, o painel anima ao abrir.
+  // Sem isto, ele passaria por nada estar animado em lugar nenhum.
+  test('o painel do menu de idiomas anima ao abrir', async ({ page }) => {
+    await page.goto('/');
+    const menu = await abrirMenuDeIdiomas(page);
+    expect(menu.animacaoDaLista).toBe('idiomas-abre');
+    expect(menu.animacoes.find((a) => a.nome === 'idiomas-abre')?.duracao).toBe(160);
+  });
 
   test('todos os diagramas animam a entrada', async ({ page }) => {
     await page.goto('/');

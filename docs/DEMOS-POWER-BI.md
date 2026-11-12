@@ -23,7 +23,7 @@ visível. Não estão no sitemap; as 20 páginas de painel estão.
 | Texto de cada painel (empresa, segmento, título, dor, solução, 3 passos, tags) | `src/data/mockups-power-bi.json`, com `{ "pt": ..., "en": ... }` por campo                                                   |
 | Textos fixos (aviso, botão "Ver o painel", escopo, player, redirecionamento)   | `T_BI` em `scripts/demos.mjs`; a coleção é `COLECOES.paineis` (caminho, separador " \| ", aba da home)                       |
 | Cartão, aviso e tags com ícone                                                 | as mesmas funções dos apps em `scripts/demos.mjs` (`cartaoApp`, `avisoApps`, `tagsApp`), com `col: COLECOES.paineis`         |
-| Dicionário das tags (tag → ícone, rótulo em inglês)                            | `TECNOLOGIAS` em `scripts/demos.mjs`, bloco "Painéis de Power BI"                                                            |
+| Dicionário das tags (tag → ícone, rótulo por idioma)                           | `TECNOLOGIAS` em `scripts/demos.mjs`, bloco "Painéis de Power BI"                                                            |
 | Aba Power BI da home (busca, filtro Segmento, bloco "Painéis de demonstração") | `scripts/cases.mjs`: `DEMOS_DA_AREA['power-bi']`, `corpoComDemos`, rótulos em `DICIONARIO.<idioma>.areas['power-bi']`        |
 | Busca e filtros no navegador                                                   | `src/js/principal.js`, "busca e filtros dos cases" (um conjunto por aba; os ids levam a área: `cases-busca-power-bi`)        |
 | O painel em si (fonte versionada e aprovada)                                   | `demos/power-bi/<slug>/app.html`                                                                                             |
@@ -40,7 +40,8 @@ visível. Não estão no sitemap; as 20 páginas de painel estão.
 - **Tags.** De 1 a 4 por painel, sempre o `nome` de uma entrada do dicionário
   `TECNOLOGIAS`; tag fora do dicionário **para o build**. São conceitos: ícone
   neutro Fluent com o nome ao lado, nunca logotipo. Tag nova: entrada no
-  dicionário (`nome`, `en` se o rótulo em inglês for outro, `fluent`), ícone em
+  dicionário (`nome`, uma chave por outro idioma se o termo se traduz, como
+  `en: 'Tabs'`, e `fluent`; termo traduzido para um idioma precisa de todos), ícone em
   `assets/icons/neutral/fluent/`, registro em `assets/icons/manifest.json` (grupo
   `fluent-neutral-set-paineis`) e nome na lista `FLUENT` de `scripts/cases.mjs`.
   Ver `docs/ICONOGRAFIA.md`.
@@ -56,7 +57,8 @@ visível. Não estão no sitemap; as 20 páginas de painel estão.
 
 ## Editar, trocar e acrescentar
 
-- **Texto, tag ou passo:** `src/data/mockups-power-bi.json` (PT e EN juntos),
+- **Texto, tag ou passo:** `src/data/mockups-power-bi.json` (todos os idiomas
+  de `src/idiomas.json` juntos; campo sem um deles para o build),
   `npm run build`, `npm run check`.
 - **Trocar um painel:** substitua `demos/power-bi/<slug>/app.html` (fonte em
   `D:\Portifolio\case-powerbi\mockups\`), mantenha

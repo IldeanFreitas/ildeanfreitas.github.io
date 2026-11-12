@@ -9,6 +9,7 @@
 <link rel="canonical" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/">
 <link rel="alternate" hreflang="pt-BR" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/">
 <link rel="alternate" hreflang="en" href="https://ildeanfreitas.github.io/en/demos/power-bi/mineracao/">
+<link rel="alternate" hreflang="x-default" href="https://ildeanfreitas.github.io/demos/power-bi/mineracao/">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -142,6 +143,7 @@
   --r-pill:9999px;
   --r-card:20px;
   --r-sm:14px;
+  --r-xs:10px;         /* linhas de lista dentro de painel (menu de idiomas) */
   --maxw:1200px;
 
   /* tipografia */
@@ -250,7 +252,15 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
   background:color-mix(in srgb,var(--bg) 82%,transparent);
   backdrop-filter:blur(14px);border-bottom:1px solid var(--border)
 }
-.site-header__inner{display:flex;align-items:center;gap:1rem;min-height:4.4rem}
+.site-header__inner{
+  /* --cab-a-direita: quanto do lado direito do botão de idiomas já é ocupado
+     pelos botões que vêm depois dele e pelo espaço entre eles. O painel de
+     idiomas (idiomas.css) desconta isto da largura que pode usar: ele nasce
+     alinhado à direita do botão, então só cabe o que está à esquerda dele. */
+  --cab-gap:1rem;--cab-botao:2.35rem;
+  --cab-a-direita:calc(var(--cab-botao) + var(--cab-gap));
+  display:flex;align-items:center;gap:var(--cab-gap);min-height:4.4rem
+}
 .brand{
   display:inline-flex;align-items:center;gap:.6rem;margin-right:auto;
   font-weight:800;letter-spacing:-.01em;font-size:1.05rem;color:var(--text);text-decoration:none
@@ -268,23 +278,92 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 .nav__link[aria-current]{color:var(--text);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.4em}
 
 .icon-btn{
-  display:grid;place-items:center;width:2.35rem;height:2.35rem;flex:none;
+  display:grid;place-items:center;width:var(--cab-botao,2.35rem);height:var(--cab-botao,2.35rem);flex:none;
   background:transparent;border:1px solid var(--border);border-radius:var(--r-pill);
   color:var(--text-muted);cursor:pointer;transition:border-color .15s ease,color .15s ease
 }
 .icon-btn:hover{border-color:var(--border-lime);color:var(--accent)}
-/* Alternador de idioma: mesma pílula dos botões de ícone, com texto curto
-   (PT/EN) em vez de ícone — uma bandeira não representa língua. */
-.icon-btn--text{width:auto;padding:0 .7rem;text-decoration:none;font-size:.74rem;font-weight:700;letter-spacing:.08em}
 .nav-toggle{display:none}
 
+/* Com o menu de idiomas (globo + sigla) a marca e os três botões não cabem a
+   375px com 16px entre eles, e o nome da marca quebrava em duas linhas. */
+@media (max-width:430px){.site-header__inner{--cab-gap:.5rem}}
+
 @media (max-width:940px){
+  /* O botão do menu compacto aparece à direita do de idiomas. */
+  .site-header__inner{--cab-a-direita:calc(2 * var(--cab-botao) + 2 * var(--cab-gap))}
   .nav-toggle{display:grid}
   .nav{position:absolute;inset-inline:0;top:100%;background:var(--bg-alt);
        border-bottom:1px solid var(--border);padding:.75rem 0;display:none}
   .nav[data-open="true"]{display:block}
   .nav__list{flex-direction:column;width:min(100% - 2.5rem,var(--maxw));margin-inline:auto}
   .nav__link{padding:.7rem .9rem;font-size:1rem}
+}
+}
+
+@layer componentes{
+/* =========================================================
+   MENU DE IDIOMAS
+   <details> nativo, gerado pelo build a partir de src/idiomas.json: abre
+   sem JavaScript, e o navegador anuncia o estado expandido. O botão é a
+   mesma pílula dos botões de ícone do cabeçalho, com o globo e a sigla do
+   idioma atual (PT, EN). Bandeira não entra: bandeira é país, não língua.
+   ========================================================= */
+.idiomas{position:relative;flex:none}
+
+.idiomas__botao{
+  width:auto;grid-auto-flow:column;gap:.4rem;padding:0 .7rem;
+  font-size:.74rem;font-weight:700;letter-spacing:.08em;
+  list-style:none;user-select:none
+}
+/* Safari ainda desenha o triângulo do <summary> por este pseudo-elemento. */
+.idiomas__botao::-webkit-details-marker{display:none}
+.idiomas[open] > .idiomas__botao{border-color:var(--border-strong);color:var(--text)}
+
+/* Painel: superfície do cartão sobre o fundo alternativo (opaco, porque
+   cobre o hero), contorno de 1px e nenhuma sombra. Alinhado pela direita do
+   botão, que fica no lado direito do cabeçalho: cresce para dentro da tela.
+
+   Largura: a do conteúdo (max-content), mas no máximo o que há entre a
+   margem esquerda da página e o botão (100vw menos as duas margens de
+   1.25rem do .wrap e menos os botões à direita, --cab-a-direita, definido em
+   cabecalho.css). Só o 100vw menos as margens deixava o painel ir até 280px
+   a 320px de tela, e como ele cresce para a esquerda a partir do botão, saía
+   pela borda. Passando do limite, o rótulo quebra em linhas (.idiomas__link)
+   em vez de sair da tela ou perder texto. */
+.idiomas__lista{
+  position:absolute;top:calc(100% + .5rem);inset-inline-end:0;z-index:1;
+  display:grid;gap:.25rem;
+  width:max-content;min-width:10rem;
+  max-width:calc(100vw - 2.5rem - var(--cab-a-direita,0rem));
+  margin:0;padding:.375rem;
+  background:var(--surface-card),var(--bg-alt);
+  border:1px solid var(--border-strong);border-radius:var(--r-sm)
+}
+.idiomas[open] > .idiomas__lista{animation:idiomas-abre .16s cubic-bezier(.4,0,.2,1)}
+@keyframes idiomas-abre{from{opacity:0;transform:translateY(-4px)}}
+
+/* Linha de 40px: alvo folgado para o polegar (o mínimo é 24px, WCAG 2.5.8).
+   O rótulo quebra quando não cabe (nome longo de variante, como "Español
+   (América Latina)"), com respiro vertical para as linhas não encostarem; sem
+   espaço para quebrar, overflow-wrap parte a palavra. */
+.idiomas__link{
+  display:flex;align-items:center;min-height:2.5rem;padding:.4rem .8rem;
+  border-radius:var(--r-xs);white-space:normal;overflow-wrap:anywhere;
+  color:var(--text-muted);text-decoration:none;font-size:.9rem;font-weight:600;
+  transition:color .15s ease,background .15s ease
+}
+.idiomas__link:hover{color:var(--text);background:var(--surface-soft)}
+/* O anel padrão (2px, a 3px de distância) ficava a 1px da borda do painel, que
+   tem 6px de respiro. Dentro da linha, ele cabe com folga. */
+.idiomas__link:focus-visible{outline-offset:-2px}
+/* Idioma atual: mesmo código da seção ativa do menu (texto forte e
+   sublinhado, sem lime). */
+.idiomas__link[aria-current]{color:var(--text);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.4em}
+
+@media (prefers-reduced-motion:reduce){
+  .idiomas[open] > .idiomas__lista{animation:none}
+  .idiomas__link{transition:none}
 }
 }
 
@@ -1147,9 +1226,16 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
       </ul>
     </nav>
 
-    <!-- Link, não botão: a versão em inglês é outra página, gerada no build,
-         para que o conteúdo exista no HTML servido (SEO e uso sem JS). -->
-    <a class="icon-btn icon-btn--text lang-toggle" href="/en/demos/power-bi/mineracao/" hreflang="en" lang="en" aria-label="EN — read this page in English">EN</a>
+    <!-- Menu de idiomas, gerado no build a partir de src/idiomas.json. Cada
+         idioma é outra página, para que o conteúdo exista no HTML servido
+         (SEO e uso sem JS); o menu é <details> e abre sem JavaScript. -->
+    <details class="idiomas" id="idiomas">
+      <summary class="icon-btn idiomas__botao"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.4 2.6 3.6 5.6 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.6-3.6-9S9.6 5.6 12 3z"/></svg>PT<span class="sr-only">, escolher idioma</span></summary>
+      <ul class="idiomas__lista">
+        <li><a class="idiomas__link" aria-current="page" href="/demos/power-bi/mineracao/" hreflang="pt-BR" lang="pt-BR">Português</a></li>
+        <li><a class="idiomas__link" href="/en/demos/power-bi/mineracao/" hreflang="en" lang="en">English</a></li>
+      </ul>
+    </details>
 
     <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="nav" data-abrir="Abrir menu" data-fechar="Fechar menu">
       <span class="sr-only" id="navToggleLabel">Abrir menu</span>
@@ -1280,8 +1366,8 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
     var rotulo = document.getElementById('navToggleLabel');
     if (!nav || !botao || !rotulo) return;
 
-    /* Os rótulos vêm do HTML (data-abrir/data-fechar): o mesmo script serve a
-       página em português e a em inglês. */
+    /* Os rótulos vêm do HTML (data-abrir/data-fechar): o mesmo script serve
+       as páginas de todos os idiomas. */
     var ABRIR = botao.getAttribute('data-abrir') || 'Abrir menu';
     var FECHAR = botao.getAttribute('data-fechar') || 'Fechar menu';
 
@@ -1307,6 +1393,49 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
         fechar();
         botao.focus();
       }
+    });
+
+    /* Um painel por vez: abrir o menu de idiomas fecha este. */
+    var idiomas = document.getElementById('idiomas');
+    if (idiomas) {
+      idiomas.addEventListener('toggle', function () {
+        if (idiomas.open) fechar();
+      });
+    }
+  });
+
+  iniciar('idiomas', function () {
+    /* O menu é <details>: abrir e fechar por clique, Enter e Espaço já
+       funciona sem este script. Aqui entra só o que o elemento nativo não
+       faz: Esc fecha e devolve o foco ao botão; clique fora fecha (inclusive
+       no botão do menu compacto, o que deixa um painel aberto por vez); e o
+       painel fecha quando o foco sai dele, para não cobrir o elemento que
+       recebeu o foco. */
+    var menu = document.getElementById('idiomas');
+    var botao = menu && menu.querySelector('summary');
+    if (!menu || !botao) return;
+
+    function fechar(devolverFoco) {
+      if (!menu.open) return;
+      menu.open = false;
+      if (devolverFoco) botao.focus();
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menu.open) fechar(true);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target)) fechar(false);
+    });
+
+    menu.addEventListener('focusout', function (e) {
+      if (e.relatedTarget && !menu.contains(e.relatedTarget)) fechar(false);
+    });
+
+    /* Voltar pelo histórico restaura a página do cache com o painel aberto. */
+    window.addEventListener('pagehide', function () {
+      menu.open = false;
     });
   });
 

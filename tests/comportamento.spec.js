@@ -3,6 +3,10 @@ import cases from '../src/data/cases.json' with { type: 'json' };
 import apps from '../src/data/mockups-power-apps.json' with { type: 'json' };
 import paineis from '../src/data/mockups-power-bi.json' with { type: 'json' };
 import { abrirAbaDe, emCadaAba } from './apoio-abas.js';
+import { lerIdiomas } from '../scripts/idiomas.mjs';
+
+/** Os idiomas de src/idiomas.json; os testes por idioma partem desta lista. */
+const IDIOMAS = lerIdiomas();
 
 /**
  * As funcionalidades inventariadas no diagnóstico. Este arquivo é o contrato
@@ -98,32 +102,9 @@ test('no topo da página nenhum item do menu fica ativo', async ({ page }, testI
   await expect(page.locator('.nav__link[aria-current]')).toHaveCount(0);
 });
 
-test('a versão em inglês existe, aponta de volta e tem os mesmos cases', async ({ page }) => {
-  // Outra página, gerada no build — não troca de strings no cliente. O
-  // conteúdo precisa estar no HTML servido para buscador e para uso sem JS.
-  await page.goto('/en/');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-  await expect(page.locator('h1')).toHaveCount(1);
-  await expect(page.locator('a.lang-toggle')).toHaveAttribute('href', '/');
-  await expect(page.locator('link[rel="alternate"][hreflang="pt-BR"]')).toHaveAttribute(
-    'href',
-    'https://ildeanfreitas.github.io/'
-  );
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    'https://ildeanfreitas.github.io/en/'
-  );
-  await expect(page.locator('.case-card')).toHaveCount(cases.length);
-  await expect(page.locator('#navToggle')).toHaveText('Open menu');
-
-  // E a página em português aponta para a inglesa.
-  await page.goto('/');
-  await expect(page.locator('a.lang-toggle')).toHaveAttribute('href', '/en/');
-  await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toHaveAttribute(
-    'href',
-    'https://ildeanfreitas.github.io/en/'
-  );
-});
+// A versão de cada idioma (lang, canonical, hreflang recíproco, menu,
+// rodapé e mesmos cases) é coberta em tests/idiomas.spec.js, a partir da
+// configuração.
 
 test('a legenda de selos cobre exatamente os selos usados nos cases', async ({ page }) => {
   // O gap mais visível da avaliação de 2026-09-17: a legenda prometia selos
@@ -667,23 +648,26 @@ test('remover um elemento opcional não derruba as demais funcionalidades', asyn
   await expect(html).not.toHaveAttribute('data-theme', inicial ?? '');
 });
 
-test('nenhum erro de console na carga', async ({ page }) => {
-  const erros = [];
-  page.on('pageerror', (e) => erros.push(e.message));
-  page.on('console', (m) => m.type() === 'error' && erros.push(m.text()));
-  await page.goto('/', { waitUntil: 'networkidle' });
-  expect(erros).toEqual([]);
-});
-
-test('não há rolagem horizontal', async ({ page }) => {
-  // Em cada aba da seção Cases: cada uma muda o conteúdo da página.
-  await emCadaAba(page, async (painel) => {
-    const estourou = await page.evaluate(
-      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
-    );
-    expect(estourou, `a página não deve rolar na horizontal (aba ${painel})`).toBe(false);
+for (const idioma of IDIOMAS) {
+  test(`nenhum erro de console na carga, ${idioma.lang}`, async ({ page }) => {
+    const erros = [];
+    page.on('pageerror', (e) => erros.push(e.message));
+    page.on('console', (m) => m.type() === 'error' && erros.push(m.text()));
+    await page.goto(idioma.caminho, { waitUntil: 'networkidle' });
+    expect(erros).toEqual([]);
   });
-});
+
+  test(`não há rolagem horizontal, ${idioma.lang}`, async ({ page }) => {
+    await page.goto(idioma.caminho);
+    // Em cada aba da seção Cases: cada uma muda o conteúdo da página.
+    await emCadaAba(page, async (painel) => {
+      const estourou = await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+      );
+      expect(estourou, `a página não deve rolar na horizontal (aba ${painel})`).toBe(false);
+    });
+  });
+}
 
 /**
  * Aberto direto do disco (file://) o site precisa aparecer inteiro. Duas
@@ -694,10 +678,7 @@ test('não há rolagem horizontal', async ({ page }) => {
  * própria página, imagem decodificada depois de rolar até cada figura — e não
  * só se a URL existe.
  */
-for (const [pagina, arquivo] of [
-  ['pt', 'index.html'],
-  ['en', 'en/index.html']
-]) {
+for (const { codigo: pagina, arquivo } of IDIOMAS) {
   test(`aberto do disco (file://), ${pagina}: ícones, imagens e fonte aparecem`, async ({
     page
   }, testInfo) => {
@@ -776,10 +757,7 @@ async function iconesDasTags(page) {
   });
 }
 
-for (const [pagina, rota, arquivo] of [
-  ['pt', '/', 'index.html'],
-  ['en', '/en/', 'en/index.html']
-]) {
+for (const { codigo: pagina, caminho: rota, arquivo } of IDIOMAS) {
   test(`toda tag de Especialidades tem ícone renderizado, ${pagina}`, async ({ page }) => {
     await page.goto(rota);
     const { total, ruins } = await iconesDasTags(page);

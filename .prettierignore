@@ -5,26 +5,24 @@ assets/img/
 tests/*-snapshots/
 test-results/
 
-# Gerado pelo build.
+# Gerado pelo build. Sem barra, o padrão vale em qualquer pasta: cobre a
+# página de cada idioma (index.html, en/index.html…) sem listar idioma.
 index.html
 
 # Estilo compacto deliberado (uma regra por linha). O Prettier expandiria
 # tudo, trocando a escolha do autor por um diff de arquivo inteiro. Quem
-# valida estes arquivos é o stylelint.
+# valida estes arquivos é o stylelint. Os templates de idioma ficam de fora
+# também porque o build compara o esqueleto deles com o do PT-BR, e a
+# reformatação (aspas, />) quebraria a comparação.
 src/css/
-src/index.template.html
+src/index*.template.html
 src/404.template.html
 
 # Herdados, reescritos em etapas posteriores do plano.
 404.html
 README.md
 
-# Página gerada em inglês
-en/index.html
-
-# Template em inglês: mesmo estilo compacto do template em português.
-src/index.en.template.html
-
-# Páginas geradas e apps de demonstração
+# Demonstrações: páginas geradas por scripts/mockups.mjs e os app.html dos
+# apps e painéis. Sem barra no começo, o padrão vale em qualquer pasta: cobre
+# demos/, en/demos/ e a pasta de cada idioma novo.
 demos/
-en/demos/

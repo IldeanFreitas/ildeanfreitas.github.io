@@ -1,0 +1,25 @@
+[
+  {
+    "codigo": "pt",
+    "lang": "pt-BR",
+    "ogLocale": "pt_BR",
+    "rotulo": "Português",
+    "sigla": "PT",
+    "caminho": "/",
+    "padrao": true,
+    "interface": {
+      "escolherIdioma": "escolher idioma"
+    }
+  },
+  {
+    "codigo": "en",
+    "lang": "en",
+    "ogLocale": "en_US",
+    "rotulo": "English",
+    "sigla": "EN",
+    "caminho": "/en/",
+    "interface": {
+      "escolherIdioma": "choose language"
+    }
+  }
+]
