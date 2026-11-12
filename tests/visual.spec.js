@@ -43,9 +43,12 @@ async function estabilizar(page, tema) {
     document.querySelectorAll('img[loading="lazy"]').forEach((img) => {
       img.loading = 'eager';
     });
-    await Promise.all(
-      [...document.images].filter((i) => !i.complete).map((i) => i.decode().catch(() => {}))
-    );
+    // Todas, não só as incompletas: imagem já carregada com decoding="async"
+    // pode ir para a captura antes de decodificada. Com a seção Cases em abas,
+    // o logotipo do dbt da tag de Especialidades saía em branco, porque o do
+    // diagrama DataOps (mesmo arquivo), que antes era decodificado aqui, está
+    // numa aba fechada.
+    await Promise.all([...document.images].map((i) => i.decode().catch(() => {})));
     await document.fonts.ready;
   });
 }

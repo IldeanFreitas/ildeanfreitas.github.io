@@ -1,228 +1,40 @@
 #!/usr/bin/env node
 /**
- * Gera a galeria "Apps de demonstração Power Apps" e uma página por app (pt e en).
- * Depende de index.html e en/index.html já gerados (reaproveita CSS, cabeçalho,
- * rodapé e scripts), então roda DEPOIS de scripts/build.mjs.
+ * Gera uma página por demonstração (app de Power Apps ou painel de Power BI) e
+ * o player em tela cheia (pt e en), mais o redirecionamento das antigas
+ * galerias. Depende de index.html e en/index.html já gerados (reaproveita CSS,
+ * cabeçalho, rodapé e scripts), então roda DEPOIS de scripts/build.mjs.
  *
- * Saída: demos/power-apps/index.html, demos/power-apps/<slug>/index.html e
- * en/demos/power-apps/... Os apps (app.html) ficam versionados ao lado.
+ * As galerias vivem na home, na seção Cases (cartão em scripts/demos.mjs,
+ * montado por scripts/cases.mjs): os apps na aba Power Platform desde
+ * 11/11/2026, os painéis na aba Power BI desde 12/11/2026. As URLs antigas
+ * /demos/power-apps/, /demos/power-bi/ e as equivalentes em /en/ viram
+ * redirecionamento para lá.
+ *
+ * Saída, por coleção (COLECOES em scripts/demos.mjs): demos/<coleção>/index.html
+ * (redirecionamento), demos/<coleção>/<slug>/index.html, .../tela-cheia/index.html
+ * e as equivalentes em en/. Os apps e painéis (app.html) ficam versionados ao lado.
  * `--check` só confere se os arquivos gerados estão em dia.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COLECOES, avisoApps, esc, selo, tagsApp } from './demos.mjs';
+import { spriteFluent } from './cases.mjs';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ler = (p) => readFileSync(join(RAIZ, p), 'utf8');
 const MODO_CHECK = process.argv.includes('--check');
+
 /**
- * Coleção em geração (Power Apps ou Power BI). As funções abaixo leem estas variáveis;
- * o laço do fim troca a coleção. DEMOS = caminho das páginas e dos apps, sem barra nas pontas.
+ * Coleção em geração (apps de Power Apps ou painéis de Power BI; COLECOES em
+ * scripts/demos.mjs). As funções abaixo leem estas variáveis; o laço do fim
+ * troca a coleção. DEMOS = caminho das páginas e dos apps, sem barra nas pontas.
  */
 let DEMOS;
 let dados;
 let T;
 let CFG;
-
-const esc = (s) =>
-  String(s)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
-
-const T_PA = {
-  pt: {
-    base: '/',
-    home: '/',
-    outro: '/en/demos/power-apps/',
-    lang: 'pt-BR',
-    titulo: 'Apps de demonstração para Power Apps',
-    intro:
-      'Doze apps de demonstração, navegáveis. Cada um parte de um cenário fictício e mostra como seria construído na Power Platform.',
-    filtroTodos: 'Todos',
-    filtroRot: 'Filtrar por segmento',
-    selo: 'Arquitetura documentada',
-    ficticia: '(fictícia)',
-    ver: 'Ver o app de demonstração',
-    voltar: '← Todos os apps de demonstração',
-    dor: 'Cenário fictício',
-    solucao: 'O que a demonstração mostra',
-    roteiro: 'Teste em 3 passos',
-    aviso: 'Empresa e dados fictícios. Não é trabalho entregue nem resultado medido.',
-    notaIdioma: '',
-    escopoRot: 'Execução na Power Platform:',
-    escopo: 'nenhuma. Protótipo em HTML com dados fictícios.',
-    cheia: 'Abrir em tela cheia',
-    player: {
-      voltar: '← Voltar à página do app',
-      janela: 'Ajustar à janela',
-      tablet: 'Tablet 16:9',
-      celular: 'Celular',
-      modos: 'Formato de exibição',
-      tela: 'Tela cheia',
-      nota: 'Simulação do app aberto no navegador. Dados fictícios.',
-      dica: {
-        janela: 'O app ocupa toda a janela, como um app responsivo (Scale to fit desativado).',
-        tablet:
-          'Proporção fixa 16:9, reduzida para caber, como um app de tablet com Scale to fit ativado.',
-        celular: 'Proporção de celular em pé, com barras laterais, como no navegador.'
-      }
-    },
-    mobile: 'Em telas pequenas o app abre em tela cheia.',
-    moldura: 'Demonstração navegável de',
-    desc: (t) => `${t} Demonstração navegável com dados fictícios.`
-  },
-  en: {
-    base: '/en/',
-    home: '/en/',
-    outro: '/demos/power-apps/',
-    lang: 'en',
-    titulo: 'Demo apps for Power Apps',
-    intro:
-      'Twelve clickable demo apps. Each starts from a fictitious scenario and shows how it would be built on the Power Platform.',
-    filtroTodos: 'All',
-    filtroRot: 'Filter by segment',
-    selo: 'Documented architecture',
-    ficticia: '(fictitious)',
-    ver: 'See the demo app',
-    voltar: '← All demo apps',
-    dor: 'Fictitious scenario',
-    solucao: 'What the demo shows',
-    roteiro: 'Try it in 3 steps',
-    aviso: 'Fictitious company and data. It is not delivered work or a measured result.',
-    notaIdioma: 'The demo apps are in Portuguese.',
-    escopoRot: 'Execution on Power Platform:',
-    escopo: 'none. HTML prototype with fictional data.',
-    cheia: 'Open full screen',
-    player: {
-      voltar: '← Back to the app page',
-      janela: 'Fit to window',
-      tablet: 'Tablet 16:9',
-      celular: 'Phone',
-      modos: 'Display format',
-      tela: 'Full screen',
-      nota: 'Simulation of the app opened in a browser. Fictitious data.',
-      dica: {
-        janela: 'The app fills the whole window, like a responsive app (Scale to fit off).',
-        tablet: 'Fixed 16:9 ratio, scaled down to fit, like a tablet app with Scale to fit on.',
-        celular: 'Portrait phone ratio with side bars, as in the browser.'
-      }
-    },
-    mobile: 'On small screens the app opens full screen.',
-    moldura: 'Clickable demo of',
-    desc: (t) => `${t} Clickable demo with fictitious data.`
-  }
-};
-
-const T_BI = {
-  pt: {
-    base: '/',
-    home: '/',
-    outro: '/en/demos/power-bi/',
-    lang: 'pt-BR',
-    titulo: 'Painéis de demonstração para Power BI',
-    intro:
-      'Dez painéis de demonstração, navegáveis como um relatório publicado. Cada um parte de um cenário fictício e mostra, página a página, como seria construído no Power BI.',
-    filtroTodos: 'Todos',
-    filtroRot: 'Filtrar por segmento',
-    selo: 'Arquitetura documentada',
-    ficticia: '(fictícia)',
-    ver: 'Ver o painel de demonstração',
-    voltar: 'Voltar a todos os painéis de demonstração',
-    dor: 'Cenário fictício',
-    solucao: 'O que o painel mostra',
-    roteiro: 'Teste em 3 passos',
-    aviso:
-      'Empresa e dados fictícios, gerados por script. Não é trabalho entregue nem resultado medido.',
-    notaIdioma: '',
-    escopoRot: 'Execução no Power BI:',
-    escopo:
-      'nenhuma. Protótipo em HTML com dados fictícios; o painel "Como seria no Power BI" de cada página traz visuais, medidas DAX e modelo, com fonte no Microsoft Learn ou marcado "a confirmar".',
-    cheia: 'Abrir em tela cheia',
-    player: {
-      voltar: 'Voltar à página do painel',
-      janela: 'Ajustar à janela',
-      tablet: 'Notebook 1366 x 768',
-      celular: 'Celular',
-      modos: 'Formato de exibição',
-      tela: 'Tela cheia',
-      nota: 'Simulação do relatório aberto no navegador. Dados fictícios.',
-      dica: {
-        janela: 'O painel ocupa toda a janela e se ajusta à página, como no serviço do Power BI.',
-        tablet: 'Tela de notebook de 1366 x 768, reduzida para caber.',
-        celular: 'Celular em pé: o painel mostra o layout próprio para telas pequenas.'
-      }
-    },
-    mobile: 'Em telas pequenas o painel abre em tela cheia.',
-    moldura: 'Painel de demonstração de',
-    desc: (t) => `${t} Painel navegável com dados fictícios.`
-  },
-  en: {
-    base: '/en/',
-    home: '/en/',
-    outro: '/demos/power-bi/',
-    lang: 'en',
-    titulo: 'Demo dashboards for Power BI',
-    intro:
-      'Ten demo dashboards you can explore like a published report. Each starts from a fictitious scenario and shows, page by page, how it would be built in Power BI.',
-    filtroTodos: 'All',
-    filtroRot: 'Filter by segment',
-    selo: 'Documented architecture',
-    ficticia: '(fictitious)',
-    ver: 'See the demo dashboard',
-    voltar: 'Back to all demo dashboards',
-    dor: 'Fictitious scenario',
-    solucao: 'What the dashboard shows',
-    roteiro: 'Try it in 3 steps',
-    aviso:
-      'Fictitious company and data, generated by a script. It is not delivered work or a measured result.',
-    notaIdioma: 'The demo dashboards are in Portuguese.',
-    escopoRot: 'Execution in Power BI:',
-    escopo:
-      'none. HTML prototype with fictional data; each page has a "Como seria no Power BI" (how it would be in Power BI) panel with visuals, DAX measures and model, sourced from Microsoft Learn or marked "a confirmar" (to be confirmed).',
-    cheia: 'Open full screen',
-    player: {
-      voltar: 'Back to the dashboard page',
-      janela: 'Fit to window',
-      tablet: 'Laptop 1366 x 768',
-      celular: 'Phone',
-      modos: 'Display format',
-      tela: 'Full screen',
-      nota: 'Simulation of the report opened in a browser. Fictitious data.',
-      dica: {
-        janela: 'The dashboard fills the window and fits the page, as in the Power BI service.',
-        tablet: 'A 1366 x 768 laptop screen, scaled down to fit.',
-        celular: 'Portrait phone: the dashboard shows its own small-screen layout.'
-      }
-    },
-    mobile: 'On small screens the dashboard opens full screen.',
-    moldura: 'Demo dashboard of',
-    desc: (t) => `${t} Explorable dashboard with fictitious data.`
-  }
-};
-
-/** Coleções publicadas. A de Power Apps mantém os textos e o separador originais. */
-const COLECOES = [
-  {
-    demos: 'demos/power-apps',
-    json: 'mockups-power-apps.json',
-    T: T_PA,
-    eyebrow: 'Power Apps',
-    sep: '·',
-    um: { pt: 'app', en: 'app' },
-    varios: { pt: 'apps', en: 'apps' }
-  },
-  {
-    demos: 'demos/power-bi',
-    json: 'mockups-power-bi.json',
-    T: T_BI,
-    eyebrow: 'Power BI',
-    sep: '|',
-    um: { pt: 'painel', en: 'dashboard' },
-    varios: { pt: 'painéis', en: 'dashboards' }
-  }
-];
 
 function pedacos(htmlGerado) {
   /* O index gerado usa assets/ relativo; as páginas internas usam caminho de raiz. */
@@ -271,7 +83,7 @@ function ajustarNav(trecho, lang, urlOutroIdioma, onde) {
 const SANDBOX =
   'allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox';
 
-function pagina(lang, p, { titulo, descricao, canonico, alternativo, corpo, scriptExtra }) {
+function pagina(lang, p, { titulo, descricao, canonico, alternativo, corpo }) {
   const t = T[lang];
   const alt =
     lang === 'pt' ? ['pt-BR', canonico, 'en', alternativo] : ['pt-BR', alternativo, 'en', canonico];
@@ -310,91 +122,25 @@ ${ajustarNav(p.footer, lang, alternativo, 'rodapé')}
 
 <script>
 ${p.principal}
-</script>${scriptExtra ?? ''}
+</script>
 </body>
 </html>
 `;
 }
 
-/** Selo no mesmo pill dos projetos da home (status status--designed). */
-const selo = (t) => `<span class="status status--designed sem-margem">${esc(t.selo)}</span>`;
-/** Aviso de dados fictícios; nas páginas em inglês a nota de idioma fica dentro da caixa. */
-const aviso = (t) =>
-  `<div class="mock-aviso">
-        <p>${t.aviso}</p>${
-          t.notaIdioma
-            ? `
-        <p class="mock-nota">${t.notaIdioma}</p>`
-            : ''
-        }
-      </div>`;
-const tags = (c) => c.tags.map((x) => `<span class="tag">${esc(x)}</span>`).join('');
-
-function cartao(lang, c) {
-  const t = T[lang];
-  const href = `${t.base}${DEMOS}/${c.slug}/`;
-  return `        <article class="card mock-card" data-segmento="${esc(c.segmento[lang])}">
-          <p class="case-card__status">${selo(t)}</p>
-          <p class="mock-card__seg sem-margem">${esc(c.segmento[lang])} ${CFG.sep} ${esc(c.empresa)} <span class="mock-ficticia">${t.ficticia}</span></p>
-          <h2>${esc(c.titulo[lang])}</h2>
-          <p class="sem-margem">${esc(c.solucao[lang])}</p>
-          <p class="taglist sem-margem">${tags(c)}</p>
-          <a class="btn btn--ghost" href="${href}">${t.ver}<span class="sr-only">: ${esc(c.titulo[lang])}</span></a>
-        </article>`;
-}
-
-function galeria(lang) {
-  const t = T[lang];
-  const segs = [...new Set(dados.map((c) => c.segmento[lang]))];
-  const corpo = `  <section class="section">
-    <div class="wrap">
-      <p class="eyebrow">${CFG.eyebrow}</p>
-      <h1>${t.titulo}</h1>
-      <p class="lead">${t.intro}</p>
-      ${aviso(t)}
-      <div class="mock-filtros" role="group" aria-label="${t.filtroRot}">
-        <button type="button" aria-pressed="true" data-seg="">${t.filtroTodos}</button>
-${segs.map((s) => `        <button type="button" aria-pressed="false" data-seg="${esc(s)}">${esc(s)}</button>`).join('\n')}
-      </div>
-      <p class="sr-only" id="mock-contagem" aria-live="polite"></p>
-      <div class="grid grid--3 mock-grid">
-${dados.map((c) => cartao(lang, c)).join('\n')}
-      </div>
-    </div>
-  </section>`;
-  const js = `
-<script>
-(function () {
-  var bs = document.querySelectorAll('.mock-filtros button');
-  var cs = document.querySelectorAll('.mock-card');
-  var conta = document.getElementById('mock-contagem');
-  bs.forEach(function (b) {
-    b.addEventListener('click', function () {
-      var n = 0;
-      bs.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      cs.forEach(function (c) {
-        c.hidden = !!b.dataset.seg && c.dataset.segmento !== b.dataset.seg;
-        if (!c.hidden) n++;
-      });
-      conta.textContent = n + (n === 1 ? ' ${CFG.um[lang]}' : ' ${CFG.varios[lang]}');
-    });
-  });
-})();
-</script>`;
-  return { corpo, js };
-}
-
 function detalhe(lang, c) {
   const t = T[lang];
   const app = `/${DEMOS}/${c.slug}/app.html`;
-  return `  <section class="section">
+  const tags = tagsApp(lang, c);
+  return `${spriteFluent(tags)}
+  <section class="section">
     <div class="wrap">
-      <a class="mock-voltar" href="${t.base}${DEMOS}/">${t.voltar}</a>
-      <p class="eyebrow mock-kicker">${esc(c.segmento[lang])} ${CFG.sep} ${esc(c.empresa)} ${t.ficticia}</p>
+      <a class="mock-voltar" href="${t.home}${CFG.secao}">${t.voltar}</a>
+      <p class="eyebrow mock-kicker">${esc(c.segmento[lang])} ${CFG.sep} ${esc(c.empresa)}</p>
       <h1>${esc(c.titulo[lang])}</h1>
-      ${aviso(t)}
-      <p class="case-card__status">${selo(t)}</p>
-      <p class="taglist sem-margem">${tags(c)}</p>
+      ${avisoApps(lang, '      ', CFG)}
+      <p class="case-card__status">${selo(lang, CFG)}</p>
+      ${tags}
       <p class="scope"><b>${t.escopoRot}</b> ${t.escopo}</p>
       <h2>${t.dor}</h2>
       <p class="lead">${esc(c.dor[lang])}</p>
@@ -411,6 +157,45 @@ ${c.passos[lang].map((s) => `        <li>${esc(s)}</li>`).join('\n')}
       <iframe class="mock-moldura mock-so-desktop" src="${app}" title="${t.moldura} ${esc(c.empresa)}" loading="lazy" allow="fullscreen" sandbox="${SANDBOX}"></iframe>
     </div>
   </section>`;
+}
+
+/**
+ * As antigas galerias (/demos/power-apps/, /demos/power-bi/ e as equivalentes em
+ * /en/): os apps agora ficam na aba Power Platform da home e os painéis, na aba
+ * Power BI. Redirecionamento por meta refresh (vale
+ * sem JS) e location.replace (não deixa a página no histórico), noindex,
+ * canonical para a home e um link visível para quem o navegador não levar.
+ */
+function redirecionamento(lang) {
+  const t = T[lang];
+  const destino = `${t.home}${CFG.secao}`;
+  return `<!DOCTYPE html>
+<!-- ARQUIVO GERADO por scripts/mockups.mjs. Não edite. A galeria agora vive na home. -->
+<html lang="${t.lang}" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0; url=${destino}">
+<title>${esc(t.titulo)} | Ildean Freitas</title>
+<link rel="canonical" href="https://ildeanfreitas.github.io${t.home}">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<script>
+${TEMA_JS}
+location.replace(${JSON.stringify(destino)});
+</script>
+<style>
+${REDIR_CSS}
+</style>
+</head>
+<body>
+<main>
+<p>${t.redirecionamento.texto}</p>
+<p><a href="${destino}">${t.redirecionamento.link}</a></p>
+</main>
+</body>
+</html>
+`;
 }
 
 /**
@@ -453,6 +238,14 @@ iframe{border:0;display:block;background:#fff;transform-origin:0 0}
   .voltar{margin-right:auto}
   .dica{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;padding:0;border:0}
 }`;
+
+/** Página de redirecionamento: mesma fonte e tokens, só o texto e o link. */
+const REDIR_CSS = `${ler('src/css/base/fonte.css').trim()}
+${ler('src/css/base/tokens.css').trim()}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--text);font:1rem/1.6 var(--font)}
+main{padding:2rem 1.25rem;text-align:center}
+a{color:var(--accent);font-weight:600;text-underline-offset:.22em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}`;
 
 function player(lang, c) {
   const t = T[lang];
@@ -538,9 +331,9 @@ ${PLAYER_CSS}
 }
 
 const saidas = new Map();
-for (const col of COLECOES) {
+for (const col of Object.values(COLECOES)) {
   DEMOS = col.demos;
-  dados = JSON.parse(ler(`src/data/${col.json}`));
+  dados = col.dados;
   T = col.T;
   CFG = col;
   for (const lang of ['pt', 'en']) {
@@ -548,20 +341,7 @@ for (const col of COLECOES) {
     const gerado = ler(lang === 'pt' ? 'index.html' : 'en/index.html');
     const p = pedacos(gerado);
     const pre = lang === 'pt' ? '' : 'en/';
-    const g = galeria(lang);
-    const urlG = `${t.base}${DEMOS}/`;
-    const urlGOutro = `${T[lang === 'pt' ? 'en' : 'pt'].base}${DEMOS}/`;
-    saidas.set(
-      `${pre}${DEMOS}/index.html`,
-      pagina(lang, p, {
-        titulo: t.titulo,
-        descricao: t.intro,
-        canonico: urlG,
-        alternativo: urlGOutro,
-        corpo: g.corpo,
-        scriptExtra: g.js
-      })
-    );
+    saidas.set(`${pre}${DEMOS}/index.html`, redirecionamento(lang));
     for (const c of dados) {
       saidas.set(`${pre}${DEMOS}/${c.slug}/tela-cheia/index.html`, player(lang, c));
       const u = `${t.base}${DEMOS}/${c.slug}/`;
@@ -593,8 +373,8 @@ for (const [arq, html] of saidas) {
     writeFileSync(dest, html);
   }
 }
-for (const col of COLECOES) {
-  for (const c of JSON.parse(ler(`src/data/${col.json}`))) {
+for (const col of Object.values(COLECOES)) {
+  for (const c of col.dados) {
     if (!existsSync(join(RAIZ, `${col.demos}/${c.slug}/app.html`))) {
       console.error(`Falta ${col.demos}/${c.slug}/app.html`);
       defasados++;

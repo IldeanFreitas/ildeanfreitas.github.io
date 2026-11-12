@@ -14,7 +14,7 @@
  */
 import { existsSync } from 'node:fs';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import { FLUENT, renderizarCases, spriteFluent, ErroDeCase } from './cases.mjs';
+import { FLUENT, renderizarCases, spriteFluent, ErroDeCase, iconesDasAreas } from './cases.mjs';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
 
@@ -178,8 +178,9 @@ if (cases.length !== casesEn.length || cases.some((c, i) => c.id !== casesEn[i].
 function renderizar(lista, idioma, arquivo, textoDoTemplate) {
   try {
     // O sprite vai junto dos cases: só os ícones Fluent que esta página usa,
-    // inclusive os das tags do próprio template (seção Especialidades).
-    const html = renderizarCases(lista, idioma);
+    // inclusive os das tags do próprio template (seção Especialidades). Cada
+    // aba da seção Cases leva o ícone do cartão de Especialidades da sua área.
+    const html = renderizarCases(lista, idioma, { iconesArea: iconesDasAreas(textoDoTemplate) });
     return `${spriteFluent(`${html}\n${textoDoTemplate}`)}\n${html}`;
   } catch (erro) {
     if (!(erro instanceof ErroDeCase)) throw erro;

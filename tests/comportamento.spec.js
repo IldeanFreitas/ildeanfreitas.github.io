@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test';
 import cases from '../src/data/cases.json' with { type: 'json' };
+import apps from '../src/data/mockups-power-apps.json' with { type: 'json' };
+import paineis from '../src/data/mockups-power-bi.json' with { type: 'json' };
+import { abrirAbaDe, emCadaAba } from './apoio-abas.js';
 
 /**
  * As funcionalidades inventariadas no diagnóstico. Este arquivo é o contrato
@@ -177,17 +180,27 @@ for (const [pagina, rota, botoes, emPreparacao] of [
       await expect(sessao.locator(':scope > :first-child')).toHaveJSProperty('tagName', 'H3');
       const ids = await sessao.locator('.case-card').evaluateAll((els) => els.map((e) => e.id));
       expect(ids, area).toEqual(cases.filter((c) => c.area === area).map((c) => c.id));
-      if (!ids.length && !(await sessao.locator('.demos-mais').count())) {
+      if (!ids.length && !(await sessao.locator('.mock-card').count())) {
         // Sessão vazia e sem demonstrações: só título e a linha "Em preparação",
         // sem selo (a legenda de selos do Sobre lista só os selos dos cases).
         await expect(sessao.locator('.cases-area__abertura')).toHaveText(emPreparacao);
         await expect(sessao.locator('.status')).toHaveCount(0);
       }
     }
-    // O botão das demonstrações fecha as sessões Power Platform e Power BI.
-    await expect(page.locator('#cases-power-platform > :last-child')).toHaveClass('demos-mais');
-    await expect(page.locator('#cases-power-bi > :last-child')).toHaveClass('demos-mais');
-    await expect(page.locator('.demos-mais')).toHaveCount(2);
+    // As sessões Power Platform e Power BI reúnem as demonstrações (apps e
+    // painéis) em cartões; a Power Platform tem também o bloco dos projetos.
+    // Os antigos botões para as galerias avulsas saíram da home.
+    const pp = page.locator('#cases-power-platform');
+    await expect(pp.locator(':scope > .cases-bloco')).toHaveCount(2);
+    await expect(pp.locator('.cases-bloco').nth(0).locator('.mock-card')).toHaveCount(apps.length);
+    await expect(pp.locator('.cases-bloco').nth(1).locator('.case-card')).toHaveCount(
+      cases.filter((c) => c.area === 'power-platform').length
+    );
+    const bi = page.locator('#cases-power-bi');
+    await expect(bi.locator(':scope > .cases-bloco')).toHaveCount(1);
+    await expect(bi.locator('.cases-bloco .mock-card')).toHaveCount(paineis.length);
+    await expect(bi.locator('.cases-area__abertura')).not.toHaveText(emPreparacao);
+    await expect(page.locator('.demos-mais')).toHaveCount(0);
   });
 
   test(`${pagina}: cada cartão de Especialidades leva à sua sessão de Cases`, async ({ page }) => {
@@ -216,7 +229,11 @@ test('o botão de Especialidades rola até a sessão e o menu marca Cases', asyn
   const botao = page.locator('#servicos a[href="#cases-engenharia-dados"]');
   await botao.click();
   const sessao = page.locator('#cases-engenharia-dados');
+  // Com JS a sessão é uma aba: o clique a abre e a rolagem deixa as abas à vista.
+  await expect(page.locator('#aba-engenharia-dados')).toHaveAttribute('aria-selected', 'true');
+  await expect(sessao).toBeVisible();
   await expect(sessao).toBeInViewport();
+  await expect(page.locator('#cases [role="tablist"]')).toBeInViewport();
   await expect(sessao).toBeFocused();
   // O título da sessão fica abaixo do cabeçalho fixo, não atrás dele.
   const cabecalho = await page.locator('.site-header').boundingBox();
@@ -233,7 +250,9 @@ for (const [pagina, rota] of [
   ['en', '/en/']
 ]) {
   test(`${pagina}: a hierarquia de títulos não salta nível`, async ({ page }) => {
-    // h1 → h2 (seção) → h3 (cartão; sessão de Cases) → h4 (case) → h5 (fatos).
+    // h1 → h2 (seção) → h3 (cartão; sessão de Cases) → h4 (case) → h5 (fatos);
+    // nas sessões com demonstrações (Power Platform, Power BI): h4 (bloco) →
+    // h5 (app, painel; case) → h6 (fatos).
     await page.goto(rota);
     const niveis = await page
       .locator('h1, h2, h3, h4, h5, h6')
@@ -344,6 +363,7 @@ test('o diagrama da AWS mostra o estudo documentado, com marcas oficiais e desta
 });
 
 test('o DataOps separa caminho de dados, controle e capacidades transversais', async ({ page }) => {
+  await abrirAbaDe(page, '#case-dataops');
   const diagrama = page.locator('#case-dataops .architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
 
@@ -385,25 +405,51 @@ test('o DataOps separa caminho de dados, controle e capacidades transversais', a
 });
 
 test('as marcas de produto têm ao menos 20px em qualquer largura', async ({ page }) => {
-  const pequenas = await page
-    .locator('.architecture-diagram img.diagram-node__logo')
-    .evaluateAll((imgs) =>
+  // Uma aba por vez: mede as marcas visíveis em cada uma e confere que todas
+  // foram medidas.
+  const logos = page.locator('.architecture-diagram img.diagram-node__logo');
+  const pequenas = [];
+  let medidas = 0;
+  await emCadaAba(page, async () => {
+    const r = await logos.evaluateAll((imgs) =>
       imgs
+        .filter((i) => i.offsetParent !== null)
         .map((i) => {
           i.scrollIntoView();
           const r = i.getBoundingClientRect();
           return { src: i.getAttribute('src'), w: r.width, h: r.height };
         })
-        .filter((r) => Math.max(r.w, r.h) < 20)
-        .map((r) => `${r.src} ${r.w.toFixed(1)}×${r.h.toFixed(1)}`)
     );
+    medidas += r.length;
+    pequenas.push(
+      ...r
+        .filter((x) => Math.max(x.w, x.h) < 20)
+        .map((x) => `${x.src} ${x.w.toFixed(1)}×${x.h.toFixed(1)}`)
+    );
+  });
+  expect(medidas).toBe(await logos.count());
   expect(pequenas, pequenas.join('\n')).toEqual([]);
 });
 
 test('no celular o nó empilha: rótulo acima do título, uma coluna', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'só faz sentido na largura de celular');
-  const erros = await page.locator('.architecture-diagram .diagram-node').evaluateAll((nos) =>
+  const erros = [];
+  let medidos = 0;
+  await emCadaAba(page, async () => {
+    medidos += await page
+      .locator('.architecture-diagram .diagram-node')
+      .evaluateAll((nos) => nos.filter((no) => no.offsetParent !== null).length);
+    erros.push(...(await nosLadoALado(page)));
+  });
+  expect(medidos).toBe(await page.locator('.architecture-diagram .diagram-node').count());
+  expect(erros, erros.join('\n')).toEqual([]);
+});
+
+/** Nós visíveis com rótulo ou nota ao lado do título (no celular, devem empilhar). */
+function nosLadoALado(page) {
+  return page.locator('.architecture-diagram .diagram-node').evaluateAll((nos) =>
     nos
+      .filter((no) => no.offsetParent !== null)
       .map((no) => {
         const rotulo = no.querySelector(':scope > .diagram-node__kind');
         const titulo = no.querySelector(':scope > .diagram-node__title');
@@ -418,11 +464,11 @@ test('no celular o nó empilha: rótulo acima do título, uma coluna', async ({ 
       })
       .filter(Boolean)
   );
-  expect(erros, erros.join('\n')).toEqual([]);
-});
+}
 
 test('o bloco dbt do DataOps não estoura a largura no celular', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'só faz sentido na largura de celular');
+  await abrirAbaDe(page, '#case-dataops');
   const painel = page.locator('#case-dataops .diagram-node--group');
   await painel.scrollIntoViewIfNeeded();
   const estouro = await painel.evaluate((el) => {
@@ -477,6 +523,7 @@ test('a operação fiscal: o app deixa o lote pronto, o orquestrador o seleciona
 });
 
 test('o Lakehouse da Câmara termina em tabelas Gold, sem Power BI', async ({ page }) => {
+  await abrirAbaDe(page, '#case-camara-lakehouse');
   const card = page.locator('#case-camara-lakehouse');
   const diagrama = card.locator('.architecture-diagram');
   await diagrama.scrollIntoViewIfNeeded();
@@ -539,9 +586,10 @@ test('cada case traz decisões técnicas e resultado', async ({ page }) => {
   for (let i = 0; i < total; i++) {
     const fatos = cards.nth(i).locator('.case-facts');
     await expect(fatos, `case ${i} sem bloco de fatos`).toHaveCount(1);
-    // Fatos em h5: a sessão é h3 e o título do case, h4.
-    await expect(fatos.locator('h5', { hasText: 'Decisões técnicas' })).toHaveCount(1);
-    await expect(fatos.locator('h5', { hasText: 'Resultado' })).toHaveCount(1);
+    // Fatos um nível abaixo do título do case: h5 (case em h4) ou, na sessão
+    // Power Platform, h6 (case em h5, sob o bloco "Projetos documentados").
+    await expect(fatos.locator(':is(h5, h6)', { hasText: 'Decisões técnicas' })).toHaveCount(1);
+    await expect(fatos.locator(':is(h5, h6)', { hasText: 'Resultado' })).toHaveCount(1);
   }
 });
 
@@ -628,10 +676,13 @@ test('nenhum erro de console na carga', async ({ page }) => {
 });
 
 test('não há rolagem horizontal', async ({ page }) => {
-  const estourou = await page.evaluate(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
-  );
-  expect(estourou, 'a página não deve rolar na horizontal').toBe(false);
+  // Em cada aba da seção Cases: cada uma muda o conteúdo da página.
+  await emCadaAba(page, async (painel) => {
+    const estourou = await page.evaluate(
+      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+    );
+    expect(estourou, `a página não deve rolar na horizontal (aba ${painel})`).toBe(false);
+  });
 });
 
 /**
@@ -668,13 +719,16 @@ for (const [pagina, arquivo] of [
     expect(icones.total).toBeGreaterThan(0);
     expect(icones.ruins).toEqual([]);
 
-    // As imagens dos diagramas são lazy: rola até cada figura e espera a carga.
-    for (const figura of await page.locator('figure').all()) {
-      await figura.scrollIntoViewIfNeeded();
-      await figura.evaluate((f) =>
-        Promise.all([...f.querySelectorAll('img')].map((i) => i.decode().catch(() => {})))
-      );
-    }
+    // As imagens dos diagramas são lazy: rola até cada figura e espera a carga,
+    // aba por aba (só a aba aberta fica visível).
+    await emCadaAba(page, async () => {
+      for (const figura of await page.locator('figure:visible').all()) {
+        await figura.scrollIntoViewIfNeeded();
+        await figura.evaluate((f) =>
+          Promise.all([...f.querySelectorAll('img')].map((i) => i.decode().catch(() => {})))
+        );
+      }
+    });
     const quebradas = await page.evaluate(() =>
       [...document.querySelectorAll('figure img')]
         .filter((i) => !i.complete || i.naturalWidth === 0)

@@ -18,7 +18,7 @@
       "pt": "Checklist guiado no celular, com foto, assinatura e modo offline simulado. Cada item não conforme vira uma ocorrência aberta, e o gestor atribui responsável e prazo.",
       "en": "A guided checklist on the phone, with photo, signature and a simulated offline mode. Each nonconforming item becomes an open issue, and the manager assigns an owner and a due date."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "Dataverse", "SharePoint", "Power Automate"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Inspetor.",
@@ -51,7 +51,7 @@
       "pt": "Quadro de ordens por etapa, com apontamento de peças e horas e uma tela de preventivas.",
       "en": "A board of orders by stage, with parts and hours logging and a preventive maintenance screen."
     },
-    "tags": ["Canvas", "Power Automate"],
+    "tags": ["Power Apps", "Power Automate", "SQL Server"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Planejador.",
@@ -84,7 +84,7 @@
       "pt": "Agenda por veículo, por dia ou semana. Ao reservar, o app confere conflito de horário, lotação e CNH. A portaria registra retirada e devolução.",
       "en": "An agenda per vehicle, by day or week. When booking, the app checks time conflicts, seat capacity and driver's license (CNH). The gatehouse logs pickup and return."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "SharePoint", "Excel"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Condutor.",
@@ -117,7 +117,7 @@
       "pt": "Solicitação com aprovação por alçada: quanto maior o valor, mais etapas. O saldo do centro de custo aparece ao pedir e na tela Orçamento e gastos.",
       "en": "A request with tiered approval: the higher the amount, the more approval stages. The cost center balance shows when requesting and on a budget and spending screen."
     },
-    "tags": ["Canvas", "Power Automate"],
+    "tags": ["Power Apps", "Power Automate", "Dataverse", "SAP"],
     "passos": {
       "pt": [
         "Entre como Solicitante e crie uma Nova solicitação.",
@@ -150,7 +150,7 @@
       "pt": "App de celular com leitura de código de barras simulada para registrar entrada, saída e transferência. No modo offline simulado, o movimento fica pendente até sincronizar.",
       "en": "A phone app with simulated barcode reading to record receipts, issues and transfers. In the simulated offline mode, a movement stays pending until it syncs."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "Oracle Database", "Power Automate"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Almoxarife.",
@@ -183,7 +183,7 @@
       "pt": "Central de chamados com prazo em horário útil. O prazo pausa quando o chamado aguarda o solicitante, e o app avisa quando o prazo entra em risco ou é violado.",
       "en": "A ticket desk with deadlines in business hours. The deadline pauses while the ticket waits for the requester, and the app warns when the deadline is at risk or breached."
     },
-    "tags": ["Canvas", "Power Automate"],
+    "tags": ["Power Apps", "Dataverse", "Power Automate"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Agente.",
@@ -216,7 +216,7 @@
       "pt": "Agendamento do paciente em quatro etapas e agenda em colunas por profissional para a recepção. A lista de espera recebe a oferta quando uma vaga abre.",
       "en": "Patient booking in four steps and an agenda in columns per professional for reception. The waiting list receives an offer when a slot opens."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "Dataverse", "Power Automate"],
     "passos": {
       "pt": [
         "Entre como Paciente e agende uma consulta nas quatro etapas.",
@@ -249,7 +249,7 @@
       "pt": "Diário de obra e medição de serviços no mesmo app. O boletim de medição passa do engenheiro ao fiscal e ao financeiro, e o avanço aparece por etapa.",
       "en": "Site diary and service measurement in the same app. The measurement bulletin goes from the engineer to the inspector to finance, and progress shows by stage."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "SharePoint", "Excel", "Power Automate"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Encarregado.",
@@ -282,7 +282,7 @@
       "pt": "Permissão de trabalho com APR e assinaturas em sequência: solicitante, emitente e executantes. A planta da área mostra as permissões ativas por zona.",
       "en": "Work permit with an APR and signatures in sequence: requester, issuer and performers. The area plan shows the active permits by zone."
     },
-    "tags": ["Canvas", "Power Automate"],
+    "tags": ["Power Apps", "Dataverse", "Power Automate", "SharePoint"],
     "passos": {
       "pt": [
         "Entre como Solicitante, crie uma Nova permissão e use Assinar e enviar.",
@@ -315,7 +315,7 @@
       "pt": "Fluxo do título a pagar: lançamento pelo analista, aprovação, lote de pagamento e conciliação com o extrato do banco.",
       "en": "The payable's flow: entry by the analyst, approval, payment batch and reconciliation against the bank statement."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "Dataverse", "SQL Server"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Aprovador.",
@@ -348,7 +348,7 @@
       "pt": "Mapa da fazenda com pastos, lotes e animais. O app registra pesagem e controle sanitário e calcula o ganho médio diário (GMD) de cada lote.",
       "en": "A farm map with pastures, lots and animals. The app records weighing and health control and calculates the average daily gain (GMD) of each lot."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": ["Power Apps", "Dataverse", "Power Automate"],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Veterinário.",
@@ -381,7 +381,16 @@
       "pt": "Protocolo único por manifestação, com o parecer interno separado da resposta ao cidadão. O prazo de resposta fica à vista, com pausa e prorrogação.",
       "en": "A single protocol per complaint, with the internal opinion kept apart from the reply to the citizen. The response deadline stays in view, with pause and extension."
     },
-    "tags": ["Canvas", "Dataverse"],
+    "tags": [
+      "Power Apps",
+      "Dataverse",
+      "Power Automate",
+      {
+        "tec": "apis",
+        "pt": "API de CEP",
+        "en": "Postal code API"
+      }
+    ],
     "passos": {
       "pt": [
         "Entre e escolha o perfil Setor.",

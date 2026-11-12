@@ -1,0 +1,38 @@
+/* =========================================================
+   SEÇÃO CASES EM ABAS (desde 11/11/2026)
+
+   Só existe com JavaScript: scripts/cases.mjs gera a lista de abas e a busca
+   com filtros dentro de <template>, e src/js/principal.js os clona e marca
+   .cases-areas--abas. Sem JS nada disto aparece: as quatro sessões ficam
+   empilhadas, com o h3 visível, e tudo listado.
+
+   Lima só no destaque: a aba ativa e o filtro ativo. O aviso dos apps é teal
+   (mockups.css).
+   ========================================================= */
+.cases-abas{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 0;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.cases-aba{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.55rem 1.1rem;font:inherit;font-size:.95rem;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid var(--border);border-radius:var(--r-pill);cursor:pointer}
+.cases-aba:hover{color:var(--text);border-color:var(--border-strong)}
+.cases-aba[aria-selected="true"]{color:var(--accent);background:var(--lime-soft);border-color:var(--border-lime)}
+/* Ícone do cartão de Especialidades (traço em currentColor: fica lima na aba
+   ativa) ou a marca do Power BI, que mantém as cores do fornecedor */
+.cases-aba__icone{width:18px;height:18px;flex:none}
+
+/* Painéis. O título da sessão continua no documento para a hierarquia e para
+   leitor de tela, mas a aba já mostra o nome: fica só para leitura. A
+   rolagem até um painel (link #cases-<área>) deixa as abas visíveis acima dele:
+   --cases-abas-altura vem do principal.js. */
+.cases-areas--abas>.cases-area{margin-top:1.5rem;padding-top:0;border-top:0;scroll-margin-top:calc(var(--cases-abas-altura,3.5rem) + 1.5rem)}
+.cases-areas--abas .cases-area__titulo{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.cases-area[hidden],.cases-bloco[hidden],[data-filtro-item][hidden]{display:none}
+
+/* Busca e filtros das abas com demonstrações (Power Platform, Power BI) */
+.cases-busca{margin:1.5rem 0 .25rem}
+.cases-busca__campo{width:100%;max-width:520px;min-height:44px;padding:.6rem 1.1rem;font:inherit;color:var(--text);background:var(--surface-soft);border:1px solid var(--border-strong);border-radius:var(--r-pill)}
+.cases-busca__campo::placeholder{color:var(--text-dim);opacity:1}
+.cases-filtros__rotulo{margin:1rem 0 .45rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.cases-filtros__contagem{margin:.75rem 0 0;font-size:.85rem;color:var(--text-muted)}
+.cases-filtros__vazio{margin:1rem 0 0;color:var(--text-muted)}
+
+/* Blocos das abas com demonstrações: "Apps de demonstração" ou "Painéis de
+   demonstração" e "Projetos documentados" */
+.cases-bloco__titulo{margin:2.5rem 0 .25rem;font-size:1.15rem}

@@ -206,7 +206,7 @@ body{
   font-family:var(--font);font-size:1rem;line-height:1.6;
   -webkit-font-smoothing:antialiased;overflow-x:hidden
 }
-h1,h2,h3,h4,h5{margin:0 0 .5em;font-weight:700;line-height:1.05;letter-spacing:-.03em}
+h1,h2,h3,h4,h5,h6{margin:0 0 .5em;font-weight:700;line-height:1.05;letter-spacing:-.03em}
 h1{font-size:var(--size-hero)}
 h2{font-size:var(--size-h2)}
 h3{font-size:var(--size-h3);line-height:1.2}
@@ -459,9 +459,11 @@ svg.tag__icon{fill:currentColor}
    quê?" — em vez de um parágrafo que responde às três de uma vez. */
 .case-facts{display:grid;gap:1.1rem;margin:0 0 1.5rem;padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--surface-soft)}
 /* Títulos e marcadores neutros: o lime fica para o destaque do diagrama e o CTA.
-   Níveis: sessão h3, título do case h4 (com o corpo de h3), fatos h5. */
-.case-card__intro>h4{font-size:var(--size-h3);line-height:1.2}
-.case-facts h5{margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
+   Níveis: sessão h3; título do case h4 e fatos h5, ou, na aba Power Platform
+   (sob o bloco "Projetos documentados", h4), título h5 e fatos h6. O estilo
+   vai pela classe e pelos dois níveis, então a aparência é a mesma. */
+.case-card__titulo{font-size:var(--size-h3);line-height:1.2}
+.case-facts :is(h5,h6){margin:0 0 .35rem;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-muted)}
 .card .case-facts p{margin:0;font-size:.88rem;color:var(--text-muted)}
 .case-facts ul{display:grid;gap:.45rem;padding-left:1.1rem;list-style:disc}
 .case-facts li{font-size:.88rem;line-height:1.5;color:var(--text-muted)}
@@ -505,22 +507,25 @@ svg.tag__icon{fill:currentColor}
 }
 
 @layer componentes{
-/* Apps de demonstração Power Apps: galeria e página de cada app */
-.mock-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.5rem;padding:0;list-style:none}
-.mock-filtros button{font:inherit;font-size:.8rem;font-weight:600;color:var(--text-muted);background:var(--surface-soft);border:1px solid var(--border);padding:.4rem .9rem;border-radius:var(--r-pill);cursor:pointer}
+/* Demonstrações (apps de Power Apps e painéis de Power BI): cartão (abas Power
+   Platform e Power BI da seção Cases), filtros da aba e página de cada app ou
+   painel. Desde 11/11/2026 (apps) e 12/11/2026 (painéis) não há galeria avulsa. */
+/* Filtros (Tecnologia, Tipo, Segmento): pílulas com alvo de 40 px; ícone da
+   tecnologia antes do nome, como nas tags */
+.mock-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0;list-style:none}
+.mock-filtros button{display:inline-flex;align-items:center;gap:.4rem;min-height:40px;font:inherit;font-size:.8rem;font-weight:600;color:var(--text-muted);background:var(--surface-soft);border:1px solid var(--border);padding:.4rem .9rem;border-radius:var(--r-pill);cursor:pointer}
+.mock-filtros button:hover{color:var(--text);border-color:var(--border-strong)}
 .mock-filtros button[aria-pressed="true"]{color:var(--accent);border-color:var(--border-lime);background:var(--lime-soft)}
 .mock-card{gap:.75rem}
-.mock-card h2,.mock-card h3{font-size:1.05rem;margin:0}
+.mock-card__titulo{font-size:1.05rem;margin:0}
 .mock-card__seg{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
-/* "(empresa fictícia)" junto ao nome: legível, sem herdar a caixa alta do rótulo */
-.mock-ficticia{text-transform:none;letter-spacing:0;font-weight:600;white-space:nowrap}
 .mock-card p.case-card__status{margin:0}
 /* Colunas de pelo menos 320px: o selo "Arquitetura documentada" cabe numa linha */
 .mock-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
 .mock-card .status{white-space:nowrap}
 .mock-card .btn{align-self:flex-start;margin-top:auto}
 .mock-card[hidden]{display:none}
-/* Aviso em teal: o lima fica para o destaque único da tela (o eyebrow) */
+/* Aviso em teal: o lima fica para o destaque único da tela (aba ou filtro ativo) */
 .mock-aviso{border:1px solid color-mix(in srgb,var(--serie-2) 60%,transparent);background:var(--surface-card);border-radius:var(--r-sm);padding:.75rem 1rem;font-size:.9rem;margin:1.25rem 0}
 .mock-aviso p{margin:0}
 /* Nota de idioma (só nas páginas em inglês): segunda linha dentro do aviso */
@@ -532,14 +537,15 @@ svg.tag__icon{fill:currentColor}
 .mock-voltar{display:flex;align-items:center;width:fit-content;min-height:24px;margin:0 0 1rem;font-size:.9rem;color:var(--text-muted)}
 .mock-voltar:hover{color:var(--text)}
 .taglist+.scope{margin-top:1.25rem}
-/* Botão da home: secundário, abaixo da nota dos cases reais */
-.demos-mais{margin:1.75rem 0 0}
 @media (max-width:700px){.mock-moldura{display:none}.mock-so-desktop{display:none}}
-/* Em telas estreitas os filtros viram uma faixa rolável (o foco do teclado rola junto)
-   e o kicker longo, que quebra em duas linhas, perde a forma de pílula */
+/* Em telas estreitas os filtros viram uma faixa rolável e o kicker longo, que
+   quebra em duas linhas, perde a forma de pílula. A faixa tem folga de .4rem
+   em volta (o contorno de foco ocupa 5 px: 2 de traço e 3 de afastamento) e
+   o principal.js rola o botão focado para dentro dela com margem; sem
+   scroll-snap, que puxava o botão de volta para a borda e cortava o foco. */
 @media (max-width:560px){
-  .mock-filtros{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:.25rem;padding:.25rem .25rem .5rem;margin-inline:-.25rem;scrollbar-width:thin}
-  .mock-filtros button{flex:none;scroll-snap-align:start}
+  .mock-filtros{flex-wrap:nowrap;overflow-x:auto;padding:.4rem;margin-inline:-.4rem;scroll-padding-inline:1rem;scrollbar-width:thin}
+  .mock-filtros button{flex:none}
   .mock-kicker{border-radius:var(--r-sm)}
 }
 @media (min-width:701px){.mock-so-mobile{display:none}}
@@ -564,7 +570,7 @@ svg.tag__icon{fill:currentColor}
 @layer componentes{
 /* Diagramas de arquitetura dos cases */
 /* Sessões por área (scripts/cases.mjs, AREAS). Título fora do cartão e maior
-   que o do case (h4), sem lima; um fio separa uma sessão da seguinte. */
+   que o do case, sem lima; um fio separa uma sessão da seguinte. */
 .cases-area{margin-top:3rem;scroll-margin-top:1.5rem}
 .cases-area+.cases-area{margin-top:clamp(3rem,6vw,4.5rem);padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--border)}
 .cases-area__titulo{font-size:clamp(1.4rem,3vw,2.1rem);margin:0 0 .5rem}
@@ -930,6 +936,47 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
 
 @layer componentes{
 /* =========================================================
+   SEÇÃO CASES EM ABAS (desde 11/11/2026)
+
+   Só existe com JavaScript: scripts/cases.mjs gera a lista de abas e a busca
+   com filtros dentro de <template>, e src/js/principal.js os clona e marca
+   .cases-areas--abas. Sem JS nada disto aparece: as quatro sessões ficam
+   empilhadas, com o h3 visível, e tudo listado.
+
+   Lima só no destaque: a aba ativa e o filtro ativo. O aviso dos apps é teal
+   (mockups.css).
+   ========================================================= */
+.cases-abas{display:flex;flex-wrap:wrap;gap:.5rem;margin:2rem 0 0;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.cases-aba{display:inline-flex;align-items:center;gap:.5rem;min-height:44px;padding:.55rem 1.1rem;font:inherit;font-size:.95rem;font-weight:600;color:var(--text-muted);background:transparent;border:1px solid var(--border);border-radius:var(--r-pill);cursor:pointer}
+.cases-aba:hover{color:var(--text);border-color:var(--border-strong)}
+.cases-aba[aria-selected="true"]{color:var(--accent);background:var(--lime-soft);border-color:var(--border-lime)}
+/* Ícone do cartão de Especialidades (traço em currentColor: fica lima na aba
+   ativa) ou a marca do Power BI, que mantém as cores do fornecedor */
+.cases-aba__icone{width:18px;height:18px;flex:none}
+
+/* Painéis. O título da sessão continua no documento para a hierarquia e para
+   leitor de tela, mas a aba já mostra o nome: fica só para leitura. A
+   rolagem até um painel (link #cases-<área>) deixa as abas visíveis acima dele:
+   --cases-abas-altura vem do principal.js. */
+.cases-areas--abas>.cases-area{margin-top:1.5rem;padding-top:0;border-top:0;scroll-margin-top:calc(var(--cases-abas-altura,3.5rem) + 1.5rem)}
+.cases-areas--abas .cases-area__titulo{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.cases-area[hidden],.cases-bloco[hidden],[data-filtro-item][hidden]{display:none}
+
+/* Busca e filtros das abas com demonstrações (Power Platform, Power BI) */
+.cases-busca{margin:1.5rem 0 .25rem}
+.cases-busca__campo{width:100%;max-width:520px;min-height:44px;padding:.6rem 1.1rem;font:inherit;color:var(--text);background:var(--surface-soft);border:1px solid var(--border-strong);border-radius:var(--r-pill)}
+.cases-busca__campo::placeholder{color:var(--text-dim);opacity:1}
+.cases-filtros__rotulo{margin:1rem 0 .45rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
+.cases-filtros__contagem{margin:.75rem 0 0;font-size:.85rem;color:var(--text-muted)}
+.cases-filtros__vazio{margin:1rem 0 0;color:var(--text-muted)}
+
+/* Blocos das abas com demonstrações: "Apps de demonstração" ou "Painéis de
+   demonstração" e "Projetos documentados" */
+.cases-bloco__titulo{margin:2.5rem 0 .25rem;font-size:1.15rem}
+}
+
+@layer componentes{
+/* =========================================================
    LINHA DO TEMPO
    ========================================================= */
 .timeline{position:relative;padding-left:2.1rem;margin-top:3rem}
@@ -1117,16 +1164,22 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
 </header>
 
 <main id="conteudo">
+<!-- Fluent System Icons (c) Microsoft Corporation, licença MIT: assets/icons/neutral/fluent/LICENSE -->
+<svg class="icon-sprite" aria-hidden="true">
+<symbol id="i-apps-list" viewBox="0 0 24 24"><path d="M6.24788 16.0021C7.21437 16.0021 7.99788 16.7856 7.99788 17.7521V20.25C7.99788 21.2165 7.21437 22 6.24788 22H3.75C2.7835 22 2 21.2165 2 20.25V17.7521C2 16.7856 2.7835 16.0021 3.75 16.0021H6.24788ZM6.24788 17.5021H3.75C3.61193 17.5021 3.5 17.6141 3.5 17.7521V20.25C3.5 20.3881 3.61193 20.5 3.75 20.5H6.24788C6.38595 20.5 6.49788 20.3881 6.49788 20.25V17.7521C6.49788 17.6141 6.38595 17.5021 6.24788 17.5021ZM9.74809 18H21.2529C21.6671 18 22.0029 18.3358 22.0029 18.75C22.0029 19.1297 21.7207 19.4435 21.3547 19.4932L21.2529 19.5H9.74809C9.33388 19.5 8.99809 19.1642 8.99809 18.75C8.99809 18.3703 9.28025 18.0565 9.64632 18.0068L9.74809 18H21.2529H9.74809ZM6.24788 9.00106C7.21437 9.00106 7.99788 9.78456 7.99788 10.7511V13.2489C7.99788 14.2154 7.21437 14.9989 6.24788 14.9989H3.75C2.7835 14.9989 2 14.2154 2 13.2489V10.7511C2 9.78456 2.7835 9.00106 3.75 9.00106H6.24788ZM6.24788 10.5011H3.75C3.61193 10.5011 3.5 10.613 3.5 10.7511V13.2489C3.5 13.387 3.61193 13.4989 3.75 13.4989H6.24788C6.38595 13.4989 6.49788 13.387 6.49788 13.2489V10.7511C6.49788 10.613 6.38595 10.5011 6.24788 10.5011ZM9.74809 11H21.2529C21.6671 11 22.0029 11.3358 22.0029 11.75C22.0029 12.1297 21.7207 12.4435 21.3547 12.4932L21.2529 12.5H9.74809C9.33388 12.5 8.99809 12.1642 8.99809 11.75C8.99809 11.3703 9.28025 11.0565 9.64632 11.0068L9.74809 11H21.2529H9.74809ZM6.24788 2C7.21437 2 7.99788 2.7835 7.99788 3.75V6.24788C7.99788 7.21437 7.21437 7.99788 6.24788 7.99788H3.75C2.7835 7.99788 2 7.21437 2 6.24788V3.75C2 2.7835 2.7835 2 3.75 2H6.24788ZM6.24788 3.5H3.75C3.61193 3.5 3.5 3.61193 3.5 3.75V6.24788C3.5 6.38595 3.61193 6.49788 3.75 6.49788H6.24788C6.38595 6.49788 6.49788 6.38595 6.49788 6.24788V3.75C6.49788 3.61193 6.38595 3.5 6.24788 3.5ZM9.74809 4H21.2529C21.6671 4 22.0029 4.33579 22.0029 4.75C22.0029 5.1297 21.7207 5.44349 21.3547 5.49315L21.2529 5.5H9.74809C9.33388 5.5 8.99809 5.16421 8.99809 4.75C8.99809 4.3703 9.28025 4.05651 9.64632 4.00685L9.74809 4H21.2529H9.74809Z" fill="currentColor"/></symbol>
+<symbol id="i-map" viewBox="0 0 24 24"><path d="M9.20337 3.9993L9.25042 3.99805L9.29617 3.99926C9.31861 4.00055 9.34109 4.00288 9.36355 4.00628L9.37963 4.01009C9.46504 4.02381 9.54992 4.05432 9.63082 4.10224L9.68268 4.13578L14.753 7.70105L19.82 4.13913C20.2878 3.81034 20.9215 4.10586 20.9944 4.6482L21.0014 4.75269V15.3852C21.0014 15.5945 20.914 15.7926 20.7632 15.9334L20.6827 15.9988L15.1827 19.8652C14.9158 20.0528 14.5948 20.0371 14.3549 19.8883L9.25002 16.297L4.18035 19.8618C3.71263 20.1906 3.07889 19.8951 3.00595 19.3527L2.99902 19.2483V8.61572C2.99902 8.4064 3.08638 8.20832 3.23714 8.06755L3.3177 8.00216L8.8177 4.13578C8.8817 4.09079 8.94882 4.05749 9.01717 4.03491L9.13964 4.0069L9.20337 3.9993ZM19.5014 6.1967L15.5014 9.00861V17.8076L19.5014 14.9957V6.1967ZM8.49902 6.19335L4.49902 9.00526V17.8042L8.49902 14.9923V6.19335ZM10.0014 6.19335V14.9923L14.0014 17.8042V9.00526L10.0014 6.19335Z" fill="currentColor"/></symbol>
+<symbol id="i-timeline" viewBox="0 0 24 24"><path d="M15.2505 13C16.217 13 17.0005 13.7835 17.0005 14.75V19.25C17.0005 20.2165 16.217 21 15.2505 21H3.75048C2.78398 21 2.00048 20.2165 2.00048 19.25V14.75C2.00048 13.7835 2.78398 13 3.75048 13H15.2505ZM21.0008 14.8989L21.0005 20.25C21.0005 20.6642 20.6647 21 20.2505 21C19.8708 21 19.557 20.7178 19.5073 20.3518L19.5005 20.25L19.5001 14.9117C19.7324 14.9694 19.9754 15 20.2255 15C20.4936 15 20.7535 14.9648 21.0008 14.8989ZM15.2505 14.5H3.75048C3.61241 14.5 3.50048 14.6119 3.50048 14.75V19.25C3.50048 19.3881 3.61241 19.5 3.75048 19.5H15.2505C15.3886 19.5 15.5005 19.3881 15.5005 19.25V14.75C15.5005 14.6119 15.3886 14.5 15.2505 14.5ZM20.2503 10.0919C21.3041 10.0919 22.1583 10.9462 22.1583 12C22.1583 13.0538 21.3041 13.9081 20.2503 13.9081C19.1965 13.9081 18.3422 13.0538 18.3422 12C18.3422 10.9462 19.1965 10.0919 20.2503 10.0919ZM15.2461 3C16.2126 3 16.9961 3.7835 16.9961 4.75V9.25C16.9961 10.2165 16.2126 11 15.2461 11H3.74609C2.7796 11 1.99609 10.2165 1.99609 9.25V4.75C1.99609 3.83183 2.7032 3.07881 3.60257 3.0058L3.74609 3H15.2461ZM15.2461 4.5H3.74609L3.68877 4.5066C3.57833 4.53251 3.49609 4.63165 3.49609 4.75V9.25C3.49609 9.38807 3.60802 9.5 3.74609 9.5H15.2461C15.3842 9.5 15.4961 9.38807 15.4961 9.25V4.75C15.4961 4.61193 15.3842 4.5 15.2461 4.5ZM20.2505 3C20.6302 3 20.944 3.28215 20.9937 3.64823L21.0005 3.75L21.0008 9.10113C20.7535 9.03516 20.4936 9 20.2255 9C19.9754 9 19.7324 9.03061 19.5001 9.08829L19.5005 3.75C19.5005 3.33579 19.8363 3 20.2505 3Z" fill="currentColor"/></symbol>
+</svg>
   <section class="section">
     <div class="wrap">
-      <a class="mock-voltar" href="/demos/power-bi/">Voltar a todos os painéis de demonstração</a>
-      <p class="eyebrow mock-kicker">Infraestrutura | Ferrovia Taboquara (fictícia)</p>
+      <a class="mock-voltar" href="/#cases-power-bi">Voltar a todos os painéis de demonstração</a>
+      <p class="eyebrow mock-kicker">Infraestrutura | Ferrovia Taboquara</p>
       <h1>Defeitos de via vistos trecho a trecho</h1>
       <div class="mock-aviso">
-        <p>Empresa e dados fictícios, gerados por script. Não é trabalho entregue nem resultado medido.</p>
+        <p>Empresas e dados mockados.</p>
       </div>
       <p class="case-card__status"><span class="status status--designed sem-margem">Arquitetura documentada</span></p>
-      <p class="taglist sem-margem"><span class="tag">Geográfica</span><span class="tag">Diagrama linear</span><span class="tag">Trilho de ícones</span></p>
+      <ul class="taglist sem-margem"><li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-map"></use></svg>Geográfica</li><li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-timeline"></use></svg>Diagrama linear</li><li class="tag"><svg class="tag__icon" aria-hidden="true"><use href="#i-apps-list"></use></svg>Trilho de ícones</li></ul>
       <p class="scope"><b>Execução no Power BI:</b> nenhuma. Protótipo em HTML com dados fictícios; o painel "Como seria no Power BI" de cada página traz visuais, medidas DAX e modelo, com fonte no Microsoft Learn ou marcado "a confirmar".</p>
       <h2>Cenário fictício</h2>
       <p class="lead">A Taboquara inspeciona 3 linhas em trechos de 10 km. Defeitos abertos, restrições de velocidade e inspeções atrasadas ficam em planilhas por supervisão, sem uma visão da malha que mostre onde a via se desgasta mais do que a carga explica.</p>
@@ -1380,13 +1433,245 @@ p.diagram-node__foot{padding:.45rem .55rem;border-left:2px solid var(--dg-cor);c
     });
   });
 
+  iniciar('busca e filtros dos cases', function () {
+    /* As abas com demonstrações têm busca e filtros próprios: a Power
+       Platform (busca; Tecnologia, Tipo, Segmento dos apps) e a Power BI
+       (busca; Segmento). O build gera um <template> em cada uma: sem JS não
+       aparecem e tudo fica listado. Rótulos e opções vêm do HTML; nada de
+       texto ou lista fixa aqui. Cada conjunto só enxerga os itens do seu
+       painel. */
+    Array.prototype.forEach.call(
+      document.querySelectorAll('template.cases-filtros-modelo'),
+      montar
+    );
+
+    function montar(modelo) {
+      if (!modelo.content || !modelo.content.firstElementChild) return;
+      var painel = modelo.parentNode;
+      var itens = Array.prototype.slice.call(painel.querySelectorAll('[data-filtro-item]'));
+      if (!itens.length) return;
+
+      var filtros = modelo.content.firstElementChild.cloneNode(true);
+      var busca = filtros.querySelector('input[type="search"]');
+      var contagem = filtros.querySelector('.cases-filtros__contagem');
+      var vazio = filtros.querySelector('.cases-filtros__vazio');
+      var textoDaContagem = contagem ? contagem.getAttribute('data-modelo') || '' : '';
+      var blocos = Array.prototype.slice.call(painel.querySelectorAll('[data-bloco]'));
+      var estado = {};
+
+      /* Sem acento e sem caixa: "saude" acha "Saúde". */
+      function normalizar(texto) {
+        return String(texto)
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+      /* A busca olha nome, segmento (com a empresa) e tecnologias de cada item. */
+      var CAMPOS = '.mock-card__titulo, .mock-card__seg, .case-card__titulo, .tag';
+      var textos = itens.map(function (item) {
+        return normalizar(
+          Array.prototype.map
+            .call(item.querySelectorAll(CAMPOS), function (el) {
+              return el.textContent;
+            })
+            .join(' ')
+        );
+      });
+
+      /* data-tecs é uma lista separada por espaço; tipo e segmento, valor único.
+       Item sem o atributo (projeto não tem segmento) sai quando o filtro está
+       ativo. */
+      function casa(item, chave, valor) {
+        if (!valor) return true;
+        var atual = item.getAttribute('data-' + chave);
+        if (atual === null) return false;
+        return chave === 'tecs'
+          ? (' ' + atual + ' ').indexOf(' ' + valor + ' ') >= 0
+          : atual === valor;
+      }
+
+      function aplicar() {
+        var termo = busca ? normalizar(busca.value) : '';
+        var visiveis = 0;
+        itens.forEach(function (item, i) {
+          var ok = textos[i].indexOf(termo) >= 0;
+          Object.keys(estado).forEach(function (chave) {
+            ok = ok && casa(item, chave, estado[chave]);
+          });
+          item.hidden = !ok;
+          if (ok) visiveis++;
+        });
+        /* Bloco sem item visível some com o título e o aviso. */
+        blocos.forEach(function (bloco) {
+          bloco.hidden = !bloco.querySelector('[data-filtro-item]:not([hidden])');
+        });
+        if (contagem)
+          contagem.textContent = textoDaContagem
+            .replace('{n}', visiveis)
+            .replace('{total}', itens.length);
+        if (vazio) vazio.hidden = visiveis > 0;
+      }
+
+      Array.prototype.forEach.call(filtros.querySelectorAll('[data-filtro]'), function (grupo) {
+        var chave = grupo.getAttribute('data-filtro');
+        var botoes = Array.prototype.slice.call(grupo.querySelectorAll('button[data-valor]'));
+        estado[chave] = '';
+        botoes.forEach(function (botao) {
+          botao.addEventListener('click', function () {
+            botoes.forEach(function (outro) {
+              outro.setAttribute('aria-pressed', String(outro === botao));
+            });
+            estado[chave] = botao.getAttribute('data-valor');
+            aplicar();
+          });
+        });
+      });
+      if (busca) busca.addEventListener('input', aplicar);
+
+      /* No celular cada grupo é uma faixa rolável: o botão focado pelo teclado
+       vem inteiro para dentro dela, com margem para o contorno de foco. */
+      filtros.addEventListener('focusin', function (e) {
+        var botao = e.target;
+        var faixa = botao.parentNode;
+        if (!faixa || !faixa.hasAttribute || !faixa.hasAttribute('data-filtro')) return;
+        window.requestAnimationFrame(function () {
+          if (faixa.scrollWidth <= faixa.clientWidth) return;
+          var f = faixa.getBoundingClientRect();
+          var b = botao.getBoundingClientRect();
+          var margem = 12;
+          if (b.left < f.left + margem) faixa.scrollLeft -= f.left + margem - b.left;
+          else if (b.right > f.right - margem) faixa.scrollLeft += b.right - (f.right - margem);
+        });
+      });
+
+      /* Aplica antes de inserir: a região aria-live entra já com o texto e não
+       anuncia nada na carga. */
+      aplicar();
+      painel.replaceChild(filtros, modelo);
+    }
+  });
+
+  iniciar('abas dos cases', function () {
+    /* Padrão ARIA de abas (tablist/tab/tabpanel, setas, Home/End, tabindex
+       rolante). A lista vem de um <template> gerado no build; sem JS não há
+       aba nem painel escondido, e as sessões ficam empilhadas. Um link para
+       uma sessão (#cases-<área>) ou para algo dentro dela abre a aba certa:
+       no clique (antes da navegação padrão), no hashchange e na carga. */
+    var modelo = document.querySelector('template.cases-abas-modelo');
+    if (!modelo || !modelo.content || !modelo.content.firstElementChild) return;
+    var grupo = modelo.parentNode;
+    var lista = modelo.content.firstElementChild.cloneNode(true);
+    var abas = Array.prototype.slice.call(lista.querySelectorAll('[role="tab"]'));
+    var paineis = abas.map(function (aba) {
+      return document.getElementById(aba.getAttribute('aria-controls'));
+    });
+    if (!abas.length || paineis.indexOf(null) >= 0) return;
+
+    function ativar(i, focar) {
+      abas.forEach(function (aba, j) {
+        var sel = i === j;
+        aba.setAttribute('aria-selected', String(sel));
+        aba.tabIndex = sel ? 0 : -1;
+        paineis[j].hidden = !sel;
+      });
+      if (focar) abas[i].focus();
+    }
+
+    /* Painel sem nada focável (IA aplicada) entra na ordem do Tab,
+       como pede o padrão. Os outros não: o Tab vai da aba ao primeiro
+       controle (a busca, um link), e o painel focável seria focado pelo
+       próprio navegador ao abrir a página com #cases-<área>, com o contorno
+       de foco em volta da aba inteira. */
+    var FOCAVEL = 'a[href], button, input, select, textarea, [tabindex]';
+    paineis.forEach(function (painel, i) {
+      painel.setAttribute('role', 'tabpanel');
+      painel.setAttribute('aria-labelledby', abas[i].id);
+      if (!painel.querySelector(FOCAVEL)) painel.tabIndex = 0;
+    });
+    abas.forEach(function (aba, i) {
+      aba.addEventListener('click', function () {
+        ativar(i);
+      });
+      aba.addEventListener('keydown', function (e) {
+        var n = abas.length;
+        var j =
+          e.key === 'ArrowRight'
+            ? (i + 1) % n
+            : e.key === 'ArrowLeft'
+              ? (i - 1 + n) % n
+              : e.key === 'Home'
+                ? 0
+                : e.key === 'End'
+                  ? n - 1
+                  : -1;
+        if (j < 0) return;
+        e.preventDefault();
+        ativar(j, true);
+      });
+    });
+
+    function alvoDe(hash) {
+      if (!hash || hash.length < 2) return null;
+      try {
+        return document.getElementById(decodeURIComponent(hash.slice(1)));
+      } catch (erro) {
+        return null;
+      }
+    }
+    function painelDe(alvo) {
+      for (var i = 0; i < paineis.length; i++) if (alvo && paineis[i].contains(alvo)) return i;
+      return -1;
+    }
+    /* Abre a aba que contém o alvo; devolve true se precisou trocar. */
+    function abrirPara(alvo) {
+      var i = painelDe(alvo);
+      if (i < 0 || !paineis[i].hidden) return false;
+      ativar(i);
+      return true;
+    }
+
+    grupo.replaceChild(lista, modelo);
+    grupo.classList.add('cases-areas--abas');
+
+    /* Altura da lista de abas: o painel a usa em scroll-margin-top, para a
+       rolagem até ele deixar as abas à vista. */
+    function medir() {
+      grupo.style.setProperty('--cases-abas-altura', lista.offsetHeight + 'px');
+    }
+
+    var inicial = alvoDe(window.location.hash);
+    var i0 = painelDe(inicial);
+    ativar(i0 >= 0 ? i0 : 0);
+    medir();
+    if (window.ResizeObserver) new window.ResizeObserver(medir).observe(lista);
+    if (i0 >= 0) {
+      try {
+        inicial.scrollIntoView({ block: 'start', behavior: 'instant' });
+      } catch (erro) {
+        inicial.scrollIntoView(true);
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[href^="#"]');
+      if (link) abrirPara(alvoDe(link.getAttribute('href')));
+    });
+    window.addEventListener('hashchange', function () {
+      var alvo = alvoDe(window.location.hash);
+      if (abrirPara(alvo)) alvo.scrollIntoView({ block: 'start' });
+    });
+  });
+
   iniciar('foco na âncora', function () {
     document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
       if (!link) return;
       var alvo = document.querySelector(link.getAttribute('href'));
       if (!alvo) return;
-      alvo.setAttribute('tabindex', '-1');
+      /* Só torna focável o que não é: o painel de aba já tem tabindex 0. */
+      if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
 
       function focar() {
         alvo.focus({ preventScroll: true });

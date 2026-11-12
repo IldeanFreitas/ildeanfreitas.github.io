@@ -16,6 +16,15 @@
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import {
+  COLECOES,
+  TECNOLOGIAS,
+  avisoApps,
+  cartaoApp,
+  iconeTec,
+  tecnologiaDe,
+  tecsDoApp
+} from './demos.mjs';
 
 const DICIONARIO = {
   pt: {
@@ -43,23 +52,26 @@ const DICIONARIO = {
       documentado: 'Documentado, sem execução',
       previsto: 'Previsto no contrato, ainda não feito'
     },
-    /* Sessões da seção Cases (ordem em AREAS). `link` fecha a sessão. */
+    /* Sessões da seção Cases (ordem em AREAS); com JS, uma aba cada. */
     areas: {
       'power-platform': {
         titulo: 'Power Platform',
         abertura: 'Aplicações e automações com Power Apps, Power Automate, Dataverse e SharePoint.',
-        link: {
-          href: '/demos/power-apps/',
-          texto: 'Ver os 12 apps de demonstração (dados fictícios)'
+        /* Rótulos do bloco de demonstrações da aba (ver DEMOS_DA_AREA). */
+        demos: {
+          bloco: 'Apps de demonstração',
+          dica: 'Buscar por nome, segmento ou tecnologia',
+          segmento: 'Segmento dos apps'
         }
       },
       'power-bi': {
         titulo: 'Power BI',
         abertura:
           'Painéis interativos com dados fictícios, navegáveis como um relatório publicado.',
-        link: {
-          href: '/demos/power-bi/',
-          texto: 'Ver os 10 painéis de demonstração (dados fictícios)'
+        demos: {
+          bloco: 'Painéis de demonstração',
+          dica: 'Buscar por nome, segmento ou recurso',
+          segmento: 'Segmento'
         }
       },
       'engenharia-dados': {
@@ -70,7 +82,22 @@ const DICIONARIO = {
         titulo: 'IA aplicada',
         abertura: 'Em preparação: casos de RAG e agentes com modelos de linguagem.'
       }
-    }
+    },
+    /* Abas e abas com demonstrações (Power Platform, Power BI): busca,
+     * filtros, contador e títulos dos blocos. O que muda de uma aba para a
+     * outra está em areas.<área>.demos. */
+    abas: 'Projetos por área',
+    blocos: { projeto: 'Projetos documentados' },
+    busca: { rotulo: 'Buscar' },
+    filtros: {
+      tecnologia: 'Tecnologia',
+      tipo: 'Tipo',
+      todos: 'Todos',
+      todas: 'Todas',
+      projetos: 'Projetos'
+    },
+    contagem: '{n} de {total} itens',
+    vazio: 'Nada encontrado. Limpe a busca ou escolha outro filtro.'
   },
   en: {
     verRepositorio: 'See repository and evidence',
@@ -101,18 +128,20 @@ const DICIONARIO = {
       'power-platform': {
         titulo: 'Power Platform',
         abertura: 'Apps and automation with Power Apps, Power Automate, Dataverse and SharePoint.',
-        link: {
-          href: '/en/demos/power-apps/',
-          texto: 'See the 12 demo apps (fictitious data)'
+        demos: {
+          bloco: 'Demo apps',
+          dica: 'Search by name, segment or technology',
+          segmento: 'App segment'
         }
       },
       'power-bi': {
         titulo: 'Power BI',
         abertura:
           'Interactive dashboards with fictitious data, explorable like a published report.',
-        link: {
-          href: '/en/demos/power-bi/',
-          texto: 'See the 10 demo dashboards (fictitious data)'
+        demos: {
+          bloco: 'Demo dashboards',
+          dica: 'Search by name, segment or feature',
+          segmento: 'Segment'
         }
       },
       'engenharia-dados': {
@@ -123,11 +152,24 @@ const DICIONARIO = {
         titulo: 'Applied AI',
         abertura: 'In preparation: RAG and agent cases with language models.'
       }
-    }
+    },
+    abas: 'Projects by area',
+    blocos: { projeto: 'Documented projects' },
+    busca: { rotulo: 'Search' },
+    filtros: {
+      tecnologia: 'Technology',
+      tipo: 'Type',
+      todos: 'All',
+      todas: 'All',
+      projetos: 'Projects'
+    },
+    contagem: '{n} of {total} items',
+    vazio: 'Nothing found. Clear the search or choose another filter.'
   }
 };
 
 let T = DICIONARIO.pt;
+let idiomaAtual = 'pt';
 
 /** Escapa o que vai para dentro de um atributo HTML. */
 const attr = (s) =>
@@ -219,19 +261,29 @@ function lista(valor, onde, min, max = min) {
  * A cor da zona chega pelo currentColor dos paths.
  * ------------------------------------------------------------------------- */
 export const FLUENT = [
+  'apps-list',
   'archive',
   'arrow-clockwise',
+  'arrow-sort-down-lines',
+  'arrow-swap',
   'arrow-sync',
   'arrow-sync-checkmark',
   'beaker',
+  'board',
   'bot',
   'brain-circuit',
   'branch',
+  'building',
+  'calendar',
   'chart-multiple',
   'clock',
   'cloud',
+  'compass-northwest',
   'cube',
   'cursor-click',
+  'data-line',
+  'data-trending',
+  'data-waterfall',
   'database',
   'database-arrow-right',
   'database-checkmark',
@@ -239,29 +291,44 @@ export const FLUENT = [
   'database-search',
   'dialpad',
   'document-lock',
+  'document-table',
   'document-text',
   'eye-off',
   'filter',
   'flash',
   'flow',
   'folder',
+  'gauge',
   'globe',
+  'grid',
+  'headset',
   'history',
+  'hourglass',
   'key',
   'laptop',
   'lock-closed',
+  'map',
   'math-formula',
   'merge',
+  'money',
+  'options',
+  'panel-left',
   'password',
+  'people-team',
   'plug-connected',
   'server',
+  'shield-checkmark',
   'shield-dismiss',
   'shield-lock',
   'storage',
   'table',
   'table-search',
+  'tabs',
+  'target',
+  'timeline',
   'timer',
-  'window'
+  'window',
+  'zoom-in'
 ];
 
 function iconeNeutro(nome, onde) {
@@ -356,6 +423,17 @@ export const MARCAS = {
     throw new ErroDeCase(
       `ícones sem registro em assets/icons/manifest.json: ${faltando
         .map(([nome, caminho]) => `${nome} (${caminho})`)
+        .join(', ')}`
+    );
+  /* As tags e o filtro de tecnologia dos apps (scripts/demos.mjs) usam o
+   * mesmo sprite: ícone neutro fora de FLUENT falharia só ao montar a página. */
+  const foraDoSprite = Object.entries(TECNOLOGIAS).filter(
+    ([, t]) => t.fluent && !FLUENT.includes(t.fluent)
+  );
+  if (foraDoSprite.length)
+    throw new ErroDeCase(
+      `TECNOLOGIAS (scripts/demos.mjs) com ícone neutro fora de FLUENT: ${foraDoSprite
+        .map(([chave, t]) => `${chave} (${t.fluent})`)
         .join(', ')}`
     );
 }
@@ -901,19 +979,20 @@ function diagrama(d) {
  * não aparece, em vez de virar um "a definir" publicado. `decisoes` e
  * `resultado` são obrigatórios (conferidos em validarCase).
  */
-function fatos(c) {
+function fatos(c, nivel) {
+  const h = (rotulo) => `<h${nivel}>${rotulo}</h${nivel}>`;
   const blocos = [];
-  if (c.papel) blocos.push(`<div><h5>${T.papel}</h5><p>${texto(c.papel)}</p></div>`);
+  if (c.papel) blocos.push(`<div>${h(T.papel)}<p>${texto(c.papel)}</p></div>`);
   if (c.decisoes && c.decisoes.length)
     blocos.push(
-      `<div><h5>${T.decisoes}</h5><ul>${c.decisoes
+      `<div>${h(T.decisoes)}<ul>${c.decisoes
         .map((d) => `<li><b>${texto(d.titulo)}</b> ${texto(d.texto)}</li>`)
         .join('')}</ul></div>`
     );
-  if (c.resultado) blocos.push(`<div><h5>${T.resultado}</h5><p>${texto(c.resultado)}</p></div>`);
+  if (c.resultado) blocos.push(`<div>${h(T.resultado)}<p>${texto(c.resultado)}</p></div>`);
   if (c.aprendizados && c.aprendizados.length)
     blocos.push(
-      `<div><h5>${T.aprendizados}</h5><ul>${c.aprendizados.map((a) => `<li>${texto(a)}</li>`).join('')}</ul></div>`
+      `<div>${h(T.aprendizados)}<ul>${c.aprendizados.map((a) => `<li>${texto(a)}</li>`).join('')}</ul></div>`
     );
   if (!blocos.length) return [];
   return [
@@ -935,37 +1014,217 @@ export const SELOS = ['done', 'lab', 'staging', 'designed', 'evolving', 'soon'];
  *
  * Cada case declara a sua em `area`; area ausente ou fora desta lista para o
  * build. O id da sessão é `cases-<area>`, alvo dos botões dos cartões de
- * Especialidades. Título, linha de abertura e o link opcional do fim da sessão
- * vêm de T.areas, por idioma.
+ * Especialidades. Título e linha de abertura vêm de T.areas, por idioma.
  *
- * Hierarquia de títulos: seção Cases em h2, sessão em h3, título do case em h4
- * e fatos do case (papel, decisões, resultado, aprendizados) em h5. O CSS
- * mantém o tamanho de antes (o h4 do case com o corpo de h3).
+ * Com JS, cada sessão é uma aba (src/js/principal.js clona a lista de abas do
+ * <template> gerado aqui); sem JS, as quatro ficam empilhadas, com o h3
+ * visível. O ícone de cada aba é o do cartão de Especialidades que leva à
+ * sessão (iconesDasAreas lê o template); Power BI, sem cartão, usa a marca.
+ *
+ * Hierarquia de títulos: seção Cases em h2, sessão em h3. Nas sessões com
+ * demonstrações (Power Platform e Power BI), os blocos "Apps de demonstração"
+ * ou "Painéis de demonstração" e "Projetos documentados" são h4, o título do
+ * app, do painel e do case, h5, e os fatos do case, h6. Nas outras, o case é
+ * h4 e os fatos, h5. O CSS estiliza pela classe (case-card__titulo,
+ * mock-card__titulo), então o título do case tem a mesma aparência nos dois
+ * níveis (o corpo de h3).
  *
  * Sessão sem case mostra só o título e a abertura ("Em preparação: ..."), sem
  * selo: a legenda de selos do Sobre lista exatamente os selos dos cases.
  * ------------------------------------------------------------------------- */
 export const AREAS = ['power-platform', 'power-bi', 'engenharia-dados', 'ia'];
 
+/**
+ * Sessões que reúnem demonstrações (busca, filtros e os blocos): os apps na
+ * Power Platform, os painéis no Power BI. `tecnologia`: a sessão tem o filtro
+ * Tecnologia (as tags dos painéis são recursos do relatório, não tecnologias,
+ * e não viram filtro). Os rótulos de cada uma ficam em areas.<área>.demos.
+ */
+export const DEMOS_DA_AREA = {
+  'power-platform': { col: COLECOES.apps, tecnologia: true },
+  'power-bi': { col: COLECOES.paineis, tecnologia: false }
+};
+
+/** Aba sem cartão em Especialidades: o ícone é a marca do produto. */
+const ABA_COM_MARCA = { 'power-bi': 'power-bi' };
+
 for (const [idioma, d] of Object.entries(DICIONARIO))
   for (const area of AREAS)
     if (!preenchido(d.areas?.[area]?.titulo) || !preenchido(d.areas[area].abertura))
       throw new ErroDeCase(`dicionário "${idioma}" sem título ou abertura da área "${area}"`);
+for (const [idioma, d] of Object.entries(DICIONARIO))
+  for (const area of Object.keys(DEMOS_DA_AREA))
+    for (const chave of ['bloco', 'dica', 'segmento'])
+      if (!preenchido(d.areas[area].demos?.[chave]))
+        throw new ErroDeCase(`dicionário "${idioma}" sem demos.${chave} da área "${area}"`);
 
-function sessao(area, cards) {
+/**
+ * Ícones dos cartões de Especialidades, por área: o SVG do cartão cujo botão
+ * leva a `#cases-<área>`. Lido do template da página, para a aba usar o mesmo
+ * desenho do cartão sem cópia à mão.
+ */
+export function iconesDasAreas(template) {
+  const icones = {};
+  for (const trecho of template.split(/<article\b/).slice(1)) {
+    const cartao = trecho.split('</article>')[0];
+    const area = cartao.match(/\bhref="#cases-([\w-]+)"/)?.[1];
+    const svg = cartao.match(/<div class="card__icon"[^>]*>\s*(<svg\b[\s\S]*?<\/svg>)/)?.[1];
+    if (area && svg) icones[area] = svg;
+  }
+  return icones;
+}
+
+function iconeDaAba(area, icones) {
+  if (ABA_COM_MARCA[area])
+    return `<img class="cases-aba__icone" src="/${MARCAS[ABA_COM_MARCA[area]]}" alt="" width="18" height="18">`;
+  const svg = icones && icones[area];
+  if (!svg) return '';
+  return svg.replace(
+    /^<svg\b([^>]*)>/,
+    (_, atributos) =>
+      `<svg class="cases-aba__icone" aria-hidden="true"${atributos.replace(/\s(?:width|height)="[^"]*"/g, '')}>`
+  );
+}
+
+/** Lista de abas, num <template>: só existe na página se o JS a clonar. */
+function modeloDasAbas(icones) {
+  return [
+    `      <template class="cases-abas-modelo">`,
+    `        <div class="cases-abas" role="tablist" aria-label="${attr(T.abas)}">`,
+    ...AREAS.map(
+      (area) =>
+        `          <button type="button" class="cases-aba" role="tab" id="aba-${area}" aria-controls="cases-${area}" aria-selected="false" tabindex="-1">${iconeDaAba(area, icones)}${T.areas[area].titulo}</button>`
+    ),
+    `        </div>`,
+    `      </template>`
+  ];
+}
+
+/** Chaves de tecnologia de um case, lidas das tags dele (as que o dicionário conhece). */
+const tecsDoCase = (c) => [...new Set(c.tags.map(tecnologiaDe).filter(Boolean))];
+
+/** Atributos que a busca e os filtros leem (só nas sessões com demonstrações). */
+const dadosDoItem = (tipo, tecs, segmento) =>
+  ` data-filtro-item data-tipo="${tipo}"${segmento ? ` data-segmento="${attr(segmento)}"` : ''}${
+    tecs.length ? ` data-tecs="${tecs.join(' ')}"` : ''
+  }`;
+
+/**
+ * Busca e filtros, num <template>: sem JS não aparecem e tudo fica listado.
+ * Um por sessão com demonstrações, com os ids marcados pela área. As opções de
+ * Tecnologia (quando a sessão tem esse filtro) são as do dicionário
+ * (scripts/demos.mjs) usadas por algum item, na ordem dele; o filtro Tipo só
+ * existe quando a sessão tem projetos; as opções de Segmento são as das
+ * demonstrações, na ordem do JSON.
+ */
+function modeloDosFiltros(area, { tecs, nDemos, nProjetos, segmentos }) {
+  const F = T.filtros;
+  const D = T.areas[area].demos;
+  const botao = (valor, rotulo, marcado = false) =>
+    `<button type="button" aria-pressed="${marcado}" data-valor="${attr(valor)}">${rotulo}</button>`;
+  const grupo = (chave, rotulo, botoes) => [
+    `            <p class="cases-filtros__rotulo" id="cases-filtro-${area}-${chave}">${rotulo}</p>`,
+    `            <div class="mock-filtros" role="group" aria-labelledby="cases-filtro-${area}-${chave}" data-filtro="${chave}">`,
+    ...botoes.map((b) => `              ${b}`),
+    `            </div>`
+  ];
+  return [
+    `        <template class="cases-filtros-modelo">`,
+    `          <div class="cases-filtros">`,
+    `            <div class="cases-busca">`,
+    `              <label class="sr-only" for="cases-busca-${area}">${T.busca.rotulo}</label>`,
+    `              <input class="cases-busca__campo" type="search" id="cases-busca-${area}" placeholder="${attr(D.dica)}" autocomplete="off">`,
+    `            </div>`,
+    ...(tecs
+      ? grupo('tecs', F.tecnologia, [
+          botao('', F.todas, true),
+          ...tecs.map((k) => botao(k, `${iconeTec(k)}${texto(TECNOLOGIAS[k].nome)}`))
+        ])
+      : []),
+    ...(nProjetos
+      ? grupo('tipo', F.tipo, [
+          botao('', F.todos, true),
+          botao('demo', `${D.bloco} (${nDemos})`),
+          botao('projeto', `${F.projetos} (${nProjetos})`)
+        ])
+      : []),
+    ...grupo('segmento', D.segmento, [
+      botao('', F.todos, true),
+      ...segmentos.map((s) => botao(s, texto(s)))
+    ]),
+    `            <div class="cases-filtros__resultado" aria-live="polite">`,
+    `              <p class="cases-filtros__contagem" data-modelo="${attr(T.contagem)}"></p>`,
+    `              <p class="cases-filtros__vazio">${T.vazio}</p>`,
+    `            </div>`,
+    `          </div>`,
+    `        </template>`
+  ];
+}
+
+/**
+ * Sessão com demonstrações: busca e filtros, bloco das demonstrações (aviso e
+ * grade de cartões) e, se houver case na área, bloco dos projetos.
+ */
+function corpoComDemos(area, cases) {
+  const { col, tecnologia } = DEMOS_DA_AREA[area];
+  const D = T.areas[area].demos;
+  const demos = col.dados.map((c) => ({ c, tecs: tecnologia ? tecsDoApp(c) : [] }));
+  const projetos = cases.map((c) => ({ c, tecs: tecnologia ? tecsDoCase(c) : [] }));
+  const usadas = new Set([...demos, ...projetos].flatMap((i) => i.tecs));
+  const linhas = [
+    ...modeloDosFiltros(area, {
+      tecs: tecnologia ? Object.keys(TECNOLOGIAS).filter((k) => usadas.has(k)) : null,
+      nDemos: demos.length,
+      nProjetos: projetos.length,
+      segmentos: [...new Set(col.dados.map((c) => c.segmento[idiomaAtual]))]
+    }),
+    `        <div class="cases-bloco" data-bloco="demo">`,
+    `          <h4 class="cases-bloco__titulo">${D.bloco}</h4>`,
+    `          ${avisoApps(idiomaAtual, '          ', col)}`,
+    `          <div class="grid grid--3 mock-grid">`,
+    ...demos.map(({ c, tecs }) =>
+      cartaoApp(idiomaAtual, c, {
+        nivel: 5,
+        recuo: '            ',
+        col,
+        atributos: dadosDoItem('demo', tecs, c.segmento[idiomaAtual])
+      })
+    ),
+    `          </div>`,
+    `        </div>`
+  ];
+  if (projetos.length)
+    linhas.push(
+      `        <div class="cases-bloco" data-bloco="projeto">`,
+      `          <h4 class="cases-bloco__titulo">${T.blocos.projeto}</h4>`,
+      `          <div class="case-grid">`,
+      projetos
+        .map(({ c, tecs }) =>
+          renderizarCase(c, { nivel: 5, atributos: dadosDoItem('projeto', tecs) })
+        )
+        .join('\n\n'),
+      `          </div>`,
+      `        </div>`
+    );
+  return linhas;
+}
+
+function sessao(area, cases) {
   const a = T.areas[area];
+  const corpo = DEMOS_DA_AREA[area]
+    ? corpoComDemos(area, cases)
+    : cases.length
+      ? [
+          `        <div class="case-grid">`,
+          cases.map((c) => renderizarCase(c)).join('\n\n'),
+          `        </div>`
+        ]
+      : [];
   return [
     `      <section class="cases-area" id="cases-${area}">`,
     `        <h3 class="cases-area__titulo">${a.titulo}</h3>`,
     `        <p class="cases-area__abertura">${a.abertura}</p>`,
-    ...(cards.length
-      ? [`        <div class="case-grid">`, cards.join('\n\n'), `        </div>`]
-      : []),
-    ...(a.link
-      ? [
-          `        <p class="demos-mais"><a class="btn btn--secondary" href="${attr(a.link.href)}">${a.link.texto}</a></p>`
-        ]
-      : []),
+    ...corpo,
     `      </section>`
   ].join('\n');
 }
@@ -997,13 +1256,16 @@ function validarCase(c) {
  * ninguém notar: um deles usava class="button button--secondary", que não
  * existe no CSS, e o link do repositório renderizava como texto simples
  * enquanto os outros cinco eram pílulas.
+ *
+ * `nivel`: nível do título (4; 5 sob o bloco "Projetos documentados"); os
+ * fatos ficam um nível abaixo. `atributos`: marcação extra do envoltório.
  */
-export function renderizarCase(c) {
+export function renderizarCase(c, { nivel = 4, atributos = '' } = {}) {
   caseAtual = (c && c.id) || '(sem id)';
   validarCase(c);
   const classes = `card case-card case-card--feature case-card--${attr(c.id.replace(/^case-/, ''))} reveal`;
   const partes = [
-    `        <article class="${classes}" id="${attr(c.id)}">`,
+    `        <article class="${classes}" id="${attr(c.id)}"${atributos}>`,
     `          <div class="case-card__content">`,
     /* Narrativa (selo, título, descrição, escopo) e fatos em .case-card__cols:
      * no desktop são duas colunas, e a narrativa acompanha a rolagem ao lado
@@ -1011,11 +1273,11 @@ export function renderizarCase(c) {
     `          <div class="case-card__cols">`,
     `          <div class="case-card__intro">`,
     `          <p class="case-card__status"><span class="status status--${attr(c.status.variante)} sem-margem">${texto(c.status.rotulo)}</span>${c.natureza ? `<span class="status-natureza">${texto(c.natureza)}</span>` : ''}</p>`,
-    `          <h4>${texto(c.titulo)}</h4>`,
+    `          <h${nivel} class="case-card__titulo">${texto(c.titulo)}</h${nivel}>`,
     `          <p>${texto(c.descricao)}</p>`,
     `          <p class="scope"><b>${texto(c.escopoRotulo)}</b> ${texto(c.escopo)}</p>`,
     `          </div>`,
-    ...fatos(c),
+    ...fatos(c, nivel + 1),
     `          </div>`,
     `          <div class="case-card__foot">`,
     `          <ul class="taglist">`,
@@ -1033,19 +1295,39 @@ export function renderizarCase(c) {
   return partes.join('\n');
 }
 
-export function renderizarCases(cases, idioma = 'pt') {
+/**
+ * A seção Cases inteira: lista de abas (template) e as quatro sessões.
+ * `iconesArea`: ícones das abas (iconesDasAreas do template da página). O
+ * build sempre passa e exige um por área; sem eles (testes de unidade) as abas
+ * saem só com o nome.
+ */
+export function renderizarCases(cases, idioma = 'pt', { iconesArea } = {}) {
   exigir(Object.hasOwn(DICIONARIO, idioma), 'renderizarCases', `idioma desconhecido "${idioma}"`);
   T = DICIONARIO[idioma];
+  idiomaAtual = idioma;
   exigir(Array.isArray(cases), 'renderizarCases', 'esperada uma lista de cases');
+  if (iconesArea)
+    for (const area of AREAS)
+      exigir(
+        ABA_COM_MARCA[area] || iconesArea[area],
+        'renderizarCases',
+        `sem ícone para a aba "${area}": o template não tem cartão de Especialidades com botão para #cases-${area}`
+      );
   try {
-    /* Agrupa por área mantendo a ordem relativa do JSON dentro de cada uma.
-     * renderizarCase valida a área antes de o card entrar no grupo. */
+    /* Agrupa por área mantendo a ordem relativa do JSON dentro de cada uma;
+     * a validação vem antes, para o case entrar no grupo da área certa. */
     const porArea = new Map(AREAS.map((a) => [a, []]));
     for (const c of cases) {
-      const card = renderizarCase(c);
-      porArea.get(c.area).push(card);
+      caseAtual = (c && c.id) || '(sem id)';
+      validarCase(c);
+      porArea.get(c.area).push(c);
     }
-    return AREAS.map((a) => sessao(a, porArea.get(a))).join('\n\n');
+    return [
+      `      <div class="cases-areas">`,
+      ...modeloDasAbas(iconesArea),
+      AREAS.map((a) => sessao(a, porArea.get(a))).join('\n\n'),
+      `      </div>`
+    ].join('\n');
   } finally {
     caseAtual = '(fora de um case)';
   }

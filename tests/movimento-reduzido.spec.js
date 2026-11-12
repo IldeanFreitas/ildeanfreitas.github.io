@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import cases from '../src/data/cases.json' with { type: 'json' };
+import { abrirAbaDe } from './apoio-abas.js';
 
 /**
  * Os diagramas animam a entrada (etapas acendendo, pulso nas conexões,
@@ -15,13 +16,17 @@ import cases from '../src/data/cases.json' with { type: 'json' };
  * sem-javascript.spec.js confere que o cartão (.reveal) aparece inteiro.
  */
 
-/** Rola até cada diagrama e devolve o que ainda está animando ou deslocado. */
+/**
+ * Rola até cada diagrama e devolve o que ainda está animando ou deslocado.
+ * Com JS a seção Cases mostra uma aba por vez: abre a do case antes.
+ */
 async function percorrerDiagramas(page) {
   const figuras = page.locator('.case-card .architecture-diagram');
   const total = await figuras.count();
   const relatorio = [];
   for (let i = 0; i < total; i++) {
     const figura = figuras.nth(i);
+    await abrirAbaDe(page, `#${await figura.evaluate((f) => f.closest('.case-card').id)}`);
     await figura.scrollIntoViewIfNeeded();
     await expect(figura).toBeVisible();
     relatorio.push(
@@ -87,6 +92,7 @@ test.describe('sem preferência de movimento', () => {
     await page.goto('/');
     const animados = [];
     for (const c of cases) {
+      await abrirAbaDe(page, `#${c.id}`);
       const figura = page.locator(`#${c.id} .architecture-diagram`);
       await figura.scrollIntoViewIfNeeded();
       await expect(figura).toHaveClass(/is-visible/);
