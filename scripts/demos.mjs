@@ -421,10 +421,12 @@ export const TECNOLOGIAS = {
     fluent: 'panel-left'
   },
   abas: { nome: 'Abas', en: 'Tabs', es: 'Pestañas', fluent: 'tabs' },
-  'navegador-indicadores': {
-    nome: 'Navegador de indicadores',
-    en: 'KPI navigator',
-    es: 'Navegador de indicadores',
+  /* O recurso do Power BI (Inserir, Botões, Navegador) tem dois tipos: de
+   * páginas e de indicadores (bookmarks). O painel do gás usa o de páginas. */
+  'navegador-paginas': {
+    nome: 'Navegador de páginas',
+    en: 'Page navigator',
+    es: 'Navegador de páginas',
     fluent: 'compass-northwest'
   },
   'trilho-icones': {
