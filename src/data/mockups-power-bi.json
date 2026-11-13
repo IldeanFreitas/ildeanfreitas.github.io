@@ -186,9 +186,9 @@
       "es": "Aldrava organiza el desarrollo en trenes y equipos con SAFe. Los equipos siguen sobrecargados, los riesgos quedan sin resolver y una dependencia atrasada de un tren frena la entrega de otros."
     },
     "solucao": {
-      "pt": "Painel de entrega com previsibilidade por PI, velocidade e carga sem as iterações de inovação e planejamento, matriz de risco ROAM e a matriz de quem atrasa quem entre trens, com o efeito do bloqueio na previsibilidade.",
-      "en": "A delivery dashboard with predictability by PI, velocity and load excluding innovation and planning iterations, a ROAM risk matrix and a who-delays-whom matrix between trains, with the effect of blockers on predictability.",
-      "es": "Panel de entrega con previsibilidad por PI, velocidad y carga sin las iteraciones de innovación y planificación, matriz de riesgo ROAM y la matriz de quién atrasa a quién entre trenes, con el efecto del bloqueo en la previsibilidad."
+      "pt": "Painel de entrega com previsibilidade por PI, velocidade e carga sem as iterações de inovação e planejamento, riscos por situação ROAM, matriz de probabilidade e impacto e a matriz de quem atrasa quem entre trens, com o efeito do bloqueio na previsibilidade.",
+      "en": "A delivery dashboard with predictability by PI, velocity and load excluding innovation and planning iterations, risks by ROAM status, a probability and impact matrix and a who-delays-whom matrix between trains, with the effect of blockers on predictability.",
+      "es": "Panel de entrega con previsibilidad por PI, velocidad y carga sin las iteraciones de innovación y planificación, riesgos por situación ROAM, matriz de probabilidad e impacto y la matriz de quién atrasa a quién entre trenes, con el efecto del bloqueo en la previsibilidad."
     },
     "tags": ["Executiva", "SAFe", "Matriz"],
     "passos": {
@@ -228,11 +228,11 @@
       "es": "Enseada recibe gas de 4 orígenes y lo entrega a 4 segmentos. Durante 16 días seguidos el balance entre lo que entró, lo que salió, las pérdidas y el empaque de línea quedó fuera de la tolerancia, y la causa solo aparece al cruzar el origen con el día."
     },
     "solucao": {
-      "pt": "Painel temporal com volume diário, cascata do balanço do recebido até a diferença não explicada, dias acima da capacidade por origem, sazonalidade por segmento e a parte de cada origem na janela dos dias fora.",
-      "en": "A time-based dashboard with daily volume, a balance waterfall from receipts to the unexplained difference, days above capacity by source, seasonality by segment and each source's share in the out-of-tolerance window.",
-      "es": "Panel temporal con volumen diario, cascada del balance desde lo recibido hasta la diferencia no explicada, días por encima de la capacidad por origen, estacionalidad por segmento y la parte de cada origen en la ventana de los días fuera de tolerancia."
+      "pt": "Painel temporal com volume diário, cascata do balanço do recebido até a diferença não explicada, dias acima do limite de utilização por origem, sazonalidade por segmento e a parte de cada origem na janela dos dias fora.",
+      "en": "A time-based dashboard with daily volume, a balance waterfall from receipts to the unexplained difference, days above the utilization limit by source, seasonality by segment and each source's share in the out-of-tolerance window.",
+      "es": "Panel temporal con volumen diario, cascada del balance desde lo recibido hasta la diferencia no explicada, días por encima del límite de utilización por origen, estacionalidad por segmento y la parte de cada origen en la ventana de los días fuera de tolerancia."
     },
-    "tags": ["Temporal", "Cascata", "Navegador de indicadores"],
+    "tags": ["Temporal", "Cascata", "Navegador de páginas"],
     "passos": {
       "pt": [
         "Na capa, clique em Ir ao balanço de abril e maio.",

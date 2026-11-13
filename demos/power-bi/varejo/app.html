@@ -975,7 +975,7 @@ const DAX = {
   contrib: 'Ganho Receita = [Receita] - [Receita LY]\nContrib Crescimento Pct =\n  DIVIDE ( [Ganho Receita],\n           CALCULATE ( [Ganho Receita], REMOVEFILTERS ( dim_canal ) ) )\nCanal Maior Contrib =\n  MAXX ( TOPN ( 1, ALL ( dim_canal[canal] ), [Ganho Receita] ), dim_canal[canal] )',
   part: 'Participacao Canal =\n  DIVIDE ( [Receita], CALCULATE ( [Receita], REMOVEFILTERS ( dim_canal ) ) )\nParticipacao Categoria =\n  DIVIDE ( [Receita], CALCULATE ( [Receita], REMOVEFILTERS ( dim_produto ) ) )',
   top10: 'Receita Top 10 Pct =\n  DIVIDE (\n    SUMX ( TOPN ( 10, VALUES ( dim_produto[produto] ), [Receita] ), [Receita] ),\n    [Receita] )',
-  leit: 'Texto Leitura P1 =\n  VAR comMeta = FILTER ( VALUES ( dim_loja[loja] ), NOT ISBLANK ( [Atingimento Pct] ) )\n  VAR abaixo = COUNTROWS ( FILTER ( comMeta, [Atingimento Pct] < 1 ) )\n  VAR pior = MAXX ( TOPN ( 1, comMeta, [Atingimento Pct], ASC ), dim_loja[loja] )\n  RETURN\n    "Receita de " & FORMAT ( [Receita], "#,0", "pt-BR" )\n      & " e " & FORMAT ( [Atingimento Pct], "0.0%", "pt-BR" ) & " da meta; "\n      & abaixo & " lojas abaixo da meta, e " & pior & " é a menor."',
+  leit: 'Texto Leitura P1 =\n  VAR comMeta = FILTER ( VALUES ( dim_loja[loja] ), NOT ISBLANK ( [Atingimento Pct] ) )\n  VAR abaixo = COUNTROWS ( FILTER ( comMeta, [Atingimento Pct] < 1 ) )\n  VAR pior = MAXX ( TOPN ( 1, comMeta, [Atingimento Pct], ASC ), dim_loja[loja] )\n  RETURN\n    "Receita de " & FORMAT ( [Receita], "#,0", "pt-BR" )\n      & " e " & FORMAT ( [Atingimento Pct], "0.0%", "pt-BR" ) & " da meta; "\n      & COALESCE ( abaixo, 0 ) & " lojas abaixo da meta, e " & pior & " é a menor."',
 };
 const MODELO = [
   ['dim_calendario', 'dimensão', 'no modelo real, 1 linha por dia; o mockup usa 1 por mês'],
@@ -1017,7 +1017,7 @@ const PANEL = {
     t: 'O relatório inteiro',
     vis: ['Navegador de páginas com 4 páginas visíveis e 1 oculta (drill-through)', 'Segmentações de ano, mês, regional e canal', 'Cartões, linhas, barras, matriz, dispersão e tabelas nativos, sem visual de terceiros'],
     dax: [DAX.rec, DAX.marg, DAX.qtd],
-    inter: ['Segmentação sincronizada continua filtrando mesmo escondida, por isso ano e mês aparecem em todas as páginas', 'O "Ver como" do topo simula papéis de RLS; no Power BI o teste é feito em Modelagem, Ver como'],
+    inter: ['Segmentação sincronizada continua filtrando mesmo escondida, por isso ano e mês aparecem em todas as páginas', 'O "Ver como" do topo simula papéis de RLS; no Power BI o teste é feito em Modelagem, Exibir como'],
     aten: ['Este arquivo imita o relatório; não é o Power BI e não lê dados de um modelo', 'Todos os números vêm de uma base fictícia gerada por script', 'O layout de celular só aparece nos apps móveis do Power BI; no navegador o relatório abre no layout padrão', 'Funções de inteligência de tempo como SAMEPERIODLASTYEAR (comparação com 2025) exigem a tabela de datas marcada como tabela de datas, com datas únicas, sem vazios e sem falhas. A inteligência de tempo baseada em calendário, que dispensa a marcação, está em prévia'],
     docs: ['star', 'slicer', 'rls', 'upn', 'lkp', 'lic', 'datas'],
     lic: true,

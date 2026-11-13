@@ -51,7 +51,7 @@ conceitos, nenhum produto: tipo de painel (Executiva `data-trending`, Operaciona
 Geográfica `map`, Qualidade de serviço `headset`), recurso do relatório (Parâmetro
 de campo `options`, RLS `shield-lock`, Drill-through `zoom-in`, Top N
 `arrow-sort-down-lines`, Menu lateral `panel-left`, Abas `tabs`, Navegador de
-indicadores `compass-northwest`, Trilho de ícones `apps-list`, SLA `timer`, SAFe
+páginas `compass-northwest`, Trilho de ícones `apps-list`, SLA `timer`, SAFe
 `people-team`, Aging `hourglass`, Previsto x realizado `target`, Ano contra ano
 `arrow-swap`) e visual (Carta de controle `data-line`, Cascata `data-waterfall`,
 Matriz `grid`, Diagrama linear `timeline`, Múltiplos pequenos `board`). Todas com
